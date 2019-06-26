@@ -12,6 +12,10 @@ class Cron extends CI_Controller {
 	
 	public function send_email_digest()
 	{
+		if( ! is_cli() ) {
+			show_404();
+		}
+		
 		$time = ( new DateTime() )->modify( "-1 day" )->format( "Y-m-d G:i:s" );
 		
 		$users = $this->db->select( "*" )
@@ -29,7 +33,7 @@ class Cron extends CI_Controller {
 			$activity = $this->_activityQuery( "product_content_log", $last_processed, $user["id"] );
 			
 			if( ! $revised_content ) {
-				//digest_email_processed_at timestamp
+				$this->_updateDigestTimestamp( $user );
 				continue;
 			}
 			
@@ -78,12 +82,11 @@ class Cron extends CI_Controller {
 			$this->template->set( "heading", "Latest updates" );
 			$content = $this->template->load( "email/template", "email/digest", $data, true );
 			$this->email->from( "info@adventistcommons.org", "Adventist Commons" );
-			$this->email->to( $user->email );
+			$this->email->to( $user["email"] );
 			$this->email->message( $content );
 			$this->email->subject( "Latest updates" );
-			//$this->email->send();
-			
-			print_r($projects);die;
+			$this->email->send();
+			$this->_updateDigestTimestamp( $user );
 		}
 	}
 	
@@ -106,5 +109,11 @@ class Cron extends CI_Controller {
 			->where( "user_id", $user_id )
 			->get()
 			->result_array();
+	}
+	
+	private function _updateDigestTimestamp( $user ) {
+		$time = ( new DateTime() )->format( "Y-m-d G:i:s" );
+		$this->db->where( "id", $user["id"] );
+		$this->db->update( "users", [ "digest_email_processed_at" => $time ] );
 	}
 }
