@@ -41,13 +41,13 @@ class Cron extends CI_Controller {
 				if( ! isset( $projects[$project_id] ) ) {
 					$projects[$project_id]["name"] = $content["project_name"];
 				}
-				if( ! isset( $projects[$project_id]["user_revisions"][$user_id] ) ) {
-					$projects[$project_id]["user_revisions"][$user_id] = [
+				if( ! isset( $projects[$project_id]["user_activity"][$user_id] ) ) {
+					$projects[$project_id]["user_activity"][$user_id] = [
 						"name" => $content["user_name"],
 						"revisions" => 1,
 					];
 				} else {
-					$projects[$project_id]["user_revisions"][$user_id]["revisions"]++;
+					$projects[$project_id]["user_activity"][$user_id]["revisions"]++;
 				}
 			}
 			
@@ -60,15 +60,28 @@ class Cron extends CI_Controller {
 				if( ! isset( $projects[$project_id] ) ) {
 					$projects[$project_id]["name"] = $content["project_name"];
 				}
-				if( ! isset( $projects[$project_id]["user_revisions"][$user_id] ) ) {
-					$projects[$project_id]["user_revisions"][$user_id]["name"] = $content["user_name"];
+				if( ! isset( $projects[$project_id]["user_activity"][$user_id] ) ) {
+					$projects[$project_id]["user_activity"][$user_id]["name"] = $content["user_name"];
 				}
-				if( ! isset( $projects[$project_id]["user_revisions"][$user_id][$type] ) ) {
-					$projects[$project_id]["user_revisions"][$user_id][$type] = 1;
+				if( ! isset( $projects[$project_id]["user_activity"][$user_id][$type] ) ) {
+					$projects[$project_id]["user_activity"][$user_id][$type] = 1;
 				} else {
-					$projects[$project_id]["user_revisions"][$user_id][$type]++;
+					$projects[$project_id]["user_activity"][$user_id][$type]++;
 				}
 			}
+			
+			$data = [
+				"projects" => $projects,
+				"user" => $user,
+			];
+			
+			$this->template->set( "heading", "Latest updates" );
+			$content = $this->template->load( "email/template", "email/digest", $data, true );
+			$this->email->from( "info@adventistcommons.org", "Adventist Commons" );
+			$this->email->to( $user->email );
+			$this->email->message( $content );
+			$this->email->subject( "Latest updates" );
+			//$this->email->send();
 			
 			print_r($projects);die;
 		}
