@@ -32,7 +32,7 @@ class Cli extends CI_Controller {
 			$revised_content = $this->_activityQuery( "product_content_revisions", $last_processed, $user["id"] );
 			$activity = $this->_activityQuery( "product_content_log", $last_processed, $user["id"] );
 			
-			if( ! $revised_content ) {
+			if( ! $revised_content && ! $activity ) {
 				$this->_updateDigestTimestamp( $user );
 				continue;
 			}
@@ -105,8 +105,10 @@ class Cli extends CI_Controller {
 			->join( "projects", "activity_table.project_id = projects.id" )
 			->join( "languages", "projects.language_id = languages.id" )
 			->join( "users", "activity_table.user_id = users.id" )
+			->join( "project_members", "projects.id = project_members.project_id" )
 			->where( "created_at >=", $date )
-			->where( "user_id", $user_id )
+			->where( "project_members.user_id", $user_id )
+			->where( "activity_table.user_id !=", $user_id )
 			->get()
 			->result_array();
 	}
