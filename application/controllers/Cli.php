@@ -22,7 +22,6 @@ class Cli extends CI_Controller {
 			->from( "users" )
 			->where( "digest_email_processed_at <=", $time )
 			->or_where( "digest_email_processed_at =", null )
-			->limit( 50 )
 			->get()
 			->result_array();
 		
