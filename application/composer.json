@@ -1,0 +1,8 @@
+{
+    "require": {
+        "google/cloud-translate": "^1.2",
+        "kenjis/codeigniter-ss-twig": "^0.4.0",
+        "sentry/sdk": "2.0.3"
+    }
+}
+
