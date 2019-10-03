@@ -523,3 +523,4 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 $config['sentry'] = TRUE;
+$config['sentry_dsn']='https://e217243c746a491c8312d165b916d6a4@sentry.io/1586264';

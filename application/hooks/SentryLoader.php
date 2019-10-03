@@ -16,9 +16,9 @@ class SentryLoader
         $ci = get_instance(); // CI_Loader instance
         $ci->load->config('config');
         $sentry = $ci->config->item('sentry');
+        $sentry_dsn = $ci->config->item('sentry_dsn');
         if($sentry==TRUE){
-            var_dump($ci->config->item('sentry'));
-            Sentry\init(['dsn' => 'https://e217243c746a491c8312d165b916d6a4@sentry.io/1586264' ]);
+            Sentry\init(['dsn' => $sentry_dsn ]);
             Sentry\captureLastError();
         }
         
