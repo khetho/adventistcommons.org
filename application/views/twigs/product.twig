@@ -39,6 +39,7 @@
 						<div class="float-right d-none d-sm-block">
 							{% if user.is_admin %}
 								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
+								<a class="btn btn-secondary" href="/products/download_idml/{{ product.id }}/">Download as IDML</a>
 							{% endif %}
 							{% if user %}
 								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-project-form">Start New Translation</button>

@@ -71,6 +71,24 @@ class Container
 				);
 			}
 		);
+
+		$ci->load->library('twig');
+		$this->set(
+			\Twig_Environment::class,
+			function () use ($ci) {
+				return $ci->twig->getTwig();
+			}
+		);
+
+		$this->set(
+			\AdventistCommons\Export\Idml\Builder::class,
+			function () {
+				return new \AdventistCommons\Export\Idml\Builder(
+					$this->get(\CI_DB_mysqli_driver::class),
+					$this->get(\Twig_Environment::class)
+				);
+			}
+		);
 		
 		$this->built = true;
 	}

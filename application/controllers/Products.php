@@ -421,6 +421,25 @@ class Products extends CI_Controller {
 		return $res;
 	}
 
+	public function download_idml( $product_id )
+	{
+		$product = $this->product_model->getProduct( $product_id );
+		if (!$product) {
+			show_404();
+		}
+
+		/** @var \AdventistCommons\Export\Idml\Builder $builder */
+		$builder = $this->container->get(\AdventistCommons\Export\Idml\Builder::class);
+		/** @var \AdventistCommons\Export\Idml\Idml $idml */
+		$idml = $builder->buildFromArrayProduct($product);
+
+		$this->load->helper('download');
+		force_download(
+			$idml->buildFileName(),
+			$idml->getZipContent()
+		);
+	}
+
 	private function _uploadCoverImage() {
 		$config["upload_path"] = $_SERVER["DOCUMENT_ROOT"] . "/uploads";
 		$config["allowed_types"] = "jpg|jpeg|png";
