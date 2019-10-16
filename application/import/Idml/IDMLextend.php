@@ -1,6 +1,6 @@
 <?php
 namespace AdventistCommons\Import\Idml;
-
+ini_set("memory_limit","-1");
 class IDMLextend
 {
 	private $db;
@@ -18,6 +18,42 @@ class IDMLextend
 			'position' => $data['position'],
 			'order' => $data['order']
 		) );
+	}
+
+	public function createSentence($product_id){
+		$p = $this->db->select( "*" )
+		->from( "product_sections" )
+		->where( "product_id", $product_id )
+		->get()
+		->result_array();
+		$array = array();
+
+		foreach ($p as $row) {
+			$array[] = $row['id'];
+		}
+
+		$content = $this->db->select( "*" )
+		->from( "product_content" )
+		->where_in( "section_id", $array )
+		->get()
+		->result_array();
+
+		foreach ($content as $row){
+			#@TODO: Need to improve the explode function, maybe using an external API with NLP
+			$sentences = explode('.',$row['content']);
+			$counter=0;
+			foreach($sentences as $sentence){
+				if($sentence!="" && $sentence !=" "){
+					$counter+=1;					
+					$this->db->insert( "product_content_sentence",array(
+						'product_content_id' => $row['id'],
+						'content' => $sentence,
+						'order' => $counter
+					) );	
+
+				}
+			}
+		}
 	}
 
 	public function createProductContent($data)

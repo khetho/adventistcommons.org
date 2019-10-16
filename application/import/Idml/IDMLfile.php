@@ -1,6 +1,6 @@
 <?php
 namespace AdventistCommons\Import\Idml;
-
+ini_set("memory_limit","-1");
 class IDMLfile
 {
   private $arr_accepted_mime_types = array(

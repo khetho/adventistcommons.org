@@ -191,6 +191,8 @@ class Products extends CI_Controller {
 
 			$idmlExtend->getProductContent($this->data->all_contents, $id);
 
+			$idmlExtend->createSentence($id);
+
 			$this->output->set_output(json_encode(["redirect" => "/products/$id"]));
 		} else {
 			$this->db->where( "id", $data["id"] );
