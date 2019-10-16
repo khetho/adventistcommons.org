@@ -337,6 +337,15 @@ CREATE TABLE `product_content` (
   CONSTRAINT `product_content_ibfk_2` FOREIGN KEY (`section_id`) REFERENCES `product_sections` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `product_content_sentence` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `product_content_id` int(11) unsigned NOT NULL,
+  `content` text,
+  `order` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `product_content_id` (`product_content_id`),
+  CONSTRAINT `product_content_sentence_ibfk_1` FOREIGN KEY (`product_content_id`) REFERENCES `product_content` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `project_content_status` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
