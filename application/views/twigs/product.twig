@@ -39,7 +39,6 @@
 						<div class="float-right d-none d-sm-block">
 							{% if user.is_admin %}
 								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
-								<a class="btn btn-secondary" href="/products/download_idml/{{ product.id }}/">Download as IDML</a>
 							{% endif %}
 							{% if user %}
 								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-project-form">Start New Translation</button>
@@ -80,9 +79,20 @@
 													{% else %}
 														<a href="/login" class="text-secondary">Login to download</a>
 													{% endif %}
-												{% else %}
-													<a href="/projects/{{ language.project.id }}" class="btn btn-secondary">Start Translating</a>
-												{% endif %}
+                                                {% endif %}
+
+												<a href="/projects/{{ language.project.id }}" class="btn btn-secondary">
+													{% if language.project.completed_strings == 0 %}
+														Start Translating
+                                                    {% else %}
+														Translate
+                                                    {% endif %}
+												</a>
+                                                {% if language.project.completed_strings > 0 %}
+													<a class="btn btn-secondary" href="/projects/download_idml/{{ language.project.id }}">
+														Download IDML
+													</a>
+                                                {% endif %}
 											</div>
 										</div>
 									</div>

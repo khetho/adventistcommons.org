@@ -14,7 +14,6 @@ class Products extends CI_Controller {
 		$this->load->library( [ "ion_auth", "form_validation", "upload", "twig", "container" ] );
 		$this->load->helper( "url" );
 		$this->load->model( "product_model" );
-		$this->data = new stdClass();
 		$this->load->helper('url');
 		$user = $this->ion_auth->user()->row();
 		if( $user ) {
@@ -204,23 +203,18 @@ class Products extends CI_Controller {
 			$this->db->insert("products", $data);
 
 			$id = $this->db->insert_id();
-
-			$this->product_model->addProductAudiencesData($audience, $id);
-
-			$param = array("uploads/" . $data['idml_file'] . ".idml");
-
-			$file = new IDMLfile($param);
-
-			$idml = new IDMLlib($file);
-
-			$idmlExtend = $this->container->get(IDMLextend::class);
-
-			$this->data->all_contents = $idml->getMyContent('Story');
-
-			$idmlExtend->getSections($this->data->all_contents, $id);
-
-			$idmlExtend->getProductContent($this->data->all_contents, $id);
-
+			if (isset($data['idml_file'])) {
+				$param = array("uploads/" . $data['idml_file'] . ".idml");
+				$file = new IDMLfile($param);
+				$idml = new IDMLlib($file);
+				$idmlExtend = $this->container->get(IDMLextend::class);
+				$allContents = $idml->getMyContent('Story');
+				$idmlExtend->getSections($allContents, $id);
+				$idmlExtend->getProductContent($allContents, $id);
+				dump($id, $data);
+				die;
+			}
+			
 			$this->output->set_output(json_encode(["redirect" => "/products/$id"]));
 		} else {
 			$this->db->where( "id", $data["id"] );

@@ -3,6 +3,9 @@ namespace AdventistCommons\Import\Idml;
 
 class IDMLextend
 {
+	const DIVIDER = 'ParagraphStyle/Section Divider';
+	const PARAGRAPH_KEY = 'AppliedParagraphStyle';
+	
 	private $db;
 
 	public function __construct(\CI_DB_mysqli_driver $db)
@@ -10,7 +13,7 @@ class IDMLextend
 		$this->db = $db;
 	}
 
-	public function createSection($data)
+	private function createSection($data)
 	{
 		$this->db->insert( "product_sections",array(
 			'product_id' => $data['id'],
@@ -19,8 +22,8 @@ class IDMLextend
 			'order' => $data['order']
 		) );
 	}
-
-	public function createProductContent($data)
+	
+	private function createProductContent($data)
 	{
 		$this->db->insert( "product_content",array(
 			'product_id' => $data['product_id'],
@@ -31,7 +34,6 @@ class IDMLextend
 
 	public function getProductContent($resource, $product_id)
 	{
-
 		$p = $this->db->select( "*" )
 			->from( "product_sections" )
 			->where( "product_id", $product_id )
@@ -40,41 +42,28 @@ class IDMLextend
 
 		foreach ($p as $product) {
 			$position = intval($product['position']);
-
-
 			foreach ($resource as $content) {
-
-
-				if (!isset($content->Story->ParagraphStyleRange) && !isset($content->Story->XMLElement->ParagraphStyleRange)) {
+				if (!isset($content->Story->ParagraphStyleRange)
+					&& !isset($content->Story->XMLElement->ParagraphStyleRange)
+				) {
 					continue;
 				}
-
-
-				$loop_element = (isset($content->Story->ParagraphStyleRange)) ? $content->Story->ParagraphStyleRange : $content->Story->XMLElement->ParagraphStyleRange;
-
-
+				$loop_element = (isset($content->Story->ParagraphStyleRange))
+					? $content->Story->ParagraphStyleRange
+					: $content->Story->XMLElement->ParagraphStyleRange;
 				$length = count($loop_element);
-
 				for ($i = $position; $i < $length - 1; ++$i) {
-
-					if ((strpos($loop_element[$i]['AppliedParagraphStyle'], 'ParagraphStyle/Section Divider') !== false)) {
+					if (self::isDivider($loop_element[$i])) {
 						continue;
 					} else {
-
-
-						$text = array();
-
 						foreach ($loop_element[$i] as $k => $v) {
-
 							foreach ($v as $kk => $vv) {
 								if ($kk == "Content" && trim($vv) != '') {
-
 									$data = array(
 										'product_id' =>  $product_id,
 										'section_id' =>  $product['id'],
 										'content' => $vv
 									);
-
 									$this->createProductContent($data);
 								}
 							}
@@ -85,40 +74,54 @@ class IDMLextend
 		}
 	}
 
-	public function getSections($resource, $product_id)
+	public function getSections(array $resource, $product_id)
 	{
-
 		$section_index = array();
-
+		/** @var \SimpleXMLElement $content */
 		foreach ($resource as $content) {
-
-
-			if (!isset($content->Story->ParagraphStyleRange) && !isset($content->Story->XMLElement->ParagraphStyleRange)) {
+			if (!isset($content->Story->ParagraphStyleRange) &&
+				!isset($content->Story->XMLElement->ParagraphStyleRange)
+			) {
 				continue;
 			}
-
-
-			$loop_element = (isset($content->Story->ParagraphStyleRange)) ? $content->Story->ParagraphStyleRange : $content->Story->XMLElement->ParagraphStyleRange;
-
-			$counter = 0;
-
+			$loop_element = (isset($content->Story->ParagraphStyleRange))
+				? $content->Story->ParagraphStyleRange
+				: $content->Story->XMLElement->ParagraphStyleRange;
 			$length = count($loop_element);
 			for ($i = 0; $i < $length - 1; ++$i) {
-
-				if ((strpos($loop_element[$i]['AppliedParagraphStyle'], 'ParagraphStyle/Section Divider') !== false)) {
-
+				if ($this->isDivider($loop_element[$i])) {
 					$data = array(
 						'id' => $product_id,
-						'name' =>  explode("/", explode(" ", $loop_element[$i + 1]['AppliedParagraphStyle'])[0])[1],
+						'name' => self::extractName($loop_element[$i + 1]),
 						'order' => 0,
 						'position' => $i
 					);
-
 					$this->createSection($data);
 				}
 			}
 		}
 
 		return $section_index;
+	}
+	
+	private static function isDivider($element)
+	{
+		return (
+			strpos(
+				$element[self::PARAGRAPH_KEY],
+				self::DIVIDER
+			) !== false
+		);
+	}
+	
+	private static function extractName($element)
+	{
+		return explode(
+			"/",
+			explode(
+				" ",
+				$element[self::PARAGRAPH_KEY]
+			)[0]
+		)[1];
 	}
 }

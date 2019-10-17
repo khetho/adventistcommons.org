@@ -2,56 +2,50 @@
 
 namespace AdventistCommons\Export\Idml;
 
+/**
+ * Class Able to build some Idml holder
+ * @package AdventistCommons\Export\Idml
+ * @author    Vincent Beauvivre <vincent@beauvivre.fr>
+ * @copyright 2019
+ */
 class Builder
 {
 	private $db;
 	private $twig;
+	private $translator;
 	
-	public function __construct(\CI_DB_mysqli_driver $db, \Twig_Environment $twig)
-	{
+	public function __construct(
+		\CI_DB_mysqli_driver $db,
+		\Twig_Environment $twig,
+		Translator $translator
+	) {
 		$this->db = $db;
 		$this->twig = $twig;
+		$this->translator = $translator;
 	}
 	
-	public function buildFromArrayProduct(array $product): Idml
+	public function buildFromArrayProductAndProject(array $product, array $project = null): Holder
 	{
-		$zip = new \ZipArchive();
-		$path = $this->buildTempPath();
-		if (!$zip->open($path, \ZipArchive::CREATE)) {
-			throw new \Exception(sprintf('Cannot create Zip at «%s»', $path));
+		if ($project && $product['id'] !== $project['product_id']) {
+			throw new \LogicException('Consistence error in product and project');
 		}
-		$zip->addFromString(
-			'mimetype',
-			'application/vnd.adobe.indesign-idml-package'
-		);
-		$zip->addFromString(
-			'designmap.xml',
-			$this->buildDesignMap($product)
-		);
-		$zip->close();
-		
-		return new Idml($path, $product);
-	}
-	
-	private function buildDesignMap(array $product)
-	{
-		return $this->twig->render(
-			'export/idml/designmap.xml.twig',
-			[
-				'product' => $product,
-			]
-		);
-	}
-	
-	private function buildTempPath()
-	{
-		$tempFileName = tempnam(sys_get_temp_dir(),'idml_');
-		if (file_exists($tempFileName)) {
-			if (!unlink($tempFileName)) {
-				throw new \Exception(sprintf('Cannot remove previous Zip at «%s»', $tempFileName));
-			}
+		if (!$product['idml_file']) {
+			return null;
+		}
+		$idmlPath = realpath(sprintf(
+			'%s/../../../uploads/%s.idml',
+			__DIR__,
+			$product['idml_file']
+		));
+		if (!$idmlPath || !file_exists($idmlPath)) {
+			throw new FileNotFoundException('File do not exists anymore');
 		}
 		
-		return $tempFileName;
+		$holder = new Holder($idmlPath, $product);
+		if ($project) {
+			$holder = $this->translator->translate($holder, $project);
+		}
+		
+		return $holder;
 	}
 }

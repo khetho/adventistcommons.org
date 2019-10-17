@@ -2,11 +2,15 @@
     "require": {
         "google/cloud-translate": "^1.2",
         "kenjis/codeigniter-ss-twig": "^0.4.0",
+        "indesign/php-idml": "dev-master",
         "robmorgan/phinx": "^0.10.7"
     },
     "autoload": {
         "psr-4": {
             "AdventistCommons\\": "./"
         }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.3"
     }
 }

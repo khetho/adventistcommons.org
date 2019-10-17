@@ -120,10 +120,9 @@ class Product_model extends CI_Model
 			$content["total_approvals"] = count( $approvals );
 			
 			if( $user_id ) {
-				$has_approved = $this->_user_has_approved_content( $content["id"], $project_id, $user_id );
+				$has_approved = $this->_user_has_approved_content($content["id"], $project_id, $user_id);
+				$content["user_has_approved"] = $has_approved;
 			}
-			
-			$content["user_has_approved"] = $has_approved;
 			
 			$errors = $this->db->select( "*" )
 				->from( "product_content_log" )

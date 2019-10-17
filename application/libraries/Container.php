@@ -62,6 +62,20 @@ class Container
 				return $ci->load->database('', true);
 			}
 		);
+		$this->set(
+			\Product_model::class,
+			function () use($ci) {
+				$ci->load->model('product_model', true);
+				return $ci->product_model;
+			}
+		);
+		$this->set(
+			\Project_model::class,
+			function () use($ci) {
+				$ci->load->model('project_model', true);
+				return $ci->project_model;
+			}
+		);
 		
 		$this->set(
 			\AdventistCommons\Import\Idml\IDMLextend::class,
@@ -79,13 +93,26 @@ class Container
 				return $ci->twig->getTwig();
 			}
 		);
-
+		
+		
+		$this->set(
+			\AdventistCommons\Export\Idml\Translator::class,
+			function () {
+				return new \AdventistCommons\Export\Idml\Translator(
+					$this->get(\CI_DB_mysqli_driver::class),
+					$this->get(\Product_model::class),
+					$this->get(\Project_model::class)
+				);
+			}
+		);
+		
 		$this->set(
 			\AdventistCommons\Export\Idml\Builder::class,
 			function () {
 				return new \AdventistCommons\Export\Idml\Builder(
 					$this->get(\CI_DB_mysqli_driver::class),
-					$this->get(\Twig_Environment::class)
+					$this->get(\Twig_Environment::class),
+					$this->get(\AdventistCommons\Export\Idml\Translator::class)
 				);
 			}
 		);
