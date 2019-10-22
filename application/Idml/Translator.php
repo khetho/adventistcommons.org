@@ -30,25 +30,19 @@ class Translator
 		$holder = clone($baseHolder);
 		$holder->setProject($project);
 		$sections = $this->projectModel->getSections( $project['id'] );
-		$package = $holder->getPackage();
 		foreach ($sections as $section) {
-			$this->translateSection($package, $project, $section);
+			$storyKey = $section['story_key'];
+			$dom = $holder->getPackage()->getStory($storyKey);
+			$story = new Story($storyKey, $dom);
+			$contents = $this->productModel->getSectionContent($project['id'], $section['id']);
+			foreach ($contents as $content) {
+				$story->setContent($section['name'], $content['content_key'], $content['latest_revision']);
+			}
+			$package->setStory($storyKey, $story->getNode());
 		}
 		$package->saveAll();
 		$holder->setPackage($package);
 		
 		return $holder;
-	}
-	
-	private function translateSection(Package &$package, array $project, array $section): void
-	{
-		$contents = $this->productModel->getSectionContent($project['id'], $section['id']);
-		foreach ($contents as $content) {
-			$content['latest_revision'];
-		}
-		dump($package->getStories());
-		dump($content);
-		dump($project, $section);
-		die;
 	}
 }

@@ -38,7 +38,7 @@ class Builder
 			return null;
 		}
 		$idmlPath = realpath(sprintf(
-			'%s/../../../uploads/%s.idml',
+			'%s/../../uploads/%s.idml',
 			__DIR__,
 			$product['idml_file']
 		));

@@ -81,6 +81,27 @@ class Story
 		return $contents;
 	}
 	
+	public function setContent($sectionName, $key, $content)
+	{
+		$story = $this->getStoryElement();
+		$i = 0;
+		foreach ($story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as &$paragraph) {
+			$name = self::extractName($paragraph);
+			if ($name !== $sectionName) {
+				continue;
+			}
+			foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as &$character) {
+				/** @var \DOMElement $content */
+				foreach ($character->getElementsByTagName('Content') as &$content) {					
+					if ($this->buildUniqId($content, $i) === $key) {
+						$content->nodeValue = $value;
+					}
+					$i++;
+				}
+			}
+		}
+	}
+	
 	private function getStoryElement(): \DOMElement
 	{
 		return $this->root->getElementsByTagName('Story')[0];
