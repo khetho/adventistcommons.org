@@ -28,26 +28,50 @@ class Story
 		return $this->id;
 	}
 	
-	public function getName(): string
+	public function getSections()
 	{
-		$name = $this->getFirstParagraphStyleRange()->getAttribute(self::ATTR_APPLIED_PARAGRAPH);
-		
-		return self::extractName($name);
-	}
-	
-	public function getContents(): array
-	{
+		$sections = [];
+		$section = null;		
+		$catchNext = true;
 		$story = $this->getStoryElement();
-		$contents = [];
-		$i = 0;
 		foreach ($story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
 			if (self::isDivider($paragraph)) {
+				$catchNext = true;
+				continue;
+			}
+			$name = self::extractName($paragraph);
+			if (!$catchNext) {
 				continue;
 			}
 			foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as $character) {
 				/** @var \DOMElement $content */
 				foreach ($character->getElementsByTagName('Content') as $content) {
-					
+					if ($content->nodeValue) {
+						$section = new Section($name, $this);
+						$sections[$name] = $section;
+						$catchNext = false;
+						continue 3;
+					}					
+				}
+			}
+		}		
+		
+		return $sections;
+	}
+	
+	public function getContentsBySection(Section $section): array
+	{
+		$story = $this->getStoryElement();
+		$contents = [];
+		$i = 0;
+		foreach ($story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
+			$name = self::extractName($paragraph);
+			if ($name !== $section->getName()) {
+				continue;
+			}
+			foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as $character) {
+				/** @var \DOMElement $content */
+				foreach ($character->getElementsByTagName('Content') as $content) {					
 					$contents[$this->buildUniqId($content, $i)] = $content->nodeValue;
 					$i++;
 				}
@@ -57,22 +81,15 @@ class Story
 		return $contents;
 	}
 	
-	private function getFirstParagraphStyleRange(): \DOMElement
-	{
-		$story = $this->getStoryElement();
-		$paragraphStyleRange = $story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE)[0];
-		
-		return $paragraphStyleRange;
-	}
-	
 	private function getStoryElement(): \DOMElement
 	{
 		return $this->root->getElementsByTagName('Story')[0];
 	}
 	
-	private static function extractName($string)
+	private static function extractName(\DOMElement $node)
 	{
-		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z]*$#', $string, $matches);
+		$value = $node->getAttribute(self::ATTR_APPLIED_PARAGRAPH);
+		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z]*$#', $value, $matches);
 		if (!$matches[1]) {
 			throw new \Exception('Cannot find a name for section');
 		}

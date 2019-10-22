@@ -14,30 +14,33 @@ class Importer
 
 	public function import(Package $package, $productId)
 	{
-		$iStory = 0;
+		$sections = [];
 		foreach ($package->getStories() as $storyId => $storyNode) {
-			$story = new Story($storyId, $storyNode);
-			if (!$story->hasParagraphStyleRange()) {
-				continue;
-			}
+			$stories[$storyId] = new Story($storyId, $storyNode);
+			$sections = array_merge($sections, $stories[$storyId]->getSections());
+		}
+		$iSection = 0;
+		foreach ($sections as &$section) {
 			$sectionId = $this->createSection(
 				$productId,
-				$story->getName(),
-				$iStory,
-				$story->getId()
+				$section->getName(),
+				$iSection,
+				$section->getId(),
+				$section->getStory()->getId()
 			);
-			$iStory++;
-			$this->importContents($story, $productId, $sectionId);
+			$iSection++;
+			$section->setDbId($sectionId);
+			$this->importContents($productId, $section);
 		}
 	}
 	
-	private function importContents(Story $story, $productId, $sectionId)
+	private function importContents($productId, Section $section)
 	{
-		$iContent = 0;
-		foreach ($story->getContents() as $contentId => $content) {
+		$iContent = 0;		
+		foreach ($section->getStory()->getContentsBySection($section) as $contentId => $content) {
 			$this->createProductContent(
 				$productId,
-				$sectionId,
+				$section->getDbId(),
 				$content,
 				$iContent,
 				$contentId
@@ -46,15 +49,15 @@ class Importer
 		}
 	}
 	
-	private function createSection($productId, $name, $order, $idmlId)
+	private function createSection($productId, $name, $order, $sectionId, $storyId)
 	{
 		$this->db->insert(
 			'product_sections',
 			[
 				'product_id' => $productId,
-				'name' =>       $name,
-				'order' =>      $order,
-				'idml_id' =>    $idmlId,
+				'name'       => $name,
+				'order'      => $order,
+				'story_key'   => $storyId,
 			]
 		);
 		
@@ -66,11 +69,11 @@ class Importer
 		$this->db->insert(
 			'product_content',
 			[
-				'product_id' => $productId,
-				'section_id' => $sectionId,
-				'content'    => $content,
-				'order'      => $order,
-				'idml_id'    => $idmlId,
+				'product_id'  => $productId,
+				'section_id'  => $sectionId,
+				'content'     => $content,
+				'order'       => $order,
+				'content_key' => $idmlId,
 			]
 		);
 	}

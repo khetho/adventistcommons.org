@@ -65,28 +65,23 @@ class Builder
 	 */
 	private static function checkFile(string $idmlPath): void
 	{
-		if (!$idmlPath || !file_exists($idmlPath) || !self::checkMimeType($idmlPath)) {
-			throw new FileNotFoundException('File do not exists anymore');
+		if (!$idmlPath || !file_exists($idmlPath)) {
+			throw new FileNotFoundException('Idml file do not exists anymore');
 		}
+		self::checkMimeType($idmlPath);
 	}
 	
 	/**
 	 * Checks the mimetype of the IDML file
 	 *
 	 * @param $location
-	 * @return bool
 	 * @throws \Exception
 	 */
-	private static function checkMimeType($location)
+	private static function checkMimeType($location): void
 	{
 		$fileInfo = new \finfo(FILEINFO_MIME);
-		$mime = $fileInfo->file($location);
-		
-		if(in_array($mime, self::$arr_accepted_mime_types))
-		{
-			return true;
-		}else{
-			throw new \Exception('No correct mimetype');
+		if (!in_array($fileInfo->file($location), self::$arr_accepted_mime_types)) {
+			throw new FileNotFoundException('No correct mimetype');
 		}
 	}
 }
