@@ -58,34 +58,25 @@ class Container
 		$ci =& get_instance();
 		$this->set(
 			\CI_DB_mysqli_driver::class,
-			function () use($ci) {
+			function () use ($ci) {
 				return $ci->load->database('', true);
 			}
 		);
 		$this->set(
 			\Product_model::class,
-			function () use($ci) {
-				$ci->load->model('product_model', true);
+			function () use ($ci) {
+				$ci->load->model('product_model');
 				return $ci->product_model;
 			}
 		);
 		$this->set(
 			\Project_model::class,
-			function () use($ci) {
-				$ci->load->model('project_model', true);
+			function () use ($ci) {
+				$ci->load->model('project_model');
 				return $ci->project_model;
 			}
 		);
 		
-		$this->set(
-			\AdventistCommons\Import\Idml\IDMLextend::class,
-			function () {
-				return new \AdventistCommons\Import\Idml\IDMLextend(
-					$this->get(\CI_DB_mysqli_driver::class)
-				);
-			}
-		);
-
 		$ci->load->library('twig');
 		$this->set(
 			\Twig_Environment::class,
@@ -94,11 +85,19 @@ class Container
 			}
 		);
 		
+		$this->set(
+			\AdventistCommons\Idml\Importer::class,
+			function () {
+				return new \AdventistCommons\Idml\Importer(
+					$this->get(\CI_DB_mysqli_driver::class)
+				);
+			}
+		);
 		
 		$this->set(
-			\AdventistCommons\Export\Idml\Translator::class,
+			\AdventistCommons\Idml\Translator::class,
 			function () {
-				return new \AdventistCommons\Export\Idml\Translator(
+				return new \AdventistCommons\Idml\Translator(
 					$this->get(\CI_DB_mysqli_driver::class),
 					$this->get(\Product_model::class),
 					$this->get(\Project_model::class)
@@ -107,12 +106,12 @@ class Container
 		);
 		
 		$this->set(
-			\AdventistCommons\Export\Idml\Builder::class,
+			\AdventistCommons\Idml\Builder::class,
 			function () {
-				return new \AdventistCommons\Export\Idml\Builder(
+				return new \AdventistCommons\Idml\Builder(
 					$this->get(\CI_DB_mysqli_driver::class),
 					$this->get(\Twig_Environment::class),
-					$this->get(\AdventistCommons\Export\Idml\Translator::class)
+					$this->get(\AdventistCommons\Idml\Translator::class)
 				);
 			}
 		);

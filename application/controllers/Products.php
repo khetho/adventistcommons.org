@@ -203,16 +203,16 @@ class Products extends CI_Controller {
 			$this->db->insert("products", $data);
 
 			$id = $this->db->insert_id();
+			$data['id'] = $id;
 			if (isset($data['idml_file'])) {
-				$param = array("uploads/" . $data['idml_file'] . ".idml");
-				$file = new IDMLfile($param);
-				$idml = new IDMLlib($file);
-				$idmlExtend = $this->container->get(IDMLextend::class);
-				$allContents = $idml->getMyContent('Story');
-				$idmlExtend->getSections($allContents, $id);
-				$idmlExtend->getProductContent($allContents, $id);
-				dump($id, $data);
-				die;
+				$idmlPath = 'uploads/' . $data['idml_file'] . '.idml';
+				/** @var \AdventistCommons\Idml\Builder $idmlBuilder */
+				$idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+				/** @var \AdventistCommons\Idml\Holder $holder */
+				$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
+				/** @var \AdventistCommons\Idml\Importer $idmlImporter */
+				$idmlImporter = $this->container->get(\AdventistCommons\Idml\Importer::class);
+				$idmlImporter->import($holder->getPackage(), $id);
 			}
 			
 			$this->output->set_output(json_encode(["redirect" => "/products/$id"]));

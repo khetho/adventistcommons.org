@@ -1,6 +1,6 @@
 <?php
 
-namespace AdventistCommons\Export\Idml;
+namespace AdventistCommons\Idml;
 use IDML\Package;
 
 /**

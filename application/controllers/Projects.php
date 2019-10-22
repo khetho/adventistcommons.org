@@ -190,10 +190,15 @@ class Projects extends CI_Controller {
 		$this->load->model( "product_model" );
 		$product = $this->product_model->getProduct( $project["product_id"] );
 		
-		/** @var \AdventistCommons\Export\Idml\Builder $builder */
-		$builder = $this->container->get(\AdventistCommons\Export\Idml\Builder::class);
-		/** @var \AdventistCommons\Export\Idml\Holder $idmlHolder */
-		$idmlHolder = $builder->buildFromArrayProductAndProject($product, $project);
+		/** @var \AdventistCommons\Idml\Builder $builder */
+		$builder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+		/** @var \AdventistCommons\Idml\Holder $idmlHolder */
+		try {
+			$idmlHolder = $builder->buildFromArrayProductAndProject($product, $project);
+		} catch (\AdventistCommons\Idml\FileNotFoundException $e) {
+			show_404();
+			return;
+		}
 		
 		$this->load->helper('download');
 		force_download(

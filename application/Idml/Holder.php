@@ -1,6 +1,6 @@
 <?php
 
-namespace AdventistCommons\Export\Idml;
+namespace AdventistCommons\Idml;
 
 use IDML\Package;
 
@@ -17,7 +17,9 @@ class Holder
 	private $project;
 	private $product;
 	private $zipFileName;
+	/** @var Package */
 	private $package;
+	private $cloned = false;
 	
 	public function __construct($zipFileName, $product)
 	{
@@ -25,14 +27,27 @@ class Holder
 		$this->product = $product;
 	}
 	
+	/**
+	 * Set a project is meant to set a translation
+	 * Never set a translation without cloning your holder
+	 *
+	 * @param array $project
+	 */
 	public function setProject(array $project)
 	{
+		if ($this->project) {
+			throw new \Exception('Cannot change the project. You must clone the holder first.');
+		}
 		$this->project = $project;
 	}
 	
+	/**
+	 * Clone the holder when you want to set a new translation (project)
+	 *
+	 * @throws \Exception
+	 */
 	public function __clone()
 	{
-		$this->getPackage();
 		$clearedPreviousName = $this->zipFileName;
 		$removedSuffix = '.idml';
 		if (substr($clearedPreviousName, -strlen($removedSuffix)) === $removedSuffix) {
@@ -46,7 +61,10 @@ class Holder
 		$copyName = $clearedPreviousName.self::COPY_KEY.self::uniqidReal().'.idml';
 		copy($this->zipFileName, $copyName);
 		$this->zipFileName = $copyName;
+		// ensure package is loaded
+		$this->getPackage();
 		$this->package->setZip($this->zipFileName);
+		$this->cloned = true;
 	}
 	
 	public function buildFileName()
@@ -75,6 +93,9 @@ class Holder
 	
 	public function setPackage(Package $package)
 	{
+		if (!$this->cloned) {
+			throw new \Exception('Never set package to idml holder until you did not clone it first');
+		}
 		$this->package = $package;
 	}
 	
