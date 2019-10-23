@@ -77,14 +77,6 @@ class Container
 			}
 		);
 		
-		$ci->load->library('twig');
-		$this->set(
-			\Twig_Environment::class,
-			function () use ($ci) {
-				return $ci->twig->getTwig();
-			}
-		);
-		
 		$this->set(
 			\AdventistCommons\Idml\Importer::class,
 			function () {
@@ -110,7 +102,6 @@ class Container
 			function () {
 				return new \AdventistCommons\Idml\Builder(
 					$this->get(\CI_DB_mysqli_driver::class),
-					$this->get(\Twig_Environment::class),
 					$this->get(\AdventistCommons\Idml\Translator::class)
 				);
 			}

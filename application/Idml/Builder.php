@@ -11,7 +11,6 @@ namespace AdventistCommons\Idml;
 class Builder
 {
 	private $db;
-	private $twig;
 	private $translator;
 	
 	private static $arr_accepted_mime_types = [
@@ -21,11 +20,9 @@ class Builder
 	
 	public function __construct(
 		\CI_DB_mysqli_driver $db,
-		\Twig_Environment $twig,
 		Translator $translator
 	) {
 		$this->db = $db;
-		$this->twig = $twig;
 		$this->translator = $translator;
 	}
 	

@@ -1,10 +1,6 @@
 <?php
 defined("BASEPATH") OR exit("No direct script access allowed");
 
-use AdventistCommons\Import\Idml\IDMLfile;
-use AdventistCommons\Import\Idml\IDMLlib;
-use AdventistCommons\Import\Idml\IDMLextend;
-
 class Products extends CI_Controller {
 
 	public function __construct()
