@@ -15,21 +15,26 @@ class Importer
 	public function import(Package $package, $productId)
 	{
 		$sections = [];
+		// gather all sections in one array
 		foreach ($package->getStories() as $storyId => $storyNode) {
-			$stories[$storyId] = new Story($storyId, $storyNode);
-			$sections = array_merge($sections, $stories[$storyId]->getSections());
+			$story = new Story($storyId, $storyNode);
+			$sections = array_merge($sections, $story->getSections());
 		}
+		dump($sections);
+		die;
 		$iSection = 0;
+		// import sections
+		/** @var Section $section */
 		foreach ($sections as &$section) {
 			$sectionId = $this->createSection(
 				$productId,
 				$section->getName(),
 				$iSection,
-				$section->getId(),
-				$section->getStory()->getId()
+				$section->getStory()->getKey()
 			);
 			$iSection++;
 			$section->setDbId($sectionId);
+			// import sections’ contents
 			$this->importContents($productId, $section);
 		}
 	}
@@ -37,19 +42,19 @@ class Importer
 	private function importContents($productId, Section $section)
 	{
 		$iContent = 0;		
-		foreach ($section->getStory()->getContentsBySection($section) as $contentId => $content) {
+		foreach ($section->getContents() as $contentKey => $content) {
 			$this->createProductContent(
 				$productId,
 				$section->getDbId(),
 				$content,
 				$iContent,
-				$contentId
+				$contentKey
 			);
 			$iContent ++;
 		}
 	}
 	
-	private function createSection($productId, $name, $order, $sectionId, $storyId)
+	private function createSection($productId, $name, $order, $storyKey)
 	{
 		$this->db->insert(
 			'product_sections',
@@ -57,7 +62,7 @@ class Importer
 				'product_id' => $productId,
 				'name'       => $name,
 				'order'      => $order,
-				'story_key'   => $storyId,
+				'story_key'  => $storyKey,
 			]
 		);
 		
