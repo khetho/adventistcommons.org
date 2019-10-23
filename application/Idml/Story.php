@@ -10,7 +10,7 @@ class Story
 	public function __construct($key, \DOMDocument $root)
 	{
 		$this->key = $key;
-		$this->domManipulator = new StoryDomManipulator($root, $this);
+		$this->domManipulator = new StoryDomManipulator($root);
 	}
 	
 	public function getKey(): string
@@ -21,7 +21,7 @@ class Story
 	public function getSections(): array
 	{
 		if (!$this->sections) {
-			$this->sections = $this->domManipulator->getSections();
+			$this->sections = $this->domManipulator->getSections($this);
 		}
 		return $this->sections;
 	}

@@ -30,15 +30,17 @@ class Translator
 		$holder = clone($baseHolder);
 		$holder->setProject($project);
 		$sections = $this->projectModel->getSections( $project['id'] );
+		$package = $holder->getPackage();
 		foreach ($sections as $section) {
 			$storyKey = $section['story_key'];
-			$dom = $holder->getPackage()->getStory($storyKey);
+			$dom = $package->getStory($storyKey);
 			$story = new Story($storyKey, $dom);
 			$contents = $this->productModel->getSectionContent($project['id'], $section['id']);
+			$domManipulator = $story->getDomManipulator();
 			foreach ($contents as $content) {
-				$story->setContent($section['name'], $content['content_key'], $content['latest_revision']);
+				$domManipulator->setContent($section['name'], $content['content_key'], $content['latest_revision']);
 			}
-			$package->setStory($storyKey, $story->getNode());
+			$package->addStory($domManipulator->getRoot());
 		}
 		$package->saveAll();
 		$holder->setPackage($package);

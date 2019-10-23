@@ -20,8 +20,6 @@ class Importer
 			$story = new Story($storyId, $storyNode);
 			$sections = array_merge($sections, $story->getSections());
 		}
-		dump($sections);
-		die;
 		$iSection = 0;
 		// import sections
 		/** @var Section $section */
@@ -42,13 +40,14 @@ class Importer
 	private function importContents($productId, Section $section)
 	{
 		$iContent = 0;		
-		foreach ($section->getContents() as $contentKey => $content) {
+		/** @var Content $content */
+		foreach ($section->getContents() as $content) {
 			$this->createProductContent(
 				$productId,
 				$section->getDbId(),
-				$content,
+				$content->getContent(),
 				$iContent,
-				$contentKey
+				$content->getKey()
 			);
 			$iContent ++;
 		}

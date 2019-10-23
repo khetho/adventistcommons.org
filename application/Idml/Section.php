@@ -21,7 +21,7 @@ class Section
 	
 	public function getStory(): Story
 	{
-		return $this->getStory();
+		return $this->story;
 	}
 	
 	public function getKey(): string
@@ -46,12 +46,5 @@ class Section
 		}
 		
 		return $this->contents;
-	}
-	
-	public function getContentByKey($key)
-	{
-		$this->getContents();
-		
-		return $this->contents[$key];
 	}
 }

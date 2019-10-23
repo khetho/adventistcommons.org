@@ -72,7 +72,7 @@ class Holder
 		return sprintf(
 			'%s_%s_%s.idml',
 			$this->product['name'],
-			$this->project ? $this->project['language'] : 'original',
+			$this->project ? $this->project['language_name'] : 'original',
 			date('Y-m-d')
 		);
 	}

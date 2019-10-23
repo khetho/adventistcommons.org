@@ -10,13 +10,11 @@ class StoryDomManipulator
 	const TAG_CONTENT = 'Content';
 	
 	private $root;
-	private $story;
 	private $sections = [];
 	
-	public function __construct(\DOMDocument $root, Story $story)
+	public function __construct(\DOMDocument $root)
 	{
 		$this->root = $root;
-		$this->story = $story;
 	}
 	
 	public function getRoot()
@@ -24,14 +22,14 @@ class StoryDomManipulator
 		return $this->root;
 	}
 	
-	public function getSections()
+	public function getSections(Story $story)
 	{
 		if (!$this->sections) {
 			$catchNext = true;
-			$story = $this->getStoryElement();
+			$storyElement = $this->getStoryElement();
 			// for each paragraph in story
 			/** @var \DOMElement $paragraph */
-			foreach ($story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
+			foreach ($storyElement->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
 				if (self::isDivider($paragraph)) {
 					// if paragraph is a divider, we want to catch the next one as a new section
 					$catchNext = true;
@@ -49,7 +47,7 @@ class StoryDomManipulator
 					foreach ($character->getElementsByTagName('Content') as $content) {
 						if ($content->nodeValue) {
 							// we catch the section only if it has relevant content
-							$section = new Section($paragraphName, $this->story);
+							$section = new Section($paragraphName, $story);
 							$this->sections[$paragraphName] = $section;
 							// no catch until next divider
 							$catchNext = false;
@@ -66,69 +64,73 @@ class StoryDomManipulator
 	public function getContentsForSection(Section $section): array
 	{
 		$contents = [];
-		$story = $this->getStoryElement();
+		$this->foreachContentInSection(
+			$section->getName(),
+			function($sectionName, $iContent, \DOMElement $contentNode) use (&$contents, $section) {
+				$contents[] = new Content($sectionName, $iContent, $contentNode->nodeValue, $section);
+			}
+		);
+		
+		return $contents;
+	}
+	
+	public function setContent($sectionName, $searchedKey, $content): void
+	{
+		$storyKey = Content::extractStoryKey($searchedKey);
+		$this->foreachContentInSection(
+			$sectionName,
+			function($sectionName, $iContent, \DOMElement $contentNode) use ($content, $searchedKey, $storyKey) {
+				if (Content::buildUniqueKey($storyKey, $sectionName, $iContent) === $searchedKey) {
+					$contentNode->nodeValue = $content;
+				}
+			}
+		);
+	}
+	
+	private function foreachContentInSection($sectionName, \Closure $action): void
+	{
+		$storyElement = $this->getStoryElement();
 		// for each paragraph in story
 		/** @var \DOMElement $paragraph */
 		$iContent = 0;
-		foreach ($story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
+		$catchNext = true;
+		$started = false;
+		foreach ($storyElement->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
 			if (self::isDivider($paragraph)) {
 				// if paragraph is a divider, we want to catch the next one as a new section
 				$catchNext = true;
-				// if contents is here, that means the divider closes the wanted section, so send results !
-				if ($contents) {
-					return $contents;
+				// if it was started, that means the divider closes the wanted section, so send results !
+				if ($started) {
+					return;
 				}
+				continue;
 			}
 			if (!$catchNext) {
 				continue;
 			}
 			$paragraphName = self::extractNameFromParagraph($paragraph);
 			// is current section the one we want to catch ?
-			if ($paragraphName !== $section->getName()) {
+			if (!$started && $paragraphName !== $sectionName) {
 				$catchNext = false;
 				continue;
 			}
+			$started = true;
 			/** @var \DOMElement $character */
 			foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as $character) {
 				/** @var \DOMElement $content */
-				foreach ($character->getElementsByTagName('Content') as $content) {
-					if ($content->nodeValue) {
-						$contents[$this->buildContentUniqueKey($paragraphName, $iContent)] = $content->nodeValue;
+				foreach ($character->getElementsByTagName('Content') as $contentNode) {
+					if ($contentNode->nodeValue) {
+						$action($sectionName, $iContent, $contentNode);
 						$iContent++;
 					}
 				}
 			}
-		}
-		
-		return $contents;
-	}
-	
-	public function setContent($sectionName, $key, $content)
-	{
-		$story = $this->getStoryElement();
-		$i = 0;
-		/** @var \DOMElement $paragraph */
-		foreach ($story->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as &$paragraph) {
-			$paragraphName = self::extractNameFromParagraph($paragraph);
-			if ($paragraphName !== $sectionName) {
-				continue;
-			}
-			/** @var \DOMElement $character */
-			foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as &$character) {
-				/** @var \DOMElement $contentNode */
-				foreach ($character->getElementsByTagName('Content') as &$contentNode) {
-					if ($this->buildContentUniqueKey($paragraphName, $i) === $key) {
-						$contentNode->nodeValue = $content;
-					}
-					$i++;
-				}
-			}
-		}
+		}		
 	}
 	
 	private function getStoryElement(): \DOMElement
 	{
-		return $this->root->getElementsByTagName('Story')[0];
+		return $this->root->getElementsByTagName('Story')->item(0);
 	}
 	
 	private static function extractNameFromParagraph(\DOMElement $paragraph)
@@ -140,16 +142,6 @@ class StoryDomManipulator
 		}
 		
 		return $matches[1];
-	}
-	
-	private function buildContentUniqueKey($paragraphName, $index)
-	{
-		return sprintf(
-			'%s-%s-%s',
-			$this->story->getKey(),
-			$paragraphName,
-			$index
-		);
 	}
 	
 	private static function isDivider(\DOMElement $element)
