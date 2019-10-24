@@ -1,0 +1,51 @@
+
+/*Social authentication*/
+.social-auth {
+	position: relative;
+	padding-top: 36px;
+	margin-top: 32px;
+}
+.social-auth .hl {
+	position: absolute;
+	left: 0;
+	top: 10px;
+	transform: translateY(-10px);
+	border: 1px solid #ddd;
+	width: 100%;
+	
+}
+.social-auth .hl .hl-innertext{
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #F7F9FA;
+	padding: 0 18px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.social-auth a i {
+	margin-left: 30%;
+	margin-right: 10px;
+	font-size: 20px;
+	max-width: 22px;
+	text-align: center;
+}
+.social-auth a.fb i {
+	margin-right: 16px;
+}
+.social-auth a {
+	color: #ffffff;
+	font-size: 16px;
+	text-align: left;
+	margin-bottom: 16px;
+}
+.social-auth a.fb {
+	background: #415DAB;
+}
+.social-auth a.google {
+	background: #4184EE;
+}
+.social-auth a.twitter {
+	background: #0DADDA;
+}

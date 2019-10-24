@@ -24,4 +24,24 @@
 		<small>Don't have an account yet? <a href="register">Create one</a>
 		</small>
 	</form>
+
+	{# Social Login #}
+	<div class="social-auth">
+		<div class="hl">
+        	<span class="hl-innertext">OR</span>
+      	</div>
+
+		<div class="buttons-container">
+			<a href="{{ facebook_login_url }}" class="fb btn btn-lg btn-block btn-primary social-login">
+				<i class="fa fa-facebook-official"></i>Login with Facebook
+			</a>
+			<a href="{{ site_url('hauth/login/Google')}}" class="google btn btn-lg btn-block btn-primary social-login">
+				<i class="fa fa-google fa-fw"></i>Login with Google+
+			</a>
+			<a href="{{ site_url('hauth/login/Twitter')}}" class="twitter btn btn-lg btn-block btn-primary social-login">
+				<i class="fa fa-twitter fa-fw"></i>Login with Twitter
+			</a>
+		</div>
+	</div>
+
 {% endblock %}
