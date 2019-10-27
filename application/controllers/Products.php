@@ -455,7 +455,7 @@ class Products extends CI_Controller {
 		];
 		$this->load->library( "image_lib", $config_manip );
 		if( ! $this->image_lib->resize() ) {
-			$this->imageUploadError = 'Cannot resize uploaded cover image file. May image library GD2 is missing';
+			$this->imageUploadError = $this->image_lib->display_errors();
 			return false;
 		}
 		$this->image_lib->clear();

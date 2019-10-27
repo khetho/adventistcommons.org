@@ -24,6 +24,7 @@ class StoryDomManipulator
 	
 	public function getSections(Story $story)
 	{
+		$sectionIndex = 0;
 		if (!$this->sections) {
 			$catchNext = true;
 			$storyElement = $this->getStoryElement();
@@ -40,17 +41,18 @@ class StoryDomManipulator
 				if (!$catchNext) {
 					continue;
 				}
-				$paragraphName = self::extractNameFromParagraph($paragraph);
 				/** @var \DOMElement $character */
 				foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as $character) {
 					/** @var \DOMElement $content */
 					foreach ($character->getElementsByTagName('Content') as $content) {
 						if ($content->nodeValue) {
+							$paragraphName = self::extractNameFromParagraph($paragraph, $sectionIndex);
 							// we catch the section only if it has relevant content
 							$section = new Section($paragraphName, $story);
 							$this->sections[$paragraphName] = $section;
 							// no catch until next divider
 							$catchNext = false;
+							$sectionIndex++;
 							continue 3;
 						}
 					}
@@ -95,6 +97,7 @@ class StoryDomManipulator
 		$iContent = 0;
 		$catchNext = true;
 		$started = false;
+		$sectionIndex = 0;
 		foreach ($storyElement->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
 			if (self::isDivider($paragraph)) {
 				// if paragraph is a divider, we want to catch the next one as a new section
@@ -133,12 +136,15 @@ class StoryDomManipulator
 		return $this->root->getElementsByTagName('Story')->item(0);
 	}
 	
-	private static function extractNameFromParagraph(\DOMElement $paragraph)
+	private static function extractNameFromParagraph(\DOMElement $paragraph, $sectionIndex = null)
 	{
 		$wholeName = $paragraph->getAttribute(self::ATTR_PARAGRAPH);
 		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z]*$#', $wholeName, $matches);
-		if (!$matches[1]) {
-			throw new \Exception('Cannot find a name for section');
+		if (!isset($matches[1]) || !$matches[1]) {
+			if (!$sectionIndex === null) {
+				throw new \Exception('Cannot find a name for section');
+			}
+			return sprintf('Section %d', (int) $sectionIndex); 
 		}
 		
 		return $matches[1];

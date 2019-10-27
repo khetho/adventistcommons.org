@@ -11,7 +11,7 @@ class IdmlKeys extends AbstractMigration
 SQL
 		);
 		$this->query(<<<SQL
-			ALTER TABLE `product_content` ADD `content_key` varchar(255) DEFAULT NULL;
+			ALTER TABLE `product_content` ADD `content_key` varchar(255) DEFAULT NULL, ADD `order` integer DEFAULT NULL;
 SQL
 		);
 	}
@@ -19,11 +19,11 @@ SQL
 	public function down()
 	{
 		$this->query(<<<SQL
-			ALTER TABLE `product_sections` DROP `story_key`;
+			ALTER TABLE `product_content` DROP `content_key`, DROP `order`;
 SQL
 		);
 		$this->query(<<<SQL
-			ALTER TABLE `product_content` DROP `content_key`;
+			ALTER TABLE `product_sections` DROP `story_key`;
 SQL
 		);
 	}
