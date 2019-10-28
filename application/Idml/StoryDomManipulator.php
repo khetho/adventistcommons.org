@@ -24,7 +24,6 @@ class StoryDomManipulator
 	
 	public function getSections(Story $story)
 	{
-		$sectionIndex = 0;
 		if (!$this->sections) {
 			$catchNext = true;
 			$storyElement = $this->getStoryElement();
@@ -46,13 +45,12 @@ class StoryDomManipulator
 					/** @var \DOMElement $content */
 					foreach ($character->getElementsByTagName('Content') as $content) {
 						if ($content->nodeValue) {
-							$paragraphName = self::extractNameFromParagraph($paragraph, $sectionIndex);
+							$paragraphName = self::extractNameFromParagraph($paragraph);
 							// we catch the section only if it has relevant content
 							$section = new Section($paragraphName, $story);
 							$this->sections[$paragraphName] = $section;
 							// no catch until next divider
 							$catchNext = false;
-							$sectionIndex++;
 							continue 3;
 						}
 					}
@@ -136,15 +134,15 @@ class StoryDomManipulator
 		return $this->root->getElementsByTagName('Story')->item(0);
 	}
 	
-	private static function extractNameFromParagraph(\DOMElement $paragraph, $sectionIndex = null)
+	private static function extractNameFromParagraph(\DOMElement $paragraph)
 	{
 		$wholeName = $paragraph->getAttribute(self::ATTR_PARAGRAPH);
 		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z]*$#', $wholeName, $matches);
 		if (!isset($matches[1]) || !$matches[1]) {
-			if (!$sectionIndex === null) {
-				throw new \Exception('Cannot find a name for section');
-			}
-			return sprintf('Section %d', (int) $sectionIndex); 
+			throw new DomManipulationException(sprintf(
+				'Cannot find a name for a section. «%s» attribute is missing or it’s value is not like «ParagraphStyle/section name style.',
+				self::ATTR_PARAGRAPH
+			));
 		}
 		
 		return $matches[1];

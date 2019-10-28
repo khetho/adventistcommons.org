@@ -204,11 +204,16 @@ class Products extends CI_Controller {
 				$idmlPath = 'uploads/' . $data['idml_file'] . '.idml';
 				/** @var \AdventistCommons\Idml\Builder $idmlBuilder */
 				$idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
-				/** @var \AdventistCommons\Idml\Holder $holder */
-				$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
 				/** @var \AdventistCommons\Idml\Importer $idmlImporter */
 				$idmlImporter = $this->container->get(\AdventistCommons\Idml\Importer::class);
-				$idmlImporter->import($holder->getPackage(), $id);
+				try {
+					/** @var \AdventistCommons\Idml\Holder $holder */
+					$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
+					$idmlImporter->import($holder->getPackage(), $id);
+				} catch (\AdventistCommons\Idml\DomManipulationException $e) {
+					$this->output->set_output( json_encode( [ "error" => $e->getMessage() ] ) );
+					return false;					
+				}
 			}
 			
 			$this->output->set_output(json_encode(["redirect" => "/products/$id"]));
