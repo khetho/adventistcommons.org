@@ -34,7 +34,7 @@
 .social-auth a.fb i {
 	margin-right: 16px;
 }
-.social-auth a {
+.social-auth .buttons-container a {
 	color: #ffffff;
 	font-size: 16px;
 	text-align: left;
