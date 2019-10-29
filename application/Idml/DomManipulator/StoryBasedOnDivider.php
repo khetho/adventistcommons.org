@@ -1,7 +1,10 @@
 <?php
-namespace AdventistCommons\Idml;
+namespace AdventistCommons\Idml\DomManipulator;
 
-class StoryDomManipulator
+use AdventistCommons\Idml\Story;
+use AdventistCommons\Idml\Content;
+
+class StoryBasedOnDivider implements StoryDomManipulator
 {
 	const ATTR_PARAGRAPH = 'AppliedParagraphStyle';
 	const ATTR_PARAGRAPH_VALUE_DIVIDER = 'ParagraphStyle/Section Divider';
@@ -17,12 +20,12 @@ class StoryDomManipulator
 		$this->root = $root;
 	}
 	
-	public function getRoot()
+	public function getRoot(): \DOMDocument
 	{
 		return $this->root;
 	}
 	
-	public function getSections(Story $story)
+	public function getSections(Story $story): array
 	{
 		if (!$this->sections) {
 			$catchNext = true;
@@ -137,9 +140,9 @@ class StoryDomManipulator
 	private static function extractNameFromParagraph(\DOMElement $paragraph)
 	{
 		$wholeName = $paragraph->getAttribute(self::ATTR_PARAGRAPH);
-		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z]*$#', $wholeName, $matches);
+		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z1-9]*$#', $wholeName, $matches);
 		if (!isset($matches[1]) || !$matches[1]) {
-			throw new DomManipulationException(sprintf(
+			throw new 	Exception(sprintf(
 				'Cannot find a name for a section. «%s» attribute is missing or it’s value is not like «ParagraphStyle/section name style.',
 				self::ATTR_PARAGRAPH
 			));

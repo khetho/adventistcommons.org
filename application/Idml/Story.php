@@ -1,16 +1,23 @@
 <?php
 namespace AdventistCommons\Idml;
 
+use AdventistCommons\Idml\DomManipulator\StoryDomManipulator;
+
 class Story
 {
 	private $key;
 	private $domManipulator;
 	private $sections;
 
-	public function __construct($key, \DOMDocument $root)
+	public function __construct($key, \DOMDocument $root, $domManipulatorClass)
 	{
+		$interfaces = class_implements($domManipulatorClass);
+		if (!isset($interfaces[StoryDomManipulator::class])) {
+			throw new \Exception("Given domManipulatorClass does not implements StoryDomManipulator");
+		}
+
 		$this->key = $key;
-		$this->domManipulator = new StoryDomManipulator($root);
+		$this->domManipulator = new $domManipulatorClass($root);
 	}
 	
 	public function getKey(): string
@@ -25,14 +32,25 @@ class Story
 		}
 		return $this->sections;
 	}
-	
-	public function getDomManipulator()
+
+	public function getSection($sectionName): Section
+	{
+		return $this->getSections()[$sectionName];
+	}
+
+	public function getDomManipulator(): StoryDomManipulator
 	{
 		return $this->domManipulator;
 	}
-	
-	public function getDom()
+
+	public function getDomDocument(): \DOMDocument
 	{
 		return $this->domManipulator->getRoot();
+	}
+
+	public function setContent($sectionName, $key, $newContent) :void
+	{
+		$section = $this->getSection($sectionName);
+		$section->setContent($key, $newContent);
 	}
 }

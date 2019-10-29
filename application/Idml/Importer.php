@@ -2,6 +2,7 @@
 namespace AdventistCommons\Idml;
 
 use IDML\Package;
+use AdventistCommons\Idml\DomManipulator\StoryBasedOnTags;
 
 class Importer
 {
@@ -17,7 +18,7 @@ class Importer
 		$sections = [];
 		// gather all sections in one array
 		foreach ($package->getStories() as $storyId => $storyNode) {
-			$story = new Story($storyId, $storyNode);
+			$story = new Story($storyId, $storyNode, StoryBasedOnTags::class);
 			$sections = array_merge($sections, $story->getSections());
 		}
 		$iSection = 0;

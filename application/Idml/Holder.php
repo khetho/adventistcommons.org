@@ -3,6 +3,7 @@
 namespace AdventistCommons\Idml;
 
 use IDML\Package;
+use AdventistCommons\Idml\DomManipulator\StoryBasedOnTags;
 
 /**
  * This class is the nutshell for an Idml package object
@@ -20,8 +21,9 @@ class Holder
 	/** @var Package */
 	private $package;
 	private $cloned = false;
+	private $stories = [];
 	
-	public function __construct($zipFileName, $product)
+	public function __construct($zipFileName, array $product)
 	{
 		$this->zipFileName = $zipFileName;
 		$this->product = $product;
@@ -97,6 +99,16 @@ class Holder
 			throw new \Exception('Never set package to idml holder until you did not clone it first');
 		}
 		$this->package = $package;
+	}
+
+	public function getStory($storyKey): Story
+	{
+		if (!isset($this->stories[$storyKey])) {
+			$dom = $this->getPackage()->getStory($storyKey);
+			$this->stories[$storyKey] = new Story($storyKey, $dom, StoryBasedOnTags::class);
+		}
+
+		return $this->stories[$storyKey];
 	}
 	
 	private static function uniqidReal($lenght = 13)

@@ -1,6 +1,7 @@
 <?php
 
 namespace AdventistCommons\Idml;
+
 use IDML\Package;
 
 /**
@@ -11,16 +12,13 @@ use IDML\Package;
  */
 class Translator
 {
-	private $db;
 	private $productModel;
 	private $projectModel;
 	
 	public function __construct(
-		\CI_DB_mysqli_driver $db,
 		\Product_model $productModel,
 		\Project_model $projectModel
 	) {
-		$this->db = $db;
 		$this->productModel = $productModel;
 		$this->projectModel = $projectModel;
 	}
@@ -29,21 +27,17 @@ class Translator
 	{
 		$holder = clone($baseHolder);
 		$holder->setProject($project);
-		$sections = $this->projectModel->getSections( $project['id'] );
 		$package = $holder->getPackage();
+		$sections = $this->projectModel->getSections( $project['id'] );
 		foreach ($sections as $section) {
-			$storyKey = $section['story_key'];
-			$dom = $package->getStory($storyKey);
-			$story = new Story($storyKey, $dom);
+			$story = $holder->getStory($section['story_key']);
 			$contents = $this->productModel->getSectionContent($project['id'], $section['id']);
-			$domManipulator = $story->getDomManipulator();
 			foreach ($contents as $content) {
-				$domManipulator->setContent($section['name'], $content['content_key'], $content['latest_revision']);
+				$story->setContent($section['name'], $content['content_key'], $content['latest_revision']);
 			}
-			$package->addStory($domManipulator->getRoot());
+			$package->addStory($story->getDomDocument());
 		}
 		$package->saveAll();
-		$holder->setPackage($package);
 		
 		return $holder;
 	}

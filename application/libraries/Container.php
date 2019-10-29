@@ -90,7 +90,6 @@ class Container
 			\AdventistCommons\Idml\Translator::class,
 			function () {
 				return new \AdventistCommons\Idml\Translator(
-					$this->get(\CI_DB_mysqli_driver::class),
 					$this->get(\Product_model::class),
 					$this->get(\Project_model::class)
 				);

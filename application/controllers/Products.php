@@ -210,7 +210,7 @@ class Products extends CI_Controller {
 					/** @var \AdventistCommons\Idml\Holder $holder */
 					$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
 					$idmlImporter->import($holder->getPackage(), $id);
-				} catch (\AdventistCommons\Idml\DomManipulationException $e) {
+				} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
 					$this->output->set_output( json_encode( [ "error" => $e->getMessage() ] ) );
 					return false;					
 				}
