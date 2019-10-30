@@ -1,5 +1,6 @@
 <?php
-namespace AdventistCommons\Idml\DomManipulation;
+
+namespace AdventistCommons\Idml\DomManipulator;
 
 class Exception extends \Exception
 {

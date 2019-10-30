@@ -198,6 +198,9 @@ class Projects extends CI_Controller {
 		} catch (\AdventistCommons\Idml\FileNotFoundException $e) {
 			show_404();
 			return;
+		} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+			$this->output->set_output( $e->getMessage() );
+			return;
 		}
 		
 		$this->load->helper('download');

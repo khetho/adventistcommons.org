@@ -22,6 +22,7 @@ class Holder
 	private $package;
 	private $cloned = false;
 	private $stories = [];
+	private $sections = [];
 	
 	public function __construct($zipFileName, array $product)
 	{
@@ -38,7 +39,7 @@ class Holder
 	public function setProject(array $project)
 	{
 		if ($this->project) {
-			throw new \Exception('Cannot change the project. You must clone the holder first.');
+			throw new \Exception('Cannot change the project. You must clone the holder first if you want antoher language.');
 		}
 		$this->project = $project;
 	}
@@ -93,14 +94,6 @@ class Holder
 		return $this->package;
 	}
 	
-	public function setPackage(Package $package)
-	{
-		if (!$this->cloned) {
-			throw new \Exception('Never set package to idml holder until you did not clone it first');
-		}
-		$this->package = $package;
-	}
-
 	public function getStory($storyKey): Story
 	{
 		if (!isset($this->stories[$storyKey])) {
@@ -111,6 +104,27 @@ class Holder
 		return $this->stories[$storyKey];
 	}
 	
+	public function getSections()
+	{
+		if (!$this->sections) {
+			foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
+				$story = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+				$this->sections = array_merge($this->sections, $story->getSections());
+			}
+		}
+
+		return $this->sections;
+	}
+
+	/**
+	 * validate the IDML, by loading all stories, sections and contents. If all loads, it is ok
+	 * Exceptions will be thrown if any error occurs
+	 */
+	public function validate(): void
+	{
+		$this->getSections();
+	}
+
 	private static function uniqidReal($lenght = 13)
 	{
 		if (function_exists("random_bytes")) {

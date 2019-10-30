@@ -2,8 +2,6 @@
 
 namespace AdventistCommons\Idml;
 
-use IDML\Package;
-
 /**
  * Translator for Idml files, to change content of package according to project
  * @package AdventistCommons\Export\Idml

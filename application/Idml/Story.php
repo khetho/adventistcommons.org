@@ -1,6 +1,7 @@
 <?php
 namespace AdventistCommons\Idml;
 
+use AdventistCommons\Idml\DomManipulator\Exception;
 use AdventistCommons\Idml\DomManipulator\StoryDomManipulator;
 
 class Story
@@ -13,7 +14,7 @@ class Story
 	{
 		$interfaces = class_implements($domManipulatorClass);
 		if (!isset($interfaces[StoryDomManipulator::class])) {
-			throw new \Exception("Given domManipulatorClass does not implements StoryDomManipulator");
+			throw new Exception("Given domManipulatorClass does not implements StoryDomManipulator");
 		}
 
 		$this->key = $key;

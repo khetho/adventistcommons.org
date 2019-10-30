@@ -13,18 +13,12 @@ class Importer
 		$this->db = $db;
 	}
 
-	public function import(Package $package, $productId)
+	public function import(Holder $holder, $productId)
 	{
-		$sections = [];
-		// gather all sections in one array
-		foreach ($package->getStories() as $storyId => $storyNode) {
-			$story = new Story($storyId, $storyNode, StoryBasedOnTags::class);
-			$sections = array_merge($sections, $story->getSections());
-		}
 		$iSection = 0;
 		// import sections
 		/** @var Section $section */
-		foreach ($sections as &$section) {
+		foreach ($holder->getSections() as &$section) {
 			$sectionId = $this->createSection(
 				$productId,
 				$section->getName(),

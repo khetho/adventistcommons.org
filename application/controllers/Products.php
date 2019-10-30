@@ -196,20 +196,29 @@ class Products extends CI_Controller {
 			unset($data['audience']);
 		}
 		if( $is_new ) {
+			if (isset($data['idml_file'])) {
+				/** @var \AdventistCommons\Idml\Builder $idmlBuilder */
+				$idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+				$idmlPath = 'uploads/' . $data['idml_file'] . '.idml';
+				try {
+					/** @var \AdventistCommons\Idml\Holder $holder */
+					$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
+					$holder->validate();
+				} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+					$this->output->set_output( json_encode( [ "error" => $e->getMessage() ] ) );
+					return false;
+				}
+			}
 			$this->db->insert("products", $data);
 
 			$id = $this->db->insert_id();
 			$data['id'] = $id;
 			if (isset($data['idml_file'])) {
-				$idmlPath = 'uploads/' . $data['idml_file'] . '.idml';
-				/** @var \AdventistCommons\Idml\Builder $idmlBuilder */
-				$idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
 				/** @var \AdventistCommons\Idml\Importer $idmlImporter */
 				$idmlImporter = $this->container->get(\AdventistCommons\Idml\Importer::class);
 				try {
 					/** @var \AdventistCommons\Idml\Holder $holder */
-					$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
-					$idmlImporter->import($holder->getPackage(), $id);
+					$idmlImporter->import($holder, $id);
 				} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
 					$this->output->set_output( json_encode( [ "error" => $e->getMessage() ] ) );
 					return false;					
