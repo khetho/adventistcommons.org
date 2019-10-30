@@ -3,14 +3,12 @@ namespace AdventistCommons\Idml;
 
 class Content
 {
-	private $paragraphName;
 	private $iContent;
 	private $content;
 	private $section;
 	
-	public function __construct($sectionName, $iContent, $content, Section $section)
+	public function __construct($iContent, \DOMElement $content, Section $section)
 	{
-		$this->sectionName = $sectionName;
 		$this->iContent = $iContent;
 		$this->content = $content;
 		$this->section = $section;
@@ -20,17 +18,17 @@ class Content
 	{
 		return self::buildUniqueKey(
 			$this->section->getStory()->getKey(),
-			$this->sectionName,
+			$this->section->getName(),
 			$this->iContent
 		);
 	}
 	
-	public function getContent()
+	public function getText(): string
 	{
-		return $this->content;
+		return $this->content->nodeValue;
 	}
 	
-	static function buildUniqueKey($storyKey, $sectionName, $iContent)
+	static function buildUniqueKey($storyKey, $sectionName, $iContent): string
 	{
 		return sprintf(
 			'%s-%s-%s',
@@ -40,7 +38,7 @@ class Content
 		);
 	}
 	
-	static function extractStoryKey($key)
+	static function extractStoryKey($key): string
 	{
 		return explode('-', $key)[0];
 	}

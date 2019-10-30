@@ -100,7 +100,6 @@ class Container
 			\AdventistCommons\Idml\Builder::class,
 			function () {
 				return new \AdventistCommons\Idml\Builder(
-					$this->get(\CI_DB_mysqli_driver::class),
 					$this->get(\AdventistCommons\Idml\Translator::class)
 				);
 			}

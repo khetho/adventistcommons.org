@@ -1,7 +1,9 @@
 <?php
 namespace AdventistCommons\Idml\DomManipulator;
 
+use AdventistCommons\Idml\DomManipulation\Exception;
 use AdventistCommons\Idml\Story;
+use AdventistCommons\Idml\Section;
 use AdventistCommons\Idml\Content;
 
 class StoryBasedOnDivider implements StoryDomManipulator
@@ -68,29 +70,29 @@ class StoryBasedOnDivider implements StoryDomManipulator
 	{
 		$contents = [];
 		$this->foreachContentInSection(
-			$section->getName(),
-			function($sectionName, $iContent, \DOMElement $contentNode) use (&$contents, $section) {
-				$contents[] = new Content($sectionName, $iContent, $contentNode->nodeValue, $section);
+			$section,
+			function(Section $section, $iContent, \DOMElement $contentNode) use (&$contents, $section) {
+				$contents[] = new Content($iContent, $contentNode, $section);
 			}
 		);
 		
 		return $contents;
 	}
 	
-	public function setContent($sectionName, $searchedKey, $content): void
+	public function setContent(Section $section, $searchedKey, $newContent): void
 	{
 		$storyKey = Content::extractStoryKey($searchedKey);
 		$this->foreachContentInSection(
-			$sectionName,
-			function($sectionName, $iContent, \DOMElement $contentNode) use ($content, $searchedKey, $storyKey) {
-				if (Content::buildUniqueKey($storyKey, $sectionName, $iContent) === $searchedKey) {
-					$contentNode->nodeValue = $content;
+			$section,
+			function(Section $section, $iContent, \DOMElement $contentNode) use ($newContent, $searchedKey, $storyKey) {
+				if (Content::buildUniqueKey($storyKey, $section->getName(), $iContent) === $searchedKey) {
+					$contentNode->nodeValue = $newContent;
 				}
 			}
 		);
 	}
 	
-	private function foreachContentInSection($sectionName, \Closure $action): void
+	private function foreachContentInSection(Section $section, \Closure $action): void
 	{
 		$storyElement = $this->getStoryElement();
 		// for each paragraph in story
@@ -98,7 +100,6 @@ class StoryBasedOnDivider implements StoryDomManipulator
 		$iContent = 0;
 		$catchNext = true;
 		$started = false;
-		$sectionIndex = 0;
 		foreach ($storyElement->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
 			if (self::isDivider($paragraph)) {
 				// if paragraph is a divider, we want to catch the next one as a new section
@@ -114,7 +115,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
 			}
 			$paragraphName = self::extractNameFromParagraph($paragraph);
 			// is current section the one we want to catch ?
-			if (!$started && $paragraphName !== $sectionName) {
+			if (!$started && $paragraphName !== $section->getName()) {
 				$catchNext = false;
 				continue;
 			}
@@ -124,7 +125,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
 				/** @var \DOMElement $content */
 				foreach ($character->getElementsByTagName('Content') as $contentNode) {
 					if ($contentNode->nodeValue) {
-						$action($sectionName, $iContent, $contentNode);
+						$action($section, $iContent, $contentNode);
 						$iContent++;
 					}
 				}
@@ -142,7 +143,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
 		$wholeName = $paragraph->getAttribute(self::ATTR_PARAGRAPH);
 		preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z1-9]*$#', $wholeName, $matches);
 		if (!isset($matches[1]) || !$matches[1]) {
-			throw new 	Exception(sprintf(
+			throw new Exception(sprintf(
 				'Cannot find a name for a section. «%s» attribute is missing or it’s value is not like «ParagraphStyle/section name style.',
 				self::ATTR_PARAGRAPH
 			));

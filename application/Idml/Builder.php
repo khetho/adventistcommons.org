@@ -10,7 +10,6 @@ namespace AdventistCommons\Idml;
  */
 class Builder
 {
-	private $db;
 	private $translator;
 	
 	private static $arr_accepted_mime_types = [
@@ -19,10 +18,8 @@ class Builder
 	];
 	
 	public function __construct(
-		\CI_DB_mysqli_driver $db,
 		Translator $translator
 	) {
-		$this->db = $db;
 		$this->translator = $translator;
 	}
 	

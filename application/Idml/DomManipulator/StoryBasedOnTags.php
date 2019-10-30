@@ -7,11 +7,6 @@ use AdventistCommons\Idml\Content;
 
 class StoryBasedOnTags implements StoryDomManipulator
 {
-	const ATTR_PARAGRAPH = 'AppliedParagraphStyle';
-	const ATTR_PARAGRAPH_VALUE_DIVIDER = 'ParagraphStyle/Section Divider';
-	const TAG_PARAGRAPH_STYLE = 'ParagraphStyleRange';
-	const TAG_CHARACTER_STYLE = 'CharacterStyleRange';
-	
 	const TAG_CONTENT = 'Content';
 	const TAG_SECTION = 'XMLElement';
 	const ATTR_MARKUP = 'MarkupTag';

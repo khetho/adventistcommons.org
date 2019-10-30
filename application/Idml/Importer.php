@@ -46,7 +46,7 @@ class Importer
 			$this->createProductContent(
 				$productId,
 				$section->getDbId(),
-				$content->getContent(),
+				$content->getText(),
 				$iContent,
 				$content->getKey()
 			);
