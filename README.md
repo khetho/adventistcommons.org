@@ -102,18 +102,18 @@ Adventistcommons is developed by developers all around the world. Here are techn
 
 ### Docker Development Setup Guide (experimental)
 
-You can use the docker setup :
-- Install docker and docker-compose
-- Clone the repository to the public directory of your localhost environment
+Docker is a solution to make services work in isolated containers. No need to have local lamp, apache, mysql, php, composer … 
+
+Just install docker and docker-compose and follow steps :
+- clone the repository somewhere on your computer
 - copy \application\config\database.docker.php to \application\config\database.php
 - copy \application\config\config.docker.php to \application\config\database.php
 - copy \phinx.docker.yml to \phinx.yml
-- Point your terminal client to the application/ directory, and run `php -r "readfile('https://getcomposer.org/installer');" | php -c php.ini` and `php composer.phar update`
+- Set right on var dirs ``chmod 777 ./var -R``
 - Point your terminal project root and launch project with ``sudo docker-compose up``
-- In your browser, go to localhost:8080 (adminer), and connect with parameters Mysql / ac-db / root / somePassword
-- Create database ``adventistcommons``
-- run migration with command ```docker-compose exec ac-php-fpm vendor/bin/phinx migrate```
+- run migration with command ```docker-compose exec ac-php-fpm application/vendor/bin/phinx migrate```
 - In your browser, go to localhost:8096 (the application) and create your account
+- In your browser, go to localhost:8080 (adminer), and connect with parameters Mysql / ac-db / root / somePassword
 
 ### Manual Development Setup Guide
 
@@ -131,14 +131,14 @@ Let us know if you have any issues with these steps.
 #### Database
 - Create database in your favorite MySQL client or with command line : ```mysql -u root -pPASSWORD -e "create database DBNAME;"``` (replace PASSWORD and DBNAME with real data)
 - copy \phinx.example.yml to \phinx.yml 
-- Edit the file [phinx.yml](https://github.com/AdventistCommons/adventistcommons.org/blob/master/phinx.yml#L19-L22) to set your database credentials.
+- Edit the file [phinx.yml](https://github.com/AdventistCommons/adventistcommons.org/blob/master/phinx.yml#L19-L22) to set your database credentials. The user defined here **must** be able to set structure data : create, alter and drop tables.
 - Play migration to have a database up to date : ```php vendor/bin/phinx migrate```
 
 #### Config
 - copy \application\config\config.example.php to \application\config\config.php 
 - Update "$config['base_url']" (line 26) in the file \application\config\config.php with the alias you used to access the Adventist Commons install (eg. "localhost" or "adventistcommons.local").
 - copy \application\config\database.example.php to \application\config\database.php 
-- Update 'hostname','username','password','database' (lines 78-81) in the file \application\config\database.php with your database credentials.
+- Update 'hostname','username','password','database' (lines 78-81) in the file \application\config\database.php with your database credentials. The user defined here **should not** be able to set structure data : create, alter and drop tables
 - On Mac OS, you may need to Edit `config.php` and change 
 	- ~~`$config['composer_autoload'] = TRUE;`~~
 	- `$config['composer_autoload'] = 'vendor/autoload.php';`

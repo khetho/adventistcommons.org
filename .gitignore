@@ -4,6 +4,7 @@
 composer.phar
 /var/log/nginx
 /var/sessions
+/var/cache
 /uploads
 /application/config/config.php
 /application/config/database.php

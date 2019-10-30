@@ -6,6 +6,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: somePassword
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./docker/mysql/init.sql:/data/application/init.sql
 
   ac-webserver:
     image: phpdockerio/nginx:latest
@@ -14,7 +17,6 @@ services:
       - .:/var/www/adventistcommons:ro
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./var/log/nginx:/var/log/nginx
-      - ./var/sessions:/var/www/adventistcommons/var/sessions
     ports:
       - "8096:80"
     links:
@@ -29,11 +31,15 @@ services:
     ports:
       - 9000:9000
     volumes:
-      - .:/var/www/adventistcommons
-      - ./var/sessions:/var/www/adventistcommons/var/sessions
+      - .:/var/www/adventistcommons:ro
+      - ./var:/var/www/adventistcommons/var
+      - ./uploads:/var/www/adventistcommons/uploads
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
+    working_dir: /var/www/adventistcommons
     links:
+      - ac-db
+    depends_on:
       - ac-db
 
   ac-adminer:
@@ -43,5 +49,12 @@ services:
       - ac-db
     ports:
       - 8080:8080
+
+  composer:
+      restart: 'no'
+      image: composer/composer:php7
+      command: install --ignore-platform-reqs
+      volumes:
+        - ./application:/app
 
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/
