@@ -10,7 +10,7 @@ class Story
 	private $domManipulator;
 	private $sections;
 
-	public function __construct($key, \DOMElement $root, $domManipulatorClass)
+	public function __construct($key, \DOMDocument $root, $domManipulatorClass)
 	{
 		$interfaces = class_implements($domManipulatorClass);
 		if (!isset($interfaces[StoryDomManipulator::class])) {
