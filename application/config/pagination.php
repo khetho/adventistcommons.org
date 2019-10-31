@@ -12,7 +12,7 @@ $config["base_url"] = "";
 
 /*
 |--------------------------------------------------------------------------
-| Total Rows 
+| Total Rows
 |--------------------------------------------------------------------------
 |
 | This number represents the total rows in the result set you are creating pagination for.
@@ -25,7 +25,7 @@ $config["total_rows"] = "";
 
 /*
 |--------------------------------------------------------------------------
-| Per Page 
+| Per Page
 |--------------------------------------------------------------------------
 |
 | The number of items you intend to show per page. In the above example, you would be showing 20 items per page.
@@ -41,7 +41,7 @@ $config["per_page"] = 5;
 | By default, the URI segment will use the starting index for the items you are paginating. If you prefer to show the the actual page number, set this to TRUE.
 |
 */
-$config["use_page_numbers"] = TRUE;
+$config["use_page_numbers"] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ $config['query_string_segment'] = 'p';
 | If you have $config['enable_query_strings'] set to TRUE your links will automatically be re-written using Query Strings.
 |
 */
-$config['page_query_string'] = TRUE;
+$config['page_query_string'] = true;
 
 /*
 | Html-murkup settings

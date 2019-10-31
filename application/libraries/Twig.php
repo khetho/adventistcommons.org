@@ -7,7 +7,7 @@
  * @copyright  2015 Kenji Suzuki
  * @link       https://github.com/kenjis/codeigniter-ss-twig
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 // If you don't use Composer, uncomment below
 /*
 require_once APPPATH . 'third_party/Twig-1.xx.x/lib/Twig/Autoloader.php';
@@ -42,7 +42,7 @@ class Twig
     /**
      * @var bool Whether functions are added or not
      */
-    private $functions_added = FALSE;
+    private $functions_added = false;
     /**
      * @var Twig_Environment
      */
@@ -53,29 +53,24 @@ class Twig
     private $loader;
     public function __construct($params = [])
     {
-        if (isset($params['functions']))
-        {
+        if (isset($params['functions'])) {
             $this->functions_asis =
                 array_unique(
                     array_merge($this->functions_asis, $params['functions'])
                 );
             unset($params['functions']);
         }
-        if (isset($params['functions_safe']))
-        {
+        if (isset($params['functions_safe'])) {
             $this->functions_safe =
                 array_unique(
                     array_merge($this->functions_safe, $params['functions_safe'])
                 );
             unset($params['functions_safe']);
         }
-        if (isset($params['paths']))
-        {
+        if (isset($params['paths'])) {
             $this->paths = $params['paths'];
             unset($params['paths']);
-        }
-        else
-        {
+        } else {
             $this->paths = [VIEWPATH];
         }
         // default Twig config
@@ -94,17 +89,14 @@ class Twig
     protected function createTwig()
     {
         // $this->twig is singleton
-        if ($this->twig !== null)
-        {
+        if ($this->twig !== null) {
             return;
         }
-        if ($this->loader === null)
-        {
+        if ($this->loader === null) {
             $this->loader = new \Twig_Loader_Filesystem($this->paths);
         }
         $twig = new \Twig_Environment($this->loader, $this->config);
-        if ($this->config['debug'])
-        {
+        if ($this->config['debug']) {
             $twig->addExtension(new \Twig_Extension_Debug());
         }
         $this->twig = $twig;
@@ -154,15 +146,12 @@ class Twig
     protected function addFunctions()
     {
         // Runs only once
-        if ($this->functions_added)
-        {
+        if ($this->functions_added) {
             return;
         }
         // as is functions
-        foreach ($this->functions_asis as $function)
-        {
-            if (function_exists($function))
-            {
+        foreach ($this->functions_asis as $function) {
+            if (function_exists($function)) {
                 $this->twig->addFunction(
                     new \Twig_SimpleFunction(
                         $function,
@@ -172,10 +161,8 @@ class Twig
             }
         }
         // safe functions
-        foreach ($this->functions_safe as $function)
-        {
-            if (function_exists($function))
-            {
+        foreach ($this->functions_safe as $function) {
+            if (function_exists($function)) {
                 $this->twig->addFunction(
                     new \Twig_SimpleFunction(
                         $function,
@@ -186,8 +173,7 @@ class Twig
             }
         }
         // customized functions
-        if (function_exists('anchor'))
-        {
+        if (function_exists('anchor')) {
             $this->twig->addFunction(
                 new \Twig_SimpleFunction(
                     'anchor',
@@ -196,7 +182,7 @@ class Twig
                 )
             );
         }
-        $this->functions_added = TRUE;
+        $this->functions_added = true;
     }
     /**
      * @param string $uri
@@ -209,8 +195,7 @@ class Twig
         $uri = html_escape($uri);
         $title = html_escape($title);
         $new_attr = [];
-        foreach ($attributes as $key => $val)
-        {
+        foreach ($attributes as $key => $val) {
             $new_attr[html_escape($key)] = html_escape($val);
         }
         return anchor($uri, $title, $new_attr);

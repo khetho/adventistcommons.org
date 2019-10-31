@@ -1,52 +1,52 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Container
 {
-	private $services;
-	private $closures;
-	private $built = false;
-	
-	public function get( $name )
-	{
-		if (!$this->built) {
-			$this->build();
-		}
-		if (!isset($this->services[$name])) {
-			if (!isset($this->closures[$name])) {
-				throw new \Exception(sprintf('Service does not exists : %s', $name));
-			}
-			$this->services[$name] = $this->closures[$name]();
-		}
-		
-		return $this->services[$name];
-	}
-	
-	public function has( $name )
-	{
-		if (!$this->built) {
-			$this->build();
-		}
-		
-		return (isset($this->closures[ $name ]) || isset($this->services[ $name ]));
-	}
-	
-	private function set( $name, $service ): void
-	{
-		if ($this->built) {
-			throw new \Exception('Cannot add services to container since it was closed');
-		}
-		if ($service instanceof Closure) {
-			$this->closures[$name] = $service;
-			
-			return;
-		} elseif (is_object($service)) {
-			$this->services[$name] = $service;
-			
-			return;
-		}
-		
-		throw new \Exception('To define a service in the container, please provide an instance of the class
+    private $services;
+    private $closures;
+    private $built = false;
+    
+    public function get($name)
+    {
+        if (!$this->built) {
+            $this->build();
+        }
+        if (!isset($this->services[$name])) {
+            if (!isset($this->closures[$name])) {
+                throw new \Exception(sprintf('Service does not exists : %s', $name));
+            }
+            $this->services[$name] = $this->closures[$name]();
+        }
+        
+        return $this->services[$name];
+    }
+    
+    public function has($name)
+    {
+        if (!$this->built) {
+            $this->build();
+        }
+        
+        return (isset($this->closures[ $name ]) || isset($this->services[ $name ]));
+    }
+    
+    private function set($name, $service): void
+    {
+        if ($this->built) {
+            throw new \Exception('Cannot add services to container since it was closed');
+        }
+        if ($service instanceof Closure) {
+            $this->closures[$name] = $service;
+            
+            return;
+        } elseif (is_object($service)) {
+            $this->services[$name] = $service;
+            
+            return;
+        }
+        
+        throw new \Exception('To define a service in the container, please provide an instance of the class
 			or a closure that will create it when requested.');
 	}
 	
