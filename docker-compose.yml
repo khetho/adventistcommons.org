@@ -50,11 +50,12 @@ services:
     ports:
       - 8080:8080
 
-  composer:
-      restart: 'no'
-      image: composer/composer:php7
-      command: install --ignore-platform-reqs
-      volumes:
-        - ./application:/app
+  ac-composer:
+    restart: 'no'
+    image: composer
+    command: install --ignore-platform-reqs
+    volumes:
+      - ./application:/app
+      - ./var/cache/composer:/tmp
 
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/
