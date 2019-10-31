@@ -17,6 +17,7 @@ class Projects extends CI_Controller
             $this->twig->addGlobal("user", $user);
         }
     }
+
     
     public $breadcrumbs = [
         [

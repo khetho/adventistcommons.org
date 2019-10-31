@@ -14,4 +14,12 @@
     "require-dev": {
         "symfony/var-dumper": "^4.3"
     }
+    "scripts": {
+        "post-install-cmd": [
+            "bin/install-git-hooks"
+        ],
+        "post-update-cmd": [
+            "bin/install-git-hooks"
+        ]
+    }
 }
