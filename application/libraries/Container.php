@@ -48,63 +48,63 @@ class Container
         
         throw new \Exception('To define a service in the container, please provide an instance of the class
 			or a closure that will create it when requested.');
-	}
-	
-	private function build()
-	{
-		/****************************
-		 * CODE IGNITER MODELS
-		 ****************************/
-		$ci =& get_instance();
-		$this->set(
-			\CI_DB_mysqli_driver::class,
-			function () use ($ci) {
-				return $ci->load->database('', true);
-			}
-		);
-		$this->set(
-			\Product_model::class,
-			function () use ($ci) {
-				$ci->load->model('product_model');
-				return $ci->product_model;
-			}
-		);
-		$this->set(
-			\Project_model::class,
-			function () use ($ci) {
-				$ci->load->model('project_model');
-				return $ci->project_model;
-			}
-		);
-		
-		$this->set(
-			\AdventistCommons\Idml\Importer::class,
-			function () {
-				return new \AdventistCommons\Idml\Importer(
-					$this->get(\CI_DB_mysqli_driver::class)
-				);
-			}
-		);
-		
-		$this->set(
-			\AdventistCommons\Idml\Translator::class,
-			function () {
-				return new \AdventistCommons\Idml\Translator(
-					$this->get(\Product_model::class),
-					$this->get(\Project_model::class)
-				);
-			}
-		);
-		
-		$this->set(
-			\AdventistCommons\Idml\Builder::class,
-			function () {
-				return new \AdventistCommons\Idml\Builder(
-					$this->get(\AdventistCommons\Idml\Translator::class)
-				);
-			}
-		);
-		
-		$this->built = true;
-	}
+    }
+    
+    private function build()
+    {
+        /****************************
+         * CODE IGNITER MODELS
+         ****************************/
+        $ci =& get_instance();
+        $this->set(
+            \CI_DB_mysqli_driver::class,
+            function () use ($ci) {
+                return $ci->load->database('', true);
+            }
+        );
+        $this->set(
+            \Product_model::class,
+            function () use ($ci) {
+                $ci->load->model('product_model');
+                return $ci->product_model;
+            }
+        );
+        $this->set(
+            \Project_model::class,
+            function () use ($ci) {
+                $ci->load->model('project_model');
+                return $ci->project_model;
+            }
+        );
+        
+        $this->set(
+            \AdventistCommons\Idml\Importer::class,
+            function () {
+                return new \AdventistCommons\Idml\Importer(
+                    $this->get(\CI_DB_mysqli_driver::class)
+                );
+            }
+        );
+        
+        $this->set(
+            \AdventistCommons\Idml\Translator::class,
+            function () {
+                return new \AdventistCommons\Idml\Translator(
+                    $this->get(\Product_model::class),
+                    $this->get(\Project_model::class)
+                );
+            }
+        );
+        
+        $this->set(
+            \AdventistCommons\Idml\Builder::class,
+            function () {
+                return new \AdventistCommons\Idml\Builder(
+                    $this->get(\AdventistCommons\Idml\Translator::class)
+                );
+            }
+        );
+        
+        $this->built = true;
+    }
 }

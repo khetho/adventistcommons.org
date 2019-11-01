@@ -6,74 +6,74 @@ use AdventistCommons\Idml\DomManipulator\StoryBasedOnTags;
 
 class Importer
 {
-	private $db;
+    private $db;
 
-	public function __construct(\CI_DB_mysqli_driver $db)
-	{
-		$this->db = $db;
-	}
+    public function __construct(\CI_DB_mysqli_driver $db)
+    {
+        $this->db = $db;
+    }
 
-	public function import(Holder $holder, $productId)
-	{
-		$iSection = 0;
-		// import sections
-		/** @var Section $section */
-		foreach ($holder->getSections() as &$section) {
-			$sectionId = $this->createSection(
-				$productId,
-				$section->getName(),
-				$iSection,
-				$section->getStory()->getKey()
-			);
-			$iSection++;
-			$section->setDbId($sectionId);
-			// import sections’ contents
-			$this->importContents($productId, $section);
-		}
-	}
-	
-	private function importContents($productId, Section $section)
-	{
-		$iContent = 0;		
-		/** @var Content $content */
-		foreach ($section->getContents() as $content) {
-			$this->createProductContent(
-				$productId,
-				$section->getDbId(),
-				$content->getText(),
-				$iContent,
-				$content->getKey()
-			);
-			$iContent ++;
-		}
-	}
-	
-	private function createSection($productId, $name, $order, $storyKey)
-	{
-		$this->db->insert(
-			'product_sections',
-			[
-				'product_id' => $productId,
-				'name'       => $name,
-				'order'      => $order,
-				'story_key'  => $storyKey,
-			]
-		);
-		
-		return $this->db->insert_id();
-	}
-	
-	private function createProductContent($productId, $sectionId, $content, $order, $idmlId)
-	{
-		$this->db->insert(
-			'product_content',
-			[
-				'product_id'  => $productId,
-				'section_id'  => $sectionId,
-				'content'     => $content,
-				'order'       => $order,
-				'content_key' => $idmlId,
-			]
-		);
-	}
+    public function import(Holder $holder, $productId)
+    {
+        $iSection = 0;
+        // import sections
+        /** @var Section $section */
+        foreach ($holder->getSections() as &$section) {
+            $sectionId = $this->createSection(
+                $productId,
+                $section->getName(),
+                $iSection,
+                $section->getStory()->getKey()
+            );
+            $iSection++;
+            $section->setDbId($sectionId);
+            // import sections’ contents
+            $this->importContents($productId, $section);
+        }
+    }
+    
+    private function importContents($productId, Section $section)
+    {
+        $iContent = 0;
+        /** @var Content $content */
+        foreach ($section->getContents() as $content) {
+            $this->createProductContent(
+                $productId,
+                $section->getDbId(),
+                $content->getText(),
+                $iContent,
+                $content->getKey()
+            );
+            $iContent ++;
+        }
+    }
+    
+    private function createSection($productId, $name, $order, $storyKey)
+    {
+        $this->db->insert(
+            'product_sections',
+            [
+                'product_id' => $productId,
+                'name'       => $name,
+                'order'      => $order,
+                'story_key'  => $storyKey,
+            ]
+        );
+        
+        return $this->db->insert_id();
+    }
+    
+    private function createProductContent($productId, $sectionId, $content, $order, $idmlId)
+    {
+        $this->db->insert(
+            'product_content',
+            [
+                'product_id'  => $productId,
+                'section_id'  => $sectionId,
+                'content'     => $content,
+                'order'       => $order,
+                'content_key' => $idmlId,
+            ]
+        );
+    }
 }
