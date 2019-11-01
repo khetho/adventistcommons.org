@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class HAuth extends CI_Controller {
+class Hauth extends CI_Controller {
 
 	public function __construct()
 	{
@@ -15,33 +15,27 @@ class HAuth extends CI_Controller {
 		}
 	}
 
-	public function index()
+	public function login($provider = '')
 	{
+		if (!empty($provider)) {
+			$this->session->set_userdata('provider', $provider);
+		}
 
-		$this->load->view('hauth/home');
-	}
-
-	public function login($provider)
-	{
-		// log_message('debug', "controllers.HAuth.login($provider) called");
 		try
 		{
-			// log_message('debug', 'controllers.HAuth.login: loading HybridAuthLib');
 			$this->load->library('HybridAuthLib');
+
+			$provider = !empty($provider) ? $provider : $this->session->userdata('provider');
 
 			if ($this->hybridauthlib->providerEnabled($provider))
 			{
-				// log_message('debug', "controllers.HAuth.login: service $provider enabled, trying to authenticate.");
-				
+
 				$service = $this->hybridauthlib->authenticate($provider);
 
-				if ($service->isUserConnected())
+				$user_profile = $service->getUserProfile();
+
+				if (!empty($user_profile))
 				{
-					// log_message('debug', 'controller.HAuth.login: user authenticated.');
-
-					$user_profile = $service->getUserProfile();
-					// log_message('info', 'controllers.HAuth.login: user profile:'.PHP_EOL.print_r($user_profile, TRUE));
-
 					$this->social_login($user_profile);
 				}
 				else // Cannot authenticate user
@@ -51,7 +45,7 @@ class HAuth extends CI_Controller {
 			}
 			else // This service is not enabled.
 			{
-				// log_message('error', 'controllers.HAuth.login: This provider is not enabled ('.$provider.')');
+				log_message('error', 'controllers.HAuth.login: This provider is not enabled ('.$provider.')');
 				show_404($_SERVER['REQUEST_URI']);
 			}
 		}
@@ -90,23 +84,6 @@ class HAuth extends CI_Controller {
 		}
 	}
 
-	public function endpoint()
-	{
-
-		// log_message('debug', 'controllers.HAuth.endpoint called.');
-		// log_message('info', 'controllers.HAuth.endpoint: $_REQUEST: '.print_r($_REQUEST, TRUE));
-
-		if ($_SERVER['REQUEST_METHOD'] === 'GET')
-		{
-			// log_message('debug', 'controllers.HAuth.endpoint: the request method is GET, copying REQUEST array into GET array.');
-			$_GET = $_REQUEST;
-		}
-
-		// log_message('debug', 'controllers.HAuth.endpoint: loading the original HybridAuth endpoint script.');
-		require_once APPPATH.'/third_party/hybridauth/index.php';
-
-	}
-
 	/**
 	 * save profile data and create session
 	 * @param  [type] $user_profile [description]
@@ -135,6 +112,8 @@ class HAuth extends CI_Controller {
 	            $this->ion_auth->activate($register_id);
 	            $this->ion_auth->login($user_profile->email, $password, TRUE);
 
+	            $this->session->unset_userdata('provider');
+
 	            redirect( "/user/register_profile", "refresh" );
 	        }
 	    }
@@ -146,6 +125,9 @@ class HAuth extends CI_Controller {
 	        $_SESSION['email'] = $user->email;
 	        $_SESSION['user_id'] = $user->id; //everyone likes to overwrite id so we'll use user_id
 	        $_SESSION['old_last_login'] = $user->last_login;
+
+	        $this->session->unset_userdata('provider');
+
 	        redirect('/projects', 'refresh');
 	    } 
 	}

@@ -12,23 +12,12 @@ $config =
 	array(
 		// set on "base_url" the relative url that point to HybridAuth Endpoint
 		'base_url' => '/hauth/endpoint',
+		'callback' => 'https://adventistcommons.local.org/hauth/login/',
 
-		"providers" => array (
-			// openid providers
-			"OpenID" => array (
-				"enabled" => true
-			),
 
-			"Yahoo" => array (
-				"enabled" => true,
-				"keys"    => array ( "id" => "", "secret" => "" ),
-			),
-
-			"AOL"  => array (
-				"enabled" => true
-			),
-
-			"Google" => array (
+	    // Providers specifics.
+	    'providers' => [
+	        "Google" => array (
 				"enabled" => true,
 				"keys"    => array ( 
 					"id" => "589167199141-ngsf1inuve1s8ajh3p30qgdl5l4j3i0i.apps.googleusercontent.com", 
@@ -36,7 +25,7 @@ $config =
 			),
 
 			"Facebook" => array (
-				"enabled" => false,
+				"enabled" => true,
 				"keys"    => array ( 
 					"id" => "467450287190113", 
 					"secret" => "e5924a435d22f68b1c1fa2dff9411b93" 
@@ -51,29 +40,70 @@ $config =
 					"secret" => "NZadmpZ6WYynuWnx4joVfGIXGQesmsRU0tsRzgHPxDahax0QdS",
 					"includeEmail" => true
 				)
-			),
+			)
+	    ],
 
-			// windows live
-			"Live" => array (
-				"enabled" => true,
-				"keys"    => array ( "id" => "", "secret" => "" )
-			),
+		// "providers" => array (
+		// 	// openid providers
+		// 	"OpenID" => array (
+		// 		"enabled" => true
+		// 	),
 
-			"MySpace" => array (
-				"enabled" => true,
-				"keys"    => array ( "key" => "", "secret" => "" )
-			),
+		// 	"Yahoo" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( "id" => "", "secret" => "" ),
+		// 	),
 
-			"LinkedIn" => array (
-				"enabled" => true,
-				"keys"    => array ( "key" => "", "secret" => "" )
-			),
+		// 	"AOL"  => array (
+		// 		"enabled" => true
+		// 	),
 
-			"Foursquare" => array (
-				"enabled" => true,
-				"keys"    => array ( "id" => "", "secret" => "" )
-			),
-		),
+		// 	"Google" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( 
+		// 			"id" => "589167199141-ngsf1inuve1s8ajh3p30qgdl5l4j3i0i.apps.googleusercontent.com", 
+		// 			"secret" => "kSmIoxs77BK2QAoeqoIh5XRH" ),
+		// 	),
+
+		// 	"Facebook" => array (
+		// 		"enabled" => false,
+		// 		"keys"    => array ( 
+		// 			"id" => "467450287190113", 
+		// 			"secret" => "e5924a435d22f68b1c1fa2dff9411b93" 
+		// 		),
+		// 		'scope'   => 'email'
+		// 	),
+
+		// 	"Twitter" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( 
+		// 			"key" => "QmKOIEpdeDyDZyRxTpE7x69pW", 
+		// 			"secret" => "NZadmpZ6WYynuWnx4joVfGIXGQesmsRU0tsRzgHPxDahax0QdS",
+		// 			"includeEmail" => true
+		// 		)
+		// 	),
+
+		// 	// windows live
+		// 	"Live" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( "id" => "", "secret" => "" )
+		// 	),
+
+		// 	"MySpace" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( "key" => "", "secret" => "" )
+		// 	),
+
+		// 	"LinkedIn" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( "key" => "", "secret" => "" )
+		// 	),
+
+		// 	"Foursquare" => array (
+		// 		"enabled" => true,
+		// 		"keys"    => array ( "id" => "", "secret" => "" )
+		// 	),
+		// ),
 
 		// if you want to enable logging, set 'debug_mode' to true  then provide a writable file by the web server on "debug_file"
 		"debug_mode" => (ENVIRONMENT == 'development'),

@@ -1,0 +1,7 @@
+{
+    "require": {
+        "google/cloud-translate": "^1.2",
+        "kenjis/codeigniter-ss-twig": "^0.4.0",
+        "hybridauth/hybridauth" : "~3.0"
+    }
+}
