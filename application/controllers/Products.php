@@ -1,10 +1,6 @@
 <?php
 defined("BASEPATH") OR exit("No direct script access allowed");
 
-use AdventistCommons\Import\Idml\IDMLfile;
-use AdventistCommons\Import\Idml\IDMLlib;
-use AdventistCommons\Import\Idml\IDMLextend;
-
 class Products extends CI_Controller {
 
 	public function __construct()
@@ -14,7 +10,6 @@ class Products extends CI_Controller {
 		$this->load->library( [ "ion_auth", "form_validation", "upload", "twig", "container" ] );
 		$this->load->helper( "url" );
 		$this->load->model( "product_model" );
-		$this->data = new stdClass();
 		$this->load->helper('url');
 		$user = $this->ion_auth->user()->row();
 		if( $user ) {
@@ -201,26 +196,35 @@ class Products extends CI_Controller {
 			unset($data['audience']);
 		}
 		if( $is_new ) {
+			if (isset($data['idml_file'])) {
+				/** @var \AdventistCommons\Idml\Builder $idmlBuilder */
+				$idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+				$idmlPath = 'uploads/' . $data['idml_file'] . '.idml';
+				try {
+					/** @var \AdventistCommons\Idml\Holder $holder */
+					$holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
+					$holder->validate();
+				} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+					$this->output->set_output( json_encode( [ "error" => $e->getMessage() ] ) );
+					return false;
+				}
+			}
 			$this->db->insert("products", $data);
 
 			$id = $this->db->insert_id();
-
-			$this->product_model->addProductAudiencesData($audience, $id);
-
-			$param = array("uploads/" . $data['idml_file'] . ".idml");
-
-			$file = new IDMLfile($param);
-
-			$idml = new IDMLlib($file);
-
-			$idmlExtend = $this->container->get(IDMLextend::class);
-
-			$this->data->all_contents = $idml->getMyContent('Story');
-
-			$idmlExtend->getSections($this->data->all_contents, $id);
-
-			$idmlExtend->getProductContent($this->data->all_contents, $id);
-
+			$data['id'] = $id;
+			if (isset($data['idml_file'])) {
+				/** @var \AdventistCommons\Idml\Importer $idmlImporter */
+				$idmlImporter = $this->container->get(\AdventistCommons\Idml\Importer::class);
+				try {
+					/** @var \AdventistCommons\Idml\Holder $holder */
+					$idmlImporter->import($holder, $id);
+				} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+					$this->output->set_output( json_encode( [ "error" => $e->getMessage() ] ) );
+					return false;					
+				}
+			}
+			
 			$this->output->set_output(json_encode(["redirect" => "/products/$id"]));
 		} else {
 			$this->db->where( "id", $data["id"] );
@@ -421,6 +425,25 @@ class Products extends CI_Controller {
 		return $res;
 	}
 
+	public function download_idml( $product_id )
+	{
+		$product = $this->product_model->getProduct( $product_id );
+		if (!$product) {
+			show_404();
+		}
+
+		/** @var \AdventistCommons\Export\Idml\Builder $builder */
+		$builder = $this->container->get(\AdventistCommons\Export\Idml\Builder::class);
+		/** @var \AdventistCommons\Export\Idml\Idml $idml */
+		$idml = $builder->buildFromArrayProduct($product);
+
+		$this->load->helper('download');
+		force_download(
+			$idml->buildFileName(),
+			$idml->getZipContent()
+		);
+	}
+
 	private function _uploadCoverImage() {
 		$config["upload_path"] = $_SERVER["DOCUMENT_ROOT"] . "/uploads";
 		$config["allowed_types"] = "jpg|jpeg|png";
@@ -446,7 +469,7 @@ class Products extends CI_Controller {
 		];
 		$this->load->library( "image_lib", $config_manip );
 		if( ! $this->image_lib->resize() ) {
-			$this->imageUploadError = 'Cannot resize uploaded cover image file. May image library GD2 is missing';
+			$this->imageUploadError = $this->image_lib->display_errors();
 			return false;
 		}
 		$this->image_lib->clear();

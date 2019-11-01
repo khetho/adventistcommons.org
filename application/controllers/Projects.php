@@ -7,7 +7,7 @@ class Projects extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->database();
-		$this->load->library( [ "ion_auth", "form_validation", "twig" ] );
+		$this->load->library( [ "ion_auth", "form_validation", "twig", "container" ] );
 		$this->load->helper( [ "url" ] );
 		$this->load->model( "project_model" );
 		$user = $this->ion_auth->user()->row();
@@ -179,6 +179,35 @@ class Projects extends CI_Controller {
 			->delete( "projects" );
 		
 		redirect( "/projects", "refresh" );
+	}
+	
+	public function download_idml( $project_id )
+	{
+		$project = $this->project_model->getProject( $project_id );
+		if (!$project) {
+			show_404();
+		}
+		$this->load->model( "product_model" );
+		$product = $this->product_model->getProduct( $project["product_id"] );
+		
+		/** @var \AdventistCommons\Idml\Builder $builder */
+		$builder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+		/** @var \AdventistCommons\Idml\Holder $idmlHolder */
+		try {
+			$idmlHolder = $builder->buildFromArrayProductAndProject($product, $project);
+		} catch (\AdventistCommons\Idml\FileNotFoundException $e) {
+			show_404();
+			return;
+		} catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+			$this->output->set_output( $e->getMessage() );
+			return;
+		}
+		
+		$this->load->helper('download');
+		force_download(
+			$idmlHolder->buildFileName(),
+			$idmlHolder->getZipContent()
+		);
 	}
 	
 	private function _can_manage_members( $project_id ) {
