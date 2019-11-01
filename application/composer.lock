@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "1aabdc962bf4c268ed285de85ee6d663",
-=======
-    "content-hash": "9998a735ecb88bfc0b1ee2d4815dcac8",
->>>>>>> Apply php-cs-fixer on whole application folder - no code change
+    "content-hash": "c83639704d69df887c18706faec29aea",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -719,16 +715,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "6d5455b4c0f4a58b1f1b4bdf2ba49221123698b3"
+                "reference": "45635ac69d0b95f38885531d4ebcdfcb2ebb6f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/6d5455b4c0f4a58b1f1b4bdf2ba49221123698b3",
-                "reference": "6d5455b4c0f4a58b1f1b4bdf2ba49221123698b3",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/45635ac69d0b95f38885531d4ebcdfcb2ebb6f36",
+                "reference": "45635ac69d0b95f38885531d4ebcdfcb2ebb6f36",
                 "shasum": ""
             },
             "require": {
@@ -766,20 +762,20 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2019-10-01T18:35:05+00:00"
+            "time": "2019-10-29T20:13:04+00:00"
         },
         {
             "name": "google/cloud-core",
-            "version": "v1.33.1",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-core.git",
-                "reference": "7b8773a5c6d501b3ed31655a8e243e1c17e2862e"
+                "reference": "52db21acb2da25d2d79e493842de58da7836c97f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/7b8773a5c6d501b3ed31655a8e243e1c17e2862e",
-                "reference": "7b8773a5c6d501b3ed31655a8e243e1c17e2862e",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/52db21acb2da25d2d79e493842de58da7836c97f",
+                "reference": "52db21acb2da25d2d79e493842de58da7836c97f",
                 "shasum": ""
             },
             "require": {
@@ -827,20 +823,20 @@
                 "Apache-2.0"
             ],
             "description": "Google Cloud PHP shared dependency, providing functionality useful to all components.",
-            "time": "2019-10-02T20:38:25+00:00"
+            "time": "2019-10-28T19:05:44+00:00"
         },
         {
             "name": "google/cloud-translate",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-translate.git",
-                "reference": "649ba9a485cd6bf233dd83a23a9793a8de0f8a1b"
+                "reference": "979af54aa0b0141fa974e86ba96ab7866c63d224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-translate/zipball/649ba9a485cd6bf233dd83a23a9793a8de0f8a1b",
-                "reference": "649ba9a485cd6bf233dd83a23a9793a8de0f8a1b",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-translate/zipball/979af54aa0b0141fa974e86ba96ab7866c63d224",
+                "reference": "979af54aa0b0141fa974e86ba96ab7866c63d224",
                 "shasum": ""
             },
             "require": {
@@ -877,7 +873,7 @@
                 "Apache-2.0"
             ],
             "description": "Cloud Translation Client for PHP",
-            "time": "2019-10-04T23:23:37+00:00"
+            "time": "2019-10-28T19:05:44+00:00"
         },
         {
             "name": "google/common-protos",
@@ -920,16 +916,16 @@
         },
         {
             "name": "google/gax",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/gax-php.git",
-                "reference": "4389c4103f0469f02c078250c73eaa57bdc91452"
+                "reference": "4baa6d9fb2c5f13ea46c65133848e99fe0aa5ed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/gax-php/zipball/4389c4103f0469f02c078250c73eaa57bdc91452",
-                "reference": "4389c4103f0469f02c078250c73eaa57bdc91452",
+                "url": "https://api.github.com/repos/googleapis/gax-php/zipball/4baa6d9fb2c5f13ea46c65133848e99fe0aa5ed5",
+                "reference": "4baa6d9fb2c5f13ea46c65133848e99fe0aa5ed5",
                 "shasum": ""
             },
             "require": {
@@ -937,7 +933,7 @@
                 "google/common-protos": "^1.0",
                 "google/grpc-gcp": "^0.1.0",
                 "google/protobuf": "^3.7.1",
-                "grpc/grpc": "^1.4",
+                "grpc/grpc": "^1.13",
                 "guzzlehttp/promises": "^1.3",
                 "guzzlehttp/psr7": "^1.2",
                 "php": ">=5.5"
@@ -966,7 +962,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2019-09-06T18:27:35+00:00"
+            "time": "2019-10-28T20:25:44+00:00"
         },
         {
             "name": "google/grpc-gcp",
@@ -1367,21 +1363,21 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
+                "reference": "68545165e19249013afd1d6f7485aecff07a2d22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
-                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/68545165e19249013afd1d6f7485aecff07a2d22",
+                "reference": "68545165e19249013afd1d6f7485aecff07a2d22",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
-                "psr/log": "~1.0"
+                "php": "^7.2",
+                "psr/log": "^1.0.1"
             },
             "provide": {
                 "psr/log-implementation": "1.0.0"
@@ -1389,33 +1385,36 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "graylog2/gelf-php": "~1.0",
-                "jakub-onderka/php-parallel-lint": "0.9",
+                "elasticsearch/elasticsearch": "^6.0",
+                "graylog2/gelf-php": "^1.4.2",
+                "jakub-onderka/php-parallel-lint": "^0.9",
                 "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
-                "phpunit/phpunit": "~4.5",
-                "phpunit/phpunit-mock-objects": "2.3.0",
+                "phpspec/prophecy": "^1.6.1",
+                "phpunit/phpunit": "^8.3",
+                "predis/predis": "^1.1",
+                "rollbar/rollbar": "^1.3",
                 "ruflin/elastica": ">=0.90 <3.0",
-                "sentry/sentry": "^0.13",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-                "ext-mongo": "Allow sending log messages to a MongoDB server",
+                "ext-mbstring": "Allow to work properly with unicode symbols",
+                "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "sentry/sentry": "Allow sending log messages to a Sentry server"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1441,7 +1440,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2019-09-06T13:49:17+00:00"
+            "time": "2019-08-30T09:56:44+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1686,16 +1685,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
                 "shasum": ""
             },
             "require": {
@@ -1704,7 +1703,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -1729,7 +1728,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2018-11-20T15:27:04+00:00"
+            "time": "2019-10-25T08:06:51+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2930,61 +2929,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "symfony/polyfill-php72",
-            "version": "v1.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "04ce3335667451138df4307d6a9b61565560199e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/04ce3335667451138df4307d6a9b61565560199e",
-                "reference": "04ce3335667451138df4307d6a9b61565560199e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.12-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php72\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "time": "2019-08-06T08:03:45+00:00"
-        },
         {
             "name": "symfony/var-dumper",
             "version": "v4.3.5",
