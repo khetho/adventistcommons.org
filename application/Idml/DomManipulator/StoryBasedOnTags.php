@@ -53,7 +53,7 @@ class StoryBasedOnTags implements StoryDomManipulator
 		$contentElements = $section->getSectionElement()->getElementsByTagName(self::TAG_CONTENT);
 		foreach ($contentElements as $contentKey => $contentElement) {
 			if ($contentElement->nodeValue) {
-				$contents[] = new Content($section->getName(), $iContent, $contentElement->nodeValue, $section);
+				$contents[] = new Content($iContent, $contentElement, $section);
 				$iContent++;
 			}
 		}
