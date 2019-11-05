@@ -1,6 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once FCPATH . 'application/vendor/hybridauth/hybridauth/src/autoload.php'; 
 use Hybridauth\Hybridauth;
 
 class HybridAuthLib extends Hybridauth
