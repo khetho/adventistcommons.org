@@ -212,7 +212,7 @@ class Products extends CI_Controller
             if (isset($data['idml_file'])) {
                 /** @var \AdventistCommons\Idml\Builder $idmlBuilder */
                 $idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
-                $idmlPath = 'uploads/' . $data['idml_file'] . '.idml';
+                $idmlPath = self::getUploadDir() . $data['idml_file'] . '.idml';
                 try {
                     /** @var \AdventistCommons\Idml\Holder $holder */
                     $holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
@@ -451,19 +451,18 @@ class Products extends CI_Controller
 
     private function _uploadCoverImage()
     {
-        $config["upload_path"] = $_SERVER["DOCUMENT_ROOT"] . "/uploads";
+        $config["upload_path"] = self::getUploadDir();
         $config["allowed_types"] = "jpg|jpeg|png";
         $config["max_size"] = 10000;
         $config["encrypt_name"] = true;
         $this->load->library("upload", $config);
         $this->upload->initialize($config);
         if (! $this->upload->do_upload("cover_image")) {
-            $this->imageUploadError = 'Cannot write uploaded cover image file';
+            $this->imageUploadError = $this->upload->display_errors();
             return false;
         }
         $image = $this->upload->data();
-        $source_path = $_SERVER["DOCUMENT_ROOT"] . "/uploads/" . $image["file_name"];
-        $target_path = $_SERVER["DOCUMENT_ROOT"] . "/uploads/";
+        $source_path = self::getUploadDir() . $image["file_name"];
         
         $config_manip = [
             "image_library" => "gd2",
@@ -484,7 +483,7 @@ class Products extends CI_Controller
 
     private function _uploadIdml()
     {
-        $config["upload_path"] = $_SERVER["DOCUMENT_ROOT"] . "/uploads";
+        $config["upload_path"] = self::getUploadDir();
         $config["allowed_types"] = "idml";
         $config["max_size"] = 50000;
         $config["encrypt_name"] = true;
@@ -503,9 +502,9 @@ class Products extends CI_Controller
     private function _unzipIdml($file_name, $raw_name)
     {
         $this->load->library("zip");
-        $unzip_path = $_SERVER["DOCUMENT_ROOT"] . "/uploads/extracted/" . $raw_name;
+        $unzip_path = self::getUploadDir(). "extracted/" . $raw_name;
         $zip = new ZipArchive();
-        if ($zip->open($_SERVER["DOCUMENT_ROOT"] . "/uploads/" . $file_name)) {
+        if ($zip->open(self::getUploadDir() . $file_name)) {
             if (!$zip->extractTo($unzip_path)) {
                 throw new Error("Unable to extract file");
             }
@@ -517,7 +516,7 @@ class Products extends CI_Controller
 
     private function _uploadAttachment()
     {
-        $config["upload_path"] = $_SERVER["DOCUMENT_ROOT"] . "/uploads";
+        $config["upload_path"] = self::getUploadDir();
         $config["allowed_types"] = "pdf";
         $config["max_size"] = 50000;
         $config["encrypt_name"] = true;
@@ -528,5 +527,10 @@ class Products extends CI_Controller
         
         $file = $this->upload->data();
         return $this->upload->data();
+    }
+    
+    private static function getUploadDir()
+    {
+        return realpath($_SERVER["DOCUMENT_ROOT"]. '/../uploads/');
     }
 }
