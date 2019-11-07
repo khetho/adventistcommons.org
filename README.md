@@ -123,7 +123,7 @@ Let us know if you have any issues with these steps.
 
 #### Code base
 - Clone the repository on your localhost environment.
-- Setup your webserver vhost. We recommend setting up adventistcommons.local as a server alias and pointing it to the directory where you cloned the repository.
+- Setup your webserver vhost. We recommend setting up adventistcommons.local as a server alias and pointing it to the directory ```/public``` from where you cloned the repository.
 - Install composer : Point your terminal client to the application/ directory, and run `php -r "readfile('https://getcomposer.org/installer');" | php -c php.ini`
 - Install dependencies with composer with ```php composer.phar install```
 - You may need to install code igniter’s twig extension with command ``php vendor /kenjis/codeigniter-ss-twig/install.php``
