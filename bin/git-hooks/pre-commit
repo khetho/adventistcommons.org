@@ -7,9 +7,10 @@ echo "php-cs-fixer starts"
 CURRENT_DIRECTORY=`pwd`
 BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-APPLICATION_DIRECTORY="$BIN_DIR/../../application"
+ROOT_DIRECTORY="$BIN_DIR/../.."
 
-cd $APPLICATION_DIRECTORY;
+cd $ROOT_DIRECTORY;
+
 PHP_CS_FIXER="vendor/bin/php-cs-fixer"
 
 HAS_PHP_CS_FIXER=false
@@ -19,9 +20,9 @@ if [ -x "$PHP_CS_FIXER" ]; then
 fi
 
 if $HAS_PHP_CS_FIXER; then
-    git --git-dir ../.git --work-tree .. diff --name-only --diff-filter=ACMR HEAD | grep -e 'domain/src.*\.php$' | cut -c 12- | while read line; do
-        ${PHP_CS_FIXER} fix src/${line};
-        git --git-dir ../.git --work-tree .. add src/"$line";
+    git diff --name-only --diff-filter=ACMR HEAD | grep -e '.*\.php$' | while read line; do
+        ${PHP_CS_FIXER} fix ${line};
+        git add "$line";
     done
 else
     echo ""
