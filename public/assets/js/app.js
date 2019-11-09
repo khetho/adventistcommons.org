@@ -74,8 +74,18 @@ function ajax( url, data, $btn, $response_region, success_callback ) {
 				}
 			}
 		},
-		error: function() {
-			handleFormResponse( $response_region, "An error has occured" );
+		error: function(jqXHR) {
+			var errorMessage = '';
+			if (jqXHR.status == 500) {
+			  errorMessage='Server side 500 error';
+			} else if (jqXHR.status == 404) {
+			  errorMessage='Not found 404 error';
+			} else if (jqXHR.status == 404) {
+			  errorMessage='Not allowed 403 error. Are you still logged ?';
+			} else {
+			  errorMessage='An error occured';
+			}
+			handleFormResponse( $response_region, errorMessage );
 			$btn.text( btn_text ).prop( "disabled", false );
 		}
 	});

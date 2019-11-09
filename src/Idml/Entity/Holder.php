@@ -21,7 +21,7 @@ class Holder
     private $stories = [];
     private $sections = [];
     
-    public function __construct($zipFileName, array $product)
+    public function __construct($zipFileName, array $product = null)
     {
         $this->zipFileName = $zipFileName;
         $this->product = $product;
@@ -35,6 +35,10 @@ class Holder
      */
     public function setProject(array $project)
     {
+        $this->checkProduct();
+        if ($project['product_id'] !== $this->product['id']) {
+            throw new \Exception('Cannot set the project : this project does not rely on the same product.');
+        }
         if ($this->project) {
             throw new \Exception('Cannot change the project. You must clone the holder first if you want antoher language.');
         }
@@ -104,5 +108,11 @@ class Holder
     public function validate(): void
     {
         $this->getSections();
+    }    
+
+    private function checkProduct()
+    {
+        throw new \Exception("The holder was created without a product. This action cannot be executed.");
     }
+
 }
