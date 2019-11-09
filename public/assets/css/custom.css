@@ -189,3 +189,22 @@ dl.inline dt:before{
 }
 /* END Social authentication */
 
+
+/* Products list */
+.products-sort-by {
+  margin-left: 20px;
+}
+
+.col-md-6.box {
+  padding-right: 20px !important;
+}
+
+.selectize-control.single .selectize-input:after {
+  right: 10px !important;
+}
+
+@media screen and (max-width: 576px) {
+  .selectize-control.col-sm {
+    padding-left: 10px !important;
+  }
+}
