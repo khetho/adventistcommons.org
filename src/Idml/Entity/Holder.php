@@ -89,11 +89,21 @@ class Holder
         return $this->stories[$storyKey];
     }
     
+    public function getStories(): array    {
+        $storiesCount = count($this->getPackage()->getStories());
+        if ($storiesCount !== count($this->stories)) {            
+            foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
+                $this->stories[$storyKey] = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+            }
+        }
+
+        return $this->stories;
+    }
+    
     public function getSections()
     {
         if (!$this->sections) {
-            foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
-                $story = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+            foreach ($this->getStories() as $story) {
                 $this->sections = array_merge($this->sections, $story->getSections());
             }
         }
@@ -107,6 +117,9 @@ class Holder
      */
     public function validate(): void
     {
+        foreach ($this->getStories() as $story) {
+            $story->validate();
+        }
         $this->getSections();
     }    
 

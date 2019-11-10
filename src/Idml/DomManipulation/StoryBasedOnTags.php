@@ -75,4 +75,9 @@ class StoryBasedOnTags implements StoryDomManipulator
             }
         }
     }
+    
+    public function validate(): bool
+    {
+        throw new ValidationException('Idml is not invalid.');        
+    }
 }

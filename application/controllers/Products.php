@@ -158,7 +158,6 @@ class Products extends CI_Controller
         }
         $this->output->set_content_type("application/json");
 
-        $idml_file = null;
         if (!$_FILES["idml_file"]["name"]) {
             $this->output->set_output(json_encode([ "error" => 'No file given' ]));
             return false;

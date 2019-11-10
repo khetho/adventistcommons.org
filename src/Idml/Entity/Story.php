@@ -54,4 +54,9 @@ class Story
         $section = $this->getSection($sectionName);
         $section->setContent($key, $newContent);
     }
+    
+    public function validate()
+    {
+        return $this->domManipulator->validate();
+    }
 }
