@@ -7,6 +7,7 @@ use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 class Story
 {
     private $key;
+    /** @var StoryDomManipulator */
     private $domManipulator;
     private $sections;
 

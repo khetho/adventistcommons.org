@@ -78,6 +78,31 @@ class StoryBasedOnTags implements StoryDomManipulator
     
     public function validate(): bool
     {
-        throw new ValidationException('Idml is not invalid.');        
+        $xpath = new \DOMXPath($this->getRoot());
+        $errors = [];
+        
+        $appliedCharacterStyles = [
+            'Text',
+            '$ID/[No character style]',
+        ];
+        foreach ($appliedCharacterStyles as $appliedCharacterStyle) {
+            $query = sprintf(
+                '//CharacterStyleRange[AppliedCharacterStyle="CharacterStyle/%s"]/following-sibling::CharacterStyleRange[AppliedCharacterStyle="CharacterStyle/%s"]',
+                $appliedCharacterStyle,
+                $appliedCharacterStyle
+            );
+            /** @var \DOMNodeList $entries */
+            $entries = $xpath->query($query);
+            /** @var \DOMElement $entry */
+            foreach ($entries as $entry) {
+                $errors[] = sprintf('Two following paragraphs have the same basic style : %s.', $entry->textContent);
+            }
+        }
+        
+        if ($errors) {
+            throw new ValidationException(sprintf('Idml is not invalid : %s', implode(', ', $errors)));
+        }
+        
+        return true;
     }
 }

@@ -170,10 +170,10 @@ class Products extends CI_Controller
         /** @var \AdventistCommons\Idml\Builder $idmlBuilder */
         $idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
         try {
-            /** @var \AdventistCommons\Idml\Holder $holder */
+            /** @var \AdventistCommons\Idml\Entity\Holder $holder */
             $holder = $idmlBuilder->buildFromPath($idml_file['full_path']);
-            $holder->validate();            
-        } catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+            $holder->validate();
+        } catch (\AdventistCommons\Idml\DomManipulation\Exception $e) {
             $this->output->set_output(json_encode([ "error" => $e->getMessage() ]));
             return false;
         }

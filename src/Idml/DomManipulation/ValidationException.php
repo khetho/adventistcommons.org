@@ -1,6 +1,6 @@
 <?php
 
-namespace AdventistCommons\Idml\DomManipulator;
+namespace AdventistCommons\Idml\DomManipulation;
 
 /**
  * Class FileNotFoundException

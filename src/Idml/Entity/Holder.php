@@ -89,9 +89,10 @@ class Holder
         return $this->stories[$storyKey];
     }
     
-    public function getStories(): array    {
+    public function getStories(): array
+    {
         $storiesCount = count($this->getPackage()->getStories());
-        if ($storiesCount !== count($this->stories)) {            
+        if ($storiesCount !== count($this->stories)) {
             foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
                 $this->stories[$storyKey] = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
             }
@@ -117,15 +118,15 @@ class Holder
      */
     public function validate(): void
     {
+        /** @var Story $story */
         foreach ($this->getStories() as $story) {
             $story->validate();
         }
         $this->getSections();
-    }    
+    }
 
     private function checkProduct()
     {
         throw new \Exception("The holder was created without a product. This action cannot be executed.");
     }
-
 }
