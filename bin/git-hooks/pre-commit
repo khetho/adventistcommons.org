@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "php-cs-fixer starts"
+
+CURRENT_DIRECTORY=`pwd`
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+ROOT_DIRECTORY="$BIN_DIR/../.."
+
+cd $ROOT_DIRECTORY;
+
+PHP_CS_FIXER="vendor/bin/php-cs-fixer"
+
+HAS_PHP_CS_FIXER=false
+
+if [ -x "$PHP_CS_FIXER" ]; then
+    HAS_PHP_CS_FIXER=true
+fi
+
+if $HAS_PHP_CS_FIXER; then
+    git diff --name-only --diff-filter=ACMR HEAD | grep -e '.*\.php$' | while read line; do
+        ${PHP_CS_FIXER} fix ${line};
+        git add "$line";
+    done
+else
+    echo ""
+    echo "Please install php-cs-fixer dependence"
+    echo "  cd domain && composer install"
+    echo ""
+	cd $CURRENT_DIRECTORY;
+    exit 1
+fi
+
+cd $CURRENT_DIRECTORY;
+
+echo "php-cs-fixer ends"

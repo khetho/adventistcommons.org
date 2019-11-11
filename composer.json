@@ -1,0 +1,26 @@
+{
+    "require": {
+        "google/cloud-translate": "^1.2",
+        "kenjis/codeigniter-ss-twig": "^0.4.0",
+        "indesign/php-idml": "dev-master",
+        "robmorgan/phinx": "^0.10.7",
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "codeigniter/framework": "3.1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "AdventistCommons\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.3"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "bin/install-git-hooks"
+        ],
+        "post-update-cmd": [
+            "bin/install-git-hooks"
+        ]
+    }
+}
