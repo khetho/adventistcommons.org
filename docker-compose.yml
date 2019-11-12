@@ -55,7 +55,7 @@ services:
     image: composer
     command: install --ignore-platform-reqs
     volumes:
-      - ./application:/app
+      - .:/app
       - ./var/cache/composer:/tmp
 
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/
