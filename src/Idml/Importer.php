@@ -1,8 +1,9 @@
 <?php
 namespace AdventistCommons\Idml;
 
-use IDML\Package;
-use AdventistCommons\Idml\DomManipulator\StoryBasedOnTags;
+use AdventistCommons\Idml\Entity\Content;
+use AdventistCommons\Idml\Entity\Holder;
+use AdventistCommons\Idml\Entity\Section;
 
 class Importer
 {

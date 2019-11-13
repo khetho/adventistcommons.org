@@ -217,7 +217,7 @@ class Products extends CI_Controller
                     /** @var \AdventistCommons\Idml\Holder $holder */
                     $holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
                     $holder->validate();
-                } catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+                } catch (\AdventistCommons\Idml\DomManipulation\Exception $e) {
                     $this->output->set_output(json_encode([ "error" => $e->getMessage() ]));
                     return false;
                 }
@@ -230,9 +230,9 @@ class Products extends CI_Controller
                 /** @var \AdventistCommons\Idml\Importer $idmlImporter */
                 $idmlImporter = $this->container->get(\AdventistCommons\Idml\Importer::class);
                 try {
-                    /** @var \AdventistCommons\Idml\Holder $holder */
+                    /** @var \AdventistCommons\Idml\Entity\Holder $holder */
                     $idmlImporter->import($holder, $id);
-                } catch (\AdventistCommons\Idml\DomManipulator\Exception $e) {
+                } catch (\AdventistCommons\Idml\DomManipulation\Exception $e) {
                     $this->output->set_output(json_encode([ "error" => $e->getMessage() ]));
                     return false;
                 }
