@@ -7,11 +7,11 @@ use AdventistCommons\Idml\Entity\Section;
 
 class Importer
 {
-    private $db;
+    private $dbDriver;
 
-    public function __construct(\CI_DB_mysqli_driver $db)
+    public function __construct(\CI_DB_mysqli_driver $dbDriver)
     {
-        $this->db = $db;
+        $this->dbDriver = $dbDriver;
     }
 
     public function import(Holder $holder, $productId)
@@ -51,7 +51,7 @@ class Importer
     
     private function createSection($productId, $name, $order, $storyKey)
     {
-        $this->db->insert(
+        $this->dbDriver->insert(
             'product_sections',
             [
                 'product_id' => $productId,
@@ -61,12 +61,12 @@ class Importer
             ]
         );
         
-        return $this->db->insert_id();
+        return $this->dbDriver->insert_id();
     }
     
     private function createProductContent($productId, $sectionId, $content, $order, $idmlId)
     {
-        $this->db->insert(
+        $this->dbDriver->insert(
             'product_content',
             [
                 'product_id'  => $productId,

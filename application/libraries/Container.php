@@ -97,15 +97,31 @@ class Container
         );
         
         $this->set(
-            \AdventistCommons\Idml\Builder::class,
+            \AdventistCommons\Idml\HolderBuilder::class,
             function () {
-                return new \AdventistCommons\Idml\Builder(
-                    $this->get(\AdventistCommons\Idml\Translator::class),
+                return new \AdventistCommons\Idml\HolderBuilder(
+                    $this->get(\AdventistCommons\Idml\DomManipulation\StoryBasedOnTags::class),
                     realpath(__DIR__.'/../../uploads')
                 );
             }
         );
-        
+    
+        $this->set(
+            \AdventistCommons\Idml\ContentBuilder::class,
+            function () {
+                return new \AdventistCommons\Idml\ContentBuilder();
+            }
+        );
+    
+        $this->set(
+            \AdventistCommons\Idml\DomManipulation\StoryBasedOnTags::class,
+            function () {
+                return new \AdventistCommons\Idml\DomManipulation\StoryBasedOnTags(
+                    $this->get(\AdventistCommons\Idml\ContentBuilder::class)
+                );
+            }
+        );
+
         $this->built = true;
     }
 }

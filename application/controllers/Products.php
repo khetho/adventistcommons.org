@@ -242,11 +242,11 @@ class Products extends CI_Controller
         }
         if ($is_new) {
             if (isset($data['idml_file'])) {
-                /** @var \AdventistCommons\Idml\Builder $idmlBuilder */
-                $idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+                /** @var \AdventistCommons\Idml\HolderBuilder $idmlBuilder */
+                $idmlBuilder = $this->container->get(\AdventistCommons\Idml\HolderBuilder::class);
                 $idmlPath = self::getUploadDir() . $data['idml_file'] . '.idml';
                 try {
-                    /** @var \AdventistCommons\Idml\Holder $holder */
+                    /** @var \AdventistCommons\Idml\Entity\Holder $holder */
                     $holder = $idmlBuilder->buildFromProductAndPath($data, $idmlPath);
                     $holder->validate();
                 } catch (\AdventistCommons\Idml\DomManipulation\Exception $e) {
@@ -469,10 +469,10 @@ class Products extends CI_Controller
             show_404();
         }
 
-        /** @var \AdventistCommons\Export\Idml\Builder $builder */
-        $builder = $this->container->get(\AdventistCommons\Export\Idml\Builder::class);
-        /** @var \AdventistCommons\Export\Idml\Idml $idml */
-        $idml = $builder->buildFromArrayProduct($product);
+        /** @var \AdventistCommons\Idml\HolderBuilder $builder */
+        $builder = $this->container->get(\AdventistCommons\Idml\HolderBuilder::class);
+        /** @var \AdventistCommons\Idml\Entity\Holder $idml */
+        $idml = $builder->buildFromArrayProductAndProject($product);
 
         $this->load->helper('download');
         force_download(
@@ -506,7 +506,7 @@ class Products extends CI_Controller
         ];
         $this->load->library("image_lib", $config_manip);
         if (! $this->image_lib->resize()) {
-            $this->imageUploadError = 'Cannot resize uploaded cover image file. May image library GD2 is missing';
+            $this->imageUploadError = implode(' ', $this->image_lib->error_msg);
             return false;
         }
         $this->image_lib->clear();

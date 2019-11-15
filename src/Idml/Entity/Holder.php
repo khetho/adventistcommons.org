@@ -2,8 +2,9 @@
 
 namespace AdventistCommons\Idml\Entity;
 
+use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use IDML\Package;
-use AdventistCommons\Idml\DomManipulation\StoryBasedOnTags;
+use \Exception;
 
 /**
  * This class is the nutshell for an Idml package object
@@ -20,11 +21,13 @@ class Holder
     private $package;
     private $stories = [];
     private $sections = [];
+    private $domManipulator;
     
-    public function __construct($zipFileName, array $product = null)
+    public function __construct($zipFileName, array $product)
     {
         $this->zipFileName = $zipFileName;
         $this->product = $product;
+        $this->domManipulator = $storyDomManipulator;
     }
     
     /**
@@ -40,7 +43,7 @@ class Holder
             throw new \Exception('Cannot set the project : this project does not rely on the same product.');
         }
         if ($this->project) {
-            throw new \Exception('Cannot change the project. You must clone the holder first if you want antoher language.');
+            throw new Exception('Cannot change the project. You must clone the holder first if you want antoher language.');
         }
         $this->project = $project;
     }
@@ -83,7 +86,7 @@ class Holder
     {
         if (!isset($this->stories[$storyKey])) {
             $dom = $this->getPackage()->getStory($storyKey);
-            $this->stories[$storyKey] = new Story($storyKey, $dom, StoryBasedOnTags::class);
+            $this->stories[$storyKey] = new Story($storyKey, $dom, $this->domManipulator);
         }
 
         return $this->stories[$storyKey];
@@ -104,7 +107,8 @@ class Holder
     public function getSections()
     {
         if (!$this->sections) {
-            foreach ($this->getStories() as $story) {
+            foreach ($this->getStories() as $storyKey => $storyNode) {
+                $story = new Story($storyKey, $storyNode, $this->domManipulator);
                 $this->sections = array_merge($this->sections, $story->getSections());
             }
         }

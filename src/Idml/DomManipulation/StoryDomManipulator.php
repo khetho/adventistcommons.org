@@ -6,6 +6,8 @@ use AdventistCommons\Idml\Entity\Section;
 
 interface StoryDomManipulator
 {
+    public function setRoot(\DOMDocument $root): void;
+    
     public function getRoot(): \DOMDocument;
     
     public function getSections(Story $story): array;
