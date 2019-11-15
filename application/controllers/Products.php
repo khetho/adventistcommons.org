@@ -174,7 +174,9 @@ class Products extends CI_Controller
             $holder = $idmlBuilder->buildFromPath($idml_file['full_path']);
             $holder->validate();
         } catch (\AdventistCommons\Idml\DomManipulation\Exception $e) {
-            $this->output->set_output(json_encode([ "error" => $e->getMessage() ]));
+            $this->output->set_output(json_encode([
+                "error" => '<strong>Idml is not valid</strong><br />'.nl2br($e->getMessage())
+            ]));
             return false;
         }
 

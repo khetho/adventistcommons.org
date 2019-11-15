@@ -56,8 +56,15 @@ class Story
         $section->setContent($key, $newContent);
     }
     
-    public function validate()
+    public function validate(): bool
     {
-        return $this->domManipulator->validate();
+        try {
+            $this->domManipulator->validate();
+        } catch (Exception $e) {
+            $e->setStory($this);
+            throw $e;
+        }
+        
+        return true;
     }
 }
