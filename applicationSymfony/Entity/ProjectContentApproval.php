@@ -7,7 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProjectContentApproval
  *
- * @ORM\Table(name="project_content_approval", indexes={@ORM\Index(name="project_id", columns={"project_id"}), @ORM\Index(name="approved_by", columns={"approved_by"}), @ORM\Index(name="content_id", columns={"content_id"})})
+ * @ORM\Table(
+ *     name="project_content_approval",
+ *     indexes={
+ *         @ORM\Index(name="project_id", columns={"project_id"}),
+ *         @ORM\Index(name="approved_by", columns={"approved_by"}),
+ *         @ORM\Index(name="content_id", columns={"content_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class ProjectContentApproval
@@ -39,9 +46,9 @@ class ProjectContentApproval
     private $approvedBy;
 
     /**
-     * @var ProductContent
+     * @var Content
      *
-     * @ORM\ManyToOne(targetEntity="ProductContent")
+     * @ORM\ManyToOne(targetEntity="Content")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="content_id", referencedColumnName="id")
      * })
@@ -87,12 +94,12 @@ class ProjectContentApproval
         return $this;
     }
 
-    public function getContent(): ?ProductContent
+    public function getContent(): ?Content
     {
         return $this->content;
     }
 
-    public function setContent(?ProductContent $content): self
+    public function setContent(?Content $content): self
     {
         $this->content = $content;
 

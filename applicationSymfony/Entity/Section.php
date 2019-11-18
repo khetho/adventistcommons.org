@@ -5,12 +5,17 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductSections
+ * Section
  *
- * @ORM\Table(name="product_sections", indexes={@ORM\Index(name="product_id", columns={"product_id"})})
+ * @ORM\Table(
+ *     name="product_sections",
+ *     indexes={
+ *         @ORM\Index(name="product_id", columns={"product_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
-class ProductSections
+class Section
 {
     /**
      * @var int

@@ -7,7 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProjectContentStatus
  *
- * @ORM\Table(name="project_content_status", indexes={@ORM\Index(name="content_id", columns={"content_id"}), @ORM\Index(name="project_id", columns={"project_id"})})
+ * @ORM\Table(
+ *     name="project_content_status",
+ *     indexes={
+ *         @ORM\Index(name="content_id", columns={"content_id"}),
+ *         @ORM\Index(name="project_id", columns={"project_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class ProjectContentStatus
@@ -29,9 +35,9 @@ class ProjectContentStatus
     private $isApproved;
 
     /**
-     * @var ProductContent
+     * @var Content
      *
-     * @ORM\ManyToOne(targetEntity="ProductContent")
+     * @ORM\ManyToOne(targetEntity="Content")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="content_id", referencedColumnName="id")
      * })
@@ -65,12 +71,12 @@ class ProjectContentStatus
         return $this;
     }
 
-    public function getContent(): ?ProductContent
+    public function getContent(): ?Content
     {
         return $this->content;
     }
 
-    public function setContent(?ProductContent $content): self
+    public function setContent(?Content $content): self
     {
         $this->content = $content;
 

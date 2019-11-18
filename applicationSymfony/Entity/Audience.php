@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Audience
  *
- * @ORM\Table(name="audiences", uniqueConstraints={@ORM\UniqueConstraint(name="uc_name", columns={"name"})})
+ * @ORM\Table(
+ *     name="product_audiences",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="uc_name", columns={"name"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class Audience
@@ -15,7 +20,7 @@ class Audience
     /**
      * @var bool
      *
-     * @ORM\Column(name="id", type="boolean", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

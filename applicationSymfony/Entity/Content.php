@@ -5,12 +5,18 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductContent
+ * Content
  *
- * @ORM\Table(name="product_content", indexes={@ORM\Index(name="product_id", columns={"product_id"}), @ORM\Index(name="section_id", columns={"section_id"})})
+ * @ORM\Table(
+ *     name="product_content",
+ *     indexes={
+ *         @ORM\Index(name="product_id", columns={"product_id"}),
+ *         @ORM\Index(name="section_id", columns={"section_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
-class ProductContent
+class Content
 {
     /**
      * @var int
@@ -67,9 +73,9 @@ class ProductContent
     private $product;
 
     /**
-     * @var ProductSections
+     * @var Section
      *
-     * @ORM\ManyToOne(targetEntity="ProductSections")
+     * @ORM\ManyToOne(targetEntity="Section")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      * })
@@ -153,12 +159,12 @@ class ProductContent
         return $this;
     }
 
-    public function getSection(): ?ProductSections
+    public function getSection(): ?Section
     {
         return $this->section;
     }
 
-    public function setSection(?ProductSections $section): self
+    public function setSection(?Section $section): self
     {
         $this->section = $section;
 

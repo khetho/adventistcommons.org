@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Product
  *
- * @ORM\Table(name="products", indexes={@ORM\Index(name="series_id", columns={"series_id"}), @ORM\Index(name="binding", columns={"binding"})})
+ * @ORM\Table(
+ *     name="products",
+ *     indexes={
+ *         @ORM\Index(name="series_id", columns={"series_id"}),
+ *         @ORM\Index(name="binding_id", columns={"binding_id"})
+ *     }
+ * )
  * @ORM\Entity
  * @ApiResource
  */
@@ -150,10 +157,21 @@ class Product
      *
      * @ORM\ManyToOne(targetEntity="Binding")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="binding", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="binding_id", referencedColumnName="id")
      * })
      */
     private $binding;
+
+    /**
+     * Many Product have Many Audience.
+     * @ORM\ManyToMany(targetEntity="Audience")
+     * @ORM\JoinTable(
+     *      name="product_audiences",
+     *      joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="audience_id", referencedColumnName="id")}
+     * )
+     */
+    private $audiences;
 
     public function getId(): ?int
     {
@@ -372,6 +390,32 @@ class Product
     public function setBinding(?Binding $binding): self
     {
         $this->binding = $binding;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Audience[]
+     */
+    public function getAudiences(): Collection
+    {
+        return $this->audiences;
+    }
+
+    public function addAudience(Audience $Audience): self
+    {
+        if (!$this->audiences->contains($Audience)) {
+            $this->audiences[] = $Audience;
+        }
+
+        return $this;
+    }
+
+    public function removeAudience(Audience $Audience): self
+    {
+        if ($this->audiences->contains($Audience)) {
+            $this->audiences->removeElement($Audience);
+        }
 
         return $this;
     }

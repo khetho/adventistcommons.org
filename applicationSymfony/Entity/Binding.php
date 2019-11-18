@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Binding
  *
- * @ORM\Table(name="product_bindings", uniqueConstraints={@ORM\UniqueConstraint(name="uc_name", columns={"name"})})
+ * @ORM\Table(
+ *     name="product_bindings",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="uc_name", columns={"name"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class Binding
@@ -15,7 +20,7 @@ class Binding
     /**
      * @var bool
      *
-     * @ORM\Column(name="id", type="boolean", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

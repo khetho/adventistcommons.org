@@ -7,7 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductAttachment
  *
- * @ORM\Table(name="product_attachments", indexes={@ORM\Index(name="language_id", columns={"language_id"}), @ORM\Index(name="product_id", columns={"product_id"})})
+ * @ORM\Table(
+ *     name="product_attachments",
+ *     indexes={
+ *         @ORM\Index(name="language_id", columns={"language_id"}),
+ *         @ORM\Index(name="product_id", columns={"product_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class ProductAttachment

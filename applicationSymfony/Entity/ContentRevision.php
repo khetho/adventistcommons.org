@@ -5,12 +5,19 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductContentRevisions
+ * ContentRevisions
  *
- * @ORM\Table(name="product_content_revisions", indexes={@ORM\Index(name="project_id", columns={"project_id"}), @ORM\Index(name="content_id", columns={"content_id"}), @ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(
+ *     name="product_content_revisions",
+ *     indexes={
+ *         @ORM\Index(name="project_id", columns={"project_id"}),
+ *         @ORM\Index(name="content_id", columns={"content_id"}),
+ *         @ORM\Index(name="user_id", columns={"user_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
-class ProductContentRevisions
+class ContentRevision
 {
     /**
      * @var int
@@ -36,9 +43,9 @@ class ProductContentRevisions
     private $createdAt = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var ProductContent
+     * @var Content
      *
-     * @ORM\ManyToOne(targetEntity="ProductContent")
+     * @ORM\ManyToOne(targetEntity="Content")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="content_id", referencedColumnName="id")
      * })
@@ -94,12 +101,12 @@ class ProductContentRevisions
         return $this;
     }
 
-    public function getContent2(): ?ProductContent
+    public function getContent2(): ?Content
     {
         return $this->content2;
     }
 
-    public function setContent2(?ProductContent $content2): self
+    public function setContent2(?Content $content2): self
     {
         $this->content2 = $content2;
 
