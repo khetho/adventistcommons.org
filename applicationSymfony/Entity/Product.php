@@ -136,7 +136,7 @@ class Product
     private $publisherWebsite;
 
     /**
-     * @var \Serie
+     * @var Serie
      *
      * @ORM\ManyToOne(targetEntity="Serie")
      * @ORM\JoinColumns({
@@ -146,12 +146,233 @@ class Product
     private $series;
 
     /**
-     * @var \ProductBindings
+     * @var Binding
      *
-     * @ORM\ManyToOne(targetEntity="ProductBindings")
+     * @ORM\ManyToOne(targetEntity="Binding")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="binding", referencedColumnName="id")
      * })
      */
     private $binding;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCoverImage(): ?string
+    {
+        return $this->coverImage;
+    }
+
+    public function setCoverImage(?string $coverImage): self
+    {
+        $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?string $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPageCount(): ?int
+    {
+        return $this->pageCount;
+    }
+
+    public function setPageCount(?int $pageCount): self
+    {
+        $this->pageCount = $pageCount;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getIdmlFile(): ?string
+    {
+        return $this->idmlFile;
+    }
+
+    public function setIdmlFile(?string $idmlFile): self
+    {
+        $this->idmlFile = $idmlFile;
+
+        return $this;
+    }
+
+    public function getPublisher(): ?string
+    {
+        return $this->publisher;
+    }
+
+    public function setPublisher(?string $publisher): self
+    {
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    public function getFormatOpen(): ?string
+    {
+        return $this->formatOpen;
+    }
+
+    public function setFormatOpen(?string $formatOpen): self
+    {
+        $this->formatOpen = $formatOpen;
+
+        return $this;
+    }
+
+    public function getFormatClosed(): ?string
+    {
+        return $this->formatClosed;
+    }
+
+    public function setFormatClosed(?string $formatClosed): self
+    {
+        $this->formatClosed = $formatClosed;
+
+        return $this;
+    }
+
+    public function getCoverColors(): ?string
+    {
+        return $this->coverColors;
+    }
+
+    public function setCoverColors(?string $coverColors): self
+    {
+        $this->coverColors = $coverColors;
+
+        return $this;
+    }
+
+    public function getCoverPaper(): ?string
+    {
+        return $this->coverPaper;
+    }
+
+    public function setCoverPaper(?string $coverPaper): self
+    {
+        $this->coverPaper = $coverPaper;
+
+        return $this;
+    }
+
+    public function getInteriorColors(): ?string
+    {
+        return $this->interiorColors;
+    }
+
+    public function setInteriorColors(?string $interiorColors): self
+    {
+        $this->interiorColors = $interiorColors;
+
+        return $this;
+    }
+
+    public function getInteriorPaper(): ?string
+    {
+        return $this->interiorPaper;
+    }
+
+    public function setInteriorPaper(?string $interiorPaper): self
+    {
+        $this->interiorPaper = $interiorPaper;
+
+        return $this;
+    }
+
+    public function getFinishing(): ?string
+    {
+        return $this->finishing;
+    }
+
+    public function setFinishing(?string $finishing): self
+    {
+        $this->finishing = $finishing;
+
+        return $this;
+    }
+
+    public function getPublisherWebsite(): ?string
+    {
+        return $this->publisherWebsite;
+    }
+
+    public function setPublisherWebsite(?string $publisherWebsite): self
+    {
+        $this->publisherWebsite = $publisherWebsite;
+
+        return $this;
+    }
+
+    public function getSeries(): ?Serie
+    {
+        return $this->series;
+    }
+
+    public function setSeries(?Serie $series): self
+    {
+        $this->series = $series;
+
+        return $this;
+    }
+
+    public function getBinding(): ?Binding
+    {
+        return $this->binding;
+    }
+
+    public function setBinding(?Binding $binding): self
+    {
+        $this->binding = $binding;
+
+        return $this;
+    }
 }

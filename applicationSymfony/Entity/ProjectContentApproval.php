@@ -29,7 +29,7 @@ class ProjectContentApproval
     private $approvedOn = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class ProjectContentApproval
     private $approvedBy;
 
     /**
-     * @var \ProductContent
+     * @var ProductContent
      *
      * @ORM\ManyToOne(targetEntity="ProductContent")
      * @ORM\JoinColumns({
@@ -49,7 +49,7 @@ class ProjectContentApproval
     private $content;
 
     /**
-     * @var \Project
+     * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
@@ -57,4 +57,57 @@ class ProjectContentApproval
      * })
      */
     private $project;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getApprovedOn(): ?\DateTimeInterface
+    {
+        return $this->approvedOn;
+    }
+
+    public function setApprovedOn(\DateTimeInterface $approvedOn): self
+    {
+        $this->approvedOn = $approvedOn;
+
+        return $this;
+    }
+
+    public function getApprovedBy(): ?User
+    {
+        return $this->approvedBy;
+    }
+
+    public function setApprovedBy(?User $approvedBy): self
+    {
+        $this->approvedBy = $approvedBy;
+
+        return $this;
+    }
+
+    public function getContent(): ?ProductContent
+    {
+        return $this->content;
+    }
+
+    public function setContent(?ProductContent $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
 }

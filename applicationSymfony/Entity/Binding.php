@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductBindings
+ * Binding
  *
  * @ORM\Table(name="product_bindings", uniqueConstraints={@ORM\UniqueConstraint(name="uc_name", columns={"name"})})
  * @ORM\Entity
  */
-class ProductBindings
+class Binding
 {
     /**
      * @var bool
@@ -27,4 +27,21 @@ class ProductBindings
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
+
+    public function getId(): ?bool
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 }

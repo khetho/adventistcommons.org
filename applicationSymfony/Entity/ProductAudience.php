@@ -29,7 +29,7 @@ class ProductAudience
     private $createdAt = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class ProductAudience
     private $product;
 
     /**
-     * @var \Audience
+     * @var Audience
      *
      * @ORM\ManyToOne(targetEntity="Audience")
      * @ORM\JoinColumns({
@@ -47,4 +47,45 @@ class ProductAudience
      * })
      */
     private $audience;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getAudience(): ?Audience
+    {
+        return $this->audience;
+    }
+
+    public function setAudience(?Audience $audience): self
+    {
+        $this->audience = $audience;
+
+        return $this;
+    }
 }

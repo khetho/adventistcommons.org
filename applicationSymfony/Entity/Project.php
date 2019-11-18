@@ -29,7 +29,7 @@ class Project
     private $status = '0';
 
     /**
-     * @var \Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class Project
     private $product;
 
     /**
-     * @var \Language
+     * @var Language
      *
      * @ORM\ManyToOne(targetEntity="Language")
      * @ORM\JoinColumns({
@@ -47,4 +47,45 @@ class Project
      * })
      */
     private $language;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?Language
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?Language $language): self
+    {
+        $this->language = $language;
+
+        return $this;
+    }
 }

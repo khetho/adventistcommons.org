@@ -57,7 +57,7 @@ class ProductContentLog
     private $resolvedOn;
 
     /**
-     * @var \ProductContent
+     * @var ProductContent
      *
      * @ORM\ManyToOne(targetEntity="ProductContent")
      * @ORM\JoinColumns({
@@ -67,7 +67,7 @@ class ProductContentLog
     private $content;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -77,7 +77,7 @@ class ProductContentLog
     private $user;
 
     /**
-     * @var \Project
+     * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
@@ -87,7 +87,7 @@ class ProductContentLog
     private $project;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -95,4 +95,117 @@ class ProductContentLog
      * })
      */
     private $resolvedBy;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getIsResolved(): ?bool
+    {
+        return $this->isResolved;
+    }
+
+    public function setIsResolved(bool $isResolved): self
+    {
+        $this->isResolved = $isResolved;
+
+        return $this;
+    }
+
+    public function getResolvedOn(): ?\DateTimeInterface
+    {
+        return $this->resolvedOn;
+    }
+
+    public function setResolvedOn(?\DateTimeInterface $resolvedOn): self
+    {
+        $this->resolvedOn = $resolvedOn;
+
+        return $this;
+    }
+
+    public function getContent(): ?ProductContent
+    {
+        return $this->content;
+    }
+
+    public function setContent(?ProductContent $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    public function getResolvedBy(): ?User
+    {
+        return $this->resolvedBy;
+    }
+
+    public function setResolvedBy(?User $resolvedBy): self
+    {
+        $this->resolvedBy = $resolvedBy;
+
+        return $this;
+    }
 }

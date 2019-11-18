@@ -41,4 +41,45 @@ class LoginAttempt
      * @ORM\Column(name="time", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $time;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
+    }
+
+    public function setIpAddress(string $ipAddress): self
+    {
+        $this->ipAddress = $ipAddress;
+
+        return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getTime(): ?int
+    {
+        return $this->time;
+    }
+
+    public function setTime(?int $time): self
+    {
+        $this->time = $time;
+
+        return $this;
+    }
 }

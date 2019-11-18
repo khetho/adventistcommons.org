@@ -57,7 +57,7 @@ class ProductContent
     private $order;
 
     /**
-     * @var \Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -67,7 +67,7 @@ class ProductContent
     private $product;
 
     /**
-     * @var \ProductSections
+     * @var ProductSections
      *
      * @ORM\ManyToOne(targetEntity="ProductSections")
      * @ORM\JoinColumns({
@@ -75,4 +75,93 @@ class ProductContent
      * })
      */
     private $section;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getIsHidden(): ?bool
+    {
+        return $this->isHidden;
+    }
+
+    public function setIsHidden(bool $isHidden): self
+    {
+        $this->isHidden = $isHidden;
+
+        return $this;
+    }
+
+    public function getXliffTag(): ?string
+    {
+        return $this->xliffTag;
+    }
+
+    public function setXliffTag(?string $xliffTag): self
+    {
+        $this->xliffTag = $xliffTag;
+
+        return $this;
+    }
+
+    public function getContentKey(): ?string
+    {
+        return $this->contentKey;
+    }
+
+    public function setContentKey(?string $contentKey): self
+    {
+        $this->contentKey = $contentKey;
+
+        return $this;
+    }
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?int $order): self
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getSection(): ?ProductSections
+    {
+        return $this->section;
+    }
+
+    public function setSection(?ProductSections $section): self
+    {
+        $this->section = $section;
+
+        return $this;
+    }
 }

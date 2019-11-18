@@ -42,7 +42,7 @@ class ProjectMember
     private $inviteEmail;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -52,7 +52,7 @@ class ProjectMember
     private $user;
 
     /**
-     * @var \Project
+     * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
@@ -60,4 +60,57 @@ class ProjectMember
      * })
      */
     private $project;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getInviteEmail(): ?string
+    {
+        return $this->inviteEmail;
+    }
+
+    public function setInviteEmail(?string $inviteEmail): self
+    {
+        $this->inviteEmail = $inviteEmail;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
 }

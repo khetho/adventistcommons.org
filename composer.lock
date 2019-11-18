@@ -4,11 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< 7bca952746beafc1620b4d6428bcb1b4ddfbf51d
 <<<<<<< f64f5a1c09282bdab27938368ac5bcd9e520710f
     "content-hash": "345a4b201be0404f6819e57a5cbcad67",
 =======
     "content-hash": "4856ddc2d70e2f1e6f4f6e2eaaaf5af4",
 >>>>>>> add api platform and separate codeigniter from it
+=======
+    "content-hash": "6eb6d6395cbe53047cb133eb019f62ac",
+>>>>>>> better codeigniter / symfony coliving, add getter and setters on entities
     "packages": [
         {
             "name": "api-platform/api-pack",

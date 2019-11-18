@@ -2,12 +2,40 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
  *
- * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="uc_forgotten_password_selector", columns={"forgotten_password_selector"}), @ORM\UniqueConstraint(name="uc_email", columns={"email"}), @ORM\UniqueConstraint(name="uc_remember_selector", columns={"remember_selector"}), @ORM\UniqueConstraint(name="uc_activation_selector", columns={"activation_selector"})}, indexes={@ORM\Index(name="mother_language_id", columns={"mother_language_id"})})
+ * @ORM\Table(
+ *     name="users",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(
+ *             name="uc_forgotten_password_selector",
+ *             columns={"forgotten_password_selector"}
+ *         ),
+ *         @ORM\UniqueConstraint(
+ *             name="uc_email",
+ *             columns={"email"}
+ *         ),
+ *         @ORM\UniqueConstraint(
+ *             name="uc_remember_selector",
+ *             columns={"remember_selector"}
+ *         ),
+ *         @ORM\UniqueConstraint(
+ *             name="uc_activation_selector",
+ *             columns={"activation_selector"}
+ *         )
+ *     },
+ *     indexes={
+ *         @ORM\Index(
+ *              name="mother_language_id",
+ *              columns={"mother_language_id"}
+ *         )
+ *     }
+ * )
  * @ORM\Entity
  */
 class User
@@ -187,7 +215,7 @@ class User
     private $proTranslator = '0';
 
     /**
-     * @var \Language
+     * @var Language
      *
      * @ORM\ManyToOne(targetEntity="Language")
      * @ORM\JoinColumns({
@@ -223,5 +251,364 @@ class User
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
         $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
+    }
+
+    public function setIpAddress(string $ipAddress): self
+    {
+        $this->ipAddress = $ipAddress;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getActivationSelector(): ?string
+    {
+        return $this->activationSelector;
+    }
+
+    public function setActivationSelector(?string $activationSelector): self
+    {
+        $this->activationSelector = $activationSelector;
+
+        return $this;
+    }
+
+    public function getActivationCode(): ?string
+    {
+        return $this->activationCode;
+    }
+
+    public function setActivationCode(?string $activationCode): self
+    {
+        $this->activationCode = $activationCode;
+
+        return $this;
+    }
+
+    public function getForgottenPasswordSelector(): ?string
+    {
+        return $this->forgottenPasswordSelector;
+    }
+
+    public function setForgottenPasswordSelector(?string $forgottenPasswordSelector): self
+    {
+        $this->forgottenPasswordSelector = $forgottenPasswordSelector;
+
+        return $this;
+    }
+
+    public function getForgottenPasswordCode(): ?string
+    {
+        return $this->forgottenPasswordCode;
+    }
+
+    public function setForgottenPasswordCode(?string $forgottenPasswordCode): self
+    {
+        $this->forgottenPasswordCode = $forgottenPasswordCode;
+
+        return $this;
+    }
+
+    public function getForgottenPasswordTime(): ?int
+    {
+        return $this->forgottenPasswordTime;
+    }
+
+    public function setForgottenPasswordTime(?int $forgottenPasswordTime): self
+    {
+        $this->forgottenPasswordTime = $forgottenPasswordTime;
+
+        return $this;
+    }
+
+    public function getRememberSelector(): ?string
+    {
+        return $this->rememberSelector;
+    }
+
+    public function setRememberSelector(?string $rememberSelector): self
+    {
+        $this->rememberSelector = $rememberSelector;
+
+        return $this;
+    }
+
+    public function getRememberCode(): ?string
+    {
+        return $this->rememberCode;
+    }
+
+    public function setRememberCode(?string $rememberCode): self
+    {
+        $this->rememberCode = $rememberCode;
+
+        return $this;
+    }
+
+    public function getCreatedOn(): ?int
+    {
+        return $this->createdOn;
+    }
+
+    public function setCreatedOn(int $createdOn): self
+    {
+        $this->createdOn = $createdOn;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?int
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?int $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getCompany(): ?string
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?string $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function getProductNotify(): ?bool
+    {
+        return $this->productNotify;
+    }
+
+    public function setProductNotify(bool $productNotify): self
+    {
+        $this->productNotify = $productNotify;
+
+        return $this;
+    }
+
+    public function getProTranslator(): ?bool
+    {
+        return $this->proTranslator;
+    }
+
+    public function setProTranslator(bool $proTranslator): self
+    {
+        $this->proTranslator = $proTranslator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        if ($this->skills->contains($skill)) {
+            $this->skills->removeElement($skill);
+        }
+
+        return $this;
+    }
+
+    public function getMotherLanguage(): ?Language
+    {
+        return $this->motherLanguage;
+    }
+
+    public function setMotherLanguage(?Language $motherLanguage): self
+    {
+        $this->motherLanguage = $motherLanguage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Language[]
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): self
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages[] = $language;
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): self
+    {
+        if ($this->languages->contains($language)) {
+            $this->languages->removeElement($language);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
+
+        return $this;
     }
 }

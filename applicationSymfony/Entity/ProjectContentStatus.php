@@ -29,7 +29,7 @@ class ProjectContentStatus
     private $isApproved;
 
     /**
-     * @var \ProductContent
+     * @var ProductContent
      *
      * @ORM\ManyToOne(targetEntity="ProductContent")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class ProjectContentStatus
     private $content;
 
     /**
-     * @var \Project
+     * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
@@ -47,4 +47,45 @@ class ProjectContentStatus
      * })
      */
     private $project;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getIsApproved(): ?bool
+    {
+        return $this->isApproved;
+    }
+
+    public function setIsApproved(bool $isApproved): self
+    {
+        $this->isApproved = $isApproved;
+
+        return $this;
+    }
+
+    public function getContent(): ?ProductContent
+    {
+        return $this->content;
+    }
+
+    public function setContent(?ProductContent $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
 }

@@ -71,7 +71,7 @@ class ProductSections
     private $storyKey;
 
     /**
-     * @var \Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -79,4 +79,105 @@ class ProductSections
      * })
      */
     private $product;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(int $order): self
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getStyle(): ?string
+    {
+        return $this->style;
+    }
+
+    public function setStyle(?string $style): self
+    {
+        $this->style = $style;
+
+        return $this;
+    }
+
+    public function getNodeId(): ?string
+    {
+        return $this->nodeId;
+    }
+
+    public function setNodeId(?string $nodeId): self
+    {
+        $this->nodeId = $nodeId;
+
+        return $this;
+    }
+
+    public function getXliffRegion(): ?string
+    {
+        return $this->xliffRegion;
+    }
+
+    public function setXliffRegion(?string $xliffRegion): self
+    {
+        $this->xliffRegion = $xliffRegion;
+
+        return $this;
+    }
+
+    public function getStoryKey(): ?string
+    {
+        return $this->storyKey;
+    }
+
+    public function setStoryKey(?string $storyKey): self
+    {
+        $this->storyKey = $storyKey;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
 }

@@ -31,6 +31,7 @@ services:
     ports:
       - 9000:9000
     volumes:
+      - ./public/bundles:/var/www/adventistcommons/public/bundles
       - .:/var/www/adventistcommons:ro
       - ./var:/var/www/adventistcommons/var
       - ./uploads:/var/www/adventistcommons/uploads
@@ -53,7 +54,7 @@ services:
   ac-composer:
     restart: 'no'
     image: composer
-    command: install --ignore-platform-reqs
+    command: install
     volumes:
       - .:/app
       - ./var/cache/composer:/tmp

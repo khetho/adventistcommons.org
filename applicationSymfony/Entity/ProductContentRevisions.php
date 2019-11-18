@@ -36,7 +36,7 @@ class ProductContentRevisions
     private $createdAt = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \ProductContent
+     * @var ProductContent
      *
      * @ORM\ManyToOne(targetEntity="ProductContent")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class ProductContentRevisions
     private $content2;
 
     /**
-     * @var \User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -56,7 +56,7 @@ class ProductContentRevisions
     private $user;
 
     /**
-     * @var \Project
+     * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumns({
@@ -64,4 +64,69 @@ class ProductContentRevisions
      * })
      */
     private $project;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getContent2(): ?ProductContent
+    {
+        return $this->content2;
+    }
+
+    public function setContent2(?ProductContent $content2): self
+    {
+        $this->content2 = $content2;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
 }

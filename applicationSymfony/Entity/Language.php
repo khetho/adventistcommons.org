@@ -48,4 +48,57 @@ class Language
      * @ORM\Column(name="rtl", type="boolean", nullable=false)
      */
     private $rtl;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getGoogleCode(): ?string
+    {
+        return $this->googleCode;
+    }
+
+    public function setGoogleCode(?string $googleCode): self
+    {
+        $this->googleCode = $googleCode;
+
+        return $this;
+    }
+
+    public function getRtl(): ?bool
+    {
+        return $this->rtl;
+    }
+
+    public function setRtl(bool $rtl): self
+    {
+        $this->rtl = $rtl;
+
+        return $this;
+    }
 }
