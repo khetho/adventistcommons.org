@@ -66,7 +66,7 @@ class User extends CI_Controller
         $this->breadcrumbs[] = [ "label" => "List" ];
         $this->twig->addGlobal("title", "Users");
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/auth/list", $data);
+        $this->twig->display("twigs/auth/list.html", $data);
     }
 
     public function edit($user_id = null)
@@ -97,7 +97,7 @@ class User extends CI_Controller
 
         $this->twig->addGlobal("title", "Edit User");
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/account", $data);
+        $this->twig->display("twigs/account.html", $data);
     }
 
     public function search($project_id, $query)
@@ -206,7 +206,7 @@ class User extends CI_Controller
                 'type' => 'password',
             ];
             $this->twig->addGlobal("title", "Login");
-            $this->twig->display("twigs/auth/login", $this->data);
+            $this->twig->display("twigs/auth/login.html", $this->data);
         }
     }
 
@@ -224,7 +224,7 @@ class User extends CI_Controller
             $this->twig->addGlobal("title", "Forgot password");
             $this->twig->addGlobal("type", $this->config->item("identity", "ion_auth"));
             $this->twig->addGlobal("message", validation_errors());
-            $this->twig->display("twigs/auth/forgot_password", $this->data);
+            $this->twig->display("twigs/auth/forgot_password.html", $this->data);
         } else {
             $user = $this->ion_auth->where("email", $this->input->post("identity"))->users()->row();
 
@@ -244,7 +244,7 @@ class User extends CI_Controller
 
                 $this->twig->addGlobal("heading", "Password reset instructions");
                 $this->twig->addGlobal("base_url", base_url());
-                $content = $this->twig->render("twigs/email/forgot_password", $template_data);
+                $content = $this->twig->render("twigs/email/forgot_password.html", $template_data);
                 echo $content;
                 die;
                 $this->email->from("info@adventistcommons.org", "Adventist Commons");
@@ -445,7 +445,7 @@ class User extends CI_Controller
         ];
 
         $this->twig->addGlobal("title", "Almost done");
-        $this->twig->display("twigs/auth/register_profile", $data);
+        $this->twig->display("twigs/auth/register_profile.html", $data);
     }
 
     public function register_profile_save()
@@ -490,7 +490,7 @@ class User extends CI_Controller
         ];
         $this->twig->addGlobal("title", "Account Settings");
         $this->twig->addGlobal("breadcrumbs", $breadcrumbs);
-        $this->twig->display("twigs/account", $data);
+        $this->twig->display("twigs/account.html", $data);
     }
 
     public function save_account()

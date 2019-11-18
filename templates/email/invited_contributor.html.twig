@@ -1,8 +1,7 @@
-{% extends "twigs/email/template.twig" %}
+{% extends "twigs/email/template.html.twig" %}
 
 {% block content %}
-	<p style="font-size: 13px; margin: 10px 0;"><span style="color:#444444">Hello {{ user }}, </span></p>
-	<p style="font-size: 13px; margin: 10px 0;">You've been added as a {{ type }} to a project called <b><a href="{{ link }}">{{ project_name }}</a></b> on Adventist Commons.</p>
+<p style="font-size: 13px; margin: 10px 0;">You've been invited to join <a href="adventistcommons.org">AdventistCommons.org</a> as a {{ type }} to a project called <b><a href="{{ link }}">{{ project_name }}</a></b>.</p>
 
 	<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;margin:auto;">
 		<tr>

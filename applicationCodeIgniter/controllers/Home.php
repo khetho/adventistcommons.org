@@ -32,7 +32,7 @@ class Home extends CI_Controller
         $data = [
             "message" => $this->session->flashdata('message'),
         ];
-        $this->twig->display("twigs/home", $data);
+        $this->twig->display("twigs/home.html", $data);
     }
     
     public function feedback()
@@ -43,7 +43,7 @@ class Home extends CI_Controller
         $data = [
             "http_referer" => $_SERVER["HTTP_REFERER"],
         ];
-        $this->twig->display("twigs/feedback", $data);
+        $this->twig->display("twigs/feedback.html", $data);
     }
     
     public function send_feedback()
