@@ -2,23 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Audience
  *
  * @ORM\Table(
- *     name="product_audiences",
+ *     name="audiences",
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="uc_name", columns={"name"})
  *     }
  * )
  * @ORM\Entity
+ * @ApiResource()
  */
 class Audience
 {
     /**
-     * @var bool
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -33,7 +35,7 @@ class Audience
      */
     private $name;
 
-    public function getId(): ?bool
+    public function getId(): ?int
     {
         return $this->id;
     }

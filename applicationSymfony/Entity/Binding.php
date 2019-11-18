@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,11 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  * @ORM\Entity
+ * @ApiResource()
  */
 class Binding
 {
     /**
-     * @var bool
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -33,7 +35,7 @@ class Binding
      */
     private $name;
 
-    public function getId(): ?bool
+    public function getId(): ?int
     {
         return $this->id;
     }
