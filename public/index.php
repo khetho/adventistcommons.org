@@ -111,7 +111,7 @@ switch (ENVIRONMENT) {
  *
  * NO TRAILING SLASH!
  */
-    $application_folder = realpath(dirname(__FILE__).'/../application');
+    $application_folder = realpath(dirname(__FILE__).'/../applicationCodeIgniter');
 
 /*
  *---------------------------------------------------------------

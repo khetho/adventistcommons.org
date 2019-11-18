@@ -7,8 +7,9 @@ composer.phar
 /var/sessions
 /var/cache
 /uploads
-/application/config/config.php
-/application/config/database.php
-/application/config/*/config.php
+/applicationCodeIgniter/config/config.php
+/applicationCodeIgniter/config/database.php
+/applicationCodeIgniter/config/*/config.php
 /phinx.yml
 google_translate_authentication.json
+/public/bundles
