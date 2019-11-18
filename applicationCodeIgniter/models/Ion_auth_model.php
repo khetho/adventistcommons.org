@@ -1225,7 +1225,7 @@ class Ion_auth_model extends CI_Model
 
         $row = $this->response->row();
         if ($row) {
-            $row->skills = unserialize($row->skills);
+//            $row->skills = unserialize($row->skills);
             $row->languages = $this->getLanguageIdsForUser($row);
             $row->image = md5(strtolower(trim($row->email)));
             $row->is_admin = $this->ion_auth->is_admin();

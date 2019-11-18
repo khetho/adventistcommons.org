@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< ce7730e941424e595f80f1e3de685a3b8342a0dc
 <<<<<<< 7bca952746beafc1620b4d6428bcb1b4ddfbf51d
 <<<<<<< f64f5a1c09282bdab27938368ac5bcd9e520710f
     "content-hash": "345a4b201be0404f6819e57a5cbcad67",
@@ -13,6 +14,9 @@
 =======
     "content-hash": "6eb6d6395cbe53047cb133eb019f62ac",
 >>>>>>> better codeigniter / symfony coliving, add getter and setters on entities
+=======
+    "content-hash": "2029ce90407225aff974650564d0f191",
+>>>>>>> Security : able to connect on symfony with same account from codeigniter
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -5178,6 +5182,7 @@
             "time": "2019-11-04T20:23:03+00:00"
         },
         {
+<<<<<<< ce7730e941424e595f80f1e3de685a3b8342a0dc
 <<<<<<< f64f5a1c09282bdab27938368ac5bcd9e520710f
             "name": "jean85/pretty-package-versions",
             "version": "1.2",
@@ -5319,42 +5324,52 @@
         },
         {
             "name": "symfony/security-core",
+=======
+            "name": "symfony/security",
+>>>>>>> Security : able to connect on symfony with same account from codeigniter
             "version": "v4.3.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/security-core.git",
-                "reference": "8c46ea77fe0738f2495eacc08fa34e1e19ff0b0d"
+                "url": "https://github.com/symfony/security.git",
+                "reference": "b85769a1ca709f6f6a800caa46eabfdda711951b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/8c46ea77fe0738f2495eacc08fa34e1e19ff0b0d",
-                "reference": "8c46ea77fe0738f2495eacc08fa34e1e19ff0b0d",
+                "url": "https://api.github.com/repos/symfony/security/zipball/b85769a1ca709f6f6a800caa46eabfdda711951b",
+                "reference": "b85769a1ca709f6f6a800caa46eabfdda711951b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1.3",
                 "symfony/event-dispatcher-contracts": "^1.1",
+                "symfony/http-foundation": "~3.4|~4.0",
+                "symfony/http-kernel": "^4.3",
+                "symfony/property-access": "~3.4|~4.0",
                 "symfony/service-contracts": "^1.1"
             },
-            "conflict": {
-                "symfony/event-dispatcher": "<4.3",
-                "symfony/security-guard": "<4.3"
+            "replace": {
+                "symfony/security-core": "self.version",
+                "symfony/security-csrf": "self.version",
+                "symfony/security-guard": "self.version",
+                "symfony/security-http": "self.version"
             },
             "require-dev": {
                 "psr/container": "^1.0",
                 "psr/log": "~1.0",
-                "symfony/event-dispatcher": "^4.3",
                 "symfony/expression-language": "~3.4|~4.0",
-                "symfony/http-foundation": "~3.4|~4.0",
+                "symfony/finder": "~3.4|~4.0",
                 "symfony/ldap": "~3.4|~4.0",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-intl-icu": "~1.0",
+                "symfony/routing": "~3.4|~4.0",
                 "symfony/validator": "^3.4.31|^4.3.4"
             },
             "suggest": {
                 "psr/container-implementation": "To instantiate the Security class",
-                "symfony/event-dispatcher": "",
                 "symfony/expression-language": "For using the expression voter",
-                "symfony/http-foundation": "",
-                "symfony/ldap": "For using LDAP integration",
+                "symfony/form": "",
+                "symfony/ldap": "For using the LDAP user and authentication providers",
+                "symfony/routing": "For using the HttpUtils class to create sub-requests, redirect the user, and match URLs",
                 "symfony/validator": "For using the user password constraint"
             },
             "type": "library",
@@ -5365,6 +5380,7 @@
             },
             "autoload": {
                 "psr-4": {
+<<<<<<< ce7730e941424e595f80f1e3de685a3b8342a0dc
                     "Symfony\\Component\\Security\\Core\\": ""
                 },
                 "exclude-from-classmap": [
@@ -5481,9 +5497,15 @@
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Security\\Csrf\\": ""
+=======
+                    "Symfony\\Component\\Security\\": ""
+>>>>>>> Security : able to connect on symfony with same account from codeigniter
                 },
                 "exclude-from-classmap": [
-                    "/Tests/"
+                    "/Core/Tests/",
+                    "/Csrf/Tests/",
+                    "/Guard/Tests/",
+                    "/Http/Tests/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5500,6 +5522,7 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
+<<<<<<< ce7730e941424e595f80f1e3de685a3b8342a0dc
 <<<<<<< f64f5a1c09282bdab27938368ac5bcd9e520710f
             "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
             "keywords": [
@@ -6050,28 +6073,65 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/security-http/zipball/290b23a46a932746c4cf3c313d59d99f82af2a87",
                 "reference": "290b23a46a932746c4cf3c313d59d99f82af2a87",
+=======
+            "description": "Symfony Security Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-11-12T13:12:56+00:00"
+        },
+        {
+            "name": "symfony/security-bundle",
+            "version": "v4.3.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/security-bundle.git",
+                "reference": "9f247c672e08385c67e3ca7cfc1484072bcc6517"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/9f247c672e08385c67e3ca7cfc1484072bcc6517",
+                "reference": "9f247c672e08385c67e3ca7cfc1484072bcc6517",
+>>>>>>> Security : able to connect on symfony with same account from codeigniter
                 "shasum": ""
             },
             "require": {
+                "ext-xml": "*",
                 "php": "^7.1.3",
-                "symfony/http-foundation": "~3.4|~4.0",
+                "symfony/config": "^4.2",
+                "symfony/dependency-injection": "^4.2",
                 "symfony/http-kernel": "^4.3",
-                "symfony/property-access": "~3.4|~4.0",
-                "symfony/security-core": "^4.3"
+                "symfony/security-core": "~4.3",
+                "symfony/security-csrf": "~4.2",
+                "symfony/security-guard": "~4.2",
+                "symfony/security-http": "^4.3.8"
             },
             "conflict": {
-                "symfony/security-csrf": "<3.4.11|~4.0,<4.0.11"
+                "symfony/browser-kit": "<4.2",
+                "symfony/console": "<3.4",
+                "symfony/framework-bundle": "<4.3.4",
+                "symfony/twig-bundle": "<4.2",
+                "symfony/var-dumper": "<3.4"
             },
             "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/routing": "~3.4|~4.0",
-                "symfony/security-csrf": "^3.4.11|^4.0.11"
+                "doctrine/doctrine-bundle": "~1.5",
+                "symfony/asset": "~3.4|~4.0",
+                "symfony/browser-kit": "~4.2",
+                "symfony/console": "~3.4|~4.0",
+                "symfony/css-selector": "~3.4|~4.0",
+                "symfony/dom-crawler": "~3.4|~4.0",
+                "symfony/expression-language": "~3.4|~4.0",
+                "symfony/form": "~3.4|~4.0",
+                "symfony/framework-bundle": "^4.3.4",
+                "symfony/http-foundation": "~3.4|~4.0",
+                "symfony/process": "~3.4|~4.0",
+                "symfony/translation": "~3.4|~4.0",
+                "symfony/twig-bridge": "~3.4|~4.0",
+                "symfony/twig-bundle": "~4.2",
+                "symfony/validator": "~3.4|~4.0",
+                "symfony/var-dumper": "~3.4|~4.0",
+                "symfony/yaml": "~3.4|~4.0",
+                "twig/twig": "~1.41|~2.10"
             },
-            "suggest": {
-                "symfony/routing": "For using the HttpUtils class to create sub-requests, redirect the user, and match URLs",
-                "symfony/security-csrf": "For using tokens to protect authentication/logout attempts"
-            },
-            "type": "library",
+            "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
                     "dev-master": "4.3-dev"
@@ -6079,7 +6139,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Symfony\\Component\\Security\\Http\\": ""
+                    "Symfony\\Bundle\\SecurityBundle\\": ""
                 },
                 "exclude-from-classmap": [
                     "/Tests/"
@@ -6099,7 +6159,7 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Security Component - HTTP Integration",
+            "description": "Symfony SecurityBundle",
             "homepage": "https://symfony.com",
             "time": "2019-11-12T13:12:56+00:00"
         },
