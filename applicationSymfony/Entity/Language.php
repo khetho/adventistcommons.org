@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation as Api;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="languages")
  * @ORM\Entity
- * @ApiResource()
+ * @Api\ApiResource()
  */
 class Language
 {
@@ -27,6 +28,7 @@ class Language
      * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Api\ApiFilter(SearchFilter::class, strategy="ipartial")
      */
     private $name;
 

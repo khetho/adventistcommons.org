@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation as Api;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,7 +39,23 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     }
  * )
  * @ORM\Entity
- * @ApiResource()
+ * @Api\ApiResource(
+ *     attributes={
+ *         "normalization_context"={
+ *             "datetime_format" = "Y-m-d",
+ *          },
+ *     },
+ *     collectionOperations={
+ *         "get",
+ *         "post"={"security"="is_granted('ROLE_ADMIN')"},
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "delete"={"security"="is_granted('ROLE_ADMIN')"},
+ *         "put"={"security"="is_granted('ROLE_ADMIN')"},
+ *         "patch"={"security"="is_granted('ROLE_ADMIN')"},
+ *     },
+ * )
  */
 class User implements UserInterface
 {
@@ -130,18 +146,20 @@ class User implements UserInterface
     private $rememberCode;
 
     /**
-     * @var int
+     * @var \DateTime
      *
      * @ORM\Column(name="created_on", type="integer", nullable=false, options={"unsigned"=true})
      */
     private $createdOn;
+    private $createdOnDateTime;
 
     /**
-     * @var int|null
+     * @var \DateTime
      *
      * @ORM\Column(name="last_login", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $lastLogin;
+    private $lastLoginDateTime;
 
     /**
      * @var bool|null
@@ -393,26 +411,34 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreatedOn(): ?int
+    public function getCreatedOn(): ?\DateTime
     {
-        return $this->createdOn;
+        if (!$this->createdOnDateTime) {
+            $this->createdOnDateTime = \DateTime::createFromFormat('U', $this->createdOn);
+        }
+        return $this->createdOnDateTime;
     }
 
-    public function setCreatedOn(int $createdOn): self
+    public function setCreatedOn(\DateTime $createdOn): self
     {
-        $this->createdOn = $createdOn;
+        $this->createdOn = $createdOn->format('U');
+        $this->createdOnDateTime = $createdOn;
 
         return $this;
     }
 
-    public function getLastLogin(): ?int
+    public function getLastLogin(): ?\DateTime
     {
-        return $this->lastLogin;
+        if (!$this->lastLoginDateTime) {
+            $this->lastLoginDateTime = \DateTime::createFromFormat('U', $this->lastLogin);
+        }
+        return $this->lastLoginDateTime;
     }
 
-    public function setLastLogin(?int $lastLogin): self
+    public function setLastLogin(\DateTime $lastLogin): self
     {
-        $this->lastLogin = $lastLogin;
+        $this->lastLogin = $lastLogin->format('U');
+        $this->lastLoginDateTime = $lastLogin;
 
         return $this;
     }
@@ -631,8 +657,15 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
-        return ['ROLE_ADMIN'];
+        $groups = ['ROLE_USER'];
+        /** @var Group $group */
+        foreach ($this->getGroups() as $group) {
+            if ($group->getName() == 'admin') {
+                $groups[] = 'ROLE_ADMIN';
+            }
+        }
+
+        return $groups;
     }
 
     /**

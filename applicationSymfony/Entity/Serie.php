@@ -10,7 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="series")
  * @ORM\Entity
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
+ *     collectionOperations={
+ *         "get",
+ *         "post"={"security"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "put"={"security"="is_granted('ROLE_ADMIN')"},
+ *     }
+ * )
  */
 class Serie
 {
