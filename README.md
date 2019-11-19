@@ -111,7 +111,7 @@ Just install docker and docker-compose and follow steps :
 - copy \phinx.docker.yml to \phinx.yml
 - Set right on var dirs ``chmod 777 ./var -R``
 - Point your terminal project root and launch project with ``sudo docker-compose up``
-- run migration with command ```docker-compose exec ac-php-fpm application/vendor/bin/phinx migrate```
+- run migration with command ```docker-compose exec ac-php-fpm vendor/bin/phinx migrate```
 - In your browser, go to localhost:8096 (the application) and create your account
 - In your browser, go to localhost:8080 (adminer), and connect with parameters Mysql / ac-db / root / somePassword
 
@@ -152,15 +152,15 @@ First base of the application. If you do not know it yet, check this : https://c
 
 #### Migrations
 
-Databases changes are handled in a migrations system : Phinx. To play all migrations, run the command ```php application/vendor/bin/phinx migrate```. The migrations already executed on your system are stored, so you can play many times safely, only not-applied-yet migrations will be applied. When you get others work from code base (git pull or merge), you must play migrations other developers may have added, with same command : ```php application/vendor/bin/phinx migrate```.
+Databases changes are handled in a migrations system : Phinx. To play all migrations, run the command ```php vendor/bin/phinx migrate```. The migrations already executed on your system are stored, so you can play many times safely, only not-applied-yet migrations will be applied. When you get others work from code base (git pull or merge), you must play migrations other developers may have added, with same command : ```php vendor/bin/phinx migrate```.
 
 The idea of migration is to keep a trace of changes done in database, which can be written as SQL code. Migrations are stored in ```/db/migrations```.
 
 If you want to add a change in database follow these steps :
-- create an empty migration ```php application/vendor/bin/phinx create MyFeature``` (replace ~MyFeature~ by a camel case semantic name)
+- create an empty migration ```php vendor/bin/phinx create MyFeature``` (replace ~MyFeature~ by a camel case semantic name)
 - edit the new migration file, created in `/db/migrations/`, add the ~up~ logic with SQL code on data or structure.
-- play you migration with ```php application/vendor/bin/phinx migrate```
-- do not forget to add also the ~down~ logic to be able to reverse it. And test it with ```php application/vendor/bin/phinx rollback``` 
+- play you migration with ```php vendor/bin/phinx migrate```
+- do not forget to add also the ~down~ logic to be able to reverse it. And test it with ```php vendor/bin/phinx rollback``` 
 
 And from now, never do structural changes directly in database, use migrations !
 
