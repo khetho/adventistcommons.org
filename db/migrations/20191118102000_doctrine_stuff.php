@@ -75,32 +75,27 @@ SQL
             ALTER TABLE project_members
                 ADD CONSTRAINT FK_D3BEDE9A166D1F9C FOREIGN KEY (project_id) REFERENCES projects (id);
             ALTER TABLE users
-                DROP skills,
-                    CHANGE active active TINYINT(1) DEFAULT NULL,
-                    CHANGE product_notify product_notify TINYINT(1) NOT NULL,
-                    CHANGE pro_translator pro_translator TINYINT(1) NOT NULL;
+                CHANGE skills skills LONGTEXT DEFAULT NULL COMMENT '(DC2Type:phpserialize)',
+                CHANGE active active TINYINT(1) DEFAULT NULL,
+                CHANGE product_notify product_notify TINYINT(1) NOT NULL,
+                CHANGE pro_translator pro_translator TINYINT(1) NOT NULL;
 SQL
         );
         $this->query(
             <<<SQL
             ALTER TABLE user_skills MODIFY id INT UNSIGNED NOT NULL;
-            ALTER TABLE user_skills
-                DROP PRIMARY KEY;
-            ALTER TABLE user_skills
-                DROP FOREIGN KEY user_skills_ibfk_1;
-            ALTER TABLE user_skills
-                DROP FOREIGN KEY user_skills_ibfk_2;
+            ALTER TABLE user_skills DROP PRIMARY KEY;
+            ALTER TABLE user_skills DROP FOREIGN KEY user_skills_ibfk_1;
+            ALTER TABLE user_skills DROP FOREIGN KEY user_skills_ibfk_2;
+            ALTER TABLE user_skills DROP id;
+            ALTER TABLE user_skills ADD PRIMARY KEY (user_id, skill_id);
             DROP INDEX user_skills_ibfk_2 ON user_skills;
-            ALTER TABLE user_skills
-                DROP id;
-            ALTER TABLE user_skills
-                ADD PRIMARY KEY (user_id, skill_id);
+            CREATE INDEX IDX_B0630D4DA76ED395 ON user_skills (user_id);
+            CREATE INDEX IDX_B0630D4D5585C142 ON user_skills (skill_id);
             ALTER TABLE user_skills
                 ADD CONSTRAINT FK_B0630D4DA76ED395 FOREIGN KEY (user_id) REFERENCES users (id);
             ALTER TABLE user_skills
                 ADD CONSTRAINT FK_B0630D4D5585C142 FOREIGN KEY (skill_id) REFERENCES skills (id);
-            CREATE INDEX IDX_B0630D4DA76ED395 ON user_skills (user_id);
-            CREATE INDEX IDX_B0630D4D5585C142 ON user_skills (skill_id);            
 SQL
         );
         $this->query(

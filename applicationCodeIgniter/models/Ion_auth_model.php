@@ -2639,11 +2639,12 @@ class Ion_auth_model extends CI_Model
             $user["username"] = $user["email"];
         }
 
-        $pure_skill = $user["skills"];
-
-        $user["skills"] =serialize($user["skills"] ??  []);
+        $skills_array = $user["skills"] ?? [];
+        $user["skills"] =serialize($skills_array);
         $user = $this->update_languages($user_id, $user);
-        $this->update_user_skill($user_id, $pure_skill);
+        if ($skills_array) {
+            $this->update_user_skill($user_id, $skills_array);
+        }
         $this->db->where("id", $user_id);
         $this->db->update("users", $user);
     }

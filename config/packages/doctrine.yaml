@@ -13,6 +13,8 @@ doctrine:
             collate: utf8mb4_unicode_ci
         mapping_types:
             enum: string
+        types:
+            phpserialize:  App\Doctrine\PhpSerializeType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore

@@ -220,6 +220,11 @@ class User implements UserInterface
      * )
      */
     private $skills;
+
+    /**
+     * @ORM\Column(name="skills", type="phpserialize", nullable=true)
+     */
+    private $skillsArray = [];
     
     /**
      * @var bool
@@ -558,11 +563,19 @@ class User implements UserInterface
     {
         return $this->skills;
     }
+    
+    public function getSkillsArray(): array
+    {
+        return $this->skillsArray;
+    }
 
     public function addSkill(Skill $skill): self
     {
         if (!$this->skills->contains($skill)) {
             $this->skills[] = $skill;
+        }
+        if (!in_array($this->skillsArray[$skill->getName()])) {
+            $this->skillsArray[] = $skill->getName();
         }
 
         return $this;
@@ -573,10 +586,13 @@ class User implements UserInterface
         if ($this->skills->contains($skill)) {
             $this->skills->removeElement($skill);
         }
+        if (in_array($this->skillsArray[$skill->getName()])) {
+            unset($this->skillsArray[$skill->getName()]);
+        }
 
         return $this;
     }
-
+    
     public function getMotherLanguage(): ?Language
     {
         return $this->motherLanguage;

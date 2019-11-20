@@ -6,15 +6,18 @@ import {
     FieldGuesser,
     CreateGuesser,
     EditGuesser,
-    InputGuesser
+    InputGuesser,
+    ShowGuesser,
 } from "@api-platform/admin";
 import {
     LongTextInput,
     ReferenceInput,
     ReferenceArrayInput,
     AutocompleteInput,
-    AutocompleteArrayInput
+    AutocompleteArrayInput,
+    SelectArrayInput
 } from "react-admin";
+
 import {
     Person,
     AccountBox,
@@ -29,7 +32,6 @@ import {
 
 const UsersList = props => (
     <ListGuesser {...props}>
-        <FieldGuesser source="id" />
         <FieldGuesser source="firstName" />
         <FieldGuesser source="lastName" />
         <FieldGuesser source="email" />
@@ -57,7 +59,7 @@ const UsersCreate = props => (
             label="Skills"
             filterToQuery={searchText => ({ name: searchText })}
         >
-            <AutocompleteInput optionText="name" />
+            <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
         <ReferenceInput
             source="motherLanguage"
@@ -73,7 +75,7 @@ const UsersCreate = props => (
             label="Languages"
             filterToQuery={searchText => ({ name: searchText })}
         >
-            <AutocompleteInput optionText="name" />
+            <AutocompleteArrayInput optionText="name" />
         </ReferenceArrayInput>
         <ReferenceArrayInput
             source="groups"
@@ -81,7 +83,7 @@ const UsersCreate = props => (
             label="Groups"
             filterToQuery={searchText => ({ name: searchText })}
         >
-            <AutocompleteInput optionText="name" />
+            <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
     </CreateGuesser>
 );
@@ -96,25 +98,66 @@ const UsersEdit = props => (
         <InputGuesser source="company" />
         <InputGuesser source="phone" />
         <InputGuesser source="location" />
-        <InputGuesser source="bio" />
-        <InputGuesser source="skills" />
-        <InputGuesser source="motherLanguage" />
-        <InputGuesser source="languages" />
-        <InputGuesser source="groups" />
+        <LongTextInput source="bio" />
+        <ReferenceArrayInput
+            source="skills"
+            reference="skills"
+            label="Skills"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
         <ReferenceInput
+            source="motherLanguage"
+            reference="languages"
+            label="Mother Language"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <AutocompleteInput optionText="name" />
+        </ReferenceInput>
+        <ReferenceArrayInput
+            source="languages"
+            reference="languages"
+            label="Languages"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <AutocompleteArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
             source="groups"
             reference="groups"
             label="Groups"
-            filterToQuery={searchText => ({ title: searchText })}
+            filterToQuery={searchText => ({ name: searchText })}
         >
-            <AutocompleteArrayInput optionText="title" />
-        </ReferenceInput>
+            <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
     </EditGuesser>
 );
+
+const UsersShow = props => (
+    <ShowGuesser {...props}>
+        <FieldGuesser source="email" addLabel={true} />
+        <FieldGuesser source="active" addLabel={true} />
+        <FieldGuesser source="firstName" addLabel={true} />
+        <FieldGuesser source="lastName" addLabel={true} />
+        <FieldGuesser source="company" addLabel={true} />
+        <FieldGuesser source="phone" addLabel={true} />
+        <FieldGuesser source="location" addLabel={true} />
+        <FieldGuesser source="bio" addLabel={true} />
+        <FieldGuesser source="skills" addLabel={true} />
+        <FieldGuesser source="motherLanguage" addLabel={true} />
+        <FieldGuesser source="languages" addLabel={true} />
+        <FieldGuesser source="groups" addLabel={true} />
+        <FieldGuesser source="createdOn" addLabel={true} />
+        <FieldGuesser source="lastLogin" addLabel={true} />
+    </ShowGuesser>
+);
+
 export default () => (
     <HydraAdmin entrypoint="http://localhost:8096/api">
         <ResourceGuesser name="users"
             list={UsersList}
+            show={UsersShow}
             create={UsersCreate}
             edit={UsersEdit}
             icon={Person}
