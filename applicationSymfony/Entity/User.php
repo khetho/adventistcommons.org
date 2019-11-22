@@ -272,11 +272,12 @@ class User implements UserInterface
      */
     private $groups;
 
-    public function __construct()
+    public function __construct($username)
     {
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
+        $this->username = $username;
     }
 
     public function getId(): ?int
@@ -299,13 +300,6 @@ class User implements UserInterface
     public function getUsername(): ?string
     {
         return $this->username;
-    }
-
-    public function setUsername(?string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     public function getPassword(): ?string

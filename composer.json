@@ -8,6 +8,7 @@
         "google/cloud-translate": "^1.2",
         "indesign/php-idml": "dev-master",
         "kenjis/codeigniter-ss-twig": "^0.4.0",
+        "lexik/jwt-authentication-bundle": "^2.6",
         "robmorgan/phinx": "^0.10.7",
         "symfony/console": "*",
         "symfony/dotenv": "*",

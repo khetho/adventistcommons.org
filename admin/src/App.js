@@ -29,7 +29,46 @@ import {
     Translate,
     LibraryBooks,
 } from '@material-ui/icons';
+import parseHydraDocumentation from '@api-platform/api-doc-parser/lib/hydra/parseHydraDocumentation';
+import { dataProvider as baseDataProvider, fetchHydra as baseFetchHydra  } from '@api-platform/admin';
+import { Redirect } from 'react-router-dom';
+import authProvider from './authProvider';
 
+/**
+ * Authentication
+ */
+const entryPoint = "http://localhost:8096/api";
+const fetchHeaders = {'Authorization': `Bearer ${window.localStorage.getItem('token')}`};
+const fetchHydra = (url, options = {}) => baseFetchHydra(url, {
+    ...options,
+    headers: new Headers(fetchHeaders),
+});
+const apiDocumentationParser = entrypoint => parseHydraDocumentation(entrypoint, { headers: new Headers(fetchHeaders) })
+    .then(
+        ({ api }) => ({api}),
+        (result) => {
+            switch (result.status) {
+                case 401:
+                    return Promise.resolve({
+                        api: result.api,
+                        customRoutes: [{
+                            props: {
+                                path: '/',
+                                render: () => <Redirect to={`/login`}/>,
+                            },
+                        }],
+                    });
+
+                default:
+                    return Promise.reject(result);
+            }
+        },
+    );
+const dataProvider = baseDataProvider(entryPoint, fetchHydra, apiDocumentationParser);
+
+/**
+ * customisations
+ */
 const UsersList = props => (
     <ListGuesser {...props}>
         <FieldGuesser source="firstName" />
@@ -153,8 +192,17 @@ const UsersShow = props => (
     </ShowGuesser>
 );
 
+/**
+ * At last, Application
+ */
 export default () => (
-    <HydraAdmin entrypoint="http://localhost:8096/api">
+    <HydraAdmin
+        apiDocumentationParser={ apiDocumentationParser }
+        dataProvider={ dataProvider }
+        authProvider={ authProvider }
+        entrypoint={ entryPoint }
+    >
+
         <ResourceGuesser name="users"
             list={UsersList}
             show={UsersShow}

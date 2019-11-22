@@ -1,0 +1,11 @@
+auth:
+    resource: App\Controller\AuthController
+    type: annotation
+
+dashboard:
+    resource: App\Controller\DashboardController
+    type: annotation
+
+login_check:
+    path:     /account/login_check
+    methods:  [POST]

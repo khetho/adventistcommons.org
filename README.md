@@ -114,6 +114,7 @@ Just install docker and docker-compose and follow steps :
 - run migration with command ```docker-compose exec ac-php-fpm vendor/bin/phinx migrate```
 - In your browser, go to localhost:8096 (the application) and create your account
 - In your browser, go to localhost:8080 (adminer), and connect with parameters Mysql / ac-db / root / somePassword
+- Create ssl private and public keys for relation with frontend (see below)
 
 ### Manual Development Setup Guide
 
@@ -150,21 +151,7 @@ Let us know if you have any issues with these steps.
 
 First base of the application. If you do not know it yet, check this : https://codeigniter.com/
 
-#### Migrations
-
-Databases changes are handled in a migrations system : Phinx. To play all migrations, run the command ```php vendor/bin/phinx migrate```. The migrations already executed on your system are stored, so you can play many times safely, only not-applied-yet migrations will be applied. When you get others work from code base (git pull or merge), you must play migrations other developers may have added, with same command : ```php vendor/bin/phinx migrate```.
-
-The idea of migration is to keep a trace of changes done in database, which can be written as SQL code. Migrations are stored in ```/db/migrations```.
-
-If you want to add a change in database follow these steps :
-- create an empty migration ```php vendor/bin/phinx create MyFeature``` (replace ~MyFeature~ by a camel case semantic name)
-- edit the new migration file, created in `/db/migrations/`, add the ~up~ logic with SQL code on data or structure.
-- play you migration with ```php vendor/bin/phinx migrate```
-- do not forget to add also the ~down~ logic to be able to reverse it. And test it with ```php vendor/bin/phinx rollback``` 
-
-And from now, never do structural changes directly in database, use migrations !
-
-#### The container
+##### The container
 
 The **container** is a convenient way to hold and provide access for tool-objects (that we call services) without you have to care about their dependencies. If you create such a class for a feature, or want to use a class from a library, you should register it in the container file ```application/libraries/Container.php```, at that place :
 
@@ -251,6 +238,40 @@ class MyController extends CI_Controller {
 	}	
 
 ```
+
+#### Migrations
+
+Databases changes are handled in a migrations system : Phinx. To play all migrations, run the command ```php vendor/bin/phinx migrate```. The migrations already executed on your system are stored, so you can play many times safely, only not-applied-yet migrations will be applied. When you get others work from code base (git pull or merge), you must play migrations other developers may have added, with same command : ```php vendor/bin/phinx migrate```.
+
+The idea of migration is to keep a trace of changes done in database, which can be written as SQL code. Migrations are stored in ```/db/migrations```.
+
+If you want to add a change in database follow these steps :
+- create an empty migration ```php vendor/bin/phinx create MyFeature``` (replace ~MyFeature~ by a camel case semantic name)
+- edit the new migration file, created in `/db/migrations/`, add the ~up~ logic with SQL code on data or structure.
+- play you migration with ```php vendor/bin/phinx migrate```
+- do not forget to add also the ~down~ logic to be able to reverse it. And test it with ```php vendor/bin/phinx rollback``` 
+
+And from now, never do structural changes directly in database, use migrations !
+
+#### Symfony API backend
+
+We use Apiplatform for the backend
+
+##### JWT
+
+In order to be able to authentify frontend, application must sign messages with frontend. Generate keys like this :
+```
+    mkdir -p config/jwt
+    jwt_passhrase=$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')
+    echo "$jwt_passhrase" | openssl genpkey -out config/jwt/private.pem -pass stdin -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+    echo "$jwt_passhrase" | openssl pkey -in config/jwt/private.pem -passin stdin -out config/jwt/public.pem -pubout
+    setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+    setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+```
+
+#### Angular Frontend
+
+Sme content soon here
 
 ## License
 

@@ -13,3 +13,7 @@ composer.phar
 /phinx.yml
 google_translate_authentication.json
 /public/bundles
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
