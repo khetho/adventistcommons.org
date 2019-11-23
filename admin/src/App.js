@@ -83,8 +83,8 @@ const UsersList = props => (
 
 const UsersCreate = props => (
     <CreateGuesser {...props}>
-        <InputGuesser source="password" />
         <InputGuesser source="email" />
+        <InputGuesser source="plainPassword" />
         <InputGuesser source="active" />
         <InputGuesser source="firstName" />
         <InputGuesser source="lastName" />
@@ -129,8 +129,8 @@ const UsersCreate = props => (
 
 const UsersEdit = props => (
     <EditGuesser {...props}>
-        <InputGuesser source="password" />
         <InputGuesser source="email" />
+        <InputGuesser source="plainPassword" />
         <InputGuesser source="active" />
         <InputGuesser source="firstName" />
         <InputGuesser source="lastName" />

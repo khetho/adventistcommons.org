@@ -13,19 +13,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
-            pattern:  ^/account/login
+        api_login:
+            pattern:  ^/api/login
             stateless: true
             anonymous: true
             json_login:
-                check_path: /account/login_check
+                check_path: app_login_check_json
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        register:
-            pattern:  ^/account/register
-            stateless: true
-            anonymous: true
-
         api:
             pattern:  ^/api
             stateless: true
@@ -34,11 +29,19 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
-
+        main:
+            anonymous: ~
+            provider: entity_provider
+            logout:
+                path: app_logout
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+                    
     access_control:
         - { path: ^/account/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

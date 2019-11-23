@@ -86,8 +86,18 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @Api\ApiProperty(
+     *     readable=false,
+     *     writable=false,
+     * )
      */
     private $password;
+
+    /**
+     * @var string
+     * @Api\ApiProperty
+     */
+    private $plainPassword;
 
     /**
      * @var string|null
@@ -149,6 +159,9 @@ class User implements UserInterface
      * @var \DateTime
      *
      * @ORM\Column(name="created_on", type="integer", nullable=false, options={"unsigned"=true})
+     * @Api\ApiProperty(
+     *     writable=false,
+     * )
      */
     private $createdOn;
     private $createdOnDateTime;
@@ -157,6 +170,9 @@ class User implements UserInterface
      * @var \DateTime
      *
      * @ORM\Column(name="last_login", type="integer", nullable=true, options={"unsigned"=true})
+     * @Api\ApiProperty(
+     *     writable=false,
+     * )
      */
     private $lastLogin;
     private $lastLoginDateTime;
@@ -310,6 +326,18 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }

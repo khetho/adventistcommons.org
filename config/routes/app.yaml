@@ -1,11 +1,22 @@
-auth:
+app_auth:
     resource: App\Controller\AuthController
     type: annotation
 
-dashboard:
+app_dashboard:
     resource: App\Controller\DashboardController
     type: annotation
 
-login_check:
+app_account:
+    resource: App\Controller\AccountController
+    type: annotation
+
+app_login_check:
     path:     /account/login_check
     methods:  [POST]
+
+app_login_check_json:
+    path:     /api/login_check
+    methods:  [POST]
+
+app_logout:
+    path:     /account/logout
