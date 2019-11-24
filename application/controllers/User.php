@@ -414,39 +414,8 @@ class User extends CI_Controller
             "skills" => $this->skills,
         ];
 
-        $additional_data = [
-            'first_name' => $this->input->post('first_name'),
-            'last_name' => $this->input->post('last_name'),
-            'product_notify' => $this->input->post('product_notify') ?? false,
-        ];
-
-        if ($this->form_validation->run() === true && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
-            if ($this->ion_auth->login($identity, $password)) {
-                $user = $this->ion_auth->user()->row();
-                
-                $invites = $this->db->select("*")
-                    ->from("project_members")
-                    ->where("invite_email", $user->email)
-                    ->get()
-                    ->result_array();
-                
-                foreach ($invites as $invite) {
-                    $invite_data = [
-                        "user_id" => $user->id,
-                        "invite_email" => null,
-                        "type" => $invite["type"],
-                    ];
-                    $this->db->where("id", $invite["id"]);
-                    $this->db->update("project_members", $invite_data);
-                }
-                redirect("/user/register_profile", "refresh");
-            }
-        } else {
-            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-            $this->data["post"] = $this->input->post();
-            $this->twig->addGlobal("title", "Register");
-            $this->twig->display("twigs/auth/register", $this->data);
-        }
+        $this->twig->addGlobal("title", "Almost done");
+        $this->twig->display("twigs/auth/register_profile", $data);
     }
 
     public function register_profile_save()
