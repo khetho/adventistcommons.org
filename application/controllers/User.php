@@ -14,6 +14,7 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->config->load('config');
         $this->load->database();
         $this->load->library([ "ion_auth", "form_validation", "twig" ]);
         $this->load->helper([ "url", "language" ]);
@@ -106,7 +107,7 @@ class User extends CI_Controller
         if (! $this->project_model->isManager($this->ion_auth->user()->row()->id, $project_id) && ! $this->ion_auth->is_admin()) {
             show_404();
         }
-        
+
         $users = $this->db->select("*")
             ->from("users")
             ->like("concat(first_name, ' ', last_name)", $query)
@@ -153,6 +154,10 @@ class User extends CI_Controller
             $remember = (bool)$this->input->post('remember');
 
             if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
+                if (empty($this->user->mother_language_id)) {
+                    redirect('user/register_profile', 'refresh');
+                }
+
                 //if the login is successful
                 //redirect them back to the home page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -244,18 +249,19 @@ class User extends CI_Controller
         }
 
         $user = $this->ion_auth->forgotten_password_check($code);
-
         if ($user) {
             $this->form_validation->set_rules("new", $this->lang->line("reset_password_validation_new_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[new_confirm]");
             $this->form_validation->set_rules("new_confirm", $this->lang->line("reset_password_validation_new_password_confirm_label"), "required");
 
             if ($this->form_validation->run() === false) {
                 $this->data["message"] = (validation_errors()) ? validation_errors() : $this->session->flashdata("message");
-                $data["user_id"] = $user->id;
-                $this->data["csrf"] = $this->_get_csrf_nonce();
+                $this->data["user_id"] = $user->id;
+                $csrf_array = $this->_get_csrf_nonce();
+                $this->data["csrf_key"] = key($csrf_array);
+                $this->data["csrf_value"] = current($csrf_array);
+
                 $this->data["code"] = $code;
-                $this->template->set("title", "Reset password");
-                $this->template->load("utility_template", "auth/reset_password", $this->data);
+                $this->twig->display("twigs/auth/reset_password", $this->data);
             } else {
                 $identity = $user->{ $this->config->item("identity", "ion_auth") };
                 if ($this->_valid_csrf_nonce() === false || $user->id != $this->input->post("user_id")) {
@@ -265,10 +271,11 @@ class User extends CI_Controller
                     $change = $this->ion_auth->reset_password($identity, $this->input->post("new"));
                     if ($change) {
                         $this->session->set_flashdata("message", $this->ion_auth->messages());
-                        redirect("/login", "refresh");
+
+                        redirect("login", "refresh");
                     } else {
                         $this->session->set_flashdata("message", $this->ion_auth->errors());
-                        redirect("/user/reset_password/" . $code, "refresh");
+                        redirect("user/reset_password/" . $code, "refresh");
                     }
                 }
             }
@@ -291,7 +298,7 @@ class User extends CI_Controller
         if ($activation) {
             // redirect them to the auth page
             $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("auth", 'refresh');
+            redirect("user/login", 'refresh');
         } else {
             // redirect them to the forgot password page
             $this->session->set_flashdata('message', $this->ion_auth->errors());
@@ -373,17 +380,44 @@ class User extends CI_Controller
                 'last_name' => $this->input->post('last_name'),
                 'product_notify' => $this->input->post('product_notify') ?? false,
             ];
+
+            $registered = $this->ion_auth->register($identity, $password, $email, $additional_data);
+            if ($registered) {
+                $this->twig->addGlobal("heading", "Please activate your account!");
+                $this->twig->addGlobal("base_url", base_url());
+                $template_data = [
+                    "user" => $additional_data['first_name'],
+                    "link" => base_url() . "user/activate/" . $registered['id'] . '/' . $registered['activation'],
+                ];
+                $content = $this->twig->render("twigs/email/activate", $template_data);
+                echo $content;
+                die;
+                $this->session->set_flashdata("message", "Your account has been successfully created, please activate your account!");
+                redirect('/login', 'refresh');
+            } else {
+                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+                $this->data["post"] = $this->input->post();
+                $this->twig->addGlobal("title", "Register");
+                $this->twig->display("twigs/auth/register", $this->data);
+            }
+        } else {
+            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+            $this->data["post"] = $this->input->post();
+            $this->twig->addGlobal("title", "Register");
+            $this->twig->display("twigs/auth/register", $this->data);
         }
+
+        /*
         if ($this->form_validation->run() === true && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
             if ($this->ion_auth->login($identity, $password)) {
                 $user = $this->ion_auth->user()->row();
-                
+
                 $invites = $this->db->select("*")
                     ->from("project_members")
                     ->where("invite_email", $user->email)
                     ->get()
                     ->result_array();
-                
+
                 foreach ($invites as $invite) {
                     $invite_data = [
                         "user_id" => $user->id,
@@ -401,6 +435,7 @@ class User extends CI_Controller
             $this->twig->addGlobal("title", "Register");
             $this->twig->display("twigs/auth/register", $this->data);
         }
+        */
     }
 
     public function register_profile()
@@ -535,13 +570,13 @@ class User extends CI_Controller
             $this->output->set_output(json_encode([ "success" => "Permissions updated successfully" ]));
         }
     }
-    
+
     public function delete()
     {
         if (! $this->ion_auth->logged_in()) {
             show_404();
         }
-        
+
         $this->output->set_content_type("application/json");
         $data = [
             "first_name" => "Inactive",
@@ -559,7 +594,7 @@ class User extends CI_Controller
             "product_notify" => null,
             "pro_translator" => null,
         ];
-        
+
         $this->db->where("id", $this->ion_auth->user()->row()->id);
         $this->db->update("users", $data);
         $this->ion_auth->logout();

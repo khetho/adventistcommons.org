@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <title>Adventist Commons | {{ title }}</title>
-	    <link rel="icon" href="/assets/img/favicon.png"> 
+	    <link rel="icon" href="/assets/img/favicon.png">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet">
@@ -28,7 +28,7 @@
 								<img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ user.is_admin }}?s=80&d=mp" class="avatar" />
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a href="/account" class="dropdown-item">Account Settings</a>
+								<a href="/account" class="dropdown-item">Dashboard</a>
 								{% if user.is_admin %}
 									<a href="/user/list" class="dropdown-item">Manage Users</a>
 								{% endif %}
@@ -80,7 +80,7 @@
 										<img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ user.image }}?s=80&d=mp" class="avatar" />
 									</a>
 									<div class="dropdown-menu dropdown-menu-right">
-										<a href="/account" class="dropdown-item">Account Settings</a>
+										<a href="/account" class="dropdown-item">Dashboard</a>
 										{% if user.is_admin %}
 											<a href="/user/list" class="dropdown-item">Manage Users</a>
 										{% endif %}
@@ -109,7 +109,7 @@
 							<p class="lead">Certified, Translatable, Printable, Sharable.</p>
 							<a href="/projects" class="btn btn-light mb-5">Get Started</a>
 						</div>
-					</div>	
+					</div>
 					<div class="breadcrumb-bar navbar bg-white" style="min-height:20px"></div>
 				{% else %}
 					<div class="breadcrumb-bar navbar bg-white sticky-top">
