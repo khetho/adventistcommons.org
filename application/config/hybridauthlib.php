@@ -10,12 +10,18 @@
 // ----------------------------------------------------------------------------------------
 //	HybridAuth Config file: http://hybridauth.sourceforge.net/userguide/Configuration.html
 // ----------------------------------------------------------------------------------------
+$config = [];
+require('config.php');
+$baseUrl = $config['base_url'];
+unset($config);
+
+// It works only on domain «adventistcommons.local.org» at the moment
+// $baseUrl = 'https://adventistcommons.local.org';
 $config =
     array(
         // set on "base_url" the relative url that point to HybridAuth Endpoint
         'base_url' => '/hauth/endpoint',
-        'callback' => 'https://adventistcommons.local.org/hauth/login/',
-
+        'callback' => $baseUrl.'/hauth/login/',
 
         // Providers specifics.
         'providers' => [
@@ -48,9 +54,8 @@ $config =
         // if you want to enable logging, set 'debug_mode' to true  then provide a writable file by the web server on "debug_file"
         "debug_mode" => (ENVIRONMENT == 'development'),
 
-        "debug_file" => APPPATH.'/../var/log/hybridauth.log',
+        "debug_file" => APPPATH.'../var/log/hybridauth.log',
     );
-
 
 /* End of file hybridauthlib.php */
 /* Location: ./application/config/hybridauthlib.php */
