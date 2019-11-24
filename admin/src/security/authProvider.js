@@ -1,9 +1,10 @@
 import { AUTH_LOGIN } from 'react-admin';
+import { loginPoint } from '../config/apiPoints.js';
 
 export default (type, params) => {
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
-        const request = new Request('http://localhost:8096/api/login_check', {
+        const request = new Request(loginPoint, {
             method: 'POST',
             body: JSON.stringify({ username, password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
