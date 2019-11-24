@@ -9,6 +9,7 @@ class Hauth extends CI_Controller
         parent::__construct();
         $this->load->database();
         $this->load->library([ "ion_auth", "twig" ]);
+        $this->config->load('config');
 
         $user = $this->ion_auth->user()->row();
         if ($user) {
