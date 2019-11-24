@@ -18,6 +18,7 @@ import authProvider from './security/authProvider';
 import { apiDocumentationParser, dataProvider } from './security/tokenInHeader';
 import { UsersList, UsersShow, UsersCreate, UsersEdit } from './custom-admin/user'
 import { entryPoint } from './config/apiPoints.js';
+import MyLayout from './theme/MyLayout';
 
 /**
  * At last, Application
@@ -28,6 +29,7 @@ export default () => (
         dataProvider={ dataProvider }
         authProvider={ authProvider }
         entrypoint={ entryPoint }
+        appLayout={MyLayout} 
     >
         <ResourceGuesser name="users"
             list={UsersList}
