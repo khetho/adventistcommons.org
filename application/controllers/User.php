@@ -154,7 +154,27 @@ class User extends CI_Controller
             $remember = (bool)$this->input->post('remember');
 
             if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
+                // if user only activated his account, but did not complete step 2,
+                // update invites and send to registration second step
                 if (empty($this->user->mother_language_id)) {
+                    $user = $this->ion_auth->user()->row();
+
+                    $invites = $this->db->select("*")
+                        ->from("project_members")
+                        ->where("invite_email", $user->email)
+                        ->get()
+                        ->result_array();
+
+                    foreach ($invites as $invite) {
+                        $invite_data = [
+                            "user_id" => $user->id,
+                            "invite_email" => null,
+                            "type" => $invite["type"],
+                        ];
+                        $this->db->where("id", $invite["id"]);
+                        $this->db->update("project_members", $invite_data);
+                    }
+                    // go to register profile
                     redirect('user/register_profile', 'refresh');
                 }
 
@@ -254,14 +274,15 @@ class User extends CI_Controller
             $this->form_validation->set_rules("new_confirm", $this->lang->line("reset_password_validation_new_password_confirm_label"), "required");
 
             if ($this->form_validation->run() === false) {
-                $this->data["message"] = (validation_errors()) ? validation_errors() : $this->session->flashdata("message");
-                $this->data["user_id"] = $user->id;
                 $csrf_array = $this->_get_csrf_nonce();
-                $this->data["csrf_key"] = key($csrf_array);
-                $this->data["csrf_value"] = current($csrf_array);
-
-                $this->data["code"] = $code;
-                $this->twig->display("twigs/auth/reset_password", $this->data);
+                $data = array(
+                    'message' => (validation_errors()) ? validation_errors() : $this->session->flashdata("message"),
+                    'user_id' => $user->id,
+                    'csrf_key' => key($csrf_array),
+                    'csrf_value' => current($csrf_array),
+                    'code' => $code
+                );
+                $this->twig->display("twigs/auth/reset_password", $data);
             } else {
                 $identity = $user->{ $this->config->item("identity", "ion_auth") };
                 if ($this->_valid_csrf_nonce() === false || $user->id != $this->input->post("user_id")) {
@@ -390,52 +411,26 @@ class User extends CI_Controller
                     "link" => base_url() . "user/activate/" . $registered['id'] . '/' . $registered['activation'],
                 ];
                 $content = $this->twig->render("twigs/email/activate", $template_data);
-                echo $content;
-                die;
+
+                $this->email->from("info@adventistcommons.org", "Adventist Commons");
+                $this->email->to($email);
+                $this->email->message($content);
+                $this->email->subject("Activate your account");
+                $this->email->send();
+
                 $this->session->set_flashdata("message", "Your account has been successfully created, please activate your account!");
                 redirect('/login', 'refresh');
-            } else {
-                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-                $this->data["post"] = $this->input->post();
-                $this->twig->addGlobal("title", "Register");
-                $this->twig->display("twigs/auth/register", $this->data);
             }
-        } else {
-            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-            $this->data["post"] = $this->input->post();
-            $this->twig->addGlobal("title", "Register");
-            $this->twig->display("twigs/auth/register", $this->data);
         }
 
-        /*
-        if ($this->form_validation->run() === true && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
-            if ($this->ion_auth->login($identity, $password)) {
-                $user = $this->ion_auth->user()->row();
-
-                $invites = $this->db->select("*")
-                    ->from("project_members")
-                    ->where("invite_email", $user->email)
-                    ->get()
-                    ->result_array();
-
-                foreach ($invites as $invite) {
-                    $invite_data = [
-                        "user_id" => $user->id,
-                        "invite_email" => null,
-                        "type" => $invite["type"],
-                    ];
-                    $this->db->where("id", $invite["id"]);
-                    $this->db->update("project_members", $invite_data);
-                }
-                redirect("/user/register_profile", "refresh");
-            }
-        } else {
-            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-            $this->data["post"] = $this->input->post();
-            $this->twig->addGlobal("title", "Register");
-            $this->twig->display("twigs/auth/register", $this->data);
-        }
-        */
+        // form validation or registration process went wrong
+        // redirect to form and display errors
+        $data = array(
+            'message' => (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'))),
+            'post' => $this->input->post(),
+        );
+        $this->twig->addGlobal("title", "Register");
+        $this->twig->display("twigs/auth/register", $data);
     }
 
     public function register_profile()
