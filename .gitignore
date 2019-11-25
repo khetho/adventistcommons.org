@@ -10,5 +10,6 @@ composer.phar
 /application/config/config.php
 /application/config/database.php
 /application/config/development/config.php
+/application/config/production/config.php
 /phinx.yml
 google_translate_authentication.json
