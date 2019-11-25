@@ -3,7 +3,8 @@
 
 class SentryLoader
 {
-    function initialize() {
+    public function initialize()
+    {
 
         /*
         |--------------------------------------------------------------------------
@@ -17,12 +18,9 @@ class SentryLoader
         $ci->load->config('config');
         $sentry = $ci->config->item('sentry');
         $sentry_dsn = $ci->config->item('sentry_dsn');
-        if($sentry==TRUE){
+        if ($sentry==true) {
             Sentry\init(['dsn' => $sentry_dsn ]);
             Sentry\captureLastError();
         }
-        
-        
     }
 }
-

@@ -524,4 +524,4 @@ $config['rewrite_short_tags'] = false;
 */
 $config['proxy_ips'] = '';
 
-$config['sentry']=TRUE;
+$config['sentry']=true;
