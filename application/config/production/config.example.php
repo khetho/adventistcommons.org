@@ -52,7 +52,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']    = 'REQUEST_URI';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']    = 'english';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -98,8 +98,6 @@ $config['charset'] = 'UTF-8';
 |
 | If you would like to use the 'hooks' feature you must enable it by
 | setting this variable to TRUE (boolean).  See the user guide for details.
-| Enable Hooks for use Sentry, Eloquent ORM
-| Set it true in order to allow Sentry to work.
 |
 */
 $config['enable_hooks'] = true;
@@ -138,7 +136,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = realpath(dirname(__FILE__).'/../../vendor/autoload.php');
+$config['composer_autoload'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -236,7 +234,7 @@ $config['log_threshold'] = 0;
 | application/logs/ directory. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = realpath(dirname(__FILE__).'/../../var/log/');
+$config['log_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -402,11 +400,11 @@ $config['sess_regenerate_destroy'] = false;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']    = '';
-$config['cookie_domain']    = '';
-$config['cookie_path']        = '/';
-$config['cookie_secure']    = false;
-$config['cookie_httponly']     = false;
+$config['cookie_prefix']	= '';
+$config['cookie_domain']	= '';
+$config['cookie_path']		= '/';
+$config['cookie_secure']	= false;
+$config['cookie_httponly'] 	= false;
 
 /*
 |--------------------------------------------------------------------------
@@ -524,4 +522,5 @@ $config['rewrite_short_tags'] = false;
 */
 $config['proxy_ips'] = '';
 
-$config['sentry']=true;
+$config['sentry'] = true;
+$config['sentry_dsn']='https://3603d46b25fa44129e815664b50a23ff@sentry.io/1832850';
