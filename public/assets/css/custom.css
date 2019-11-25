@@ -136,3 +136,75 @@ dl.inline dt:before{
     padding-left: 10px !important;
   }
 }
+
+/* START Social authentication */
+.social-auth {
+	position: relative;
+	padding-top: 36px;
+	margin-top: 32px;
+}
+.social-auth .hl {
+	position: absolute;
+	left: 0;
+	top: 10px;
+	transform: translateY(-10px);
+	border: 1px solid #ddd;
+	width: 100%;
+	
+}
+.social-auth .hl .hl-innertext{
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #F7F9FA;
+	padding: 0 18px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.social-auth a i {
+	margin-left: 30%;
+	margin-right: 10px;
+	font-size: 20px;
+	max-width: 22px;
+	text-align: center;
+}
+.social-auth a.fb i {
+	margin-right: 16px;
+}
+.social-auth .buttons-container a {
+	color: #ffffff;
+	font-size: 16px;
+	text-align: left;
+	margin-bottom: 16px;
+}
+.social-auth a.fb {
+	background: #415DAB;
+}
+.social-auth a.google {
+	background: #4184EE;
+}
+.social-auth a.twitter {
+	background: #0DADDA;
+}
+/* END Social authentication */
+
+
+/* Products list */
+.products-sort-by {
+  margin-left: 20px;
+}
+
+.col-md-6.box {
+  padding-right: 20px !important;
+}
+
+.selectize-control.single .selectize-input:after {
+  right: 10px !important;
+}
+
+@media screen and (max-width: 576px) {
+  .selectize-control.col-sm {
+    padding-left: 10px !important;
+  }
+}
