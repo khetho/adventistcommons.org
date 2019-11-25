@@ -1,9 +1,9 @@
 <?php
 
-namespace AdventistCommons\Idml;
+namespace AdventistCommons\Idml\Entity;
 
 use IDML\Package;
-use AdventistCommons\Idml\DomManipulator\StoryBasedOnTags;
+use AdventistCommons\Idml\DomManipulation\StoryBasedOnTags;
 
 /**
  * This class is the nutshell for an Idml package object
@@ -13,14 +13,11 @@ use AdventistCommons\Idml\DomManipulator\StoryBasedOnTags;
  */
 class Holder
 {
-    const COPY_KEY = '.ac_idml_ccopy.';
-    
     private $project;
     private $product;
     private $zipFileName;
     /** @var Package */
     private $package;
-    private $cloned = false;
     private $stories = [];
     private $sections = [];
     
@@ -44,32 +41,6 @@ class Holder
         $this->project = $project;
     }
     
-    /**
-     * Clone the holder when you want to set a new translation (project)
-     *
-     * @throws \Exception
-     */
-    public function __clone()
-    {
-        $clearedPreviousName = $this->zipFileName;
-        $removedSuffix = '.idml';
-        if (substr($clearedPreviousName, -strlen($removedSuffix)) === $removedSuffix) {
-            $clearedPreviousName = substr($clearedPreviousName, 0, -strlen($removedSuffix));
-        }
-        
-        $copyKeyPosition = strpos(self::COPY_KEY, $clearedPreviousName);
-        if ($copyKeyPosition !== false) {
-            $clearedPreviousName = substr($clearedPreviousName, 0, $copyKeyPosition);
-        }
-        $copyName = $clearedPreviousName.self::COPY_KEY.self::uniqidReal().'.idml';
-        copy($this->zipFileName, $copyName);
-        $this->zipFileName = $copyName;
-        // ensure package is loaded
-        $this->getPackage();
-        $this->package->setZip($this->zipFileName);
-        $this->cloned = true;
-    }
-    
     public function buildFileName()
     {
         return sprintf(
@@ -83,6 +54,16 @@ class Holder
     public function getZipContent()
     {
         return file_get_contents($this->zipFileName);
+    }
+    
+    public function getZipFileName()
+    {
+        return $this->zipFileName;
+    }
+    
+    public function getProduct()
+    {
+        return $this->product;
     }
     
     public function getPackage(): Package
@@ -123,18 +104,5 @@ class Holder
     public function validate(): void
     {
         $this->getSections();
-    }
-
-    private static function uniqidReal($lenght = 13)
-    {
-        if (function_exists("random_bytes")) {
-            $bytes = random_bytes(ceil($lenght / 2));
-        } elseif (function_exists("openssl_random_pseudo_bytes")) {
-            $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
-        } else {
-            throw new \Exception("no cryptographically secure random function available");
-        }
-        
-        return substr(bin2hex($bytes), 0, $lenght);
     }
 }

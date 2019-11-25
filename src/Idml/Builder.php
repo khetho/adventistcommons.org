@@ -2,6 +2,8 @@
 
 namespace AdventistCommons\Idml;
 
+use AdventistCommons\Idml\Entity\Holder;
+
 /**
  * Class Able to build some Idml holder
  * @package AdventistCommons\Export\Idml
@@ -11,6 +13,7 @@ namespace AdventistCommons\Idml;
 class Builder
 {
     private $translator;
+    private $uploadPath;
     
     private static $arr_accepted_mime_types = [
         'application/zip; charset=binary',
@@ -18,9 +21,11 @@ class Builder
     ];
     
     public function __construct(
-        Translator $translator
+        Translator $translator,
+        $uploadProtectedPath
     ) {
         $this->translator = $translator;
+        $this->uploadPath = $uploadProtectedPath;
     }
     
     public function buildFromArrayProductAndProject(array $product, array $project = null): Holder
@@ -32,8 +37,8 @@ class Builder
             return null;
         }
         $idmlPath = realpath(sprintf(
-            '%s/../../uploads/%s.idml',
-            __DIR__,
+            '%s/%s.idml',
+            $this->uploadPath,
             $product['idml_file']
         ));
         self::checkFile($idmlPath);
@@ -46,7 +51,7 @@ class Builder
         return $holder;
     }
     
-    public function buildFromProductAndPath(array $product, string $idmlPath)
+    public function buildFromProductAndPath(array $product, string $idmlPath): Holder
     {
         self::checkFile($idmlPath);
         

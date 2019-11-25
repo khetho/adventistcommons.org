@@ -1,8 +1,8 @@
 <?php
-namespace AdventistCommons\Idml;
+namespace AdventistCommons\Idml\Entity;
 
-use AdventistCommons\Idml\DomManipulator\Exception;
-use AdventistCommons\Idml\DomManipulator\StoryDomManipulator;
+use AdventistCommons\Idml\DomManipulation\Exception;
+use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 
 class Story
 {

@@ -1,5 +1,5 @@
 <?php
-namespace AdventistCommons\Idml;
+namespace AdventistCommons\Idml\Entity;
 
 class Section
 {

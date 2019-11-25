@@ -1,9 +1,9 @@
 <?php
-namespace AdventistCommons\Idml\DomManipulator;
+namespace AdventistCommons\Idml\DomManipulation;
 
-use AdventistCommons\Idml\Story;
-use AdventistCommons\Idml\Section;
-use AdventistCommons\Idml\Content;
+use AdventistCommons\Idml\Entity\Story;
+use AdventistCommons\Idml\Entity\Section;
+use AdventistCommons\Idml\Entity\Content;
 
 class StoryBasedOnTags implements StoryDomManipulator
 {

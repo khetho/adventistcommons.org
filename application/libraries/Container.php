@@ -100,7 +100,8 @@ class Container
             \AdventistCommons\Idml\Builder::class,
             function () {
                 return new \AdventistCommons\Idml\Builder(
-                    $this->get(\AdventistCommons\Idml\Translator::class)
+                    $this->get(\AdventistCommons\Idml\Translator::class),
+                    realpath(__DIR__.'/../../uploads')
                 );
             }
         );
