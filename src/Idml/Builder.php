@@ -14,12 +14,12 @@ class Builder
 {
     private $translator;
     private $uploadPath;
-    
+
     private static $arr_accepted_mime_types = [
         'application/zip; charset=binary',
         'application/octet-stream; charset=binary',
     ];
-    
+
     public function __construct(
         Translator $translator,
         $uploadProtectedPath
@@ -27,7 +27,7 @@ class Builder
         $this->translator = $translator;
         $this->uploadPath = $uploadProtectedPath;
     }
-    
+
     public function buildFromArrayProductAndProject(array $product, array $project = null): Holder
     {
         if ($project && $product['id'] !== $project['product_id']) {
@@ -42,29 +42,29 @@ class Builder
             $product['idml_file']
         ));
         self::checkFile($idmlPath);
-        
+
         $holder = new Holder($idmlPath, $product);
         if ($project) {
             $holder = $this->translator->translate($holder, $project);
         }
-        
+
         return $holder;
     }
-    
+
     public function buildFromProductAndPath(array $product, string $idmlPath): Holder
     {
         self::checkFile($idmlPath);
-        
+
         return new Holder($idmlPath, $product);
     }
-    
+
     public function buildFromPath(string $idmlPath)
     {
         self::checkFile($idmlPath);
         
         return new Holder($idmlPath);
     }
-    
+   
     /**
      * @param $idmlPath
      * @throws FileNotFoundException
@@ -76,7 +76,7 @@ class Builder
         }
         self::checkMimeType($idmlPath);
     }
-    
+
     /**
      * Checks the mimetype of the IDML file
      *

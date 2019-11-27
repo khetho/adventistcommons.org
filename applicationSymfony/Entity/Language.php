@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation as Api;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Language
@@ -29,6 +30,12 @@ class Language
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      * @Api\ApiFilter(SearchFilter::class, strategy="ipartial")
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
      */
     private $name;
 
@@ -36,6 +43,12 @@ class Language
      * @var string|null
      *
      * @ORM\Column(name="code", type="string", length=3, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 3,
+     * )
      */
     private $code;
 
@@ -50,8 +63,14 @@ class Language
      * @var bool
      *
      * @ORM\Column(name="rtl", type="boolean", nullable=false)
+     * @Assert\Type(type="bool")
      */
     private $rtl;
+
+    public function __construct()
+    {
+        $this->rtl = false;
+    }
 
     public function getId(): ?int
     {

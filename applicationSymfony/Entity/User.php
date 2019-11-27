@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -72,6 +73,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="ip_address", type="string", length=45, nullable=false)
+     * @Assert\Type(type="string")
+     * @Assert\Ip()
      */
     private $ipAddress;
 
@@ -79,6 +82,12 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="username", type="string", length=100, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 50,
+     * )
      */
     private $username;
 
@@ -96,6 +105,11 @@ class User implements UserInterface
     /**
      * @var string
      * @Api\ApiProperty
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     * )
      */
     private $plainPassword;
 
@@ -103,6 +117,9 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=254, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -188,6 +205,12 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="first_name", type="string", length=50, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
      */
     private $firstName;
 
@@ -195,6 +218,12 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="last_name", type="string", length=50, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
      */
     private $lastName;
 
@@ -202,6 +231,11 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="company", type="string", length=100, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
      */
     private $company;
 
@@ -209,6 +243,11 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="phone", type="string", length=20, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 20,
+     * )
      */
     private $phone;
 
@@ -216,6 +255,11 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="location", type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     * )
      */
     private $location;
 
@@ -223,6 +267,11 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="bio", type="text", length=65535, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 65535,
+     * )
      */
     private $bio;
 
@@ -247,14 +296,14 @@ class User implements UserInterface
      *
      * @ORM\Column(name="product_notify", type="boolean", nullable=false)
      */
-    private $productNotify = '0';
+    private $productNotify = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="pro_translator", type="boolean", nullable=false)
      */
-    private $proTranslator = '0';
+    private $proTranslator = false;
 
     /**
      * @var Language

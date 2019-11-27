@@ -1,4 +1,5 @@
 <?php
+
 namespace AdventistCommons\Idml;
 
 use AdventistCommons\Idml\Entity\Content;
@@ -32,7 +33,7 @@ class Importer
             $this->importContents($productId, $section);
         }
     }
-    
+
     private function importContents($productId, Section $section)
     {
         $iContent = 0;
@@ -48,7 +49,7 @@ class Importer
             $iContent ++;
         }
     }
-    
+
     private function createSection($productId, $name, $order, $storyKey)
     {
         $this->db->insert(
@@ -60,10 +61,10 @@ class Importer
                 'story_key'  => $storyKey,
             ]
         );
-        
+
         return $this->db->insert_id();
     }
-    
+
     private function createProductContent($productId, $sectionId, $content, $order, $idmlId)
     {
         $this->db->insert(

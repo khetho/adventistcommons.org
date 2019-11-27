@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation as Api;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Groups
@@ -29,7 +30,12 @@ class Group
      *
      * @ORM\Column(name="name", type="string", length=20, nullable=false)
      * @Api\ApiFilter(SearchFilter::class, strategy="ipartial")
-     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     * )
      */
     private $name;
 
@@ -37,6 +43,12 @@ class Group
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 100,
+     * )
      */
     private $description;
 
