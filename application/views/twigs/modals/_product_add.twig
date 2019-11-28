@@ -1,0 +1,159 @@
+{% extends "twigs/bootstrap/modal.twig" %}
+
+{% block action %}/products/save{% endblock %}
+
+{% block id %}add-product-form{% endblock %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block tabs %}
+	<ul class="nav nav-tabs nav-fill">
+		<li class="nav-item">
+			<a class="nav-link active" id="product-add-details-tab" data-toggle="tab" href="#product-add-details" role="tab">General</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="product-add-specs-tab" data-toggle="tab" href="#product-add-specs" role="tab">Specifications</a>
+		</li>
+	</ul>
+{% endblock %}
+
+{% block body %}
+	<div class="tab-content">
+		<div class="tab-pane fade show active" id="product-add-details" role="tabpanel">
+			<div class="form-group row align-items-center">
+				<label class="col-3">Title</label>
+				<input class="form-control col" type="text" name="name" />
+			</div>
+			<div class="form-group row align-items-https://goo.gl/maps/Dx2ztuHkeXQ2center">
+				<label class="col-3">Author(s)</label>
+				<input class="form-control col" type="text" name="author" />
+			</div>
+			<div class="form-group row align-items-center">
+				<label class="col-3">Publisher</label>
+				<input class="form-control col" type="text" name="publisher" />
+			</div>
+			<div class="form-group row align-items-center">
+				<label class="col-3">Publisher website</label>
+				<input class="form-control col" type="text" name="publisher_website" />
+			</div>
+			<div class="form-group row">
+				<label class="col-3">Description</label>
+				<textarea class="form-control col" rows="3" name="description"></textarea>
+			</div>
+			<div class="form-group row align-items-center">
+				<label for="audience" class="col-3">Audience</label>
+				<select id="audience" class="col selectize" multiple name="audience[]" data-placeholder="Select audience(s) ...">
+					{% for audience in audience_options %}
+						<option {% if audience.id in product.audience %}selected{% endif %} value="{{ audience.id }}">{{ audience.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group row align-items-center">
+				<label class="col-3">Page count</label>
+				<input class="form-control col" type="number" name="page_count" />
+			</div>
+			<div class="form-group row align-items-center">
+				<label class="col-3">Series</label>
+				<select class="series-select col" name="series_id" data-placeholder="Search for a series...">
+					<option value="">None</option>
+					{% for item in series  %}
+						<option value="{{ item.id }}">{{item.name}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<hr>
+			<h6>Product type</h6>
+			<div class="row">
+				{% for type in product_types  %}
+					<div class="col">
+						<div class="custom-control custom-radio">
+							<input type="radio" id="type-{{ type }}" name="type" class="custom-control-input" value="{{ type }}">
+							<label class="custom-control-label" for="type-{{ type }}">{{ type|capitalize }}</label>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<hr>
+			<h6>Cover Image</h6>
+			<div class="input-group mb-3">
+				<div class="custom-file">
+					<input type="file" class="custom-file-input" id="cover_image" name="cover_image">
+					<label class="custom-file-label" for="cover_image">Choose file</label>
+				</div>
+			</div>
+			<hr>
+			<h6>InDesign File (.idml)</h6>
+			<div class="input-group mb-3">
+				<div class="custom-file">
+					<input type="file" class="custom-file-input" id="idml_file" name="idml_file">
+					<label class="custom-file-label" for="idml_file">Choose file</label>
+				</div>
+			</div>
+			<hr>
+		</div>
+		<div class="tab-pane fade" id="product-add-specs" role="tabpanel">
+			<h6>Format</h6>
+			<div class="row">
+				<div class="col">
+					<div class="form-group row align-items-center">
+						<label class="col-4">Open</label>
+						<input class="form-control col" type="text" name="format_open" placeholder="e.g. 10.4 x 20.5 cm" />
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group row align-items-center">
+						<label class="col-4">Closed</label>
+						<input class="form-control col" type="text" name="format_closed" placeholder="e.g. 10.4 x 41 cm" />
+					</div>
+				</div>
+			</div>
+			<hr>
+			<h6>Cover</h6>
+			<div class="row">
+				<div class="col">
+					<div class="form-group row align-items-center">
+						<label class="col-4">Colors</label>
+						<input class="form-control col" type="text" name="cover_colors" />
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group row align-items-center">
+						<label class="col-4">Paper</label>
+						<input class="form-control col" type="text" name="cover_paper" />
+					</div>
+				</div>
+			</div>
+			<hr>
+			<h6>Interior</h6>
+			<div class="row">
+				<div class="col">
+					<div class="form-group row align-items-center">
+						<label class="col-4">Colors</label>
+						<input class="form-control col" type="text" name="interior_colors" />
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group row align-items-center">
+						<label class="col-4">Paper</label>
+						<input class="form-control col" type="text" name="interior_paper" />
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group row align-items-center">
+				<label class="col-3">Binding</label>
+				<select class="form-control col" name="binding">
+					{% for item in product_bindings  %}
+						<option value="{{ item.id }}">{{ item.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group row align-items-center">
+				<label class="col-3">Finishing</label>
+				<input class="form-control col" type="text" name="finishing" />
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block submitLabel %}Create Product{% endblock %}

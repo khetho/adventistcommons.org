@@ -151,6 +151,38 @@ class Products extends CI_Controller
         $this->twig->display("twigs/edit_product", $data);
     }
     
+    public function validateIdml()
+    {
+        if (! $this->ion_auth->is_admin()) {
+            show_404();
+        }
+        $this->output->set_content_type("application/json");
+
+        if (!$_FILES["idml_file"]["name"]) {
+            $this->output->set_output(json_encode([ "error" => 'No file given' ]));
+            return false;
+        }
+        $idml_file = $this->_uploadIdml();
+        if (! $idml_file) {
+            $this->output->set_output(json_encode([ "error" => $this->upload->display_errors() ]));
+            return false;
+        }
+        /** @var \AdventistCommons\Idml\Builder $idmlBuilder */
+        $idmlBuilder = $this->container->get(\AdventistCommons\Idml\Builder::class);
+        try {
+            /** @var \AdventistCommons\Idml\Entity\Holder $holder */
+            $holder = $idmlBuilder->buildFromPath($idml_file['full_path']);
+            $holder->validate();
+        } catch (\AdventistCommons\Idml\DomManipulation\Exception $e) {
+            $this->output->set_output(json_encode([
+                "error" => '<strong>Idml is not valid</strong><br />'.nl2br($e->getMessage())
+            ]));
+            return false;
+        }
+
+        $this->output->set_output(json_encode([ "success" => "Idml looks just fine" ]));
+    }
+    
     public function save()
     {
         if (! $this->ion_auth->is_admin()) {
@@ -493,25 +525,8 @@ class Products extends CI_Controller
         if (!$this->upload->do_upload("idml_file")) {
             return false;
         }
-        $file = $this->upload->data();
-        $this->_unzipIdml($file["file_name"], $file["raw_name"]);
 
         return $this->upload->data();
-    }
-
-    private function _unzipIdml($file_name, $raw_name)
-    {
-        $this->load->library("zip");
-        $unzip_path = self::getUploadDir(). "extracted/" . $raw_name;
-        $zip = new ZipArchive();
-        if ($zip->open(self::getUploadDir() . $file_name)) {
-            if (!$zip->extractTo($unzip_path)) {
-                throw new Error("Unable to extract file");
-            }
-            $zip->close();
-        } else {
-            throw new Error("Unable to open file");
-        }
     }
 
     private function _uploadAttachment()
@@ -525,7 +540,6 @@ class Products extends CI_Controller
             return false;
         }
         
-        $file = $this->upload->data();
         return $this->upload->data();
     }
     

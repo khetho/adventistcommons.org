@@ -13,4 +13,12 @@ interface StoryDomManipulator
     public function getContentsForSection(Section $section): array;
     
     public function setContent(Section $section, $searchedKey, $content): void;
+    
+    /**
+     * Validate the
+     *
+     * @throws Exception
+     * @return bool
+     */
+    public function validate(): bool;
 }

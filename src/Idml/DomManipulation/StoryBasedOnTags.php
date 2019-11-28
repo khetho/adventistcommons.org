@@ -1,6 +1,7 @@
 <?php
 namespace AdventistCommons\Idml\DomManipulation;
 
+use AdventistCommons\Basics\StringFunctions;
 use AdventistCommons\Idml\Entity\Story;
 use AdventistCommons\Idml\Entity\Section;
 use AdventistCommons\Idml\Entity\Content;
@@ -74,5 +75,38 @@ class StoryBasedOnTags implements StoryDomManipulator
                 $iContent++;
             }
         }
+    }
+    
+    public function validate(): bool
+    {
+        $xpath = new \DOMXPath($this->getRoot());
+        $errors = [];
+        
+        $appliedCharacterStyles = [
+            'Text',
+            '$ID/[No character style]',
+        ];
+        foreach ($appliedCharacterStyles as $appliedCharacterStyle) {
+            $query = sprintf(
+                '//CharacterStyleRange[@AppliedCharacterStyle="CharacterStyle/%s"]/following-sibling::CharacterStyleRange[@AppliedCharacterStyle="CharacterStyle/%s"]',
+                $appliedCharacterStyle,
+                $appliedCharacterStyle
+            );
+            /** @var \DOMNodeList $entries */
+            $entries = $xpath->query($query);
+            /** @var \DOMElement $entry */
+            foreach ($entries as $entry) {
+                if (!$entry->textContent) {
+                    continue;
+                }
+                $errors[] = sprintf('Two following paragraphs have the same style : «%s».', StringFunctions::limit($entry->textContent), 30);
+            }
+        }
+        
+        if ($errors) {
+            throw new Exception(implode("\n", $errors));
+        }
+        
+        return true;
     }
 }

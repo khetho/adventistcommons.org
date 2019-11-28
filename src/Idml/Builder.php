@@ -58,6 +58,13 @@ class Builder
         return new Holder($idmlPath, $product);
     }
     
+    public function buildFromPath(string $idmlPath)
+    {
+        self::checkFile($idmlPath);
+        
+        return new Holder($idmlPath);
+    }
+    
     /**
      * @param $idmlPath
      * @throws FileNotFoundException

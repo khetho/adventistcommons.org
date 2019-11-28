@@ -21,7 +21,7 @@ class Holder
     private $stories = [];
     private $sections = [];
     
-    public function __construct($zipFileName, array $product)
+    public function __construct($zipFileName, array $product = null)
     {
         $this->zipFileName = $zipFileName;
         $this->product = $product;
@@ -35,6 +35,10 @@ class Holder
      */
     public function setProject(array $project)
     {
+        $this->checkProduct();
+        if ($project['product_id'] !== $this->product['id']) {
+            throw new \Exception('Cannot set the project : this project does not rely on the same product.');
+        }
         if ($this->project) {
             throw new \Exception('Cannot change the project. You must clone the holder first if you want antoher language.');
         }
@@ -85,11 +89,22 @@ class Holder
         return $this->stories[$storyKey];
     }
     
+    public function getStories(): array
+    {
+        $storiesCount = count($this->getPackage()->getStories());
+        if ($storiesCount !== count($this->stories)) {
+            foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
+                $this->stories[$storyKey] = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+            }
+        }
+
+        return $this->stories;
+    }
+    
     public function getSections()
     {
         if (!$this->sections) {
-            foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
-                $story = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+            foreach ($this->getStories() as $story) {
                 $this->sections = array_merge($this->sections, $story->getSections());
             }
         }
@@ -103,6 +118,15 @@ class Holder
      */
     public function validate(): void
     {
+        /** @var Story $story */
+        foreach ($this->getStories() as $story) {
+            $story->validate();
+        }
         $this->getSections();
+    }
+
+    private function checkProduct()
+    {
+        throw new \Exception("The holder was created without a product. This action cannot be executed.");
     }
 }

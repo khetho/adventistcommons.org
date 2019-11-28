@@ -7,6 +7,7 @@ use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 class Story
 {
     private $key;
+    /** @var StoryDomManipulator */
     private $domManipulator;
     private $sections;
 
@@ -53,5 +54,17 @@ class Story
     {
         $section = $this->getSection($sectionName);
         $section->setContent($key, $newContent);
+    }
+    
+    public function validate(): bool
+    {
+        try {
+            $this->domManipulator->validate();
+        } catch (Exception $e) {
+            $e->setStory($this);
+            throw $e;
+        }
+        
+        return true;
     }
 }
