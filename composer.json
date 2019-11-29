@@ -21,10 +21,11 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
+        "phpspec/phpspec": "^6.1",
+        "sentry/sdk": "2.0.3",
         "symfony/maker-bundle": "^1.14",
         "symfony/profiler-pack": "^1.0",
-        "symfony/var-dumper": "^4.3",
-        "sentry/sdk": "2.0.3"
+        "symfony/var-dumper": "^4.3"
     },
     "config": {
         "preferred-install": {

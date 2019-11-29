@@ -99,7 +99,7 @@ class StoryBasedOnTags implements StoryDomManipulator
                 if (!$entry->textContent) {
                     continue;
                 }
-                $errors[] = sprintf('Two following paragraphs have the same style : «%s».', StringFunctions::limit($entry->textContent), 30);
+                $errors[] = sprintf('Two following paragraphs have the same style : «%s».', StringFunctions::limit($entry->textContent), 40);
             }
         }
         

@@ -15,29 +15,30 @@ class StringFunctions
      * @param string $ellipsis
      * @return string
      */
-    public static function limit($input, $softLimit = 30, $maxFlexibility = 10, $ellipsis = '…')
+    public static function limit($input, $hardLimit = 40, $maxFlexibility = 10, $ellipsis = '…')
     {
         $parts = preg_split('/([\s\n\r]+)/u', $input, null, PREG_SPLIT_DELIM_CAPTURE);
-        $parts_count = count($parts);
-        
-        $length = 0;
-        $last_part = 0;
-        for (; $last_part < $parts_count; ++$last_part) {
-            $length += strlen($parts[$last_part]);
-            if ($length > $softLimit) {
+
+        $stringLength = 0;
+        $output = '';
+        for ($iPart = 0; $iPart < count($parts); ++$iPart) {
+            $stringLength += mb_strlen($parts[$iPart]);
+            if ($stringLength > $hardLimit) {
+                if (mb_strlen($output) < ($hardLimit - $maxFlexibility)) {
+                    $output .= $parts[$iPart];
+                    $output = substr($output, 0, $hardLimit);
+                }
                 break;
             }
+            $output .= $parts[$iPart];
         }
-        
-        $output = implode(array_slice($parts, 0, $last_part));
-        if (strlen($output) > $softLimit + $maxFlexibility) {
-            $output = substr($output, 0, $softLimit + $maxFlexibility);
-        }
+
         $suffix = '';
-        if (strlen($output) < strlen($input)) {
+        if (mb_strlen($output) < mb_strlen($input)) {
+            $output = substr($output, 0, $hardLimit - mb_strlen($ellipsis));
             $suffix = $ellipsis;
         }
-        
+
         return $output.$suffix;
     }
 }
