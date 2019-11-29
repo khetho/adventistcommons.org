@@ -8,11 +8,15 @@ use AdventistCommons\Idml\Entity\Section;
 
 class Importer
 {
-    private $db;
+    private $sectionPersister;
+    private $contentPersister;
 
-    public function __construct(\CI_DB_mysqli_driver $db)
-    {
-        $this->db = $db;
+    public function __construct(
+        SectionPersisterInterface $sectionPersister,
+        ContentPersisterInterface $contentPersister
+    ) {
+        $this->sectionPersister = $sectionPersister;
+        $this->contentPersister = $contentPersister;
     }
 
     public function import(Holder $holder, $productId)
@@ -21,11 +25,13 @@ class Importer
         // import sections
         /** @var Section $section */
         foreach ($holder->getSections() as &$section) {
-            $sectionId = $this->createSection(
-                $productId,
-                $section->getName(),
-                $iSection,
-                $section->getStory()->getKey()
+            $sectionId = $this->sectionPersister->create(
+                [
+                    'product_id' => $productId,
+                    'name'       => $section->getName(),
+                    'order'      => $iSection,
+                    'story_key'  => $section->getStory()->getKey(),
+                ]
             );
             $iSection++;
             $section->setDbId($sectionId);
@@ -39,43 +45,45 @@ class Importer
         $iContent = 0;
         /** @var Content $content */
         foreach ($section->getContents() as $content) {
-            $this->createProductContent(
-                $productId,
-                $section->getDbId(),
-                $content->getText(),
-                $iContent,
-                $content->getKey()
+            $this->contentPersister->create(
+                [
+                    'product_id' => $productId,
+                    'section_id' => $section->getDbId(),
+                    'content'    => $content->getText(),
+                    'order'      => $iContent,
+                    'key'        => $content->getKey(),
+                ]
             );
             $iContent ++;
         }
     }
 
-    private function createSection($productId, $name, $order, $storyKey)
-    {
-        $this->db->insert(
-            'product_sections',
-            [
-                'product_id' => $productId,
-                'name'       => $name,
-                'order'      => $order,
-                'story_key'  => $storyKey,
-            ]
-        );
-
-        return $this->db->insert_id();
-    }
-
-    private function createProductContent($productId, $sectionId, $content, $order, $idmlId)
-    {
-        $this->db->insert(
-            'product_content',
-            [
-                'product_id'  => $productId,
-                'section_id'  => $sectionId,
-                'content'     => $content,
-                'order'       => $order,
-                'content_key' => $idmlId,
-            ]
-        );
-    }
+//    private function createSection($productId, $name, $order, $storyKey)
+//    {
+//        $this->db->insert(
+//            'product_sections',
+//            [
+//                'product_id' => $productId,
+//                'name'       => $name,
+//                'order'      => $order,
+//                'story_key'  => $storyKey,
+//            ]
+//        );
+//
+//        return $this->db->insert_id();
+//    }
+//
+//    private function createProductContent($productId, $sectionId, $content, $order, $idmlId)
+//    {
+//        $this->db->insert(
+//            'product_content',
+//            [
+//                'product_id'  => $productId,
+//                'section_id'  => $sectionId,
+//                'content'     => $content,
+//                'order'       => $order,
+//                'content_key' => $idmlId,
+//            ]
+//        );
+//    }
 }
