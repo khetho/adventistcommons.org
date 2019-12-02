@@ -430,7 +430,7 @@ class User extends CI_Controller
             'post' => $this->input->post(),
         );
         $this->twig->addGlobal("title", "Register");
-        $this->twig->display("twigs/auth/register", $data);
+        $this->twig->display("twigs/auth/register.html", $data);
     }
 
     public function register_profile()
