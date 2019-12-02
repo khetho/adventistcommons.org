@@ -491,6 +491,7 @@ class User implements UserInterface
     {
         if (!$this->createdOnDateTime) {
             $this->createdOnDateTime = \DateTime::createFromFormat('U', $this->createdOn);
+            $this->createdOnDateTime = $this->createdOnDateTime ? $this->createdOnDateTime : null;
         }
         return $this->createdOnDateTime;
     }
@@ -507,6 +508,7 @@ class User implements UserInterface
     {
         if (!$this->lastLoginDateTime) {
             $this->lastLoginDateTime = \DateTime::createFromFormat('U', $this->lastLogin);
+            $this->lastLoginDateTime = $this->lastLoginDateTime ? $this->lastLoginDateTime : null;
         }
         return $this->lastLoginDateTime;
     }
