@@ -1,0 +1,43 @@
+{% extends "twigs/template.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-11">
+				<div class="page-header d-flex justify-content-between align-items-center">
+					<h1>Users</h1>
+				</div>
+				<div class="card p-4">
+					<div class="table-responsive">
+						<table class="table">
+							<tr class="table-borderless">
+								<th>Picture</th>
+								<th>First name</th>
+								<th>Last name</th>
+								<th>Email</th>
+								<th>Access Level</th>
+								<th></th>
+							</tr>
+							{% for user in users  %}
+								<tr>
+									<td><img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ user.md5email }}?s=80&d=mp" class="avatar" /></td>
+									<td>{{ user.first_name }}</td>
+									<td>{{ user.last_name }}</td>
+									<td>{{ user.email }}</td>
+									<td>
+										{% for group in user.groups %}
+											{{group.description}}
+										{% endfor %}
+									</td>
+									<td>
+										<a href="/user/edit/{{ user.id }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

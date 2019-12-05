@@ -21,20 +21,20 @@ class About extends CI_Controller
     {
         $this->breadcrumbs[] = [ "label" => "Terms of use"  ];
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/content/terms_of_use.html");
+        $this->twig->display("twigs/content/terms_of_use");
     }
     
     public function privacy()
     {
         $this->breadcrumbs[] = [ "label" => "Privacy policy"  ];
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/content/privacy_policy.html");
+        $this->twig->display("twigs/content/privacy_policy");
     }
     
     public function faq()
     {
         $this->breadcrumbs[] = [ "label" => "FAQ"  ];
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/content/faq.html");
+        $this->twig->display("twigs/content/faq");
     }
 }

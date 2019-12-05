@@ -87,7 +87,7 @@ class Products extends CI_Controller
         $this->breadcrumbs[] = [ "label" => "All"  ];
         $this->twig->addGlobal("title", "Products");
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/products.html", $data);
+        $this->twig->display("twigs/products", $data);
     }
     
     public function detail($product_id)
@@ -118,7 +118,7 @@ class Products extends CI_Controller
         $this->breadcrumbs[] = [ "label" => $product["name"]  ];
         $this->twig->addGlobal("title", $product["name"]);
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/product.html", $data);
+        $this->twig->display("twigs/product", $data);
     }
     
     public function edit($product_id)
@@ -148,7 +148,7 @@ class Products extends CI_Controller
         ];
         $this->twig->addGlobal("title", "Edit Product");
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/edit_product.html", $data);
+        $this->twig->display("twigs/edit_product", $data);
     }
     
     public function validateIdml()

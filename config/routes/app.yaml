@@ -19,15 +19,12 @@ app_about:
     prefix: /sf
 
 app_login_check:
-    path:     /account/login_check
+    path:     /sf/account/login_check
     methods:  [POST]
-    prefix: /sf
 
 app_login_check_json:
     path:     /api/login_check
     methods:  [POST]
-    prefix: /sf
 
 app_logout:
-    path:     /account/logout
-    prefix: /sf
+    path:     /sf/account/logout

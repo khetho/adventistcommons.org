@@ -40,7 +40,7 @@ class Projects extends CI_Controller
         
         $this->twig->addGlobal("title", "Dashboard");
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/projects.html", $data);
+        $this->twig->display("twigs/projects", $data);
     }
     
     public function detail($project_id)
@@ -64,7 +64,7 @@ class Projects extends CI_Controller
         ];
         $this->twig->addGlobal("title", $title);
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/project.html", $data);
+        $this->twig->display("twigs/project", $data);
     }
     
     public function get_languages()
@@ -165,7 +165,7 @@ class Projects extends CI_Controller
         
         $this->twig->addGlobal("heading", "You've been invited to a new project!");
         $this->twig->addGlobal("base_url", base_url());
-        $content = $this->twig->render($is_invite ? "twigs/email/invited_contributor.html" : "twigs/email/added_contributor.html", $template_data);
+        $content = $this->twig->render($is_invite ? "twigs/email/invited_contributor" : "twigs/email/added_contributor", $template_data);
         $this->email->from("info@adventistcommons.org", "Adventist Commons");
         $this->email->to($user->email);
         $this->email->message($content);

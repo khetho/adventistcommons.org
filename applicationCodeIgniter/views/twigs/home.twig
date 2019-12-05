@@ -1,26 +1,11 @@
-{% extends "template.html.twig" %}
-
-{% block title %}
-	Certified Adventist Resources, Culturally Relevant
-{% endblock %}
-
-{% block contentHeader %}
-	<div class="jumbotron jumbotron-fluid bg-dark mb-0 banner">
-		<div class="container">
-			<h1 class="display-4">Free Adventist Resources<br><span style="color:#f9dc90">Culturally Relevant</span></h1>
-			<p class="lead">Certified, Translatable, Printable, Sharable.</p>
-			<a href="/projects" class="btn btn-light mb-5">Get Started</a>
-		</div>
-	</div>
-{% endblock %}
-
-{% block breadcrumb %}
-	<div class="breadcrumb-bar navbar bg-white" style="min-height:20px"></div>
-{% endblock %}
+{% extends "twigs/template.twig" %}
 
 {% block content %}
 	
 	<div class="container">
+		{% if message %}
+			<div class="alert alert-warning mt-3 text-center">{{ message }}</div>
+		{% endif %}
 		<div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-11 text-center">
 				<h1 class="mt-4">How It Works</h1>
@@ -29,7 +14,7 @@
 					<div class="col-md-4">
 						<div class="card mb-3">
 							<a href="/products">
-								<img class="card-img-top mt-4 w-25" src="/assets/img/browse.svg">
+								<img class="card-img-top mt-4 w-25" src="assets/img/browse.svg">
 							</a>
 							<div class="card-body">
 								<a class="card-title h6" href="/products">Browse Products</a>
@@ -39,7 +24,7 @@
 					<div class="col-md-4">
 						<div class="card mb-3">
 							<a href="/projects">
-								<img class="card-img-top mt-4 w-25" src="/assets/img/translate.svg">
+								<img class="card-img-top mt-4 w-25" src="assets/img/translate.svg">
 							</a>
 							<div class="card-body">
 								<a class="card-title h6" href="/projects">Translate Products</a>
@@ -49,7 +34,7 @@
 					<div class="col-md-4">
 						<div class="card mb-3">
 							<a href="/products">
-								<img class="card-img-top mt-4 w-25" src="/assets/img/download.svg">
+								<img class="card-img-top mt-4 w-25" src="assets/img/download.svg">
 							</a>
 							<div class="card-body">
 								<a class="card-title h6" href="/products">Download Products</a>
@@ -82,22 +67,22 @@
 				<div class="row text-center text-lg-left d-flex align-items-center">
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="https://publishing.adventist.org" class="d-block mb-4 h-100">
-			            <img class="img-fluid" src="/assets/img/publishing.png">
+			            <img class="img-fluid" src="assets/img/publishing.png">
 			          </a>
 				    </div>
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="https://www.middle-east-publishers.com/" class="d-block mb-4 h-100">
-			            <img class="img-fluid partner-icon" src="/assets/img/middle-east-publishers.png">
+			            <img class="img-fluid partner-icon" src="assets/img/middle-east-publishers.png">
 			          </a>
 				    </div>
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="https://www.globalmissioncenters.org/" class="d-block mb-4 h-100">
-			            <img class="img-fluid partner-icon" src="/assets/img/globalmission.png">
+			            <img class="img-fluid partner-icon" src="assets/img/globalmission.png">
 			          </a>
 				    </div>
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="https://women.adventist.org/" class="d-block mb-4 h-100">
-			            <img class="img-fluid partner-icon" src="/assets/img/womansministries.png">
+			            <img class="img-fluid partner-icon" src="assets/img/womansministries.png">
 			          </a>
 				    </div>
 				</div>
@@ -108,12 +93,12 @@
 				<div class="row text-center text-lg-left">
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="https://www.awr.org/" class="d-block mb-4 h-100">
-			            <img class="img-fluid partner-icon" src="/assets/img/awr.png">
+			            <img class="img-fluid partner-icon" src="assets/img/awr.png">
 			          </a>
 				    </div>
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="http://healthministries.com/" class="d-block mb-4 h-100">
-			            <img class="img-fluid partner-icon" src="/assets/img/healhministries.png">
+			            <img class="img-fluid partner-icon" src="assets/img/healhministries.png">
 			          </a>
 				    </div>
 				</div>
@@ -141,17 +126,17 @@
 				<p class="lead">We believe in the power of teams and individuals that share a common goal.<br>Meet the key members working on Adventist Commons.</p>
 				<div class="row text-center text-lg-left d-flex align-items-center">
 					<div class='col-md-4 text-center'>
-						<img class='rounded' src="/assets/img/team/Michael.png">
+						<img class='rounded' src="assets/img/team/Michael.png">
 						<h3 class="mt-4">Michael Eckert</h3>
 						<p class="lead">Project Coordinator</p>
 					</div>
 					<div class='col-md-4 text-center'>
-						<img class='rounded' src="/assets/img/team/Samuel.png">
+						<img class='rounded' src="assets/img/team/Samuel.png">
 						<h3 class="mt-4">Samuel Roncal</h3>
 						<p class="lead">Lead Developer</p>
 					</div>
 					<div class='col-md-4 text-center'>
-						<img class='rounded' src="/assets/img/team/Marisa.png">
+						<img class='rounded' src="assets/img/team/Marisa.png">
 						<h3 class="mt-4">Marisa Ferreira</h3>
 						<p class="lead">Product Manager</p>
 					</div>

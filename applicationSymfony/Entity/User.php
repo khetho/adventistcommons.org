@@ -344,6 +344,11 @@ class User implements UserInterface
         $this->languages = new ArrayCollection();
         $this->username = $username;
     }
+    
+    public function __toString()
+    {
+        return $this->getFirstName().' '.$this->getLastName();
+    }
 
     public function getId(): ?int
     {

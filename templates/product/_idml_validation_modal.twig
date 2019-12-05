@@ -1,0 +1,14 @@
+{% extends "bootstrap/modal.html.twig" %}
+
+{% block action %}/products/validateIdml{% endblock %}
+
+{% block id %}validate-idml-form{% endblock %}
+
+{% block title %}Idml Validation{% endblock %}
+
+{% block body %}
+	{% include 'product/_idml_validation' %}
+{% endblock %}
+
+{% block submitLabel %}Validate IDML{% endblock %}
+

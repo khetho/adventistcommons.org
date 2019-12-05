@@ -66,6 +66,11 @@ class Language
      * @Assert\Type(type="bool")
      */
     private $rtl;
+    
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     public function __construct()
     {

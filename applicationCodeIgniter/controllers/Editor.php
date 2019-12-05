@@ -59,7 +59,7 @@ class Editor extends CI_Controller
         
         $this->twig->addGlobal("title", "Editor");
         $this->twig->addGlobal("breadcrumbs", $this->breadcrumbs);
-        $this->twig->display("twigs/editor.html", $data);
+        $this->twig->display("twigs/editor", $data);
     }
     
     public function commit()
