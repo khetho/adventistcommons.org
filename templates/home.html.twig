@@ -1,5 +1,32 @@
 {% extends "twigs/template.html.twig" %}
 
+{% block contentHeader %}
+	<div class="jumbotron jumbotron-fluid bg-dark mb-0 banner">
+		<div class="container">
+			<h1 class="display-4">Free Adventist Resources<br><span style="color:#f9dc90">Culturally Relevant</span></h1>
+			<p class="lead">Certified, Translatable, Printable, Sharable.</p>
+			<a href="/projects" class="btn btn-light mb-5">Get Started</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block breadcrumb %}
+	<div class="breadcrumb-bar navbar bg-white sticky-top">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				{% for breadcrumb in breadcrumbs  %}
+					{% if breadcrumb.url is defined %}
+						<li class="breadcrumb-item active"><a href="{{ breadcrumb.url }}">{{ breadcrumb.label }}</a></li>
+					{% else %}
+					  <li class="breadcrumb-item">{{ breadcrumb.label }}</li>
+					{% endif %}
+				{% endfor %}
+			</ol>
+		</nav>
+	</div>
+	<div class="breadcrumb-bar navbar bg-white" style="min-height:20px"></div>
+{% endblock %}
+
 {% block content %}
 	
 	<div class="container">

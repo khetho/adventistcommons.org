@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>Adventist Commons | {{ title }}</title>
+	    <title>Adventist Commons | {% block title %}{{ title }}{% endblock %}</title>
 	    <link rel="icon" href="/assets/img/favicon.png">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
@@ -22,14 +22,14 @@
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="d-block d-lg-none ml-2">
-					{% if user %}
+					{% if is_granted("ROLE_USER") %}
 						<div class="dropdown">
 							<a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ user.image }}?s=80&d=mp" class="avatar" />
+								<img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ app.user.image }}?s=80&d=mp" class="avatar" />
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a href="/account" class="dropdown-item">Dashboard</a>
-								{% if user.is_admin %}
+								{% if is_granted("ROLE_ADMIN") %}
 									<a href="/user/list" class="dropdown-item">Manage Users</a>
 								{% endif %}
 								<a href="/logout" class="dropdown-item">Log Out</a>
@@ -74,14 +74,14 @@
 							</div>
 						</form>
 						<div class="d-none d-lg-block">
-							{% if user %}
+							{% if is_granted("ROLE_USER") %}
 								<div class="dropdown">
 									<a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ user.image }}?s=80&d=mp" class="avatar" />
+										<img alt="Image" width="40" src="https://www.gravatar.com/avatar/{{ app.user.image }}?s=80&d=mp" class="avatar" />
 									</a>
 									<div class="dropdown-menu dropdown-menu-right">
 										<a href="/account" class="dropdown-item">Dashboard</a>
-										{% if user.is_admin %}
+										{% if is_granted("ROLE_ADMIN") %}
 											<a href="/user/list" class="dropdown-item">Manage Users</a>
 										{% endif %}
 										<a href="/logout" class="dropdown-item">Log Out</a>
@@ -102,30 +102,11 @@
 				</div>
 			</div>
 			<div class="main-container">
-				{% if is_home %}
-					<div class="jumbotron jumbotron-fluid bg-dark mb-0 banner">
-						<div class="container">
-							<h1 class="display-4">Free Adventist Resources<br><span style="color:#f9dc90">Culturally Relevant</span></h1>
-							<p class="lead">Certified, Translatable, Printable, Sharable.</p>
-							<a href="/projects" class="btn btn-light mb-5">Get Started</a>
-						</div>
-					</div>
+				{% block contentHeader %}
+				{% endblock %}
+				{% block breadcrumb %}
 					<div class="breadcrumb-bar navbar bg-white" style="min-height:20px"></div>
-				{% else %}
-					<div class="breadcrumb-bar navbar bg-white sticky-top">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb">
-								{% for breadcrumb in breadcrumbs  %}
-									{% if breadcrumb.url is defined %}
-										<li class="breadcrumb-item active"><a href="{{ breadcrumb.url }}">{{ breadcrumb.label }}</a></li>
-									{% else %}
-									  <li class="breadcrumb-item">{{ breadcrumb.label }}</li>
-									{% endif %}
-								{% endfor %}
-							</ol>
-						</nav>
-					</div>
-				{% endif %}
+				{% endblock %}
 				{% block content %}{% endblock %}
 			</div>
 		</div>

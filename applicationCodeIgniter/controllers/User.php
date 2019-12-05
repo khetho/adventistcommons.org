@@ -477,7 +477,7 @@ class User extends CI_Controller
     {
         $data = [
             "skills" => $this->skills,
-            "edit_user" => $this->user,
+            "edit_user" => $this->ion_auth->user()->row(),
         ];
         $breadcrumbs = [
             [

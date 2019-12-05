@@ -1,22 +1,33 @@
 app_auth:
     resource: App\Controller\AuthController
     type: annotation
+    prefix: /sf
 
 app_dashboard:
     resource: App\Controller\DashboardController
     type: annotation
+    prefix: /sf
 
 app_account:
     resource: App\Controller\AccountController
     type: annotation
+    prefix: /sf
+
+app_about:
+    resource: App\Controller\AboutController
+    type: annotation
+    prefix: /sf
 
 app_login_check:
     path:     /account/login_check
     methods:  [POST]
+    prefix: /sf
 
 app_login_check_json:
     path:     /api/login_check
     methods:  [POST]
+    prefix: /sf
 
 app_logout:
     path:     /account/logout
+    prefix: /sf

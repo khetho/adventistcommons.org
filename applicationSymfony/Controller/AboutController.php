@@ -3,20 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class AccountController
+class AboutController extends AbstractController
 {
     /**
-     * @Route("/account", name="app_account_myself")
+     * @Route("/about/{slug}", name="app_about_page")
      */
-    public function myself(Request $request, TokenStorageInterface $tokenStorage)
+    public function page(string $slug, UserPasswordEncoderInterface $encoder)
     {
-        throw new \Exception("TODO");
+        return $this->render(sprintf('content/%s.html.twig', $slug));
     }
 }

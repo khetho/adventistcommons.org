@@ -778,4 +778,9 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
+    
+    public function getImage()
+    {
+        return md5(strtolower(trim($this->email)));
+    }
 }
