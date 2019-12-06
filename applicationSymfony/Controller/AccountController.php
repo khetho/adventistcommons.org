@@ -2,19 +2,40 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\Type\AccountType;
+use App\Form\Type\CompleteType;
 use App\Form\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AccountController extends AbstractController
 {
+    /**
+     * @Route("/account/complete", name="app_account_complete")
+     */
+    public function complete()
+    {
+        $form = $this->createForm(CompleteType::class);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Account saved successfully');
+            $user = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_about_home');
+        }
+
+        return $this->render(
+            'account/complete.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
     /**
      * @Route("/account", name="app_account_myself")
      */
@@ -28,11 +49,11 @@ class AccountController extends AbstractController
         $passwordForm->handleRequest($request);
         $submitedUser = null;
         if ($accountForm->isSubmitted() && $accountForm->isValid()) {
-            $this->addFlash('success', 'Account saved succesfuly');
+            $this->addFlash('success', 'Account saved successfully');
             $submitedUser = $accountForm->getData();
         }
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-            $this->addFlash('success', 'Password changed succesfuly');
+            $this->addFlash('success', 'Password changed successfully');
             $submitedUser = $passwordForm->getData();
         }
         if ($submitedUser) {
@@ -44,7 +65,7 @@ class AccountController extends AbstractController
         }
         
         return $this->render(
-            'user/account.html.twig',
+            'account/edit.html.twig',
             [
                 'user' => $user,
                 'accountForm' => $accountForm->createView(),

@@ -337,12 +337,14 @@ class User implements UserInterface
      */
     private $groups;
 
-    public function __construct($username)
+    public function __construct(string $email)
     {
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
-        $this->username = $username;
+        $this->username = $email;
+        $this->email = $email;
+        $this->createdOn = date('U');
     }
     
     public function __toString()
@@ -499,14 +501,6 @@ class User implements UserInterface
             $this->createdOnDateTime = $this->createdOnDateTime ? $this->createdOnDateTime : null;
         }
         return $this->createdOnDateTime;
-    }
-
-    public function setCreatedOn(\DateTime $createdOn): self
-    {
-        $this->createdOn = $createdOn->format('U');
-        $this->createdOnDateTime = $createdOn;
-
-        return $this;
     }
 
     public function getLastLogin(): ?\DateTime

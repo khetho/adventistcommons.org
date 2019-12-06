@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Adventist Commons | {{ title }}</title>
+        <title>Adventist Commons | {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="/assets/img/favicon.png">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,17 +14,18 @@
     </head>
 
     <body>
-        <div class="main-container fullscreen">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-5 col-lg-6 col-md-7">
-                        <div class="text-center">
+        {% block body %}
+            <div class="main-container fullscreen">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-5 col-lg-6 col-md-7">
+                            {% include 'common/messages.html.twig' %}
                             {% block content %}{% endblock %}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endblock %}
 
         <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="/assets/js/autosize.min.js"></script>

@@ -4,23 +4,22 @@ namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType as PasswordFieldType;
 
-class AccountType extends AbstractType
+class CompleteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('email')
             ->add(
                 'location',
                 null,
                 [
                     'attr' => [
-                        'placeholder' => 'Your location',
+                        'placeholder' => 'Enter location',
                     ]
                 ]
             )
@@ -29,7 +28,7 @@ class AccountType extends AbstractType
                 null,
                 [
                     'attr' => [
-                        'placeholder' => 'Tell us a little about yourself, this will be displayed on your public profile',
+                        'placeholder' => 'Tell us a little about yourself',
                     ]
                 ]
             )
@@ -37,7 +36,6 @@ class AccountType extends AbstractType
                 'motherLanguage',
                 null,
                 [
-                    'label' => 'What is your mother language?',
                     'attr' => [
                         'class' => 'language-select',
                         'placeholder' => 'Select language…',
@@ -48,7 +46,7 @@ class AccountType extends AbstractType
                 'languages',
                 null,
                 [
-                    'label' => 'What other languages are you fluent in?',
+                    'label' => 'Fluent languages',
                     'attr' => [
                         'class' => 'language-select',
                         'placeholder' => 'Select languages…',

@@ -18,13 +18,13 @@ app_about:
     type: annotation
     prefix: /sf
 
-app_login_check:
+app_auth_login_check:
     path:     /sf/account/login_check
     methods:  [POST]
 
-app_login_check_json:
+app_auth_login_check_json:
     path:     /api/login_check
     methods:  [POST]
 
-app_logout:
+app_auth_logout:
     path:     /sf/account/logout

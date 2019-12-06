@@ -1,0 +1,17 @@
+{% extends "html.html.twig" %}
+
+{% form_theme form 'bootstrap/form_labelless_layout.html.twig' %}
+
+{% block title %}Complete your account{% endblock %}
+
+{% block content %}
+	<h1 class="h2">{{ "Almost done, %s!"|format( user.firstName ) }}</h1>
+	<p class="lead">We need a bit more information about you</p>
+	<hr>
+	{{ form_start(form) }}
+		{{ form_rest(form) }}
+	<button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
+		Continue
+	</button>
+	{{ form_end(form) }}
+{% endblock %}

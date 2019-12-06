@@ -1,0 +1,24 @@
+{% extends "html.html.twig" %}
+
+{% form_theme form 'bootstrap/form_labelless_layout.html.twig' %}
+
+{% block title %}Create your account{% endblock %}
+
+{% block content %}
+	<h1 class="h2 text-center">Create account</h1>
+	<p class="lead text-center">Enter the information below to start translating</p>
+	<hr />
+	{{ form_start(form) }}
+		{{ form_rest(form) }}
+		<button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
+			Create account
+		</button>
+		<div class="text-center">
+			<small>
+				By clicking 'Create Account' you agree to our
+				<a href="{{ path('app_about_page', {'slug': 'terms_of_use'}) }}" target="_blank">Terms of Use</a> and
+				<a href="{{ path('app_about_page', {'slug': 'privacy_policy'}) }}" target="_blank">Privacy Policy.</a>
+			</small>
+		</div>
+	{{ form_end(form) }}
+{% endblock %}

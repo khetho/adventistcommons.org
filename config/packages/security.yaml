@@ -18,7 +18,7 @@ security:
             stateless: true
             anonymous: true
             json_login:
-                check_path: app_login_check_json
+                check_path: app_auth_login_check_json
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
@@ -33,7 +33,7 @@ security:
             anonymous: ~
             provider: entity_provider
             logout:
-                path: app_logout
+                path: app_auth_logout
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator

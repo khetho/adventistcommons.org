@@ -6,7 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType as PassworrdFieldType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType as PasswordFieldType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class PasswordType extends AbstractType
@@ -16,7 +16,7 @@ class PasswordType extends AbstractType
         $builder
             ->add(
                 'password',
-                PassworrdFieldType::class,
+                PasswordFieldType::class,
                 [
                     'label' => 'Current password',
                     'mapped' => 'false',
@@ -29,7 +29,7 @@ class PasswordType extends AbstractType
                 'plainPassword',
                 RepeatedType::class,
                 [
-                    'type' => PassworrdFieldType::class,
+                    'type' => PasswordFieldType::class,
                     'first_options' => [
                         'label' => 'New password',
                         'attr' => [
