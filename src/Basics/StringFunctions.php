@@ -15,7 +15,7 @@ class StringFunctions
      * @param string $ellipsis
      * @return string
      */
-    public static function limit($input, $hardLimit = 40, $maxFlexibility = 10, $ellipsis = '…')
+    public static function limit($input, $hardLimit = 40, $maxFlexibility = 10, $ellipsis = '…'): string
     {
         $parts = preg_split('/([\s\n\r]+)/u', $input, null, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -40,5 +40,21 @@ class StringFunctions
         }
 
         return $output.$suffix;
+    }
+ 
+    /**
+     * @param string $length
+     * @return string
+     **/
+    public static function generateString(int $length = 20): string
+    {
+        $finalString = "";
+        $range = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        $rangeMax = strlen($range) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $finalString .= $range[rand(0, $rangeMax)];
+        }
+
+        return $finalString;
     }
 }

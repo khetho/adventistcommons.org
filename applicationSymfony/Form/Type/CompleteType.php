@@ -36,6 +36,8 @@ class CompleteType extends AbstractType
                 'motherLanguage',
                 null,
                 [
+                    'data' => null,
+                    'required' => true,
                     'attr' => [
                         'class' => 'language-select',
                         'placeholder' => 'Select language…',

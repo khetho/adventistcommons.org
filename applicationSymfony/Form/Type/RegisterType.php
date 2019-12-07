@@ -44,7 +44,7 @@ class RegisterType extends AbstractType
                     'attr' => [
                         'placeholder' => 'Email Address',
                     ],
-                    'empty_data' => 'null',                ]
+                ]
             )
             ->add(
                 'plainPassword',

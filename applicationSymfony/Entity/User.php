@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  * User
@@ -57,6 +58,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "patch"={"security"="is_granted('ROLE_ADMIN')"},
  *     },
  * )
+ * @DoctrineAssert\UniqueEntity(
+ *   "email",
+ *   errorPath="email",
+ *   message="This email is already in use."    )
  */
 class User implements UserInterface
 {
@@ -157,6 +162,7 @@ class User implements UserInterface
      * @ORM\Column(name="forgotten_password_time", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $forgottenPasswordTime;
+    private $forgottenPasswordTimeDateTime;
 
     /**
      * @var string|null
@@ -458,14 +464,19 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getForgottenPasswordTime(): ?int
+    public function getForgottenPasswordTime(): ?\DateTime
     {
-        return $this->forgottenPasswordTime;
+        if (!$this->forgottenPasswordTimeDateTime) {
+            $this->forgottenPasswordTimeDateTime = \DateTime::createFromFormat('U', $this->forgottenPasswordTime);
+            $this->forgottenPasswordTimeDateTime = $this->forgottenPasswordTimeDateTime ? $this->forgottenPasswordTimeDateTime : null;
+        }
+        return $this->forgottenPasswordTimeDateTime;
     }
 
-    public function setForgottenPasswordTime(?int $forgottenPasswordTime): self
+    public function setForgottenPasswordTime(\DateTime $forgottenPasswordTime): self
     {
-        $this->forgottenPasswordTime = $forgottenPasswordTime;
+        $this->forgottenPasswordTime = $forgottenPasswordTime->format('U');
+        $this->forgottenPasswordTimeDateTime = $forgottenPasswordTime;
 
         return $this;
     }

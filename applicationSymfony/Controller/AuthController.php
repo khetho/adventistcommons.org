@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use AdventistCommons\Basics\StringFunctions;
 use App\Entity\User;
 use App\Form\Type\CompleteType;
 use App\Form\Type\RegisterType;
+use App\Form\Type\AskPasswordResetType;
+use App\Form\Type\PasswordResetType;
+use App\Security\PasswordResetTokenGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,18 +41,21 @@ class AuthController extends AbstractController
     /**
      * @Route("/auth/register", name="app_auth_register")
      */
-    public function register(Request $request)
+    public function register(Request $request, StringFunctions $stringFunctions)
     {
         $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Account created successfully');
+            $this->addFlash('success', 'Account created successfully. We sent you a validation email.');
             /** @var User $user */
             $user = $form->getData();
             $user->setIpAddress($request->getClientIp());
+            $user->setActive(false);
+            $user->setActivationCode($stringFunctions->generateString(25));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            /** @TODO : send email **/
             $request->getSession()->set('just_created_user_email', $user->getEmail());
 
             return $this->redirectToRoute('app_auth_complete');
@@ -60,6 +67,26 @@ class AuthController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/auth/activate/{code}", name="app_auth_activate", requirements={"code"=".{10,50}"})
+     */
+    public function activate(Request $request, string $code)
+    {
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['activationCode' => $code]);
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+        $this->addFlash('success', 'Account activated successfully. You can now Login.');
+        /** @var User $user */
+        $user->setActive(true);
+        $user->setActivationCode(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_auth_login');
     }
 
     /**
@@ -75,8 +102,9 @@ class AuthController extends AbstractController
         $form = $this->createForm(CompleteType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $request->getSession()->set('just_created_user_email', null);
-            $this->addFlash('success', 'Account saved successfully. Please, check your mail and click on the link to activate your account.');
+//            $request->getSession()->set('just_created_user_email', null);
+            $this->addFlash('success', 'Account created successfully. Please, check your emails and click on the link to activate your account.');
+            // @todo : send email
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -95,9 +123,53 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/auth/reset_password", name="app_auth_reset_password")
+     * @Route("/auth/ask_reset_password", name="app_auth_ask_reset_password")
      */
-    public function resetPassword()
+    public function askPasswordReset(Request $request, PasswordResetTokenGenerator $passwordResetTokenGenerator)
     {
+        $form = $this->createForm(AskPasswordResetType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $passwordResetTokenGenerator->treateEmail($form->getData()['email']);
+            $this->addFlash('success', 'Password request successfully submitted. Please, check your emails and click on the link to set your password.');
+            
+            return $this->redirect($this->generateUrl('app_auth_ask_reset_password'));
+        }
+
+        return $this->render(
+            'auth/askResetPassword.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/auth/reset_password/{code}", name="app_auth_reset_password", requirements={"code"=".{10,50}"})
+     */
+    public function resetPassword(Request $request, string $code, PasswordResetTokenGenerator $passwordResetTokenGenerator)
+    {
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['forgottenPasswordCode' => $code]);
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+        $form = $this->createForm(PasswordResetType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $user->setForgottenPasswordCode(null);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Password successfully changed. You can now login with your new password.');
+            return $this->redirect($this->generateUrl('app_auth_login'));
+        }
+
+        return $this->render(
+            'auth/resetPassword.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 }
