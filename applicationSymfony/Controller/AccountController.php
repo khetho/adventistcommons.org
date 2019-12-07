@@ -15,11 +15,12 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/complete", name="app_account_complete")
      */
-    public function complete()
+    public function complete(Request $request)
     {
-        $form = $this->createForm(CompleteType::class);
+        $form = $this->createForm(CompleteType::class, $this->getUser());
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Account saved successfully');
+            $this->addFlash('success', 'Account completed successfully');
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -31,6 +32,7 @@ class AccountController extends AbstractController
         return $this->render(
             'account/complete.html.twig',
             [
+                'user' => $this->getUser(),
                 'form' => $form->createView(),
             ]
         );
@@ -39,11 +41,10 @@ class AccountController extends AbstractController
     /**
      * @Route("/account", name="app_account_myself")
      */
-    public function myself(Request $request, TokenStorageInterface $tokenStorage)
+    public function myself(Request $request)
     {
-        $user = $tokenStorage->getToken()->getUser();
-        $accountForm = $this->createForm(AccountType::class, $user);
-        $passwordForm = $this->createForm(PasswordType::class, $user);
+        $accountForm = $this->createForm(AccountType::class, $this->getUser());
+        $passwordForm = $this->createForm(PasswordType::class, $this->getUser());
         
         $accountForm->handleRequest($request);
         $passwordForm->handleRequest($request);

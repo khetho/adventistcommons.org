@@ -53,8 +53,9 @@ class AccountType extends AbstractType
                 null,
                 [
                     'attr' => [
-                        'placeholder' => 'Tell us a little about yourself, this will be displayed on your public profile',
-                    ]
+                        'placeholder' => 'Tell us a little about yourself',
+                    ],
+                    'help' => 'This will be displayed on your public profile',
                 ]
             )
             ->add(
