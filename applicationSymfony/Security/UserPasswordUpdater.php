@@ -54,6 +54,6 @@ class UserPasswordUpdater implements EventSubscriber
             return;
         }
         $encoded = $this->passwordEncoder->encodePassword($entity, $plainPassword);
-        $entity->setPassword($encoded);
+        $entity->setRealPassword($encoded);
     }
 }

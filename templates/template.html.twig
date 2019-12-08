@@ -6,7 +6,7 @@
 			<a class="navbar-brand" href="/">
 				<img src="/assets/img/logo_text.png" height="40" />
 			</a>
-			{% include 'common/menu_header.html.twig' %}
+			{% include 'common/_menu_header.html.twig' %}
 		</div>
 		<div class="main-container">
 			{% block contentHeader %}
@@ -14,7 +14,7 @@
 			{% block breadcrumb %}
 				<div class="breadcrumb-bar navbar bg-white" style="min-height:20px"></div>
 			{% endblock %}
-			{% include 'common/messages.html.twig' %}
+			{% include 'common/_messages.html.twig' %}
 			{% block content %}{% endblock %}
 		</div>
 	</div>

@@ -35,7 +35,7 @@ class UserPasswordAjaxUpdater implements EventSubscriberInterface
 
         if ($user instanceof User && $user->getPlainPassword()) {
             $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+            $user->setRealPassword($password);
         }
     }
 }

@@ -77,7 +77,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="ip_address", type="string", length=45, nullable=false)
+     * @ORM\Column(name="ip_address", type="string", length=45, nullable=true)
      * @Assert\Type(type="string")
      * @Assert\Ip()
      */
@@ -99,7 +99,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=true)
      * @Api\ApiProperty(
      *     readable=false,
      *     writable=false,
@@ -368,7 +368,7 @@ class User implements UserInterface
         return $this->ipAddress;
     }
 
-    public function setIpAddress(string $ipAddress): self
+    public function setIpAddress(?string $ipAddress): self
     {
         $this->ipAddress = $ipAddress;
 
@@ -380,12 +380,12 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setRealPassword(string $password): self
     {
         $this->password = $password;
 
@@ -409,7 +409,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -792,5 +792,24 @@ class User implements UserInterface
     public function getImage()
     {
         return md5(strtolower(trim($this->email)));
+    }
+
+    public function forget(): self
+    {
+        $this->email = null;
+        $this->setFirstName('Inactive');
+        $this->setLastName('user');
+        $this->setIpAddress(null);
+        $this->username = null;
+        $this->password = null;
+        $this->setActive(false);
+        $this->setLocation(null);
+        $this->setBio(null);
+        $this->setMotherLanguage(null);
+        $this->skills  = null;
+        $this->productNotify = null;
+        $this->proTranslator = null;
+        
+        return $this;
     }
 }
