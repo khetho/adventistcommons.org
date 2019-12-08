@@ -9,6 +9,7 @@
 	<p class="lead">We need a bit more information about you</p>
 	<hr>
 	{{ form_start(form) }}
+		{{ form_errors(form) }}
 		{{ form_rest(form) }}
 	<button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
 		Continue

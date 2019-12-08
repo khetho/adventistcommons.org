@@ -43,23 +43,26 @@ class AccountController extends AbstractController
      */
     public function myself(Request $request)
     {
-        $accountForm = $this->createForm(AccountType::class, $this->getUser());
-        $passwordForm = $this->createForm(PasswordType::class, $this->getUser());
+        $user = $this->getUser();
+        $accountForm = $this->createForm(AccountType::class, $user);
+        $passwordForm = $this->createForm(PasswordType::class);
         
         $accountForm->handleRequest($request);
         $passwordForm->handleRequest($request);
-        $submitedUser = null;
+        $modifiedUser = null;
         if ($accountForm->isSubmitted() && $accountForm->isValid()) {
             $this->addFlash('success', 'Account saved successfully');
-            $submitedUser = $accountForm->getData();
+            $modifiedUser = $accountForm->getData();
         }
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
             $this->addFlash('success', 'Password changed successfully');
-            $submitedUser = $passwordForm->getData();
+            $password = $passwordForm->getData();
+            $modifiedUser = $user;
+            $modifiedUser->setPlainPassword($password->getNewPassword());
         }
-        if ($submitedUser) {
+        if ($modifiedUser) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($submitedUser);
+            $entityManager->persist($modifiedUser);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_account_myself');
@@ -68,7 +71,7 @@ class AccountController extends AbstractController
         return $this->render(
             'account/edit.html.twig',
             [
-                'user' => $user,
+                'user' => $this->getUser(),
                 'accountForm' => $accountForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
             ]

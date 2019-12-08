@@ -37,6 +37,7 @@
 								</div>
 								
 								{{ form_start(accountForm) }}
+									{{ form_errors(accountForm) }}
 									{{ form_rest(accountForm) }}
 									<div class="row justify-content-end">
 										<button type="submit" class="btn btn-primary mr-2">Save</button>
@@ -46,7 +47,8 @@
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="password">
 
-								{{ form_start(passwordForm, {'attr': {'class': 'auto-submit'}}) }}
+								{{ form_start(passwordForm) }}
+									{{ form_errors(passwordForm) }}
 									{{ form_rest(passwordForm) }}
 									<div class="row justify-content-end">
 										<button type="submit" class="btn btn-primary mr-2">Change Password</button>
