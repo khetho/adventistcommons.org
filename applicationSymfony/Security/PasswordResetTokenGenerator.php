@@ -25,7 +25,7 @@ class PasswordResetTokenGenerator
         $this->clock = $clock;
     }
 
-    public function treateEmail(string $email)
+    public function treatEmail(string $email)
     {
         $user = $this->repository->findOneBy(['email' => $email]);
         $user->setForgottenPasswordCode($this->stringFunctions->generateString(20));

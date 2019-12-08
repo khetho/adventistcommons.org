@@ -295,7 +295,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(name="skills", type="phpserialize", nullable=true)
      */
-    private $skillsArray = [];
+    private $skillsAdded = [];
     
     /**
      * @var bool
@@ -640,37 +640,48 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Skill[]
+     * @return array
      */
-    public function getSkills(): Collection
+    public function getSkills(): array
     {
-        return $this->skills;
+        return array_merge($this->skills->toArray(), $this->skillsAdded);
     }
     
-    public function getSkillsArray(): array
+    public function getSkillsAdded(): array
     {
-        return $this->skillsArray;
+        return $this->skillsAdded;
     }
 
-    public function addSkill(Skill $skill): self
+    public function addSkill($skill): self
     {
-        if (!$this->skills->contains($skill)) {
-            $this->skills[] = $skill;
-        }
-        if (!in_array($this->skillsArray[$skill->getName()])) {
-            $this->skillsArray[] = $skill->getName();
+        if ($skill instanceof Skill) {
+            if (!$this->skills->contains($skill)) {
+                $this->skills[] = $skill;
+            }
+        } elseif (is_string($skill)) {
+            if (!in_array($skill, $this->skillsAdded)) {
+                $this->skillsAdded[] = $skill;
+            }
+        } else {
+            throw new \Exception('Skill must be a string or a Skill object');
         }
 
         return $this;
     }
 
-    public function removeSkill(Skill $skill): self
+    public function removeSkill($skill): self
     {
-        if ($this->skills->contains($skill)) {
-            $this->skills->removeElement($skill);
-        }
-        if (in_array($this->skillsArray[$skill->getName()])) {
-            unset($this->skillsArray[$skill->getName()]);
+        if ($skill instanceof Skill) {
+            if ($this->skills->contains($skill)) {
+                $this->skills->removeElement($skill);
+            }
+        } elseif (is_string($skill)) {
+            $index = array_search($skill, $this->skillsAdded);
+            if ($index !== null) {
+                unset($this->skillsAdded[$index]);
+            }
+        } else {
+            throw new \Exception('Skill must be a string or a Skill object');
         }
 
         return $this;

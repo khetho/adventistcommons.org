@@ -15,11 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use \Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AuthController extends AbstractController
 {
     /**
      * @Route("/auth/login", name="app_auth_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -40,6 +43,9 @@ class AuthController extends AbstractController
 
     /**
      * @Route("/auth/register", name="app_auth_register")
+     * @param Request $request
+     * @param StringFunctions $stringFunctions
+     * @return Response
      */
     public function register(Request $request, StringFunctions $stringFunctions)
     {
@@ -71,8 +77,10 @@ class AuthController extends AbstractController
 
     /**
      * @Route("/auth/activate/{code}", name="app_auth_activate", requirements={"code"=".{10,50}"})
+     * @param string $code
+     * @return RedirectResponse
      */
-    public function activate(Request $request, string $code)
+    public function activate(string $code)
     {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['activationCode' => $code]);
         if (!$user) {
@@ -91,6 +99,8 @@ class AuthController extends AbstractController
 
     /**
      * @Route("/auth/complete", name="app_auth_complete")
+     * @param Request $request
+     * @return Response
      */
     public function complete(Request $request)
     {
@@ -124,13 +134,16 @@ class AuthController extends AbstractController
 
     /**
      * @Route("/auth/ask_reset_password", name="app_auth_ask_reset_password")
+     * @param Request $request
+     * @param PasswordResetTokenGenerator $passwordResetTokenGenerator
+     * @return Response
      */
     public function askPasswordReset(Request $request, PasswordResetTokenGenerator $passwordResetTokenGenerator)
     {
         $form = $this->createForm(AskPasswordResetType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $passwordResetTokenGenerator->treateEmail($form->getData()['email']);
+            $passwordResetTokenGenerator->treatEmail($form->getData()['email']);
             $this->addFlash('success', 'Password request successfully submitted. Please, check your emails and click on the link to set your password.');
             
             return $this->redirect($this->generateUrl('app_auth_ask_reset_password'));
@@ -146,8 +159,11 @@ class AuthController extends AbstractController
 
     /**
      * @Route("/auth/reset_password/{code}", name="app_auth_reset_password", requirements={"code"=".{10,50}"})
+     * @param Request $request
+     * @param string $code
+     * @return RedirectResponse|Response
      */
-    public function resetPassword(Request $request, string $code, PasswordResetTokenGenerator $passwordResetTokenGenerator)
+    public function resetPassword(Request $request, string $code)
     {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['forgottenPasswordCode' => $code]);
         if (!$user) {

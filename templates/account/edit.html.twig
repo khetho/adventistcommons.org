@@ -11,11 +11,6 @@
 					<li class="nav-item">
 						<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">Password</a>
 					</li>
-					{% if is_granted("ROLE_ADMIN") %}
-						<li class="nav-item">
-							<a class="nav-link" id="permissions-tab" data-toggle="tab" href="#permissions" role="tab">Permissions</a>
-						</li>
-					{% endif %}
 					{% if not is_granted("ROLE_ADMIN") %}
 						<li class="nav-item">
 							<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">Advanced</a>
@@ -54,31 +49,6 @@
 									</div>
 								{{ form_end(passwordForm) }}
 							</div>
-							{% if is_granted("ROLE_ADMIN") %}
-								<div class="tab-pane fade" role="tabpanel" id="permissions">
-									<form action="/user/save_permissions" method="post" class="auto-submit">
-										<h6>Site Permissions</h6>
-										<div class="form-group row align-items-center">
-											<label class="col-3">Permission level</label>
-											<div class="col">
-												<div class="input-group">
-													<select name="group_id" class="custom-select">
-													</select>
-												</div>
-											</div>
-										</div>
-										<hr>
-										<h6>{{ user }} contributes to the following projects</h6>
-										{#% for project in user.projects %}
-											<a href="/projects/{{ project.project_id }}" target="_blank">{{ project.product_name ~ " (" ~ project.language_name ~ ") " }}</a><span class="badge badge-light text-secondary ml-1">{{ project.member_type }}</span>
-										{% endfor %#}
-										<input type="hidden" name="user_id" value="{{user.id}}">
-										<div class="row justify-content-end">
-											<button type="submit" class="btn btn-primary mr-2">Save Permissions</button>
-										</div>
-									</form>
-								</div>
-							{% endif %}
 							{% if not is_granted("ROLE_ADMIN") %}
 								<div class="tab-pane fade" role="tabpanel" id="advanced">
 									{{ form_start(deleteForm) }}

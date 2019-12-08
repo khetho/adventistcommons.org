@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Account\Remover;
+use App\Entity\User;
 use App\Form\Type\AccountType;
 use App\Form\Type\CompleteType;
 use App\Form\Type\PasswordType;
@@ -10,12 +10,14 @@ use App\Form\Type\DeleteAccountType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use \Symfony\Component\HttpFoundation\Response;
 
 class AccountController extends AbstractController
 {
     /**
      * @Route("/account/complete", name="app_account_complete")
+     * @param Request $request
+     * @return Response
      */
     public function complete(Request $request)
     {
@@ -42,9 +44,12 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account", name="app_account_myself")
+     * @param Request $request
+     * @return Response
      */
-    public function myself(Request $request, Remover $userRemover)
+    public function myself(Request $request)
     {
+        /** @var User $user */
         $user = $this->getUser();
         $modifiedUser = null;
         
@@ -68,8 +73,7 @@ class AccountController extends AbstractController
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
             $this->addFlash('success', 'Account removed successfully');
-            $modifiedUser = $user;
-            $userRemover->cleanupUser($modifiedUser);
+            $modifiedUser = $user->forget();
             $redirectRoute = 'app_auth_logout';
         }
         

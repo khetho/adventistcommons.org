@@ -30,3 +30,6 @@ services:
     App\Security\UserPasswordUpdater:
         tags:
             - { name: 'doctrine.event_subscriber' }
+            
+    Symfony\Component\Form\ChoiceList\Factory\ChoiceListFactoryInterface:
+        alias: form.choice_list_factory.default

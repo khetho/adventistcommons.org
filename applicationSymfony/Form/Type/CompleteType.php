@@ -11,6 +11,14 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType as PasswordFieldType
 
 class CompleteType extends AbstractType
 {
+    private $skillsAdder;
+
+    public function __construct(
+        SkillsAdder $skillsAdder
+    ) {
+        $this->skillsAdder = $skillsAdder;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -62,18 +70,9 @@ class CompleteType extends AbstractType
                     'label' => 'I am a professional translator',
                 ]
             )
-            ->add(
-                'skills',
-                null,
-                [
-                    'label' => 'Other skills',
-                    'attr' => [
-                        'class' => 'skills-select',
-                        'placeholder' => 'Select skills…',
-                    ],
-                ]
-            )
         ;
+
+        $this->skillsAdder->add($builder, $options['data']);
     }
     
     public function configureOptions(OptionsResolver $resolver)

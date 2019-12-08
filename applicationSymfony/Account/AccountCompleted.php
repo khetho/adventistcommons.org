@@ -2,11 +2,10 @@
 
 namespace App\Account;
 
-use App\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
@@ -35,7 +34,9 @@ class AccountCompleted implements EventSubscriberInterface
             
         $currentRoute = $event->getRequest()->attributes->get('_route');
         if ($user && !$user->getMotherLanguage() && !in_array($currentRoute, [null, 'app_account_complete'])) {
-            $event->getRequest()->getSession()->getFlashBag()->add('warning', 'Please complete your account before you do.');
+            /** @var FlashBagInterface $bag */
+            $bag = $event->getRequest()->getSession()->getFlashBag();
+            $bag->add('warning', 'Please complete your account before you do.');
             $response = new RedirectResponse($this->router->generate('app_account_complete'));
             $event->setResponse($response);
         }

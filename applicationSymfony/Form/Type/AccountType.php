@@ -4,11 +4,20 @@ namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountType extends AbstractType
 {
+    private $skillsAdder;
+
+    public function __construct(
+        SkillsAdder $skillsAdder
+    ) {
+        $this->skillsAdder = $skillsAdder;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -86,19 +95,9 @@ class AccountType extends AbstractType
                 [
                     'label' => 'I am a professional translator',
                 ]
-            )
-            ->add(
-                'skills',
-                null,
-                [
-                    'label' => 'Other skills',
-                    'attr' => [
-                        'class' => 'skills-select',
-                        'placeholder' => 'Select skills…',
-                    ],
-                ]
-            )
-        ;
+            );
+
+        $this->skillsAdder->add($builder, $options['data']);
     }
     
     public function configureOptions(OptionsResolver $resolver)
