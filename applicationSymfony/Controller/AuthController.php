@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use AdventistCommons\Basics\StringFunctions;
+use App\Account\Registerer;
 use App\Entity\User;
 use App\Form\Type\CompleteType;
 use App\Form\Type\RegisterType;
@@ -44,10 +45,9 @@ class AuthController extends AbstractController
     /**
      * @Route("/auth/register", name="app_auth_register")
      * @param Request $request
-     * @param StringFunctions $stringFunctions
      * @return Response
      */
-    public function register(Request $request, StringFunctions $stringFunctions)
+    public function register(Request $request, Registerer $registerer)
     {
         $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
@@ -55,13 +55,10 @@ class AuthController extends AbstractController
             $this->addFlash('success', 'Account created successfully. We sent you a validation email.');
             /** @var User $user */
             $user = $form->getData();
-            $user->setIpAddress($request->getClientIp());
-            $user->setActive(false);
-            $user->setActivationCode($stringFunctions->generateString(25));
+            $registerer->register($user, $request->getClientIp());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            /** @TODO : send email **/
             $request->getSession()->set('just_created_user_email', $user->getEmail());
 
             return $this->redirectToRoute('app_auth_complete');
@@ -112,9 +109,7 @@ class AuthController extends AbstractController
         $form = $this->createForm(CompleteType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-//            $request->getSession()->set('just_created_user_email', null);
             $this->addFlash('success', 'Account created successfully. Please, check your emails and click on the link to activate your account.');
-            // @todo : send email
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
