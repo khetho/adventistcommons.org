@@ -20,7 +20,7 @@ use \Symfony\Component\HttpFoundation\RedirectResponse;
 class AuthController extends AbstractController
 {
     /**
-     * @Route("/auth/login", name="app_auth_login")
+     * @Route("/login", name="app_auth_login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
@@ -42,7 +42,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/auth/register", name="app_auth_register")
+     * @Route("/register", name="app_auth_register")
      * @param Request $request
      * @return Response
      */
@@ -72,7 +72,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/auth/activate/{code}", name="app_auth_activate", requirements={"code"=".{10,50}"})
+     * @Route("/activate/{code}", name="app_auth_activate", requirements={"code"=".{10,50}"})
      * @param string $code
      * @return RedirectResponse
      */
@@ -94,7 +94,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/auth/complete", name="app_auth_complete")
+     * @Route("/complete", name="app_auth_complete")
      * @param Request $request
      * @return Response
      */
@@ -127,7 +127,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/auth/ask_reset_password", name="app_auth_ask_reset_password")
+     * @Route("/ask_reset_password", name="app_auth_ask_reset_password")
      * @param Request $request
      * @param PasswordResetTokenGenerator $passwordResetTokenGenerator
      * @return Response
@@ -152,7 +152,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @Route("/auth/reset_password/{code}", name="app_auth_reset_password", requirements={"code"=".{10,50}"})
+     * @Route("/reset_password/{code}", name="app_auth_reset_password", requirements={"code"=".{10,50}"})
      * @param Request $request
      * @param string $code
      * @return RedirectResponse|Response
