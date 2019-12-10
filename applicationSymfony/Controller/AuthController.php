@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use AdventistCommons\Basics\StringFunctions;
 use App\Account\Registerer;
 use App\Entity\User;
 use App\Form\Type\CompleteType;
