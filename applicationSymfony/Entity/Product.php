@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -34,6 +36,7 @@ class Product
      * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -69,8 +72,9 @@ class Product
      * @var string|null
      *
      * @ORM\Column(name="type", type="string", length=0, nullable=true, options={"default"="book"})
+     * @Dictionary(name="product_type")
      */
-    private $type = 'book';
+    private $type;
 
     /**
      * @var string|null
@@ -163,6 +167,8 @@ class Product
     private $binding;
 
     /**
+     * @var ArrayCollection
+     *
      * Many Product have Many Audience.
      * @ORM\ManyToMany(targetEntity="Audience")
      * @ORM\JoinTable(
@@ -172,6 +178,11 @@ class Product
      * )
      */
     private $audiences;
+
+    public function __construct()
+    {
+        $this->audiences = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -395,9 +406,9 @@ class Product
     }
 
     /**
-     * @return Collection|Audience[]
+     * @return ArrayCollection
      */
-    public function getAudiences(): Collection
+    public function getAudiences(): ArrayCollection
     {
         return $this->audiences;
     }

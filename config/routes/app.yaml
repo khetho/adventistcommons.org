@@ -21,7 +21,7 @@ app_about:
 app_product:
     resource: App\Controller\ProductController
     type: annotation
-    prefix: /sf
+    prefix: /product
 
 app_auth_login_check:
     path:     /account/login_check

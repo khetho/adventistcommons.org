@@ -1,0 +1,25 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}add-product-form{% endblock %}
+
+{% block form_start %}
+	{{ form_start(productAddForm) }}
+{% endblock %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block tabs %}
+	{% include 'product/add/_add_tabs.html.twig' %}
+{% endblock %}
+
+{% block body %}
+	{% include 'product/add/_add_fields.html.twig' %}
+{% endblock %}
+
+{% block submitLabel %}Create Product{% endblock %}
+
+{% block form_end %}
+	{{ form_rest(productAddForm) }}
+	{{ form_end(productAddForm) }}
+{% endblock %}
+

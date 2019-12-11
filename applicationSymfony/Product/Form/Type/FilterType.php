@@ -4,11 +4,14 @@ namespace App\Product\Form\Type;
 
 use App\Entity\Audience;
 use App\Entity\Binding;
+use App\Entity\Product;
 use App\Entity\Serie;
 use App\Product\Entity\FilterStatus;
+use Knp\DictionaryBundle\Form\Type\DictionaryType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,6 +26,7 @@ class FilterType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Original title',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -31,6 +35,7 @@ class FilterType extends AbstractType
                 [
                     'class' => Serie::class,
                     'label' => 'Available in',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -39,6 +44,7 @@ class FilterType extends AbstractType
                 [
                     'class' => Audience::class,
                     'label' => 'Audience',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -46,13 +52,16 @@ class FilterType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Author',
+                    'required' => false,
                 ]
             )
             ->add(
                 'type',
-                TextType::class,
+                DictionaryType::class,
                 [
+                    'name' => 'product_type',
                     'label' => 'Type',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -61,20 +70,18 @@ class FilterType extends AbstractType
                 [
                     'class' => Binding::class,
                     'label' => 'Binding',
+                    'required' => false,
                 ]
             )
             ->add(
                 'sort',
-                ChoiceType::class,
+                DictionaryType::class,
                 [
+                    'name' => 'product_sort',
                     'multiple' => false,
                     'expanded' => true,
-                    'choices' => [
-                        'Title' => 'title',
-                        'Author' => 'author',
-                        'Publisher' => 'publisher',
-                    ],
                     'label' => 'Sort by',
+                    'required' => true,
                 ]
             )
         ;

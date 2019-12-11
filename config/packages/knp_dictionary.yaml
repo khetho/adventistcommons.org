@@ -1,0 +1,14 @@
+knp_dictionary:
+    dictionaries:
+
+        product_type:
+            type: 'key_value'
+            content:
+                "book": "Book"
+                "magabook": "Magabook"
+                "booklet": "Booklet"
+                "tract": "Tract"
+        product_sort:
+            - Title
+            - Author
+            - Publisher

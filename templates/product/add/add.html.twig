@@ -1,0 +1,19 @@
+
+{% extends "template.html.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center mt-5">
+			{{ form_start(productAddForm) }}
+
+				{% include 'product/add/_add_tabs.html.twig' %}
+				{% include 'product/add/_add_fields.html.twig' %}
+				<hr />
+				{{ form_rest(productAddForm) }}
+				<div class="text-right">
+					<button type="submit" class="btn btn-primary">Create product</button>
+				</div>
+			{{ form_end(productAddForm) }}
+		</div>
+	</div>
+{% endblock %}

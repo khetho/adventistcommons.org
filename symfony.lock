@@ -73,6 +73,24 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "knplabs/dictionary-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "fdf88f39d4c2ad0197bfeff8af4539220c4ce8d3"
+        },
+        "files": [
+            "config/packages/knp_dictionary.yaml"
+        ]
+    },
+    "knplabs/knp-components": {
+        "version": "v2.3.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.0.0"
+    },
     "lcobucci/jwt": {
         "version": "3.3.1"
     },
@@ -105,6 +123,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
+    },
+    "php": {
+        "version": "7.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -331,6 +352,19 @@
     },
     "symfony/service-contracts": {
         "version": "v1.1.8"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/translation-contracts": {
         "version": "v1.1.7"

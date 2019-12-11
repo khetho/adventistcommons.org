@@ -5,6 +5,7 @@ namespace App\Product\Entity;
 use App\Entity\Audience;
 use App\Entity\Binding;
 use App\Entity\Serie;
+use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
 
 class FilterStatus
 {
@@ -16,11 +17,17 @@ class FilterStatus
 
     private $author;
 
+    /**
+     * @Dictionary(name="product_type")
+     */
     private $type;
 
     private $binding;
 
-    private $sort;
+    /**
+     * @Dictionary(name="product_sort")
+     */
+    private $sort = 'title';
 
     public function setTitle(string $title): self
     {
@@ -29,7 +36,7 @@ class FilterStatus
         return $this;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -41,7 +48,7 @@ class FilterStatus
         return $this;
     }
 
-    public function getSerie(): Serie
+    public function getSerie(): ?Serie
     {
         return $this->serie;
     }
@@ -53,7 +60,7 @@ class FilterStatus
         return $this;
     }
 
-    public function getaudience(): Audience
+    public function getaudience(): ?Audience
     {
         return $this->audience;
     }
@@ -65,7 +72,7 @@ class FilterStatus
         return $this;
     }
 
-    public function getauthor(): string
+    public function getauthor(): ?string
     {
         return $this->author;
     }
@@ -77,7 +84,7 @@ class FilterStatus
         return $this;
     }
 
-    public function gettype(): string
+    public function gettype(): ?string
     {
         return $this->type;
     }
@@ -89,7 +96,7 @@ class FilterStatus
         return $this;
     }
 
-    public function getbinding(): Binding
+    public function getbinding(): ?Binding
     {
         return $this->binding;
     }
