@@ -5,7 +5,7 @@ namespace App\Product\Form\Type;
 use App\Entity\Audience;
 use App\Entity\Binding;
 use App\Entity\Product;
-use App\Entity\Serie;
+use App\Entity\Series;
 use App\Product\Entity\FilterStatus;
 use Knp\DictionaryBundle\Form\Type\DictionaryType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

@@ -5,7 +5,7 @@
 	<div class="container">
 		<div class="row justify-content-center mt-5">
 			{{ form_start(productAddForm) }}
-
+				{{ form_errors(productAddForm) }}
 				{% include 'product/add/_add_tabs.html.twig' %}
 				{% include 'product/add/_add_fields.html.twig' %}
 				<hr />

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Serie
+ * Series
  *
  * @ORM\Table(name="series")
  * @ORM\Entity
@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  */
-class Serie
+class Series
 {
     /**
      * @var int

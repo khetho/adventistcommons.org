@@ -58,6 +58,11 @@ class Product
 
     /**
      * @var string
+     * @Assert\Regex(
+     *    pattern="/^([abcdefghijklmnopqrstuvwxyz1234567890\-]*)$/i",
+     *    match=true,
+     *    message="The slug include not allowed chars, allowed : letters (upper and lower case), numbers, and dash (-)"
+     * )
      *
      * @ORM\Column(name="slug", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
@@ -171,9 +176,9 @@ class Product
     private $publisherWebsite;
 
     /**
-     * @var Serie
+     * @var Series
      *
-     * @ORM\ManyToOne(targetEntity="Serie")
+     * @ORM\ManyToOne(targetEntity="Series")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="series_id", referencedColumnName="id")
      * })
@@ -429,7 +434,7 @@ class Product
         return $this->series;
     }
 
-    public function setSeries(?Serie $series): self
+    public function setSeries(?Series $series): self
     {
         $this->series = $series;
 

@@ -21,6 +21,7 @@
         "symfony/framework-bundle": "*",
         "symfony/mailer": "4.3.*",
         "symfony/security": "4.3.*",
+        "symfony/serializer": "4.3.*",
         "symfony/yaml": "*"
     },
     "require-dev": {

@@ -9,6 +9,8 @@ knp_dictionary:
                 "booklet": "Booklet"
                 "tract": "Tract"
         product_sort:
-            - Title
-            - Author
-            - Publisher
+            type: 'key_value'
+            content:
+                "name": "Title"
+                "author": "Author"
+                "publisher": "Publisher"

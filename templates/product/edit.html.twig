@@ -23,6 +23,7 @@
 						<div class="tab-content">
 							<div class="tab-pane fade show active" role="tabpanel" id="general">
 								{{ form_start(generalForm) }}
+								{{ form_errors(generalForm) }}
 								{{ include('product/form/_cover_image.html.twig', {form: generalForm}) }}
 								<hr>
 								{{ include('product/form/_general.html.twig', {form: generalForm}) }}
@@ -34,6 +35,7 @@
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="specs">
 								{{ form_start(specsForm) }}
+								{{ form_errors(specsForm) }}
 								{{ include('product/form/_specs.html.twig', {form: specsForm}) }}
 								{{ form_rest(specsForm) }}
 								<div class="row justify-content-end">
@@ -48,6 +50,7 @@
 									</a>
 								{% else %}
 									{{ form_start(idmlForm) }}
+										{{ form_errors(idmlForm) }}
 										{{ form_rest(idmlForm) }}
 										<div class="row justify-content-end">
 											<button type="submit" class="btn btn-primary mr-2">Upload</button>
@@ -56,6 +59,7 @@
 								{% endif %}
 								<hr>
 								{{ form_start(deleteForm) }}
+									{{ form_errors(deleteForm) }}
 									{{ form_rest(deleteForm) }}
 									<button
 										type="submit"

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 box">
             {{ form_row(filterForm.title) }}
-            {{ form_row(filterForm.serie, {'attr': {
+            {{ form_row(filterForm.series, {'attr': {
                 'class': 'selectize',
                 'placeholder': 'Type or select from list …',
             }}) }}
@@ -39,9 +39,9 @@
             }) }}
         </div>
         <div class="col-md-4 text-right">
-            <button class="btn btn-primary reset" type="button">
+            <a class="btn btn-primary" href="{{ path('app_product_reset_filters') }}">
                 View All
-            </button>&nbsp;
+            </a>&nbsp;
             <button class="btn btn-primary" type="submit">
                 Search
 
@@ -50,5 +50,3 @@
     </div>
     {{ form_rest(filterForm) }}
 {{ form_end(filterForm) }}
-
-

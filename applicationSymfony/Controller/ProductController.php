@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Product\FilterApplier;
+use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\IdmlType;
 use App\Product\Form\Type\DeleteType;
@@ -11,7 +12,6 @@ use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\FilterType;
 use App\Product\Form\Type\SpecsType;
 use App\Product\Form\Type\ValidateImdlType;
-use Doctrine\ORM\EntityManagerInterface;
 use Hybridauth\Exception\NotImplementedException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,24 +26,24 @@ class ProductController extends AbstractController
      * @Route("/", name="app_product_list")
      * @param Request $request
      * @param FilterApplier $filterApplier
-     * @param EntityManagerInterface $em
      * @param PaginatorInterface $paginator
      * @return Response
      */
     public function list(
         Request $request,
         FilterApplier $filterApplier,
-        EntityManagerInterface $em,
+        CurrentFilterManager $currentFilterManager,
         PaginatorInterface $paginator
     ) {
-        $filterForm = $this->createForm(FilterType::class);
+        $currentFilter = $currentFilterManager->getCurrentFilterStatus();
+        $filterForm = $this->createForm(FilterType::class, $currentFilter);
         $filterForm->handleRequest($request);
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $query = $filterApplier->getProducts($filterForm->getData());
-        } else {
-            $dql   = sprintf('SELECT a FROM %s a', Product::class);
-            $query = $em->createQuery($dql);
+            $currentFilterManager->setCurrentFilterStatus($filterForm->getData());
+
+            return $this->redirectToRoute('app_product_list');
         }
+        $query = $filterApplier->getProducts();
 
         $idmlValidationForm = $this->createForm(
             ValidateImdlType::class,
@@ -75,6 +75,18 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/reset-filters", name="app_product_reset_filters")
+     * @param FilterApplier $filterApplier
+     * @return Response
+     */
+    public function resetFilters(CurrentFilterManager $currentFilterManager)
+    {
+        $currentFilterManager->reset();
+        
+        return $this->redirectToRoute('app_product_list');
+    }
+
+    /**
      * @Route("/add", name="app_product_add")
      * @param Request $request
      * @return Response
@@ -84,9 +96,8 @@ class ProductController extends AbstractController
         $addForm = $this->createForm(AddType::class);
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
-            $product = $addForm->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
+            $entityManager->persist($addForm->getData());
             $entityManager->flush();
             $this->addFlash('success', 'Product created successfully.');
 
@@ -183,7 +194,7 @@ class ProductController extends AbstractController
             DeleteType::class,
             $product,
             [
-                'action' => $this->generateUrl('app_product_delete'),
+                'action' => $this->generateUrl('app_product_delete', ['slug' => $product->getSlug()]),
             ]
         );
 

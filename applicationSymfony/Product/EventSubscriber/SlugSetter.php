@@ -40,7 +40,7 @@ class SlugSetter implements EventSubscriber
         if (!$entity instanceof Product) {
             return;
         }
-
+        
         $entity->setSlug(
             $this->stringFunctions->slugify(
                 $entity->getSlug() ?? $entity->setName()

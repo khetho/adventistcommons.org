@@ -4,14 +4,15 @@ namespace App\Product\Entity;
 
 use App\Entity\Audience;
 use App\Entity\Binding;
-use App\Entity\Serie;
+use App\Entity\Series;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
 
 class FilterStatus
 {
     private $title;
 
-    private $serie;
+    private $series;
 
     private $audience;
 
@@ -27,9 +28,9 @@ class FilterStatus
     /**
      * @Dictionary(name="product_sort")
      */
-    private $sort = 'title';
+    private $sort = 'name';
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -41,75 +42,95 @@ class FilterStatus
         return $this->title;
     }
 
-    public function setSerie(Serie $serie): self
+    public function setSeries(?Series $series): self
     {
-        $this->serie = $serie;
+        $this->series = $series;
 
         return $this;
     }
 
-    public function getSerie(): ?Serie
+    public function getSeries(): ?Series
     {
-        return $this->serie;
+        return $this->series;
     }
 
-    public function setAudience(Audience $audience): self
+    public function setAudience(?Audience $audience): self
     {
         $this->audience = $audience;
 
         return $this;
     }
 
-    public function getaudience(): ?Audience
+    public function getAudience(): ?Audience
     {
         return $this->audience;
     }
 
-    public function setauthor(string $author): self
+    public function setAuthor(?string $author): self
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getauthor(): ?string
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setType(string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function gettype(): ?string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setBinding(Binding $binding): self
+    public function setBinding(?Binding $binding): self
     {
         $this->binding = $binding;
 
         return $this;
     }
 
-    public function getbinding(): ?Binding
+    public function getBinding(): ?Binding
     {
         return $this->binding;
     }
 
-    public function setSort(string $sort): self
+    public function setSort($sort): self
     {
         $this->sort = $sort;
 
         return $this;
     }
 
-    public function getsort(): string
+    public function getSort()
     {
         return $this->sort;
+    }
+    
+    public function attach(EntityManagerInterface $manager): void
+    {
+        // Attach entities to doctrine manager so it knows they are data in db
+        if ($this->getBinding()) {
+            $this->setBinding(
+                $manager->merge($this->getBinding())
+            );
+        }
+        if ($this->getSeries()) {
+            $this->setSeries(
+                $manager->merge($this->getSeries())
+            );
+        }
+        if ($audience = $this->getAudience()) {
+            $this->setAudience(
+                $manager->merge($audience)
+            );
+        }
     }
 }
