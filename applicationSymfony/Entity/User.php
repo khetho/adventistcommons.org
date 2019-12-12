@@ -61,7 +61,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @DoctrineAssert\UniqueEntity(
  *   "email",
  *   errorPath="email",
- *   message="This email is already in use."    )
+ *   message="This email is already in use.",
+ * )
  */
 class User implements UserInterface
 {

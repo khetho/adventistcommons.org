@@ -13,6 +13,7 @@ use Knp\DictionaryBundle\Dictionary\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
@@ -74,7 +75,7 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function add(Request $request, Collection $dictionaries)
+    public function add(Request $request)
     {
         $addForm = $this->createForm(AddType::class);
         $addForm->handleRequest($request);
@@ -110,6 +111,25 @@ class ProductController extends AbstractController
 
         return $this->render('product/idmlValidation/validate_idml.html.twig', [
             'idmlValidationForm' => $idmlValidationForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}", name="app_product_show")
+     * @param Request $request
+     * @return Response
+     */
+    public function show($slug, Request $request)
+    {
+        $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy([
+            'slug' => $slug,
+        ]);
+        if (!$product) {
+            throw new NotFoundHttpException();
+        }
+
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
         ]);
     }
 }

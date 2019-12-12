@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,6 +15,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(
  *     name="products",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(
+ *             columns={"slug"}
+ *         )
+ *     },
  *     indexes={
  *         @ORM\Index(name="series_id", columns={"series_id"}),
  *         @ORM\Index(name="binding_id", columns={"binding_id"})
@@ -20,6 +27,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity
  * @ApiResource
+ * @DoctrineAssert\UniqueEntity(
+ *   "name",
+ *   message="A product with the same name already exists."
+ * )
+ * @DoctrineAssert\UniqueEntity(
+ *   "slug",
+ *   errorPath="name",
+ *   message="A product with the same slug already exists."
+ * )
  */
 class Product
 {
@@ -33,12 +49,20 @@ class Product
     private $id;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $slug;
 
     /**
      * @var string|null
@@ -71,7 +95,7 @@ class Product
     /**
      * @var string|null
      *
-     * @ORM\Column(name="type", type="string", length=0, nullable=true, options={"default"="book"})
+     * @ORM\Column(name="type", type="string", length=10, nullable=true)
      * @Dictionary(name="product_type")
      */
     private $type;
@@ -167,7 +191,7 @@ class Product
     private $binding;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
      * Many Product have Many Audience.
      * @ORM\ManyToMany(targetEntity="Audience")
@@ -197,6 +221,18 @@ class Product
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -408,7 +444,7 @@ class Product
     /**
      * @return ArrayCollection
      */
-    public function getAudiences(): ArrayCollection
+    public function getAudiences(): Collection
     {
         return $this->audiences;
     }
