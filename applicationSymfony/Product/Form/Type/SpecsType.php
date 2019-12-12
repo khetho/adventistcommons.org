@@ -16,77 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddType extends AbstractType
+class SpecsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'name',
-                null,
-                [
-                    'label' => 'Title',
-                ]
-            )
-            ->add(
-                'author',
-                null,
-                [
-                    'label' => 'Author',
-                ]
-            )
-            ->add(
-                'publisher',
-                null,
-                [
-                    'label' => 'Publisher',
-                ]
-            )
-            ->add(
-                'publisherWebsite',
-                null,
-                [
-                    'label' => 'Publisher Website',
-                ]
-            )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'Description',
-                ]
-            )
-            ->add(
-                'audiences',
-                null,
-                [
-                    'label' => 'Audience',
-                ]
-            )
-            ->add(
-                'pageCount',
-                null,
-                [
-                    'label' => 'Page count',
-                ]
-            )
-            ->add(
-                'series',
-                null,
-                [
-                    'label' => 'Series',
-                ]
-            )
-            ->add(
-                'type',
-                DictionaryType::class,
-                [
-                    'name' => 'product_type',
-                    'label' => 'Type',
-                    'expanded' => true,
-
-                ]
-            )
             ->add(
                 'formatClosed',
                 null,
@@ -147,24 +81,6 @@ class AddType extends AbstractType
                 null,
                 [
                     'label' => 'Finishing',
-                ]
-            )
-            ->add(
-                'coverImage',
-                FileType::class,
-                [
-                    'label' => 'Cover image',
-                    'mapped' => false,
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'idmlFile',
-                FileType::class,
-                [
-                    'label' => 'IDML file',
-                    'mapped' => false,
-                    'required' => false,
                 ]
             )
         ;

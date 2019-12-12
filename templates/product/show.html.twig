@@ -8,8 +8,8 @@
 				<img src="/uploads/{{ product.coverImage }}" width="140" class="float-left mr-3 rounded">
 				<div class="d-flex justify-content-between align-items-center">
 					<h2>{{ product.name }}</h2>
-					{% if is_granted('RODE_ADMIN') %}
-						<a href="/products/edit/{{ product.slug }}" class="btn btn-sm btn-secondary float-right"><i class="material-icons align-top text-small">edit</i> Edit</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('app_product_edit', {'slug': product.slug}) }}" class="btn btn-sm btn-secondary float-right"><i class="material-icons align-top text-small">edit</i> Edit</a>
 					{% endif %}
 				</div>
 				<p>{{ product.description }}</p>
@@ -37,10 +37,10 @@
 					<div class="content-list-head d-flex">
 						<h3>Languages</h3>
 						<div class="float-right d-none d-sm-block">
-							{% if is_granted('RODE_ADMIN') %}
+							{% if is_granted('ROLE_ADMIN') %}
 								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
 							{% endif %}
-							{% if is_granted('RODE_USER') %}
+							{% if is_granted('ROLE_USER') %}
 								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-project-form">Start New Translation</button>
 							{% endif %}
 						</div>
@@ -48,57 +48,57 @@
 					<div class="content-list-body">
 						<div class="card-list">
 							<div class="card-list-body">
-{#								{% for project in product.projects %}#}
-{#									<div class="card card-task">#}
-{#										{% if language.project is defined %}#}
-{#											<div class="progress">#}
-{#												<div class="progress-bar bg-danger" role="progressbar" style="width: {{ language.project.percent_complete }} %"></div>#}
-{#											</div>#}
-{#										{% endif %}#}
-{#											#}
-{#										<div class="card-body">#}
-{#											<div class="card-title">#}
-{#												<h6 data-filter-by="text">{{ language.language_name }}</h6>#}
-{#												<div class="d-flex align-items-center">#}
-{#													<span>{{ language.project.status ? language.project.status : "" }}</span>#}
-{#												</div>#}
-{#											</div>#}
-{#											<div class="card-meta">#}
-{#												{% if language.attachments is defined %}#}
-{#													{% if user %}#}
-{#														<div class="dropdown">#}
-{#															<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">#}
-{#																Download#}
-{#															</button>#}
-{#															<div class="dropdown-menu">#}
-{#																{% for attachment in language.attachments  %}#}
-{#																	<a class="dropdown-item" href="/uploads/{{ attachment.file }}">{{ attachment.file_type }}</a>#}
-{#																{% endfor %}#}
-{#															</div>#}
-{#														</div>#}
-{#													{% else %}#}
-{#														<a href="/login" class="text-secondary">Login to download</a>#}
-{#													{% endif %}#}
-{#                                                {% endif %}#}
+								{% for project in product.projects %}
+									<div class="card card-task">
+										{% if language.project is defined %}
+											<div class="progress">
+												<div class="progress-bar bg-danger" role="progressbar" style="width: {{ language.project.percent_complete }} %"></div>
+											</div>
+										{% endif %}
 
-{#												<a href="/projects/{{ language.project.id }}" class="btn btn-secondary">#}
-{#													{% if language.project.completed_strings == 0 %}#}
-{#														Start Translating#}
-{#                                                    {% else %}#}
-{#														Translate#}
-{#                                                    {% endif %}#}
-{#												</a>#}
-{#                                                {% if language.project.completed_strings > 0 %}#}
-{#													<a class="btn btn-secondary" href="/projects/download_idml/{{ language.project.id }}">#}
-{#														Download IDML#}
-{#													</a>#}
-{#                                                {% endif %}#}
-{#											</div>#}
-{#										</div>#}
-{#									</div>#}
-{#								{% else %}#}
-{#									<p>This product is not yet available in any languages.</p>#}
-{#								{% endfor %}#}
+										<div class="card-body">
+											<div class="card-title">
+												<h6 data-filter-by="text">{{ language.language_name }}</h6>
+												<div class="d-flex align-items-center">
+													<span>{{ language.project.status ? language.project.status : "" }}</span>
+												</div>
+											</div>
+											<div class="card-meta">
+												{% if language.attachments is defined %}
+													{% if user %}
+														<div class="dropdown">
+															<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+																Download
+															</button>
+															<div class="dropdown-menu">
+																{% for attachment in language.attachments  %}
+																	<a class="dropdown-item" href="/uploads/{{ attachment.file }}">{{ attachment.file_type }}</a>
+																{% endfor %}
+															</div>
+														</div>
+													{% else %}
+														<a href="/login" class="text-secondary">Login to download</a>
+													{% endif %}
+                                                {% endif %}
+
+												<a href="/projects/{{ language.project.id }}" class="btn btn-secondary">
+													{% if language.project.completed_strings == 0 %}
+														Start Translating
+                                                    {% else %}
+														Translate
+                                                    {% endif %}
+												</a>
+                                                {% if language.project.completed_strings > 0 %}
+													<a class="btn btn-secondary" href="/projects/download_idml/{{ language.project.id }}">
+														Download IDML
+													</a>
+                                                {% endif %}
+											</div>
+										</div>
+									</div>
+								{% else %}
+									<p>This product is not yet available in any languages.</p>
+								{% endfor %}
 							</div>
 						</div>
 					</div>
@@ -213,7 +213,7 @@
 			</div>
 			<div class="modal-footer">
 				<button role="button" class="btn btn-primary" type="submit">
-					Start Translation
+					Start Translation2
 				</button>
 			</div>
 		</div>

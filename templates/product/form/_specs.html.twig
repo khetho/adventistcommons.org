@@ -1,0 +1,40 @@
+<h6>Format</h6>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.formatOpen) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.formatClosed) }}
+    </div>
+</div>
+<hr>
+<h6>Cover</h6>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.coverColors) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.coverPaper) }}
+    </div>
+</div>
+<hr>
+<h6>Interior</h6>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.interiorColors) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.interiorPaper) }}
+    </div>
+</div>
+<hr>
+{{ form_row(form.binding, {
+    'attr': {
+        'class': 'selectize',
+    },
+}) }}
+{{ form_row(form.finishing, {
+    'attr': {
+        'class': 'selectize',
+    },
+}) }}

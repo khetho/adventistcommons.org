@@ -1,73 +1,11 @@
 <div class="tab-content">
 	<div class="tab-pane fade show active" id="product-add-details" role="tabpanel">
-		{{ form_row(productAddForm.name) }}
-		{{ form_row(productAddForm.author) }}
-		{{ form_row(productAddForm.publisher) }}
-		{{ form_row(productAddForm.publisherWebsite) }}
-		{{ form_row(productAddForm.description) }}
-		{{ form_row(productAddForm.audiences, {
-			'attr': {
-				'class': 'selectize',
-			},
-		}) }}
-		{{ form_row(productAddForm.pageCount) }}
-		{{ form_row(productAddForm.series, {
-			'attr': {
-				'class': 'selectize',
-			},
-		}) }}
-		<hr>
-		<h6>Product type</h6>
-		{{ form_row(productAddForm.type, {
-			'label_attr': {
-				'class': 'radio-inline',
-			},
-		}) }}
+		{% include 'product/form/_general.html.twig' with {'form': productAddForm} %}
 		<hr>
 		<h6>Files</h6>
-		{{ form_row(productAddForm.coverImage) }}
-		{{ form_row(productAddForm.idmlFile) }}
+		{% include 'product/form/_files.html.twig' with {'form': productAddForm} %}
 	</div>
 	<div class="tab-pane fade" id="product-add-specs" role="tabpanel">
-		<h6>Format</h6>
-		<div class="row">
-			<div class="col">
-				{{ form_row(productAddForm.formatOpen) }}
-			</div>
-			<div class="col">
-				{{ form_row(productAddForm.formatClosed) }}
-			</div>
-		</div>
-		<hr>
-		<h6>Cover</h6>
-		<div class="row">
-			<div class="col">
-				{{ form_row(productAddForm.coverColors) }}
-			</div>
-			<div class="col">
-				{{ form_row(productAddForm.coverPaper) }}
-			</div>
-		</div>
-		<hr>
-		<h6>Interior</h6>
-		<div class="row">
-			<div class="col">
-				{{ form_row(productAddForm.interiorColors) }}
-			</div>
-			<div class="col">
-				{{ form_row(productAddForm.interiorPaper) }}
-			</div>
-		</div>
-		<hr>
-		{{ form_row(productAddForm.binding, {
-			'attr': {
-				'class': 'selectize',
-			},
-		}) }}
-		{{ form_row(productAddForm.finishing, {
-			'attr': {
-				'class': 'selectize',
-			},
-		}) }}
+		{% include 'product/form/_specs.html.twig' with {'form': productAddForm} %}
 	</div>
 </div>

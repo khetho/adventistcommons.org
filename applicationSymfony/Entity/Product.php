@@ -203,8 +203,15 @@ class Product
      */
     private $audiences;
 
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="product")
+     */
+    private $projects;
+
     public function __construct()
     {
+        $this->projects = new ArrayCollection();
         $this->audiences = new ArrayCollection();
     }
 
@@ -465,5 +472,10 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
     }
 }
