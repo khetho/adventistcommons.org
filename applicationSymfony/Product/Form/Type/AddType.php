@@ -18,6 +18,7 @@ use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class AddType extends AbstractType
 {
@@ -165,8 +166,8 @@ class AddType extends AbstractType
                 FileType::class,
                 [
                     'label' => 'Cover image',
-                    'mapped' => false,
                     'required' => false,
+                    'help' => 'Only square image is allowed',
                 ]
             )
             ->add(

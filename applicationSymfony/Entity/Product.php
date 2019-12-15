@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Product
@@ -77,11 +78,24 @@ class Product
     private $description;
 
     /**
+     * @Assert\Image(
+     *     allowPortrait = false,
+     *     maxSize = "1024k",
+     *     allowLandscape = false,
+     *     minWidth = 75,
+     *     maxWidth = 1000,
+     *     minHeight = 75,
+     *     maxHeight = 1000
+     * )
+     */
+    private $coverImage;
+    
+    /**
      * @var string|null
      *
      * @ORM\Column(name="cover_image", type="string", length=255, nullable=true)
      */
-    private $coverImage;
+    private $coverImageFilename;
 
     /**
      * @var string|null
@@ -261,14 +275,26 @@ class Product
         return $this;
     }
 
-    public function getCoverImage(): ?string
+    public function getCoverImage(): ?File
     {
         return $this->coverImage;
     }
 
-    public function setCoverImage(?string $coverImage): self
+    public function setCoverImage(?File $coverImage): self
     {
         $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getCoverImageFilename(): ?string
+    {
+        return $this->coverImageFilename;
+    }
+
+    public function setCoverImageFilename(?string $coverImageFilename): self
+    {
+        $this->coverImageFilename = $coverImageFilename;
 
         return $this;
     }

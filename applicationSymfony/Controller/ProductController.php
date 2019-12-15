@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Product\FilterApplier;
+use App\Product\CoverUploader;
 use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\IdmlType;
@@ -91,13 +92,16 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function add(Request $request)
+    public function add(Request $request, CoverUploader $coverUploader)
     {
         $addForm = $this->createForm(AddType::class);
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
+            $product = $addForm->getData();
+            $product = $coverUploader->upload($product);
+            
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($addForm->getData());
+            $entityManager->persist($product);
             $entityManager->flush();
             $this->addFlash('success', 'Product created successfully.');
 
@@ -159,7 +163,7 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function edit($slug, Request $request)
+    public function edit($slug, Request $request, CoverUploader $coverUploader)
     {
         $product = $this->retrieveProductOr404($slug);
         $submittedProduct = null;
@@ -168,6 +172,7 @@ class ProductController extends AbstractController
         $generalForm->handleRequest($request);
         if ($generalForm->isSubmitted() && $generalForm->isValid()) {
             $submittedProduct = $generalForm->getData();
+            $submittedProduct = $coverUploader->upload($submittedProduct);
         }
 
         $specsForm = $this->createForm(SpecsType::class, $product);

@@ -26,8 +26,8 @@ class GeneralType extends AbstractType
                 FileType::class,
                 [
                     'label' => 'Cover image',
-                    'mapped' => false,
                     'required' => false,
+                    'help' => 'Only square image is allowed',
                 ]
             )
             ->add(

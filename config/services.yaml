@@ -4,7 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-
+    coverTargetDirectory: '%kernel.project_dir%/uploads/covers'
+    coverReadPath: '/uploads/covers/'
+        
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -34,6 +36,10 @@ services:
     App\Product\EventSubscriber\SlugSetter:
         tags:
             - { name: 'doctrine.event_subscriber' }
+
+    App\Product\CoverUploader:
+        arguments: 
+            - '%coverTargetDirectory%'        
 
     Symfony\Component\Form\ChoiceList\Factory\ChoiceListFactoryInterface:
         alias: form.choice_list_factory.default

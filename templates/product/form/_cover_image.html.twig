@@ -1,5 +1,5 @@
 <div class="media mb-4">
-	<img alt="Image" width="80" src="/uploads/{{ product.coverImage }}" class="rounded" />
+	<img alt="Image" width="80" src="{{ coverPath }}{{ product.coverImageFilename }}" class="rounded" />
 	<div class="media-body ml-3">
 		<strong>Cover photo</strong><br>
 		{{ form_row(form.coverImage) }}
