@@ -1,12 +1,15 @@
 <?php
+
 namespace AdventistCommons\Idml\Entity;
+
+use App\Entity\Section as SectionDbObject;
 
 class Section
 {
     private $story;
     private $name;
     private $sectionElement;
-    private $dbId;
+    private $dbObject;
     private $contents;
     
     public function __construct($name, Story $story, \DOMElement $sectionElement = null)
@@ -31,14 +34,14 @@ class Section
         return sprintf('%s-%s', $this->story->getKey(), md5($this->name));
     }
     
-    public function setDbId($dbId): void
+    public function setDbObject(SectionDbObject $dbObject): void
     {
-        $this->dbId = $dbId;
+        $this->dbObject = $dbObject;
     }
 
-    public function getDbId()
+    public function getDbObject()
     {
-        return $this->dbId;
+        return $this->dbObject;
     }
     
     public function getSectionElement(): \DOMElement

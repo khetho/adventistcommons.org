@@ -8,6 +8,7 @@ use App\Product\FilterApplier;
 use App\Product\CoverUploader;
 use App\Product\IdmlUploader;
 use App\Product\Idml\Validator;
+use App\Product\Idml\Importer;
 use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\IdmlType;
@@ -97,13 +98,15 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function add(Request $request, CoverUploader $coverUploader)
+    public function add(Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader, Importer $idmlImporter)
     {
         $addForm = $this->createForm(AddType::class);
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
             $product = $addForm->getData();
             $product = $coverUploader->upload($product);
+            $product = $idmlUploader->upload($product);
+            $product = $idmlImporter->import($product);
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
@@ -184,7 +187,7 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader)
+    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader, Importer $idmlImporter)
     {
         $product = $this->retrieveProductOr404($slug);
         $submittedProduct = null;
@@ -207,6 +210,7 @@ class ProductController extends AbstractController
         if ($idmlForm->isSubmitted() && $idmlForm->isValid()) {
             $submittedProduct = $idmlForm->getData();
             $submittedProduct = $idmlUploader->upload($submittedProduct);
+            $submittedProduct = $idmlImporter->import($submittedProduct);
         }
 
         if ($submittedProduct) {
@@ -235,7 +239,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="app_product_delete")
+     * @Route("/{slug}/delete", name="app_product_delete")
      * @param string $slug
      * @param Request $request
      * @return Response
@@ -254,10 +258,8 @@ class ProductController extends AbstractController
 
             return $this->redirectToRoute('app_product_list');
         }
-
-        return $this->render('product/show.html.twig', [
-            'product' => $product,
-        ]);
+        
+        return new NotFoundHttpException();
     }
 
     private function retrieveProductOr404($slug): Product

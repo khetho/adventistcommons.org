@@ -88,7 +88,7 @@ class Holder
     {
         if (!isset($this->stories[$storyKey])) {
             $dom = $this->getPackage()->getStory($storyKey);
-            $this->stories[$storyKey] = new Story($storyKey, $dom, $this->domManipulator);
+            $this->stories[$storyKey] = new Story($storyKey, $dom, $this->storyDomManipulator);
         }
 
         return $this->stories[$storyKey];
@@ -109,8 +109,8 @@ class Holder
     public function getSections()
     {
         if (!$this->sections) {
-            foreach ($this->getStories() as $storyKey => $storyNode) {
-                $story = new Story($storyKey, $storyNode, $this->domManipulator);
+            foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
+                $story = new Story($storyKey, $storyNode, $this->storyDomManipulator);
                 $this->sections = array_merge($this->sections, $story->getSections());
             }
         }

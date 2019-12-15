@@ -2,6 +2,7 @@
 
 namespace AdventistCommons\Idml;
 
+use App\Entity\Product;
 use AdventistCommons\Idml\Entity\Holder;
 use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use \LogicException;
@@ -50,20 +51,6 @@ class HolderBuilder
         self::checkFile($idmlPath);
         
         return new Holder($idmlPath, $this->storyDomManipulator, $product);
-    }
-
-    public function buildFromProductAndPath(Product $product, string $idmlPath): Holder
-    {
-        self::checkFile($idmlPath);
-
-        return new Holder($idmlPath, $this->storyDomManipulator, null, $product);
-    }
-
-    public function buildFromPath(string $idmlPath)
-    {
-        self::checkFile($idmlPath);
-        
-        return new Holder($idmlPath, $this->storyDomManipulator);
     }
     
     /**

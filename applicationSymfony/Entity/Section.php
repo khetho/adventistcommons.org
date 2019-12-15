@@ -36,7 +36,7 @@ class Section
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer", nullable=false)
+     * @ORM\Column(name="`order`", type="integer", nullable=false)
      */
     private $order = '0';
 
