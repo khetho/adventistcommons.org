@@ -3,6 +3,7 @@
 namespace AdventistCommons\Idml\Entity;
 
 use IDML\Package;
+use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use \Exception;
 
 /**
@@ -13,17 +14,21 @@ use \Exception;
  */
 class Holder
 {
-    private $project;
-    private $product;
     private $zipFileName;
+    private $storyDomManipulator;
+    private $product;
+
+    private $project;
+
     /** @var Package */
     private $package;
     private $stories = [];
     private $sections = [];
     
-    public function __construct($zipFileName, array $product)
+    public function __construct($zipFileName, StoryDomManipulator $storyDomManipulator, array $product = null)
     {
         $this->zipFileName = $zipFileName;
+        $this->storyDomManipulator = $storyDomManipulator;
         $this->product = $product;
     }
     
@@ -94,7 +99,7 @@ class Holder
         $storiesCount = count($this->getPackage()->getStories());
         if ($storiesCount !== count($this->stories)) {
             foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
-                $this->stories[$storyKey] = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+                $this->stories[$storyKey] = new Story($storyKey, $storyNode, $this->storyDomManipulator);
             }
         }
 
@@ -123,7 +128,6 @@ class Holder
         foreach ($this->getStories() as $story) {
             $story->validate();
         }
-        $this->getSections();
     }
 
     private function checkProduct()

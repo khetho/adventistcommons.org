@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use AdventistCommons\Idml\DomManipulation\Exception as IdmlException;
 use App\Entity\Product;
 use App\Product\FilterApplier;
 use App\Product\CoverUploader;
 use App\Product\IdmlUploader;
+use App\Product\Idml\Validator;
 use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\IdmlType;
@@ -121,12 +123,20 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function validateIdml(Request $request)
+    public function validateIdml(Request $request, Validator $validator)
     {
         $idmlValidationForm = $this->createForm(ValidateImdlType::class);
         $idmlValidationForm->handleRequest($request);
         if ($idmlValidationForm->isSubmitted() && $idmlValidationForm->isValid()) {
-            $this->addFlash('success', 'Idml validated successfully.');
+            $file = $idmlValidationForm->getData()['idmlFile'];
+            $newPathname = $file->getFilename().'.idml';
+            $file->move($file->getPath(), $newPathname);
+            try {
+                $validator->validate($file->getPathname().'.idml');
+                $this->addFlash('success', 'Idml validated successfully.');
+            } catch (IdmlException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
 
             return $this->redirectToRoute('app_product_validate_idml');
         }

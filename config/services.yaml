@@ -48,3 +48,10 @@ services:
 
     Symfony\Component\Form\ChoiceList\Factory\ChoiceListFactoryInterface:
         alias: form.choice_list_factory.default
+        
+    AdventistCommons\Idml\HolderBuilder:
+        arguments:
+            - '@AdventistCommons\Idml\DomManipulation\StoryBasedOnTags'
+            
+    AdventistCommons\Idml\DomManipulation\StoryBasedOnTags: ~            
+            
