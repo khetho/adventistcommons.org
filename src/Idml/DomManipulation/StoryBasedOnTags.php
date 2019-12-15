@@ -2,9 +2,10 @@
 namespace AdventistCommons\Idml\DomManipulation;
 
 use AdventistCommons\Basics\StringFunctions;
+use AdventistCommons\Idml\ContentBuilder;
 use AdventistCommons\Idml\Entity\Story;
 use AdventistCommons\Idml\Entity\Section;
-use AdventistCommons\Idml\Entity\Content;
+use \DOMXPath;
 
 class StoryBasedOnTags implements StoryDomManipulator
 {
@@ -13,10 +14,18 @@ class StoryBasedOnTags implements StoryDomManipulator
     const ATTR_MARKUP = 'MarkupTag';
     const ATTR_MARKUP_VALUE_EXCLUDED = 'XMLTag/Story';
     
+    private $contentBuilder;
+    private $stringFunctions;
     private $root;
     private $sections = [];
     
-    public function __construct(\DOMDocument $root)
+    public function __construct(ContentBuilder $contentBuilder, StringFunctions $stringFunctions)
+    {
+        $this->contentBuilder = $contentBuilder;
+        $this->stringFunctions = $stringFunctions;
+    }
+    
+    public function setRoot(\DOMDocument $root): void
     {
         $this->root = $root;
     }
@@ -30,13 +39,13 @@ class StoryBasedOnTags implements StoryDomManipulator
     {
         if (!$this->sections) {
             $sectionsElements = $this->root->getElementsByTagName(self::TAG_SECTION);
-            foreach ($sectionsElements as $sectionKey => $sectionElement) {
+            foreach ($sectionsElements as $sectionElement) {
                 if (!$sectionElement->getAttribute(self::ATTR_MARKUP)) {
                     return new Exception('Found a section without a name in IDML. Did you tag them all ?');
                 }
                 if ($sectionElement->getAttribute(self::ATTR_MARKUP) !== self::ATTR_MARKUP_VALUE_EXCLUDED) {
                     $sectionName = explode('/', $sectionElement->getAttribute(self::ATTR_MARKUP))[1];
-                    if (isset($sections[$sectionName])) {
+                    if (isset($this->sections[$sectionName])) {
                         throw new Exception(sprintf('Cannot have many sections with same name : %s', $sectionName));
                     }
                     $this->sections[$sectionName] = new Section($sectionName, $story, $sectionElement);
@@ -52,9 +61,9 @@ class StoryBasedOnTags implements StoryDomManipulator
         $contents = [];
         $iContent = 0;
         $contentElements = $section->getSectionElement()->getElementsByTagName(self::TAG_CONTENT);
-        foreach ($contentElements as $contentKey => $contentElement) {
+        foreach ($contentElements as $contentElement) {
             if ($contentElement->nodeValue) {
-                $contents[] = new Content($iContent, $contentElement, $section);
+                $contents[] = $this->contentBuilder->build($iContent, $contentElement, $section);
                 $iContent++;
             }
         }
@@ -65,10 +74,10 @@ class StoryBasedOnTags implements StoryDomManipulator
     public function setContent(Section $section, $searchedKey, $newContent): void
     {
         $iContent = 0;
-        $storyKey = Content::extractStoryKey($searchedKey);
+        $storyKey = $this->contentBuilder->extractStoryKey($searchedKey);
         foreach ($section->getSectionElement()->getElementsByTagName(self::TAG_CONTENT) as $contentElement) {
             if ($contentElement->nodeValue) {
-                if (Content::buildUniqueKey($storyKey, $section->getName(), $iContent) === $searchedKey) {
+                if ($this->contentBuilder->buildUniqueKey($storyKey, $section->getName(), $iContent) === $searchedKey) {
                     $contentElement->nodeValue = $newContent;
                     return;
                 }
@@ -79,18 +88,18 @@ class StoryBasedOnTags implements StoryDomManipulator
     
     public function validate(): bool
     {
-        $xpath = new \DOMXPath($this->getRoot());
+        $xpath = new DOMXPath($this->getRoot());
         $errors = [];
         
-        $appliedCharacterStyles = [
+        $appliedStyles = [
             'Text',
             '$ID/[No character style]',
         ];
-        foreach ($appliedCharacterStyles as $appliedCharacterStyle) {
+        foreach ($appliedStyles as $appliedStyle) {
             $query = sprintf(
                 '//CharacterStyleRange[@AppliedCharacterStyle="CharacterStyle/%s"]/following-sibling::CharacterStyleRange[@AppliedCharacterStyle="CharacterStyle/%s"]',
-                $appliedCharacterStyle,
-                $appliedCharacterStyle
+                $appliedStyle,
+                $appliedStyle
             );
             /** @var \DOMNodeList $entries */
             $entries = $xpath->query($query);
@@ -99,7 +108,7 @@ class StoryBasedOnTags implements StoryDomManipulator
                 if (!$entry->textContent) {
                     continue;
                 }
-                $errors[] = sprintf('Two following paragraphs have the same style : «%s».', StringFunctions::limit($entry->textContent), 40);
+                $errors[] = sprintf('Two following paragraphs have the same style : «%s».', $this->stringFunctions->limit($entry->textContent), 40);
             }
         }
         

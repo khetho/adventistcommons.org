@@ -1,9 +1,9 @@
 <?php
 namespace AdventistCommons\Idml\DomManipulation;
 
+use AdventistCommons\Idml\ContentBuilder;
 use AdventistCommons\Idml\Entity\Story;
 use AdventistCommons\Idml\Entity\Section;
-use AdventistCommons\Idml\Entity\Content;
 
 class StoryBasedOnDivider implements StoryDomManipulator
 {
@@ -13,10 +13,16 @@ class StoryBasedOnDivider implements StoryDomManipulator
     const TAG_CHARACTER_STYLE = 'CharacterStyleRange';
     const TAG_CONTENT = 'Content';
     
+    private $contentBuilder;
     private $root;
     private $sections = [];
     
-    public function __construct(\DOMDocument $root)
+    public function __construct(ContentBuilder $contentBuilder)
+    {
+        $this->contentBuilder = $contentBuilder;
+    }
+    
+    public function setRoot(\DOMDocument $root): void
     {
         $this->root = $root;
     }
@@ -49,7 +55,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
                     /** @var \DOMElement $content */
                     foreach ($character->getElementsByTagName('Content') as $content) {
                         if ($content->nodeValue) {
-                            $paragraphName = self::extractNameFromParagraph($paragraph);
+                            $paragraphName = $this->extractNameFromParagraph($paragraph);
                             // we catch the section only if it has relevant content
                             $section = new Section($paragraphName, $story);
                             $this->sections[$paragraphName] = $section;
@@ -71,7 +77,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
         $this->foreachContentInSection(
             $section,
             function (Section $section, $iContent, \DOMElement $contentNode) use (&$contents, $section) {
-                $contents[] = new Content($iContent, $contentNode, $section);
+                $contents[] = $this->contentBuilder->build($iContent, $contentNode, $section);
             }
         );
         
@@ -80,26 +86,43 @@ class StoryBasedOnDivider implements StoryDomManipulator
     
     public function setContent(Section $section, $searchedKey, $newContent): void
     {
-        $storyKey = Content::extractStoryKey($searchedKey);
+        $storyKey = $this->contentBuilder->extractStoryKey($searchedKey);
         $this->foreachContentInSection(
             $section,
             function (Section $section, $iContent, \DOMElement $contentNode) use ($newContent, $searchedKey, $storyKey) {
-                if (Content::buildUniqueKey($storyKey, $section->getName(), $iContent) === $searchedKey) {
+                if ($this->contentBuilder->buildUniqueKey($storyKey, $section->getName(), $iContent) === $searchedKey) {
                     $contentNode->nodeValue = $newContent;
                 }
             }
         );
     }
-    
+
+    /**
+     * Buckle for each content is a section, for content like this :
+     * ---------------------------
+     * Content 1 - Section A
+     * Content 2 - Section A
+     * Content 3 - Section separator
+     * Content 4 - Section B
+     * Content 5 - Section B
+     * Content 6 - Section separator
+     * Content 7 - Section C
+     * Content 8 - Section C
+     * ---------------------------
+     * in the example, it will apply Action on content 4 and 5 if B is the wanted section
+     *
+     * @param Section $section
+     * @param \Closure $action
+     * @throws Exception
+     */
     private function foreachContentInSection(Section $section, \Closure $action): void
     {
-        $storyElement = $this->getStoryElement();
-        // for each paragraph in story
         /** @var \DOMElement $paragraph */
         $iContent = 0;
         $catchNext = true;
         $started = false;
-        foreach ($storyElement->getElementsByTagName(self::TAG_PARAGRAPH_STYLE) as $paragraph) {
+        // for each paragraph in the section
+        foreach ($this->getParagraphs() as $paragraph) {
             if (self::isDivider($paragraph)) {
                 // if paragraph is a divider, we want to catch the next one as a new section
                 $catchNext = true;
@@ -112,24 +135,34 @@ class StoryBasedOnDivider implements StoryDomManipulator
             if (!$catchNext) {
                 continue;
             }
-            $paragraphName = self::extractNameFromParagraph($paragraph);
+            $paragraphName = $this->extractNameFromParagraph($paragraph);
             // is current section the one we want to catch ?
             if (!$started && $paragraphName !== $section->getName()) {
                 $catchNext = false;
                 continue;
             }
             $started = true;
-            /** @var \DOMElement $character */
-            foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as $character) {
-                /** @var \DOMElement $content */
-                foreach ($character->getElementsByTagName('Content') as $contentNode) {
-                    if ($contentNode->nodeValue) {
-                        $action($section, $iContent, $contentNode);
-                        $iContent++;
-                    }
+            $this->foreachParagraphElement($section, $paragraph, $iContent, $action);
+        }
+    }
+    
+    private function foreachParagraphElement(Section $section, \DOMElement $paragraph, &$iContent, \Closure $action)
+    {
+        /** @var \DOMElement $character */
+        foreach ($paragraph->getElementsByTagName(self::TAG_CHARACTER_STYLE) as $character) {
+            /** @var \DOMElement $content */
+            foreach ($character->getElementsByTagName('Content') as $contentNode) {
+                if ($contentNode->nodeValue) {
+                    $action($section, $iContent, $contentNode);
+                    $iContent++;
                 }
             }
         }
+    }
+    
+    private function getParagraphs()
+    {
+        return $this->getStoryElement()->getElementsByTagName(self::TAG_PARAGRAPH_STYLE);
     }
     
     private function getStoryElement(): \DOMElement

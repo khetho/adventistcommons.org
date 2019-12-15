@@ -11,15 +11,12 @@ class Story
     private $domManipulator;
     private $sections;
 
-    public function __construct($key, \DOMDocument $root, $domManipulatorClass)
+    public function __construct($key, \DOMDocument $root, StoryDomManipulator $domManipulator)
     {
-        $interfaces = class_implements($domManipulatorClass);
-        if (!isset($interfaces[StoryDomManipulator::class])) {
-            throw new Exception("Given domManipulatorClass does not implements StoryDomManipulator");
-        }
-
         $this->key = $key;
-        $this->domManipulator = new $domManipulatorClass($root);
+        $thisDomManipulator = clone($domManipulator);
+        $thisDomManipulator->setRoot($root);
+        $this->domManipulator = $thisDomManipulator;
     }
     
     public function getKey(): string

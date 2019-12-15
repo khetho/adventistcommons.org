@@ -2,19 +2,21 @@
 
 namespace AdventistCommons\Basics;
 
+use \DateTime;
+
 class Clock
 {
     private $now;
     
     public function __construct()
     {
-        $this->now = new \DateTime();
+        $this->now = new DateTime();
     }
     
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function now(): \DateTime
+    public function now(): DateTime
     {
         return $this->now;
     }

@@ -31,9 +31,9 @@ class Section
         return sprintf('%s-%s', $this->story->getKey(), md5($this->name));
     }
     
-    public function setDbId($id): void
+    public function setDbId($dbId): void
     {
-        $this->dbId = $id;
+        $this->dbId = $dbId;
     }
 
     public function getDbId()

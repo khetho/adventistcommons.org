@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
 set -e
-
-echo "php-cs-fixer starts"
-
 CURRENT_DIRECTORY=`pwd`
+
 BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ROOT_DIRECTORY="$BIN_DIR/../.."
+
+#================================================================
+
+echo "php-cs-fixer starts"
 
 cd $ROOT_DIRECTORY;
 
@@ -27,12 +29,43 @@ if $HAS_PHP_CS_FIXER; then
 else
     echo ""
     echo "Please install php-cs-fixer dependence"
-    echo "  cd domain && composer install"
+    echo "  composer install"
     echo ""
 	cd $CURRENT_DIRECTORY;
     exit 1
 fi
 
-cd $CURRENT_DIRECTORY;
-
 echo "php-cs-fixer ends"
+
+#================================================================
+
+echo "phpmd starts"
+
+cd $ROOT_DIRECTORY;
+
+PHPMD="vendor/bin/phpmd"
+
+HAS_PHPMD=false
+
+if [ -x "$PHPMD" ]; then
+    HAS_PHPMD=true
+fi
+
+if $HAS_PHPMD; then
+    git diff --name-only --diff-filter=ACMR HEAD | grep -e '.*\.php$' | while read line; do
+        ${PHPMD} ./src text cleancode,codesize,controversial,design,naming,unusedcode;
+    done
+else
+    echo ""
+    echo "Please install phpmd dependence"
+    echo "  composer install"
+    echo ""
+	cd $CURRENT_DIRECTORY;
+    exit 1
+fi
+
+echo "phpmd ends"
+
+#================================================================
+
+cd $CURRENT_DIRECTORY;

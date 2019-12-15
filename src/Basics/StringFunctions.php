@@ -21,7 +21,8 @@ class StringFunctions
 
         $stringLength = 0;
         $output = '';
-        for ($iPart = 0; $iPart < count($parts); ++$iPart) {
+        $count = count($parts);
+        for ($iPart = 0; $iPart < $count; ++$iPart) {
             $stringLength += mb_strlen($parts[$iPart]);
             if ($stringLength > $hardLimit) {
                 if (mb_strlen($output) < ($hardLimit - $maxFlexibility)) {
