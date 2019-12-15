@@ -44,7 +44,7 @@
 								{{ form_end(specsForm) }}
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="advanced">
-								{% if product.idmlFile %}
+								{% if product.idmlFilename %}
 									<a href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
 										Download original InDesign file
 									</a>

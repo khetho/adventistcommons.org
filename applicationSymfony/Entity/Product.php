@@ -78,6 +78,8 @@ class Product
     private $description;
 
     /**
+     * @var File|null
+
      * @Assert\Image(
      *     allowPortrait = false,
      *     maxSize = "1024k",
@@ -120,11 +122,16 @@ class Product
     private $type;
 
     /**
+     * @var File|null
+     */
+    private $idmlFile;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="idml_file", type="string", length=255, nullable=true)
      */
-    private $idmlFile;
+    private $idmlFilename;
 
     /**
      * @var string|null
@@ -335,14 +342,26 @@ class Product
         return $this;
     }
 
-    public function getIdmlFile(): ?string
+    public function getIdmlFile(): ?File
     {
         return $this->idmlFile;
     }
 
-    public function setIdmlFile(?string $idmlFile): self
+    public function setIdmlFile(?File $idmlFile): self
     {
         $this->idmlFile = $idmlFile;
+
+        return $this;
+    }
+
+    public function getIdmlFilename(): ?string
+    {
+        return $this->idmlFilename;
+    }
+
+    public function setIdmlFilename(?string $idmlFilename): self
+    {
+        $this->idmlFilename = $idmlFilename;
 
         return $this;
     }
@@ -455,7 +474,7 @@ class Product
         return $this;
     }
 
-    public function getSeries(): ?Serie
+    public function getSeries(): ?Series
     {
         return $this->series;
     }

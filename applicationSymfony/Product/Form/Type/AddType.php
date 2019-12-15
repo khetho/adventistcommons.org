@@ -175,7 +175,6 @@ class AddType extends AbstractType
                 FileType::class,
                 [
                     'label' => 'IDML file',
-                    'mapped' => false,
                     'required' => false,
                 ]
             )

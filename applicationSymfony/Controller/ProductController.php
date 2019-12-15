@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Product\FilterApplier;
 use App\Product\CoverUploader;
+use App\Product\IdmlUploader;
 use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\IdmlType;
@@ -18,6 +19,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -147,14 +150,22 @@ class ProductController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{slug}", name="app_product_download_idml")
+     * @Route("/{slug}/product.idml", name="app_product_download_idml")
      * @param string $slug
      * @throws NotImplementedException
      */
-    public function downloadIdml(string $slug)
+    public function downloadIdml(string $slug, IdmlUploader $idmlUploader)
     {
         $product = $this->retrieveProductOr404($slug);
-        throw new NotImplementedException();
+        if (!$product->getIdmlFilename()) {
+            throw new NotFoundHttpException();
+        }
+        
+        $response = new BinaryFileResponse($idmlUploader->getTargetPath().'/'.$product->getIdmlFilename());
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $product->getIdmlFilename());
+        
+        return $response;
     }
 
     /**
@@ -163,7 +174,7 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function edit($slug, Request $request, CoverUploader $coverUploader)
+    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader)
     {
         $product = $this->retrieveProductOr404($slug);
         $submittedProduct = null;
@@ -185,6 +196,7 @@ class ProductController extends AbstractController
         $idmlForm->handleRequest($request);
         if ($idmlForm->isSubmitted() && $idmlForm->isValid()) {
             $submittedProduct = $idmlForm->getData();
+            $submittedProduct = $idmlUploader->upload($submittedProduct);
         }
 
         if ($submittedProduct) {
