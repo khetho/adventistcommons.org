@@ -118,19 +118,13 @@ class FilterStatus
     {
         // Attach entities to doctrine manager so it knows they are data in db
         if ($this->getBinding()) {
-            $this->setBinding(
-                $manager->merge($this->getBinding())
-            );
+            $manager->merge($this->getBinding());
         }
         if ($this->getSeries()) {
-            $this->setSeries(
-                $manager->merge($this->getSeries())
-            );
+            $manager->merge($this->getSeries());
         }
-        if ($audience = $this->getAudience()) {
-            $this->setAudience(
-                $manager->merge($audience)
-            );
+        if ($this->getAudience()) {
+            $manager->merge($this->getAudience());
         }
     }
 }

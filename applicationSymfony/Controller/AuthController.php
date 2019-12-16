@@ -101,16 +101,19 @@ class AuthController extends AbstractController
     {
         $repo = $this->getDoctrine()->getRepository(User::class);
         $email = $request->getSession()->get('just_created_user_email');
-        if (!$email || !($user = $repo->findOneBy(['email' => $email]))) {
+        if (!$email) {
+            throw new NotFoundHttpException();
+        }
+        $user = $repo->findOneBy(['email' => $email]);
+        if (!$user) {
             throw new NotFoundHttpException();
         }
         $form = $this->createForm(CompleteType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'Account created successfully. Please, check your emails and click on the link to activate your account.');
-            $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
+            $entityManager->persist($form->getData());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_about_home');
@@ -128,15 +131,15 @@ class AuthController extends AbstractController
     /**
      * @Route("/ask_reset_password", name="app_auth_ask_reset_password")
      * @param Request $request
-     * @param PasswordResetTokenGenerator $passwordResetTokenGenerator
+     * @param PasswordResetTokenGenerator $tokenGenerator
      * @return Response
      */
-    public function askPasswordReset(Request $request, PasswordResetTokenGenerator $passwordResetTokenGenerator)
+    public function askPasswordReset(Request $request, PasswordResetTokenGenerator $tokenGenerator)
     {
         $form = $this->createForm(AskPasswordResetType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $passwordResetTokenGenerator->treatEmail($form->getData()['email']);
+            $tokenGenerator->treatEmail($form->getData()['email']);
             $this->addFlash('success', 'Password request successfully submitted. Please, check your emails and click on the link to set your password.');
             
             return $this->redirect($this->generateUrl('app_auth_ask_reset_password'));

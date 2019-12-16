@@ -75,7 +75,7 @@ SQL
     {
         $this->query(
             <<<SQL
---                DROP INDEX UNIQ_B3BA5A5A989D9B62 ON products;
+                DROP INDEX UNIQ_B3BA5A5A989D9B62 ON products;
                 ALTER TABLE `products`
                     DROP `slug`,
                     CHANGE name name VARCHAR(255) NULL;

@@ -53,7 +53,7 @@ fi
 
 if $HAS_PHPMD; then
     git diff --name-only --diff-filter=ACMR HEAD | grep -e '.*\.php$' | while read line; do
-        ${PHPMD} ./src text cleancode,codesize,controversial,design,naming,unusedcode;
+        ${PHPMD} ${line} xml ./ruleset.xml;
     done
 else
     echo ""

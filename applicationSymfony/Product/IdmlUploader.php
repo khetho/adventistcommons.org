@@ -3,18 +3,19 @@
 namespace App\Product;
 
 use App\Entity\Product;
+use App\Product\Idml\Importer;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\File\File;
+use \Exception;
 
 class IdmlUploader
 {
     private $targetDirectory;
-    private $filesystem;
+    private $importer;
 
-    public function __construct(string $targetDirectory)
+    public function __construct(string $targetDirectory, Importer $importer)
     {
         $this->targetDirectory = $targetDirectory;
+        $this->importer = $importer;
     }
 
     public function upload(Product $product): Product
@@ -25,7 +26,7 @@ class IdmlUploader
         }
         
         if ($product->getIdmlFilename()) {
-            throw new \Exception('It is not allowed to change the Idml file');
+            throw new Exception('It is not allowed to change the Idml file');
         }
         
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -39,6 +40,7 @@ class IdmlUploader
         }
         
         $product->setIdmlFilename($fileName);
+        $product = $this->importer->import($product, $this->targetDirectory);
 
         return $product;
     }

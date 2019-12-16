@@ -2,153 +2,22 @@
 
 namespace App\Controller;
 
-use AdventistCommons\Idml\DomManipulation\Exception as IdmlException;
 use App\Entity\Product;
-use App\Product\FilterApplier;
 use App\Product\CoverUploader;
 use App\Product\IdmlUploader;
-use App\Product\Idml\Validator;
-use App\Product\Idml\Importer;
-use App\Product\CurrentFilterManager;
-use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\IdmlType;
 use App\Product\Form\Type\DeleteType;
 use App\Product\Form\Type\GeneralType;
-use App\Product\Form\Type\FilterType;
 use App\Product\Form\Type\SpecsType;
-use App\Product\Form\Type\ValidateImdlType;
-use Hybridauth\Exception\NotImplementedException;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_product_list")
-     * @param Request $request
-     * @param FilterApplier $filterApplier
-     * @param PaginatorInterface $paginator
-     * @return Response
-     */
-    public function list(
-        Request $request,
-        FilterApplier $filterApplier,
-        CurrentFilterManager $currentFilterManager,
-        PaginatorInterface $paginator
-    ) {
-        $currentFilter = $currentFilterManager->getCurrentFilterStatus();
-        $filterForm = $this->createForm(FilterType::class, $currentFilter);
-        $filterForm->handleRequest($request);
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $currentFilterManager->setCurrentFilterStatus($filterForm->getData());
-
-            return $this->redirectToRoute('app_product_list');
-        }
-        $query = $filterApplier->getProducts();
-
-        $idmlValidationForm = $this->createForm(
-            ValidateImdlType::class,
-            null,
-            [
-                'action' => $this->generateUrl('app_product_validate_idml'),
-            ]
-        );
-        $addForm = $this->createForm(
-            AddType::class,
-            null,
-            [
-                'action' => $this->generateUrl('app_product_add'),
-            ]
-        );
-
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            24
-        );
-
-        return $this->render('product/list.html.twig', [
-            'products' => $pagination,
-            'filterForm' => $filterForm->createView(),
-            'productAddForm' => $addForm->createView(),
-            'idmlValidationForm' => $idmlValidationForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/reset-filters", name="app_product_reset_filters")
-     * @param FilterApplier $filterApplier
-     * @return Response
-     */
-    public function resetFilters(CurrentFilterManager $currentFilterManager)
-    {
-        $currentFilterManager->reset();
-        
-        return $this->redirectToRoute('app_product_list');
-    }
-
-    /**
-     * @Route("/add", name="app_product_add")
-     * @param Request $request
-     * @return Response
-     */
-    public function add(Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader, Importer $idmlImporter)
-    {
-        $addForm = $this->createForm(AddType::class);
-        $addForm->handleRequest($request);
-        if ($addForm->isSubmitted() && $addForm->isValid()) {
-            $product = $addForm->getData();
-            $product = $coverUploader->upload($product);
-            $product = $idmlUploader->upload($product);
-            $product = $idmlImporter->import($product);
-            
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
-            $entityManager->flush();
-            $this->addFlash('success', 'Product created successfully.');
-
-            return $this->redirectToRoute('app_product_list');
-        }
-
-        return $this->render('product/add/add.html.twig', [
-            'productAddForm' => $addForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/validate-idml", name="app_product_validate_idml")
-     * @param Request $request
-     * @return Response
-     */
-    public function validateIdml(Request $request, Validator $validator)
-    {
-        $idmlValidationForm = $this->createForm(ValidateImdlType::class);
-        $idmlValidationForm->handleRequest($request);
-        if ($idmlValidationForm->isSubmitted() && $idmlValidationForm->isValid()) {
-            $file = $idmlValidationForm->getData()['idmlFile'];
-            $newPathname = $file->getFilename().'.idml';
-            $file->move($file->getPath(), $newPathname);
-            try {
-                $validator->validate($file->getPathname().'.idml');
-                $this->addFlash('success', 'Idml validated successfully.');
-            } catch (IdmlException $e) {
-                $this->addFlash('danger', $e->getMessage());
-            }
-
-            return $this->redirectToRoute('app_product_validate_idml');
-        }
-
-        return $this->render('product/idmlValidation/validate_idml.html.twig', [
-            'idmlValidationForm' => $idmlValidationForm->createView(),
-        ]);
-    }
-
     /**
      * @Route("/{slug}", name="app_product_show")
      * @param string $slug
@@ -162,16 +31,18 @@ class ProductController extends AbstractController
             'product' => $product,
         ]);
     }
+
     /**
      * @Route("/{slug}/product.idml", name="app_product_download_idml")
      * @param string $slug
-     * @throws NotImplementedException
+     * @param IdmlUploader $idmlUploader
+     * @return BinaryFileResponse
      */
     public function downloadIdml(string $slug, IdmlUploader $idmlUploader)
     {
         $product = $this->retrieveProductOr404($slug);
         if (!$product->getIdmlFilename()) {
-            throw new NotFoundHttpException();
+            $this->createNotFoundException();
         }
         
         $response = new BinaryFileResponse($idmlUploader->getTargetPath().'/'.$product->getIdmlFilename());
@@ -185,9 +56,12 @@ class ProductController extends AbstractController
      * @Route("/{slug}/edit", name="app_product_edit")
      * @param string $slug
      * @param Request $request
+     * @param CoverUploader $coverUploader
+     * @param IdmlUploader $idmlUploader
      * @return Response
+     * @throws \Exception
      */
-    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader, Importer $idmlImporter)
+    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader)
     {
         $product = $this->retrieveProductOr404($slug);
         $submittedProduct = null;
@@ -210,13 +84,12 @@ class ProductController extends AbstractController
         if ($idmlForm->isSubmitted() && $idmlForm->isValid()) {
             $submittedProduct = $idmlForm->getData();
             $submittedProduct = $idmlUploader->upload($submittedProduct);
-            $submittedProduct = $idmlImporter->import($submittedProduct);
         }
 
         if ($submittedProduct) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($submittedProduct);
-            $em->flush();
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($submittedProduct);
+            $manager->flush();
             $this->addFlash('success', 'Product successfully saved');
 
             return $this->redirectToRoute('app_product_edit', ['slug' => $product->getSlug()]);
@@ -251,24 +124,25 @@ class ProductController extends AbstractController
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
             $submittedProduct = $deleteForm->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($submittedProduct);
-            $em->flush();
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($submittedProduct);
+            $manager->flush();
             $this->addFlash('success', 'Product successfully deleted');
 
             return $this->redirectToRoute('app_product_list');
         }
-        
-        return new NotFoundHttpException();
+
+        $this->createNotFoundException();
     }
 
     private function retrieveProductOr404($slug): Product
     {
+        /** @var Product $product */
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy([
             'slug' => $slug,
         ]);
         if (!$product) {
-            throw new NotFoundHttpException();
+            $this->createNotFoundException();
         }
 
         return $product;

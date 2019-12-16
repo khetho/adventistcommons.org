@@ -3,12 +3,13 @@
 namespace App\Product\Idml;
 
 use AdventistCommons\Idml\SectionPersisterInterface;
-use App\Entity\Product;
 use App\Entity\Section;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SectionPersister implements SectionPersisterInterface
 {
+    private $entityManager;
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;

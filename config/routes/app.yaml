@@ -21,6 +21,16 @@ app_about:
 app_product:
     resource: App\Controller\ProductController
     type: annotation
+    prefix: /products
+
+app_idml:
+    resource: App\Controller\IdmlController
+    type: annotation
+    prefix: /idml
+
+app_products:
+    resource: App\Controller\ProductsController
+    type: annotation
     prefix: /product
 
 app_auth_login_check:

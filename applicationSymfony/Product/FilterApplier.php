@@ -3,19 +3,13 @@
 namespace App\Product;
 
 use App\Entity\Product;
-use App\Product\Entity\FilterStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Knp\DictionaryBundle\Dictionary\Collection;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class FilterApplier
 {
     private $currentFilterManager;
     private $manager;
-
-    private $currentFilterStatus;
 
     public function __construct(
         CurrentFilterManager $currentFilterManager,
@@ -28,54 +22,54 @@ class FilterApplier
     public function getProducts()
     {
         /** @TODO: filter data */
-        $qb = $this->manager->createQueryBuilder();
-        $qb->select('p')
+        $qBuilder = $this->manager->createQueryBuilder();
+        $qBuilder->select('p')
             ->from(Product::class, 'p');
 
         $filterStatus = $this->currentFilterManager->getCurrentFilterStatus();
-        $qb = $this->addCriteriaStringWithWildcards($qb, 'name', $filterStatus->getTitle());
-        $qb = $this->addCriteriaStringWithWildcards($qb, 'author', $filterStatus->getAuthor());
-        $qb = $this->addCriteria($qb, 'type', $filterStatus->getType());
-        $qb = $this->addCriteria($qb, 'serie', $filterStatus->getSeries());
-        $qb = $this->addCriteriaIn($qb, 'audiences', $filterStatus->getAudience());
-        $qb = $this->addCriteria($qb, 'binding', $filterStatus->getBinding());
-        $qb = $this->addSort($qb, $filterStatus->getSort());
+        $qBuilder = $this->addCriteriaStringWithWildcards($qBuilder, 'name', $filterStatus->getTitle());
+        $qBuilder = $this->addCriteriaStringWithWildcards($qBuilder, 'author', $filterStatus->getAuthor());
+        $qBuilder = $this->addCriteria($qBuilder, 'type', $filterStatus->getType());
+        $qBuilder = $this->addCriteria($qBuilder, 'serie', $filterStatus->getSeries());
+        $qBuilder = $this->addCriteriaIn($qBuilder, 'audiences', $filterStatus->getAudience());
+        $qBuilder = $this->addCriteria($qBuilder, 'binding', $filterStatus->getBinding());
+        $qBuilder = $this->addSort($qBuilder, $filterStatus->getSort());
 
-        return $qb->getQuery();
+        return $qBuilder->getQuery();
     }
 
-    private function addCriteria(QueryBuilder $qb, string $property, $value, $operator = '='): QueryBuilder
+    private function addCriteria(QueryBuilder $qBuilder, string $property, $value, $operator = '='): QueryBuilder
     {
         if (!$value) {
-            return $qb;
+            return $qBuilder;
         }
 
-        return $qb->andWhere(sprintf('p.%s %s :%s', $property, $operator, $property))
+        return $qBuilder->andWhere(sprintf('p.%s %s :%s', $property, $operator, $property))
             ->setParameter($property, $value);
     }
 
-    private function addCriteriaIn(QueryBuilder $qb, string $property, $value): QueryBuilder
+    private function addCriteriaIn(QueryBuilder $qBuilder, string $property, $value): QueryBuilder
     {
         if (!$value) {
-            return $qb;
+            return $qBuilder;
         }
 
-        return $qb->andWhere(sprintf(':%s MEMBER OF p.%s', $property, $property))
+        return $qBuilder->andWhere(sprintf(':%s MEMBER OF p.%s', $property, $property))
             ->setParameter($property, $value);
     }
 
-    private function addCriteriaStringWithWildcards(QueryBuilder $qb, string $property, ?string $value): QueryBuilder
+    private function addCriteriaStringWithWildcards(QueryBuilder $qBuilder, string $property, ?string $value): QueryBuilder
     {
         if (!$value) {
-            return $qb;
+            return $qBuilder;
         }
 
-        return $this->addCriteria($qb, $property, '%'.$value.'%', 'LIKE');
+        return $this->addCriteria($qBuilder, $property, '%'.$value.'%', 'LIKE');
     }
 
 
-    private function addSort(QueryBuilder $qb, string $property): QueryBuilder
+    private function addSort(QueryBuilder $qBuilder, string $property): QueryBuilder
     {
-        return $qb->orderBy(sprintf('p.%s', $property), 'ASC');
+        return $qBuilder->orderBy(sprintf('p.%s', $property), 'ASC');
     }
 }

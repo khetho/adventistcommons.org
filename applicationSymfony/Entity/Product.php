@@ -37,6 +37,9 @@ use Symfony\Component\HttpFoundation\File\File;
  *   errorPath="name",
  *   message="A product with the same slug already exists."
  * )
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Product
 {
@@ -506,19 +509,19 @@ class Product
         return $this->audiences;
     }
 
-    public function addAudience(Audience $Audience): self
+    public function addAudience(Audience $audience): self
     {
-        if (!$this->audiences->contains($Audience)) {
-            $this->audiences[] = $Audience;
+        if (!$this->audiences->contains($audience)) {
+            $this->audiences[] = $audience;
         }
 
         return $this;
     }
 
-    public function removeAudience(Audience $Audience): self
+    public function removeAudience(Audience $audience): self
     {
-        if ($this->audiences->contains($Audience)) {
-            $this->audiences->removeElement($Audience);
+        if ($this->audiences->contains($audience)) {
+            $this->audiences->removeElement($audience);
         }
 
         return $this;

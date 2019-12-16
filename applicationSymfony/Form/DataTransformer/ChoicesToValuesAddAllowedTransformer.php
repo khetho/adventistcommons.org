@@ -31,13 +31,17 @@ class ChoicesToValuesAddAllowedTransformer implements DataTransformerInterface
 
         $output = [];
         foreach ($array as $value) {
-            if ($choices = $this->choiceList->getValuesForChoices([$value])) {
-                $output[] = $choices[0];
+            $choices = $this->choiceList->getValuesForChoices([$value]);
+            $thisOutput = null;
+            if ($choices) {
+                $thisOutput = $choices[0];
             } elseif (is_string($value)) {
-                $output[] = $value;
-            } else {
+                $thisOutput = $value;
+            }
+            if ($thisOutput === null) {
                 throw new TransformationFailedException('Value must be listed as a basic option, or a string');
             }
+            $output[] = $thisOutput;
         }
 
         return $output;
@@ -59,13 +63,17 @@ class ChoicesToValuesAddAllowedTransformer implements DataTransformerInterface
 
         $output = [];
         foreach ($array as $value) {
-            if ($choices = $this->choiceList->getChoicesForValues([$value])) {
-                $output[] = $choices[0];
+            $choices = $this->choiceList->getChoicesForValues([$value]);
+            $thisOutput = null;
+            if ($choices) {
+                $thisOutput = $choices[0];
             } elseif (is_string($value)) {
-                $output[] = $value;
-            } else {
+                $thisOutput = $value;
+            }
+            if ($thisOutput === null) {
                 throw new TransformationFailedException('Value must be listed as a basic option, or a string');
             }
+            $output[] = $thisOutput;
         }
 
         return $output;

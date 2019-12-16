@@ -2,13 +2,9 @@
 
 namespace App\Product;
 
-use App\Entity\Product;
 use App\Product\Entity\FilterStatus;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
-use Knp\DictionaryBundle\Dictionary\Collection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class CurrentFilterManager
 {
@@ -41,9 +37,8 @@ class CurrentFilterManager
         $filterStatus = $this->session->get('product_filter');
         if (!$filterStatus || !($filterStatus instanceof FilterStatus)) {
             $filterStatus = new FilterStatus();
-        } else {
-            $filterStatus->attach($this->entityManager);
         }
+        $filterStatus->attach($this->entityManager);
         $this->currentFilterStatus = $filterStatus;
 
         return $this->currentFilterStatus;

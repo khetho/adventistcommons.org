@@ -38,7 +38,7 @@ class SkillsAdder
                 [
                     'multiple' => true,
                     'choices' => $skillChoices,
-                    'choice_label' => function ($choice, $key, $value) {
+                    'choice_label' => function ($choice) {
                         return (string) $choice;
                     },
                     'label' => 'Other skills',

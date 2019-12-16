@@ -41,7 +41,7 @@ class SenderToUser extends AbstractSender
     {
         $resetPasswordUrl = $this->router->generate(
             'app_auth_reset_password',
-            ['code' => $user->getForgottenPasswordCode()],
+            ['code' => $user->getResetPasswordCode()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $email = $this->buildEmail($user)

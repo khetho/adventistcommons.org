@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use \Exception;
 
 /**
  * User
@@ -16,10 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Table(
  *     name="users",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(
- *             name="uc_forgotten_password_selector",
- *             columns={"forgotten_password_selector"}
- *         ),
  *         @ORM\UniqueConstraint(
  *             name="uc_email",
  *             columns={"email"}
@@ -63,6 +60,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  *   errorPath="email",
  *   message="This email is already in use.",
  * )
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class User implements UserInterface
 {
@@ -146,24 +146,17 @@ class User implements UserInterface
     /**
      * @var string|null
      *
-     * @ORM\Column(name="forgotten_password_selector", type="string", length=255, nullable=true)
-     */
-    private $forgottenPasswordSelector;
-
-    /**
-     * @var string|null
-     *
      * @ORM\Column(name="forgotten_password_code", type="string", length=255, nullable=true)
      */
-    private $forgottenPasswordCode;
+    private $resetPasswordCode;
 
     /**
-     * @var int|null
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="forgotten_password_time", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="forgotten_password_time", type="integer", nullable=true)
      */
-    private $forgottenPasswordTime;
-    private $forgottenPasswordTimeDateTime;
+    private $resetPassTimestamp;
+    private $resetPassDateTime;
 
     /**
      * @var string|null
@@ -441,45 +434,31 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getForgottenPasswordSelector(): ?string
+    public function getResetPasswordCode(): ?string
     {
-        return $this->forgottenPasswordSelector;
+        return $this->resetPasswordCode;
     }
 
-    public function setForgottenPasswordSelector(?string $forgottenPasswordSelector): self
+    public function setResetPasswordCode(?string $resetPasswordCode): self
     {
-        $this->forgottenPasswordSelector = $forgottenPasswordSelector;
+        $this->resetPasswordCode = $resetPasswordCode;
 
         return $this;
     }
 
-    public function getForgottenPasswordCode(): ?string
+    public function getResetPassTimestamp(): ?\DateTime
     {
-        return $this->forgottenPasswordCode;
-    }
-
-    public function setForgottenPasswordCode(?string $forgottenPasswordCode): self
-    {
-        $this->forgottenPasswordCode = $forgottenPasswordCode;
-
-        return $this;
-    }
-
-    public function getForgottenPasswordTime(): ?\DateTime
-    {
-        if (!$this->forgottenPasswordTimeDateTime) {
-            $this->forgottenPasswordTimeDateTime = \DateTime::createFromFormat('U', $this->forgottenPasswordTime);
-            $this->forgottenPasswordTimeDateTime = $this->forgottenPasswordTimeDateTime ? $this->forgottenPasswordTimeDateTime : null;
+        if (!$this->resetPassDateTime) {
+            $this->resetPassDateTime = \DateTime::createFromFormat('U', $this->resetPassTimestamp);
+            $this->resetPassDateTime = $this->resetPassDateTime ? $this->resetPassDateTime : null;
         }
-        return $this->forgottenPasswordTimeDateTime;
+        return $this->resetPassDateTime;
     }
 
-    public function setForgottenPasswordTime(\DateTime $forgottenPasswordTime): self
+    public function setResetPassTimestamp(\DateTime $resetPassTimestamp): self
     {
-        $this->forgottenPasswordTime = $forgottenPasswordTime->format('U');
-        $this->forgottenPasswordTimeDateTime = $forgottenPasswordTime;
-
-        return $this;
+        $this->resetPassTimestamp = $resetPassTimestamp->format('U');
+        $this->resetPassDateTime = $resetPassTimestamp;
     }
 
     public function getRememberSelector(): ?string
@@ -650,12 +629,12 @@ class User implements UserInterface
      */
     public function getSkills(): array
     {
-        return array_merge($this->skills->toArray(), $this->skillsAdded);
+        return array_merge($this->skills->toArray(), $this->getSkillsAdded());
     }
     
     public function getSkillsAdded(): array
     {
-        return $this->skillsAdded;
+        return is_array($this->skillsAdded) ? $this->skillsAdded : [];
     }
 
     public function addSkill($skill): self
@@ -664,15 +643,17 @@ class User implements UserInterface
             if (!$this->skills->contains($skill)) {
                 $this->skills[] = $skill;
             }
+
+            return $this;
         } elseif (is_string($skill)) {
-            if (!in_array($skill, $this->skillsAdded)) {
+            if (!in_array($skill, $this->getSkillsAdded())) {
                 $this->skillsAdded[] = $skill;
             }
-        } else {
-            throw new \Exception('Skill must be a string or a Skill object');
+
+            return $this;
         }
 
-        return $this;
+        throw new Exception('Skill must be a string or a Skill object');
     }
 
     public function removeSkill($skill): self
@@ -681,16 +662,18 @@ class User implements UserInterface
             if ($this->skills->contains($skill)) {
                 $this->skills->removeElement($skill);
             }
+
+            return $this;
         } elseif (is_string($skill)) {
             $index = array_search($skill, $this->skillsAdded);
             if ($index !== null) {
                 unset($this->skillsAdded[$index]);
             }
-        } else {
-            throw new \Exception('Skill must be a string or a Skill object');
+
+            return $this;
         }
 
-        return $this;
+        throw new Exception('Skill must be a string or a Skill object');
     }
     
     public function getMotherLanguage(): ?Language

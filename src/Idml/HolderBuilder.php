@@ -28,31 +28,21 @@ class HolderBuilder
     ) {
         $this->storyDomManipulator = $domManipulator;
     }
-    
-    public function buildFromArrayProduct(array $product): Holder
-    {
-        if (!$product['idml_file']) {
-            return null;
-        }
-        $idmlPath = realpath(sprintf(
-            '%s/%s.idml',
-            $this->uploadPath,
-            $product['idml_file']
-        ));
-        self::checkFile($idmlPath);
-        
-        $holder = new Holder($idmlPath, $this->storyDomManipulator, $product);
 
-        return $holder;
-    }
-    
     public function buildFromProductArrayAndPath(array $product, string $idmlPath): Holder
     {
         self::checkFile($idmlPath);
         
         return new Holder($idmlPath, $this->storyDomManipulator, $product);
     }
-    
+
+    public function buildFromPath(string $idmlPath): Holder
+    {
+        self::checkFile($idmlPath);
+
+        return new Holder($idmlPath, $this->storyDomManipulator);
+    }
+
     /**
      * @param $idmlPath
      * @throws FileNotFoundException

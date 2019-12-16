@@ -4,13 +4,10 @@ namespace App\Product;
 
 use App\Entity\Product;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\File\File;
 
 class CoverUploader
 {
     private $targetDirectory;
-    private $filesystem;
 
     public function __construct(string $targetDirectory)
     {
@@ -35,9 +32,9 @@ class CoverUploader
         }
         
         if ($product->getCoverImageFilename()) {
-            $previousCoverFilename = $this->targetDirectory.'/'.$product->getCoverImageFilename();
-            if (file_exists($previousCoverFilename)) {
-                unlink($previousCoverFilename);
+            $previousFilename = $this->targetDirectory.'/'.$product->getCoverImageFilename();
+            if (file_exists($previousFilename)) {
+                unlink($previousFilename);
             }
         }
         

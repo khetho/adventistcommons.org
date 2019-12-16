@@ -124,6 +124,9 @@
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
+    "pdepend/pdepend": {
+        "version": "2.5.2"
+    },
     "php": {
         "version": "7.2"
     },
@@ -135,6 +138,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
+    },
+    "phpmd/phpmd": {
+        "version": "2.7.0"
     },
     "phpspec/php-diff": {
         "version": "v1.1.0"

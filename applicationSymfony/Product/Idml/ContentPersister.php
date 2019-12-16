@@ -4,11 +4,12 @@ namespace App\Product\Idml;
 
 use AdventistCommons\Idml\ContentPersisterInterface;
 use App\Entity\Content;
-use App\Entity\Section;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ContentPersister implements ContentPersisterInterface
 {
+    private $entityManager;
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;

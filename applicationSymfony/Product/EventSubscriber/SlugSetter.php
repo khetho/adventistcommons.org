@@ -27,12 +27,12 @@ class SlugSetter implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $args): void
     {
-        $this->setSlug($entity = $args->getEntity());
+        $this->setSlug($args->getEntity());
     }
 
     public function preUpdate(LifecycleEventArgs $args): void
     {
-        $this->setSlug($entity = $args->getEntity());
+        $this->setSlug($args->getEntity());
     }
 
     private function setSlug($entity)
