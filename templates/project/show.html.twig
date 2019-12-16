@@ -5,11 +5,11 @@
 		<div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-11">
 				<div class="page-header">
-					<h1>{{ product.name }} <span class="badge badge-secondary text-light ml-1">{{ project.language_name }}</span></h1>
-					<p class="lead">{{ product.description }}</p>
+					<h1>{{ project.product.name }} <span class="badge badge-secondary text-light ml-1">{{ project.language.name }}</span></h1>
+					<p class="lead">{{ project.product.description }}</p>
 					<div class="d-flex align-items-center">
 						<ul class="avatars">
-							{% for member in members  %}
+							{% for member in project.members  %}
 								<li>
 									<a href="#" data-toggle="tooltip" data-placement="top" title="{{ member.first_name ~ " " ~ member.last_name }}">
 										<img class="avatar" src="{{ member.avatar }}"/>
@@ -20,12 +20,12 @@
 					</div>
 					<div>
 						<div class="progress">
-							<div class="progress-bar bg-success" style="width:{{ project.percent_complete }}%;"></div>
+							<div class="progress-bar bg-success" style="width:{{ project.completionRatio*100 }}%;"></div>
 						</div>
 						<div class="d-flex justify-content-between text-small">
 							<div class="d-flex align-items-center">
 								<i class="material-icons">playlist_add_check</i>
-								<span>{{ project.completed_strings ~ " / " ~ project.total_strings ~ " (" ~ project.percent_complete ~ "%)" }}</span>
+								<span>{{ project.stringCountCompleted ~ " / " ~ project.stringCountTotal ~ " (" ~ project.completionRatio*100 ~ "%)" }}</span>
 							</div>
 							<span>{{ project.status }}</span>
 						</div>
@@ -50,7 +50,7 @@
 						<div class="content-list-body">
 							<div class="card-list">
 								<div class="card-list-body">
-									{% for section in sections  %}
+									{% for section in project.product.sections %}
 										<div class="card card-task">
 											<div class="progress">
 												<div class="progress-bar bg-success" role="progressbar" style="width: {{ section.percent_complete }}%"></div>
@@ -80,7 +80,7 @@
 							<div class="row content-list-head">
 								<div class="col-auto">
 									<h3>Contributors</h3>
-									{% if can_manage_members %}
+									{% if is_granted('ROLE_ADMIN') %}
 										<button class="btn btn-round" data-toggle="modal" data-target="#member-add-modal">
 											<i class="material-icons">add</i>
 										</button>
@@ -88,7 +88,7 @@
 								</div>
 							</div>
 							<div class="content-list-body row">
-								{% for member in members  %}
+								{% for member in project.members  %}
 									<div class="col-6">
 										<a class="media media-member">
 											<img class="avatar avatar-lg" src="{{ member.avatar }}"/>
@@ -124,7 +124,15 @@
 									<i class="material-icons">filter_list</i>
 								</span>
 							</div>
-							<input type="search" class="form-control search" placeholder="Find users by name or email" {{ user.is_admin ? "data-is-admin='true'" : '' }} data-project-id="{{ project.id }}">
+							<input type="search"
+								   class="form-control search"
+								   placeholder="Find users by name or email"
+								   {% if is_granted('ROLE_ADMIN') %}
+									    data-is-admin='true'
+								   {% else %}
+										data-project-id="{{ project.id }}"
+								   {% endif %}
+							>
 						</div>
 						<div class="form-group-users user-list" style="overflow:visible"></div>
 					</div>

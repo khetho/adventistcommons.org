@@ -13,7 +13,8 @@ class UserNull extends AbstractMigration
                 CHANGE `password` `password` varchar(255) COLLATE 'utf8_general_ci' NULL AFTER `username`,
                 CHANGE `product_notify` `product_notify` tinyint(1) NOT NULL AFTER `skills`,
                 CHANGE `pro_translator` `pro_translator` tinyint(1) NOT NULL AFTER `product_notify`,
-                DROP `forgotten_password_selector`;;
+                CHANGE forgotten_password_time forgotten_password_time INT DEFAULT NULL,
+                DROP `forgotten_password_selector`;
 SQL
         );
     }

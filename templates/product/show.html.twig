@@ -58,20 +58,20 @@
 
 										<div class="card-body">
 											<div class="card-title">
-												<h6 data-filter-by="text">{{ language.language_name }}</h6>
+												<h6 data-filter-by="text">{{ project.language.name }}</h6>
 												<div class="d-flex align-items-center">
-													<span>{{ language.project.status ? language.project.status : "" }}</span>
+													<span>{{ project.status ? project.status : "" }}</span>
 												</div>
 											</div>
 											<div class="card-meta">
-												{% if language.attachments is defined %}
+												{% if project.attachments is defined %}
 													{% if user %}
 														<div class="dropdown">
 															<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
 																Download
 															</button>
 															<div class="dropdown-menu">
-																{% for attachment in language.attachments  %}
+																{% for attachment in project.attachments  %}
 																	<a class="dropdown-item" href="/uploads/{{ attachment.file }}">{{ attachment.file_type }}</a>
 																{% endfor %}
 															</div>
@@ -81,14 +81,14 @@
 													{% endif %}
                                                 {% endif %}
 
-												<a href="/projects/{{ language.project.id }}" class="btn btn-secondary">
-													{% if language.project.completed_strings == 0 %}
+												<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}" class="btn btn-secondary">
+													{% if project.status %}
 														Start Translating
                                                     {% else %}
 														Translate
                                                     {% endif %}
 												</a>
-                                                {% if language.project.completed_strings > 0 %}
+                                                {% if project.status %}
 													<a class="btn btn-secondary" href="/projects/download_idml/{{ language.project.id }}">
 														Download IDML
 													</a>
@@ -193,32 +193,8 @@
 		</div>
 	</div>
 </div>
-<form class="modal fade auto-submit" action="/projects/add" id="add-project-form" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Start New Translation</h5>
-				<button type="button" class="close btn btn-round" data-dismiss="modal">
-					<i class="material-icons">close</i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="form-group row align-items-center">
-					<label class="col-3">Language</label>
-					<select class="language-select col" name="language_id" data-placeholder="Select a language...">
-						<option value="">None</option>
-					</select>
-				</div>
-				<input type="hidden" name="product_id" value="{{ product.id }}">
-			</div>
-			<div class="modal-footer">
-				<button role="button" class="btn btn-primary" type="submit">
-					Start Translation2
-				</button>
-			</div>
-		</div>
-	</div>
-</form>
+
+{% include 'project/add/_add_modal.html.twig' %}
 
 <form class="modal fade auto-submit" action="/products/add_file" id="add-file-form"  tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">

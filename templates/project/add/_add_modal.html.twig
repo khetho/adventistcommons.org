@@ -1,0 +1,25 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}add-project-form{% endblock %}
+
+{% block form_start %}
+	{{ form_start(projectAddForm) }}
+{% endblock %}
+
+{% block title %}Start new translation{% endblock %}
+
+{% block body %}
+	{{ form_row(projectAddForm.language, {
+		'attr': {
+			'class': 'selectize',
+		},
+	}) }}
+{% endblock %}
+
+{% block submitLabel %}Start translation{% endblock %}
+
+{% block form_end %}
+	{{ form_rest(projectAddForm) }}
+	{{ form_end(projectAddForm) }}
+{% endblock %}
+

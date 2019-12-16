@@ -9,12 +9,18 @@ use App\Product\Form\Type\IdmlType;
 use App\Product\Form\Type\DeleteType;
 use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;
+use App\Project\Form\Type\AddType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 
 class ProductController extends AbstractController
 {
@@ -26,9 +32,20 @@ class ProductController extends AbstractController
     public function show(string $slug)
     {
         $product = $this->retrieveProductOr404($slug);
+        $projectAddForm = $this->createForm(
+            AddType::class,
+            null,
+            [
+                'action' => $this->generateUrl(
+                    'app_project_add',
+                    ['slug' => $product->getSlug()]
+                ),
+            ]
+        );
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
+            'projectAddForm' => $projectAddForm->createView(),
         ]);
     }
 
@@ -142,7 +159,7 @@ class ProductController extends AbstractController
             'slug' => $slug,
         ]);
         if (!$product) {
-            $this->createNotFoundException();
+            throw new NotFoundHttpException();
         }
 
         return $product;

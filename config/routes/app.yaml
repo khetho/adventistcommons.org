@@ -33,6 +33,11 @@ app_products:
     type: annotation
     prefix: /product
 
+app_project:
+    resource: App\Controller\ProjectController
+    type: annotation
+    prefix: /products
+
 app_auth_login_check:
     path:     /account/login_check
     methods:  [POST]
