@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Language
  *
  * @ORM\Table(name="languages")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\LanguageRepository"))
  * @Api\ApiResource()
  */
 class Language
@@ -67,6 +67,12 @@ class Language
      */
     private $rtl;
     
+    /**
+     * One language has many projects. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="language")
+     */
+    private $projects;
+
     public function __toString()
     {
         return $this->getName();
@@ -128,5 +134,10 @@ class Language
         $this->rtl = $rtl;
 
         return $this;
+    }
+    
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

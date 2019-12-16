@@ -6,7 +6,7 @@
 			<div class="col-xl-10 col-lg-11">
 				<div class="page-header">
 					<h1>Adventist Commons</h1>
-					<p class="lead">Contribute to a project below or browse <a href="/products" class="text-secondary">other available products</a> for more books and resources.</p>
+					<p class="lead">Contribute to a project below or browse <a href="{{ path('app_product_list') }}" class="text-secondary">other available products</a> for more books and resources.</p>
 				</div>
 				<hr>
 				<div class="content-list">
@@ -17,12 +17,12 @@
 						<div class="col-auto">
 							<div class="dropdown">
 								<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-									<i class="material-icons align-top">language</i> {{ selected_language ? selected_language.name : 'All Languages' }}
+									<i class="material-icons align-top">language</i> {{ language ? language.name : 'All Languages' }}
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="/projects?language=all">All languages</a>
-									{% for language in languages  %}
-										<a class="dropdown-item" href="/projects?language={{ language.id }}">{{ language.name }}</a>
+									<a class="dropdown-item" href="{{ path('app_project_list') }}">All languages</a>
+									{% for language in languagesWithProjects  %}
+										<a class="dropdown-item" href="{{ path('app_project_list', {'languageCode': language.code}) }}">{{ language.name }}</a>
 									{% endfor %}
 								</div>
 							</div>
@@ -44,23 +44,23 @@
 								<div class="card card-project">
 
 									<div class="progress">
-										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project.percent_complete }} %"></div>
+										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectRatioCompleted * 100 }} %"></div>
 									</div>
 
 									<div class="card-body">
-										{% if user.is_admin %}
+										{% if is_granted('ROLE_ADMIN') %}
 											<div class="dropdown card-options">
 												<button class="btn-options" type="button" data-toggle="dropdown">
 													<i class="material-icons">more_vert</i>
 												</button>
 												<div class="dropdown-menu dropdown-menu-right">
-													<a href="/projects/delete/{{ project.id }}" class="dropdown-item confirm-dialog" data-confirm-message="Are you sure? All translated content will be destroyed.">Delete</a>
+													<a href="{{ path('app_project_delete', project|projectRouteParams) }}" class="dropdown-item confirm-dialog" data-confirm-message="Are you sure? All translated content will be destroyed.">Delete</a>
 												</div>
 											</div>
 										{% endif %}
 										<div class="card-title">
-											<a href="/projects/{{ project.id }}">
-												<h5 data-filter-by="text">{{ project.product_name }}<span class="badge badge-light text-secondary ml-1">{{ project.language_name }}</span></h5>
+											<a href="{{ path('app_project_show', project|projectRouteParams) }}">
+												<h5 data-filter-by="text">{{ project.product.name }}<span class="badge badge-light text-secondary ml-1">{{ project.language.name }}</span></h5>
 											</a>
 										</div>
 										<ul class="avatars">
@@ -75,7 +75,7 @@
 										<div class="card-meta d-flex justify-content-between">
 											<div class="d-flex align-items-center">
 												<i class="material-icons mr-1">playlist_add_check</i>
-												<span class="text-small">{{ project.completed_strings  ~ "/" ~ project.total_strings }}</span>
+												<span class="text-small">{{ project|projectCountCompleted  ~ "/" ~ project.product|productCount }}</span>
 											</div>
 											<span class="text-small" data-filter-by="text">{{ project.status }}</span>
 										</div>

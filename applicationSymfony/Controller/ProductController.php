@@ -29,9 +29,9 @@ class ProductController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function show(string $slug)
+    public function show(string $slug, DataFinder $dataFinder)
     {
-        $product = $this->retrieveProductOr404($slug);
+        $product = $dataFinder->retrieveProductOr404($slug);
         $projectAddForm = $this->createForm(
             AddType::class,
             null,
@@ -55,9 +55,9 @@ class ProductController extends AbstractController
      * @param IdmlUploader $idmlUploader
      * @return BinaryFileResponse
      */
-    public function downloadIdml(string $slug, IdmlUploader $idmlUploader)
+    public function downloadIdml(string $slug, IdmlUploader $idmlUploader, DataFinder $dataFinder)
     {
-        $product = $this->retrieveProductOr404($slug);
+        $product = $dataFinder->retrieveProductOr404($slug);
         if (!$product->getIdmlFilename()) {
             $this->createNotFoundException();
         }
@@ -78,9 +78,9 @@ class ProductController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader)
+    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader, DataFinder $dataFinder)
     {
-        $product = $this->retrieveProductOr404($slug);
+        $product = $dataFinder->retrieveProductOr404($slug);
         $submittedProduct = null;
 
         $generalForm = $this->createForm(GeneralType::class, $product);
@@ -134,9 +134,9 @@ class ProductController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function delete(string $slug, Request $request)
+    public function delete(string $slug, Request $request, DataFinder $dataFinder)
     {
-        $product = $this->retrieveProductOr404($slug);
+        $product = $dataFinder->retrieveProductOr404($slug);
         $deleteForm = $this->createForm(DeleteType::class, $product);
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
@@ -150,18 +150,5 @@ class ProductController extends AbstractController
         }
 
         $this->createNotFoundException();
-    }
-
-    private function retrieveProductOr404($slug): Product
-    {
-        /** @var Product $product */
-        $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy([
-            'slug' => $slug,
-        ]);
-        if (!$product) {
-            throw new NotFoundHttpException();
-        }
-
-        return $product;
     }
 }

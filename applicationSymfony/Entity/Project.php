@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="language_id", columns={"language_id"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository"))
  * @ApiResource()
  */
 class Project
@@ -56,7 +56,7 @@ class Project
     /**
      * @var Language
      *
-     * @ORM\ManyToOne(targetEntity="Language")
+     * @ORM\ManyToOne(targetEntity="Language", inversedBy="projects")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="language_id", referencedColumnName="id")
      * })

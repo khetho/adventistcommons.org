@@ -89,7 +89,7 @@
                                                     {% endif %}
 												</a>
                                                 {% if project.status %}
-													<a class="btn btn-secondary" href="/projects/download_idml/{{ language.project.id }}">
+													<a class="btn btn-secondary" href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}">
 														Download IDML
 													</a>
                                                 {% endif %}

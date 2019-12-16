@@ -25,7 +25,7 @@
 						<div class="d-flex justify-content-between text-small">
 							<div class="d-flex align-items-center">
 								<i class="material-icons">playlist_add_check</i>
-								<span>{{ project.stringCountCompleted ~ " / " ~ project.stringCountTotal ~ " (" ~ project.completionRatio*100 ~ "%)" }}</span>
+								<span>{{ project|projectCountCompleted }} / {{ project.product|productCount }} ({{ project|projectRatioCompleted * 100 }} %)</span>
 							</div>
 							<span>{{ project.status }}</span>
 						</div>
@@ -53,20 +53,20 @@
 									{% for section in project.product.sections %}
 										<div class="card card-task">
 											<div class="progress">
-												<div class="progress-bar bg-success" role="progressbar" style="width: {{ section.percent_complete }}%"></div>
+												<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectRatioCompleted(section) }}%"></div>
 											</div>
 											<div class="card-body">
 												<div class="card-title">
-													<a href="/editor/{{ project.id ~ '/' ~ section.id }}">
+													<a href="{{ path('app_section_edit', section|sectionRouteParams(project)) }}">
 														<h6 data-filter-by="text">{{ section.name }}</h6>
 													</a>
 													<div class="d-flex align-items-center">
 														<i class="material-icons">playlist_add_check</i>
-														<span>{{ section.completed_strings ~ "/" ~ section.total_strings }}</span>
+														<span>{{ project|projectCountCompleted(section) ~ "/" ~ section.contents|length }}</span>
 													</div>
 												</div>
 												<div class="card-meta">
-													<a href="/editor/{{ project.id ~ "/" ~ section.id }}" class="btn btn-secondary">Start Translating</a>
+													<a href="{{ path('app_section_edit', section|sectionRouteParams(project)) }}" class="btn btn-secondary">Start Translating</a>
 												</div>
 											</div>
 										</div>

@@ -75,7 +75,7 @@ class Content
     /**
      * @var Section
      *
-     * @ORM\ManyToOne(targetEntity="Section")
+     * @ORM\ManyToOne(targetEntity="Section", inversedBy="contents")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      * })

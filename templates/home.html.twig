@@ -9,7 +9,7 @@
 		<div class="container">
 			<h1 class="display-4">Free Adventist Resources<br><span style="color:#f9dc90">Culturally Relevant</span></h1>
 			<p class="lead">Certified, Translatable, Printable, Sharable.</p>
-			<a href="/projects" class="btn btn-light mb-5">Get Started</a>
+			<a href="{{ path('app_product_list') }}" class="btn btn-light mb-5">Get Started</a>
 		</div>
 	</div>
 {% endblock %}
@@ -42,7 +42,7 @@
 								<img class="card-img-top mt-4 w-25" src="/assets/img/translate.svg">
 							</a>
 							<div class="card-body">
-								<a class="card-title h6" href="/projects">Translate Products</a>
+								<a class="card-title h6" href="{{ path('app_project_list') }}">Translate Products</a>
 							</div>
 						</div>
 					</div>
@@ -69,7 +69,7 @@
 					</p>
 				</div>
 				<div class='col-md-3 text-left'>
-					<a href="/projects" class="btn btn-primary btn-lg">Start Translating</a>
+					<a href="{{ path('app_project_list') }}" class="btn btn-primary btn-lg">Start Translating</a>
 				</div>
 			</div>
 		</div>

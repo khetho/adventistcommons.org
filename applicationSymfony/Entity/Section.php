@@ -85,6 +85,12 @@ class Section
      */
     private $product;
 
+    /**
+     * One product has many projects. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Content", mappedBy="section")
+     */
+    private $contents;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -184,5 +190,10 @@ class Section
         $this->product = $product;
 
         return $this;
+    }
+    
+    public function getContents()
+    {
+        return $this->contents;
     }
 }
