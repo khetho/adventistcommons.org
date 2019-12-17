@@ -5,64 +5,54 @@ namespace App\Twig;
 use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
+use App\Entity\Content;
+use App\Entity\ProjectContentApproval;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ProjectStatusExtension extends AbstractExtension
 {
+    private $manager;
+    
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+    
     public function getFilters()
     {
         return [
             new TwigFilter('projectRatioCompleted', [$this, 'projectRatioCompleted']),
-            new TwigFilter('projectCountCompleted', [$this, 'projectCountCompleted']),
+            new TwigFilter('projectApprovedCount', [$this, 'projectApprovedCount']),
             new TwigFilter('productCount', [$this, 'productCount']),
-            new TwigFilter('projectRouteParams', [$this, 'projectRouteParams']),
-            new TwigFilter('sectionRouteParams', [$this, 'sectionRouteParams']),
+            new TwigFilter('sectionCount', [$this, 'sectionCount']),
         ];
     }
 
-    /**
-     * @TODO
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
     public function projectRatioCompleted(Project $project, Section $section = null)
     {
-        return .64;
+        if ($section) {
+            $sectionCount = $this->sectionCount($section);
+            return $sectionCount ? $this->projectApprovedCount($project, $section) / $sectionCount : null;
+        }
+        
+        $productCount = $this->productCount($project->getProduct());
+        return $productCount ? $this->projectApprovedCount($project) / $productCount : 0;
     }
     
-    /**
-     * @TODO
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function projectCountCompleted(Project $project, Section $section = null)
+    public function projectApprovedCount(Project $project, Section $section = null): int
     {
-        return 64;
+        return $this->manager->getRepository(Project::class)->getApprovedCount($project, $section);
     }
     
-    /**
-     * @TODO
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function productCount(Product $product, Section $section = null)
+    public function productCount(Product $product): int
     {
-        return 168;
+        return $this->manager->getRepository(Product::class)->getContentCount($product);
     }
     
-    public function projectRouteParams(Project $project)
+    public function sectionCount(Section $section): int
     {
-        return [
-            'slug' => $project->getProduct()->getSlug(),
-            'languageCode' => $project->getLanguage()->getCode(),
-        ];
-    }
-    
-    public function sectionRouteParams(Section $section, Project $project)
-    {
-        return array_merge(
-            $this->projectRouteParams($project),
-            [
-                'sectionName' => $section->getName(),
-            ]
-        );
+        return $this->manager->getRepository(Section::class)->getContentCount($section);
     }
 }

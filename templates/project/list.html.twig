@@ -44,7 +44,7 @@
 								<div class="card card-project">
 
 									<div class="progress">
-										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectRatioCompleted * 100 }} %"></div>
+										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectApprovedCount * 100 }} %"></div>
 									</div>
 
 									<div class="card-body">
@@ -54,20 +54,20 @@
 													<i class="material-icons">more_vert</i>
 												</button>
 												<div class="dropdown-menu dropdown-menu-right">
-													<a href="{{ path('app_project_delete', project|projectRouteParams) }}" class="dropdown-item confirm-dialog" data-confirm-message="Are you sure? All translated content will be destroyed.">Delete</a>
+													<a href="{{ pathToProject(project, 'delete') }}" class="dropdown-item confirm-dialog" data-confirm-message="Are you sure? All translated content will be destroyed.">Delete</a>
 												</div>
 											</div>
 										{% endif %}
 										<div class="card-title">
-											<a href="{{ path('app_project_show', project|projectRouteParams) }}">
+											<a href="{{ pathToProject(project) }}">
 												<h5 data-filter-by="text">{{ project.product.name }}<span class="badge badge-light text-secondary ml-1">{{ project.language.name }}</span></h5>
 											</a>
 										</div>
 										<ul class="avatars">
 											{% for member in project.members  %}
 												<li>
-													<a href="#" data-toggle="tooltip" title="{{ member.first_name  ~ " " ~ member.last_name }}">
-														<img class="avatar" src="{{ member.avatar }}" data-filter-by="alt" />
+													<a href="#" data-toggle="tooltip" title="{{ member.fullName }}">
+														<img class="avatar" src="https://www.gravatar.com/avatar/{{ member.image }}" data-filter-by="alt" />
 													</a>
 												</li>
 											{% endfor %}
@@ -75,7 +75,7 @@
 										<div class="card-meta d-flex justify-content-between">
 											<div class="d-flex align-items-center">
 												<i class="material-icons mr-1">playlist_add_check</i>
-												<span class="text-small">{{ project|projectCountCompleted  ~ "/" ~ project.product|productCount }}</span>
+												<span class="text-small">{{ project|projectApprovedCount }}/{{ project.product|productCount }}</span>
 											</div>
 											<span class="text-small" data-filter-by="text">{{ project.status }}</span>
 										</div>

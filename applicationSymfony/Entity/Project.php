@@ -146,27 +146,4 @@ class Project
 
         return $this;
     }
-    /**
-     * @TODO
-     */
-    public function getCompletionRatio()
-    {
-        return .5;
-    }
-
-    /**
-     * @TODO
-     */
-    public function getStringCountCompleted()
-    {
-        return 10;
-    }
-
-    /**
-     * @TODO
-     */
-    public function getStringCountTotal()
-    {
-        return 2313;
-    }
 }

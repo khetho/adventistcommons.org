@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Project;
 use App\Entity\Language;
+use App\Entity\Section;
+use App\Entity\ProjectContentApproval;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
@@ -24,5 +26,23 @@ class ProjectRepository extends ServiceEntityRepository
         }
         
         return $queryBuilder->getQuery();
+    }
+    
+    public function getApprovedCount(Project $project, Section $section = null): int
+    {
+        $queryBuilder = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('count(a.id)')
+            ->from(ProjectContentApproval::class, 'a')
+            ->where('a.project = :project')
+            ->setParameter('project', $project);
+            
+        if ($section) {
+            $queryBuilder->innerJoin('a.content', 'c')
+                ->andWhere('c.section = :section')
+                ->setParameter('section', $section);
+        }
+        
+        return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 }

@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\File\File;
  *         @ORM\Index(name="binding_id", columns={"binding_id"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProductRepository"))
  * @ApiResource
  * @DoctrineAssert\UniqueEntity(
  *   "name",
