@@ -1,0 +1,41 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}add-file-form{% endblock %}
+
+{% block form_start %}
+{#	{{ form_start(projectAddFileForm) }}#}
+{% endblock %}
+
+{% block title %}Start new translation{% endblock %}
+
+{% block body %}
+	<div class="form-group row align-items-center">
+		<label class="col-3">File type</label>
+		<select class="col form-control" name="file_type" data-placeholder="Select a file type...">
+			{#						{% for key, type in file_types  %}#}
+			{#							<option value="{{ key }}">{{ type }}</option>#}
+			{#						{% endfor %}#}
+		</select>
+	</div>
+	<div class="form-group row align-items-center">
+		<label class="col-3">Language</label>
+		<select class="language-select col" name="language_id" data-placeholder="Select a language...">
+			<option value="">None</option>
+		</select>
+	</div>
+	<div class="input-group mt-2">
+		<div class="custom-file">
+			<input type="file" class="custom-file-input" id="file" name="file">
+			<label class="custom-file-label" for="file">Choose file</label>
+		</div>
+	</div>
+{#	{{ form_rest(projectAddFileForm) }}#}
+{% endblock %}
+
+{% block submitLabel %}Upload file{% endblock %}
+
+{% block form_end %}
+{#	{{ form_rest(projectAddFileForm) }}#}
+{#	{{ form_end(projectAddFileForm) }}#}
+{% endblock %}
+

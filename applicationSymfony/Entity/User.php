@@ -37,7 +37,7 @@ use \Exception;
  *         )
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository"))
  * @Api\ApiResource(
  *     attributes={
  *         "normalization_context"={

@@ -47,7 +47,12 @@ app_section:
     resource: App\Controller\SectionController
     type: annotation
     prefix: /products
-    
+
+app_feedback:
+    resource: App\Controller\FeedbackController
+    type: annotation
+    prefix: /feedback
+
 app_auth_login_check:
     path:     /account/login_check
     methods:  [POST]

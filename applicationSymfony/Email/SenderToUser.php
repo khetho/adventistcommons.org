@@ -7,8 +7,15 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\NamedAddress;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SenderToUser extends AbstractSender
+class SenderToUser
 {
+    private $sender;
+
+    public function __construct(Sender $sender)
+    {
+        $this->sender = $sender;
+    }
+
     private function buildEmail(User $recipient): TemplatedEmail
     {
         return (new TemplatedEmail())
@@ -30,11 +37,11 @@ class SenderToUser extends AbstractSender
             ->htmlTemplate('email/user/activate.html.twig')
             ->context([
                 'heading' => 'Account activation',
-                'base_url' => $this->getBaseUrl(),
+                'base_url' => $this->sender->getBaseUrl(),
                 'user' => $user,
                 'activationUrl' => $activationUrl,
             ]);
-        $this->send($email);
+        $this->sender->send($email);
     }
     
     public function sendPasswordResetInvite(User $user): void
@@ -50,10 +57,10 @@ class SenderToUser extends AbstractSender
             ->htmlTemplate('email/user/resetPassword.html.twig')
             ->context([
                 'heading' => 'Password reset query',
-                'base_url' => $this->getBaseUrl(),
+                'base_url' => $this->sender->getBaseUrl(),
                 'user' => $user,
                 'resetPasswordUrl' => $resetPasswordUrl,
             ]);
-        $this->send($email);
+        $this->sender->send($email);
     }
 }

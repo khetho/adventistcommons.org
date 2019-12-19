@@ -1,0 +1,33 @@
+{% extends "email/template.html.twig" %}
+
+{% block content %}
+    <p style="font-size: 13px; margin: 10px 0;"><span style="color:#444444">Hello, administrator</span></p>
+    <p>A new feedback was posted on adventist commons. Here it is.</p>
+
+    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;margin:auto;">
+        <tr>
+            <td align="center" bgcolor="#612141" role="presentation" style="border:none;border-radius:3px;cursor:auto;padding:10px 25px;background:#414141;" valign="middle">
+                Name
+            </td>
+            <td align="center" bgcolor="#414141" role="presentation" style="border:none;border-radius:3px;cursor:auto;padding:10px 25px;background:#414141;" valign="left">
+                {{ name }}
+            </td>
+        </tr>
+        <tr>
+            <td align="center" bgcolor="#612141" role="presentation" style="border:none;border-radius:3px;cursor:auto;padding:10px 25px;background:#414141;" valign="middle">
+                Email
+            </td>
+            <td align="center" bgcolor="#414141" role="presentation" style="border:none;border-radius:3px;cursor:auto;padding:10px 25px;background:#414141;" valign="left">
+                <a href="maito:{{ sentEmail }}">{{ sentEmail }}</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" bgcolor="#612141" role="presentation" style="border:none;border-radius:3px;cursor:auto;padding:10px 25px;background:#414141;" valign="middle">
+                Message
+            </td>
+            <td align="center" bgcolor="#414141" role="presentation" style="border:none;border-radius:3px;cursor:auto;padding:10px 25px;background:#414141;" valign="left">
+                {{ message }}
+            </td>
+        </tr>
+    </table>
+{% endblock %}

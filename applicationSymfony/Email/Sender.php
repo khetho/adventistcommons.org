@@ -6,7 +6,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\RouterInterface;
 
-abstract class AbstractSender
+class Sender
 {
     private $mailer;
     protected $router;
@@ -17,7 +17,7 @@ abstract class AbstractSender
         $this->router = $router;
     }
 
-    protected function getBaseUrl(): string
+    public function getBaseUrl(): string
     {
         $domainContext = $this->router->getContext();
 
@@ -31,7 +31,7 @@ abstract class AbstractSender
         );
     }
 
-    protected function send(Email $email)
+    public function send(Email $email)
     {
         $this->mailer->send($email);
     }
