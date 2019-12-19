@@ -11,8 +11,8 @@
 						<ul class="avatars">
 							{% for member in project.members  %}
 								<li>
-									<a href="#" data-toggle="tooltip" data-placement="top" title="{{ member.first_name ~ " " ~ member.last_name }}">
-										<img class="avatar" src="{{ member.avatar }}"/>
+									<a href="#" data-toggle="tooltip" data-placement="top" title="{{ member.fullName }}">
+										<img class="avatar" src="{{ member.image }}"/>
 									</a>
 								</li>
 							{% endfor %}
@@ -91,10 +91,10 @@
 								{% for member in project.members  %}
 									<div class="col-6">
 										<a class="media media-member">
-											<img class="avatar avatar-lg" src="{{ member.avatar }}"/>
+											<img class="avatar avatar-lg" src="{{ member.image }}"/>
 											<div class="media-body">
-												<h6 class="mb-0" data-filter-by="text">{{ member.invite_email ?? member.first_name ~ " " ~ member.last_name }}{% if member.invite_email %}<span class="badge badge-secondary">invited</span>{% endif %}</h6>
-												<span data-filter-by="text" class="text-body">{{ member.type|capitalize }}</span>
+												<h6 class="mb-0" data-filter-by="text">{{ member.active ?? member.fullName }}{% if not member.active %}<span class="badge badge-secondary">invited</span>{% endif %}</h6>
+												<span data-filter-by="text" class="text-body">{% for group in member.groups %}{{ group.name|capitalize }}{% endfor %}</span>
 											</div>
 										</a>
 									</div>
@@ -106,39 +106,5 @@
 			</div>
 		</div>
 	</div>
-
-	<form class="modal fade" id="member-add-modal" data-project-id="{{ project.id }}" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Add Member</h5>
-					<button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-						<i class="material-icons">close</i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="user-search">
-						<div class="input-group input-group-round">
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									<i class="material-icons">filter_list</i>
-								</span>
-							</div>
-							<input type="search"
-								   class="form-control search"
-								   placeholder="Find users by name or email"
-								   {% if is_granted('ROLE_ADMIN') %}
-									    data-is-admin='true'
-								   {% else %}
-										data-project-id="{{ project.id }}"
-								   {% endif %}
-							>
-						</div>
-						<div class="form-group-users user-list" style="overflow:visible"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-
+	{{ include('project/_add_members_modal.html.twig') }}
 {% endblock %}

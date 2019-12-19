@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Language;
 use App\Entity\Project;
 use App\Project\Form\Type\AddType;
+use App\Twig\RoutesExtension;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +19,10 @@ class ProjectsController extends AbstractController
      * @param Request $request
      * @param string $slug
      * @param DataFinder $dataFinder
+     * @param RoutesExtension $routeMaker
      * @return Response
      */
-    public function add(Request $request, string $slug, DataFinder $dataFinder)
+    public function add(Request $request, string $slug, DataFinder $dataFinder, RoutesExtension $routeMaker)
     {
         $product = $dataFinder->retrieveProductOr404($slug);
         $addForm = $this->createForm(AddType::class);
@@ -33,10 +35,7 @@ class ProjectsController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Project created successfully.');
 
-            return $this->redirectToRoute('app_project_show', [
-                'slug' => $product->getSlug(),
-                'languageCode' => $project->getLanguage()->getCode()
-            ]);
+            return $this->redirect($routeMaker->pathToProject($project));
         }
 
         return $this->render('product/add/add.html.twig', [

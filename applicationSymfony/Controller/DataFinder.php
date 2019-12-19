@@ -17,7 +17,7 @@ class DataFinder
         $this->registry	= $managerRegistry;
     }
     
-    public function retrieveProjectOr404($slug, $languageCode)
+    public function retrieveProjectOr404($slug, $languageCode): Project
     {
         $product = $this->retrieveProductOr404($slug);
         $language = $this->retrievelanguageOr404($languageCode);

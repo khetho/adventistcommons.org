@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Project\Form\Type\AddMemberType;
 use App\Project\Form\Type\DeleteType;
+use App\Twig\RoutesExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,16 +14,30 @@ class ProjectController extends AbstractController
 {
     /**
      * @Route("/{slug}/{languageCode}", name="app_project_show")
+     * @param Request $request
      * @param $slug
      * @param $languageCode
      * @param DataFinder $dataFinder
+     * @param RoutesExtension $routesMaker
      * @return Response
      */
-    public function show($slug, $languageCode, DataFinder $dataFinder)
+    public function show(Request $request, $slug, $languageCode, DataFinder $dataFinder, RoutesExtension $routesMaker)
     {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
+        $addUserForm = $this->createForm(AddMemberType::class);
+        $addUserForm->handleRequest($request);
+        if ($addUserForm->isSubmitted() && $addUserForm->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            $project->addMember($addUserForm->getData()['user']);
+            $manager->persist($project);
+            $manager->flush();
+            $this->addFlash('success', 'Member successfully added');
+
+            return $this->redirect($routesMaker->pathToProject($project));
+        }
 
         return $this->render('project/show.html.twig', [
+            'addMemberForm' => $addUserForm->createView(),
             'project' => $project,
         ]);
     }
