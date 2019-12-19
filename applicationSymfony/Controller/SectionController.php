@@ -2,21 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Language;
-use App\Entity\Product;
-use App\Entity\Project;
-use App\Project\Form\Type\AddType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SectionController extends AbstractController
 {
     /**
      * @Route("/{slug}/{languageCode}/{sectionName}", name="app_section_edit")
-     * @param Request $request
+     * @param $slug
+     * @param $languageCode
+     * @param $sectionName
+     * @param DataFinder $dataFinder
      * @return Response
      */
     public function edit($slug, $languageCode, $sectionName, DataFinder $dataFinder)

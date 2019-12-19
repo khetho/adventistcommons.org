@@ -2,22 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Language;
-use App\Entity\Product;
-use App\Entity\Project;
-use App\Project\Form\Type\AddType;
 use App\Project\Form\Type\DeleteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectController extends AbstractController
 {
     /**
      * @Route("/{slug}/{languageCode}", name="app_project_show")
-     * @param Request $request
+     * @param $slug
+     * @param $languageCode
+     * @param DataFinder $dataFinder
      * @return Response
      */
     public function show($slug, $languageCode, DataFinder $dataFinder)
@@ -32,6 +29,9 @@ class ProjectController extends AbstractController
     /**
      * @Route("/{slug}/{languageCode}/delete", name="app_project_delete")
      * @param Request $request
+     * @param $slug
+     * @param $languageCode
+     * @param DataFinder $dataFinder
      * @return Response
      */
     public function delete(Request $request, $slug, $languageCode, DataFinder $dataFinder)

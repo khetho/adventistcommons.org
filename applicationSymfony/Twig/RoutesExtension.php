@@ -21,6 +21,7 @@ class RoutesExtension extends AbstractExtension
     {
         return [
             new TwigFunction('pathToProject', [$this, 'pathToProject']),
+            new TwigFunction('pathToSection', [$this, 'pathToSection']),
             new TwigFunction('pathToProjectSection', [$this, 'pathToProjectSection']),
         ];
     }
@@ -36,7 +37,7 @@ class RoutesExtension extends AbstractExtension
         );
     }
     
-    public function pathToProjectSection(Project $project, Section $section, $action = 'edit')
+    public function pathToSection(Project $project, Section $section, $action = 'edit')
     {
         return $this->router->generate(
             sprintf('app_project_%s', $action),

@@ -3,23 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\Language;
-use App\Entity\Product;
 use App\Entity\Project;
 use App\Project\Form\Type\AddType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectsController extends AbstractController
 {
     /**
-    * @Route("/{slug}/create-project", name="app_project_add")
-    * @param Request $request
-    * @return Response
-    */
+     * @Route("/{slug}/create-project", name="app_project_add")
+     * @param Request $request
+     * @param string $slug
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
     public function add(Request $request, string $slug, DataFinder $dataFinder)
     {
         $product = $dataFinder->retrieveProductOr404($slug);
@@ -45,11 +45,14 @@ class ProjectsController extends AbstractController
     }
 
     /**
-      * @Route("/{languageCode}", name="app_project_list", requirements={"languageCode"=".+"})
-      * @param Request $request
-      * @return Response
-      */
-    public function list(Request $request, $languageCode = null, PaginatorInterface $paginator, DataFinder $dataFinder)
+     * @Route("/{languageCode}", name="app_project_list", requirements={"languageCode"=".+"})
+     * @param Request $request
+     * @param null $languageCode
+     * @param PaginatorInterface $paginator
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function list(Request $request, PaginatorInterface $paginator, DataFinder $dataFinder, $languageCode = null)
     {
         $language = $languageCode ? $dataFinder->retrievelanguageOr404($languageCode) : null;
         $usedLanguages = $this->getDoctrine()->getRepository(Language::class)->findUsedInProject();
