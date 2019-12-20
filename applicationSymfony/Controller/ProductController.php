@@ -151,4 +151,29 @@ class ProductController extends AbstractController
 
         $this->createNotFoundException();
     }
+
+    /**
+     * @Route("/{slug}/add-attachment", name="app_product_add_attachemnt")
+     * @param Request $request
+     * @param string $slug
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function addAttachment(Request $request, string $slug, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        $addAttachmentType = $this->createForm(AddAttachmentType::class, null, ['product' => $product]);
+        $addAttachmentType->handleRequest($request);
+        if ($addAttachmentType->isSubmitted() && $addAttachmentType->isValid()) {
+            $attachment = $addAttachmentType->getData();
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($attachment);
+            $manager->flush();
+            $this->addFlash('success', 'Attachment successfully added');
+
+            return $this->redirectToRoute('app_product_list');
+        }
+
+        $this->createNotFoundException();
+    }
 }
