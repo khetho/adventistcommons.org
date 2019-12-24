@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Product\CoverUploader;
+use App\Product\AttachmentUploader;
 use App\Product\IdmlUploader;
 use App\Product\Form\Type\IdmlType;
 use App\Product\Form\Type\DeleteType;
 use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;
 use App\Project\Form\Type\AddType;
+use App\Product\Form\Type\AddAttachmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,10 +44,21 @@ class ProductController extends AbstractController
                 ),
             ]
         );
+        $addAttachmentForm = $this->createForm(
+            AddAttachmentType::class,
+            null,
+            [
+                'action' => $this->generateUrl(
+                    'app_attachment_add',
+                    ['slug' => $product->getSlug()]
+                ),
+            ]
+        );
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'projectAddForm' => $projectAddForm->createView(),
+            'addAttachmentForm' => $addAttachmentForm->createView(),
         ]);
     }
 
@@ -145,31 +158,6 @@ class ProductController extends AbstractController
             $manager->remove($submittedProduct);
             $manager->flush();
             $this->addFlash('success', 'Product successfully deleted');
-
-            return $this->redirectToRoute('app_product_list');
-        }
-
-        $this->createNotFoundException();
-    }
-
-    /**
-     * @Route("/{slug}/add-attachment", name="app_product_add_attachemnt")
-     * @param Request $request
-     * @param string $slug
-     * @param DataFinder $dataFinder
-     * @return Response
-     */
-    public function addAttachment(Request $request, string $slug, DataFinder $dataFinder)
-    {
-        $product = $dataFinder->retrieveProductOr404($slug);
-        $addAttachmentType = $this->createForm(AddAttachmentType::class, null, ['product' => $product]);
-        $addAttachmentType->handleRequest($request);
-        if ($addAttachmentType->isSubmitted() && $addAttachmentType->isValid()) {
-            $attachment = $addAttachmentType->getData();
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($attachment);
-            $manager->flush();
-            $this->addFlash('success', 'Attachment successfully added');
 
             return $this->redirectToRoute('app_product_list');
         }

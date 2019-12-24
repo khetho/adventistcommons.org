@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
     /**
-     * @Route("/{slug}/{languageCode}", name="app_project_show")
+     * @Route("/{slug}/project/{languageCode}", name="app_project_show")
      * @param Request $request
      * @param $slug
      * @param $languageCode

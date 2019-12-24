@@ -75,9 +75,16 @@ class Project
      */
     private $members;
 
+    /**
+     * One product has many projects. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="project")
+     */
+    private $attachments;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->attachmemts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,5 +152,10 @@ class Project
         }
 
         return $this;
+    }
+
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
     }
 }

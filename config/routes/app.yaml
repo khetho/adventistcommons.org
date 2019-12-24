@@ -38,6 +38,11 @@ app_project:
     type: annotation
     prefix: /products
 
+app_attachment:
+    resource: App\Controller\AttachmentController
+    type: annotation
+    prefix: /products
+
 app_projects:
     resource: App\Controller\ProjectsController
     type: annotation

@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Language;
 use App\Entity\Section;
+use App\Entity\Attachment;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 class DataFinder
@@ -71,5 +72,16 @@ class DataFinder
         }
 
         return $section;
+    }
+    
+    public function retrieveAttachmentOr404($slug, $languageCode, $id): Attachment
+    {
+        $project = $this->retrieveProjectOr404($slug, $languageCode);
+        $attachment = $this->registry->getRepository(Attachment::class)->find($id);
+        if (!$attachment || ($attachment->getProject() != $project)) {
+            throw new NotFoundHttpException();
+        }
+
+        return $attachment;
     }
 }

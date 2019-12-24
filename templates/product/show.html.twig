@@ -37,12 +37,14 @@
 					<div class="content-list-head d-flex">
 						<h3>Languages</h3>
 						<div class="float-right d-none d-sm-block">
-							{% if is_granted('ROLE_ADMIN') %}
-								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
-							{% endif %}
-							{% if is_granted('ROLE_USER') %}
-								<button class="btn btn-secondary" data-toggle="modal" data-target="#add-project-form">Start New Translation</button>
-							{% endif %}
+							<div class="btn-group" role="group" aria-label="Produt actions">
+								{% if is_granted('ROLE_ADMIN') %}
+									<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
+								{% endif %}
+								{% if is_granted('ROLE_USER') %}
+									<button class="btn btn-primary" data-toggle="modal" data-target="#add-project-form">Start New Translation</button>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 					<div class="content-list-body">
@@ -50,11 +52,9 @@
 							<div class="card-list-body">
 								{% for project in product.projects %}
 									<div class="card card-task">
-										{% if language.project is defined %}
-											<div class="progress">
-												<div class="progress-bar bg-danger" role="progressbar" style="width: {{ language.project.percent_complete }} %"></div>
-											</div>
-										{% endif %}
+										<div class="progress">
+											<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectRatioCompleted * 100 }}%"></div>
+										</div>
 
 										<div class="card-body">
 											<div class="card-title">
@@ -64,24 +64,24 @@
 												</div>
 											</div>
 											<div class="card-meta">
-												{% if project.attachments is defined %}
-													{% if user %}
+												{% if project.attachments|length %}
+													{% if is_granted('ROLE_USER') %}
 														<div class="dropdown">
-															<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+															<button class="btn btn-secondary dropdown-toggle mr-1" type="button" data-toggle="dropdown">
 																Download
 															</button>
 															<div class="dropdown-menu">
-																{% for attachment in project.attachments  %}
-																	<a class="dropdown-item" href="/uploads/{{ attachment.file }}">{{ attachment.file_type }}</a>
+																{% for attachment in project.attachments %}
+																	<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type') }}</a>
 																{% endfor %}
 															</div>
 														</div>
 													{% else %}
 														<a href="{{ path('app_auth_login') }}" class="text-secondary">Login to download</a>
 													{% endif %}
-                                                {% endif %}
+												{% endif %}
 
-												<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}" class="btn btn-secondary">
+												<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}" class="btn btn-primary">
 													{% if project.status %}
 														Start Translating
                                                     {% else %}

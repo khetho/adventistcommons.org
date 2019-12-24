@@ -14,3 +14,10 @@ knp_dictionary:
                 "name": "Title"
                 "author": "Author"
                 "publisher": "Publisher"
+        file_type:
+            type: 'key_value'
+            content:
+                "pdf_printing": "PDF (Production)"
+                "pdf_personal": "PDF (Personal)"
+                "indd": "InDesign"
+            

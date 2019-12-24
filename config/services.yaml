@@ -7,6 +7,7 @@ parameters:
     coverTargetDirectory: '%kernel.project_dir%/uploads/covers'
     coverReadPath: '/uploads/covers/'
     idmlTargetDirectory: '%kernel.project_dir%/uploads/idmls'
+    attachmentTargetDirectory: '%kernel.project_dir%/uploads/attachments'
         
 services:
     # default configuration for services in *this* file
@@ -45,6 +46,10 @@ services:
     App\Product\IdmlUploader:
         arguments: 
             - '%idmlTargetDirectory%'        
+
+    App\Product\AttachmentUploader:
+        arguments: 
+            - '%attachmentTargetDirectory%'        
 
     Symfony\Component\Form\ChoiceList\Factory\ChoiceListFactoryInterface:
         alias: form.choice_list_factory.default

@@ -3,20 +3,20 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * ProductAttachment
+ * ProjectAttachment
  *
  * @ORM\Table(
  *     name="product_attachments",
  *     indexes={
- *         @ORM\Index(name="language_id", columns={"language_id"}),
- *         @ORM\Index(name="product_id", columns={"product_id"})
+ *         @ORM\Index(name="project_id", columns={"project_id"})
  *     }
  * )
  * @ORM\Entity
  */
-class ProductAttachment
+class Attachment
 {
     /**
      * @var int
@@ -28,11 +28,16 @@ class ProductAttachment
     private $id;
 
     /**
+     * @var File|null
+     */
+    private $file;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="file", type="string", length=255, nullable=true)
      */
-    private $file;
+    private $filename;
 
     /**
      * @var string|null
@@ -43,37 +48,44 @@ class ProductAttachment
 
     /**
      * @var Language
-     *
-     * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="language_id", referencedColumnName="id")
-     * })
      */
     private $language;
 
     /**
-     * @var Product
+     * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="attachments",cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      * })
      */
-    private $product;
+    private $project;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFile(): ?string
+    public function getFile(): ?File
     {
         return $this->file;
     }
 
-    public function setFile(?string $file): self
+    public function setFile(?File $file): self
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function getFileName(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFileName(?string $filename): self
+    {
+        $this->filename = $filename;
 
         return $this;
     }
@@ -92,7 +104,7 @@ class ProductAttachment
 
     public function getLanguage(): ?Language
     {
-        return $this->language;
+        return $this->language ?? $this->getProject()->getLanguage();
     }
 
     public function setLanguage(?Language $language): self
@@ -102,14 +114,14 @@ class ProductAttachment
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getProject(): ?Project
     {
-        return $this->product;
+        return $this->project;
     }
 
-    public function setProduct(?Product $product): self
+    public function setProject(?Project $project): self
     {
-        $this->product = $product;
+        $this->project = $project;
 
         return $this;
     }
