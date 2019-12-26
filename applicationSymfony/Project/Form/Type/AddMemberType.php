@@ -24,7 +24,7 @@ class AddMemberType extends AbstractType
                 EntityType::class,
                 [
                     'class' => User::class,
-                    'label' => 'User',
+                    'label' => 'project.field.member.label',
                 ]
             )
         ;

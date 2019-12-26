@@ -1,17 +1,17 @@
 app_auth:
     resource: App\Controller\AuthController
     type: annotation
-    prefix: /auth
+    prefix: /{_locale}/auth
 
 app_dashboard:
     resource: App\Controller\DashboardController
     type: annotation
-    prefix: /dashboard
+    prefix: /{_locale}/dashboard
 
 app_account:
     resource: App\Controller\AccountController
     type: annotation
-    prefix: /account
+    prefix: /{_locale}/account
 
 app_about:
     resource: App\Controller\AboutController
@@ -21,42 +21,42 @@ app_about:
 app_product:
     resource: App\Controller\ProductController
     type: annotation
-    prefix: /products
+    prefix: /{_locale}/products
 
 app_idml:
     resource: App\Controller\IdmlController
     type: annotation
-    prefix: /idml
+    prefix: /{_locale}/idml
 
 app_products:
     resource: App\Controller\ProductsController
     type: annotation
-    prefix: /product
+    prefix: /{_locale}/product
 
 app_project:
     resource: App\Controller\ProjectController
     type: annotation
-    prefix: /products
+    prefix: /{_locale}/products
 
 app_attachment:
     resource: App\Controller\AttachmentController
     type: annotation
-    prefix: /products
+    prefix: /{_locale}/products
 
 app_projects:
     resource: App\Controller\ProjectsController
     type: annotation
-    prefix: /projects
+    prefix: /{_locale}/projects
 
 app_section:
     resource: App\Controller\SectionController
     type: annotation
-    prefix: /products
+    prefix: /{_locale}/products
 
 app_feedback:
     resource: App\Controller\FeedbackController
     type: annotation
-    prefix: /feedback
+    prefix: /{_locale}/feedback
 
 app_auth_login_check:
     path:     /account/login_check

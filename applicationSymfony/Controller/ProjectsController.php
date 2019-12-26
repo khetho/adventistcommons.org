@@ -33,7 +33,7 @@ class ProjectsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($project);
             $entityManager->flush();
-            $this->addFlash('success', 'Project created successfully.');
+            $this->addFlash('success', 'messages.project.created');
 
             return $this->redirect($routeMaker->pathToProject($project));
         }

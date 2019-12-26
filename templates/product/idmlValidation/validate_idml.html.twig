@@ -8,7 +8,7 @@
 				{% include 'product/idmlValidation/_idml_validation_fields.html.twig' %}
 				{{ form_rest(idmlValidationForm) }}
 				<div class="text-right">
-					<button type="submit" class="btn btn-primary">Validate IDML</button>
+					<button type="submit" class="btn btn-primary">{% trans %}product.idml_validation.submit{% endtrans %}</button>
 				</div>
 			{{ form_end(idmlValidationForm) }}
 		</div>

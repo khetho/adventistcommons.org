@@ -31,7 +31,7 @@ class ProjectController extends AbstractController
             $project->addMember($addUserForm->getData()['user']);
             $manager->persist($project);
             $manager->flush();
-            $this->addFlash('success', 'Member successfully added');
+            $this->addFlash('success', 'messages.project.member_added');
 
             return $this->redirect($routesMaker->pathToProject($project));
         }
@@ -59,7 +59,7 @@ class ProjectController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($deleteForm->getData());
             $manager->flush();
-            $this->addFlash('success', 'Project successfully deleted');
+            $this->addFlash('success', 'messages.project.deleted');
 
             return $this->redirectToRoute('app_project_list');
         }

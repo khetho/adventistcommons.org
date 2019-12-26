@@ -20,7 +20,7 @@ class ValidateIdmlType extends AbstractType
                 'idmlFile',
                 FileType::class,
                 [
-                    'label' => 'IDML file',
+                    'label' => 'product.field.idml_file.label',
                 ]
             )
         ;

@@ -2,23 +2,26 @@
 
 {% form_theme form 'bootstrap/_form_labelless_layout.html.twig' %}
 
-{% block title %}Create your account{% endblock %}
+{% block title %}{% trans %}auth.register.title{% endtrans %}{% endblock %}
 
 {% block content %}
-	<h1 class="h2 text-center">Create account</h1>
-	<p class="lead text-center">Enter the information below to start translating</p>
+	<h1 class="h2 text-center">{% trans %}auth.register.header{% endtrans %}</h1>
+	<p class="lead text-center">{% trans %}auth.register.intro{% endtrans %}</p>
 	<hr />
 	{{ form_start(form) }}
 		{{ form_errors(form) }}
 		{{ form_rest(form) }}
 		<button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
-			Create account
+			{% trans %}auth.register.submit{% endtrans %}
 		</button>
 		<div class="text-center">
 			<small>
-				By clicking 'Create Account' you agree to our
-				<a href="{{ path('app_about_page', {'slug': 'terms_of_use'}) }}" target="_blank">Terms of Use</a> and
-				<a href="{{ path('app_about_page', {'slug': 'privacy_policy'}) }}" target="_blank">Privacy Policy.</a>
+				{% trans with {
+					'%terms_link_before%': '<a href="' ~ path('app_about_page', {'slug': 'terms_of_use'}) ~ '" target="_blank">',
+					'%terms_link_after%': '</a>',
+					'%privacy_link_before%': '<a href="' ~ path('app_about_page', {'slug': 'privacy_policy'}) ~ '" target="_blank">',
+					'%privacy_link_after%': '</a>',
+				} %}auth.register.accept{% endtrans %}
 			</small>
 		</div>
 	{{ form_end(form) }}

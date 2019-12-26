@@ -11,7 +11,15 @@ use Twig\Error\LoaderError;
 class AboutController extends AbstractController
 {
     /**
-     * @Route("/", name="app_about_home")
+     * @Route("/", name="app_about_nolanguage")
+     */
+    public function nolanguage()
+    {
+        return $this->redirectToRoute('app_about_home');
+    }
+
+    /**
+     * @Route("/{_locale}", name="app_about_home")
      */
     public function home()
     {
@@ -29,7 +37,7 @@ class AboutController extends AbstractController
     }
 
     /**
-     * @Route("/about/{slug}", name="app_about_page")
+     * @Route("/{_locale}/about/{slug}", name="app_about_page")
      * @param string $slug
      * @return Response
      */

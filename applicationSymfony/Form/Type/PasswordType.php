@@ -23,10 +23,10 @@ class PasswordType extends AbstractType
                 'previousPassword',
                 PasswordFieldType::class,
                 [
-                    'label' => 'Current password',
+                    'label' => 'account.field.current_password.label',
                     'mapped' => 'false',
                     'attr' => [
-                        'placeholder' => 'Enter your current password',
+                        'placeholder' => 'account.field.current_password.placeholder',
                     ],
                 ]
             )
@@ -36,15 +36,15 @@ class PasswordType extends AbstractType
                 [
                     'type' => PasswordFieldType::class,
                     'first_options' => [
-                        'label' => 'New password',
+                        'label' => 'account.field.new_password.label',
                         'attr' => [
-                            'placeholder' => 'Enter your new password',
+                            'placeholder' => 'account.field.new_password.placeholder',
                         ],
                     ],
                     'second_options' => [
-                        'label' => 'Confirm password',
+                        'label' => 'account.field.confirm_password.label',
                         'attr' => [
-                            'placeholder' => 'Enter the same password',
+                            'placeholder' => 'account.field.confirm_password.placeholder',
                         ],
                     ],
                 ]

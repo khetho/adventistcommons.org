@@ -33,10 +33,10 @@
 				</div>
 				<ul class="nav nav-tabs nav-fill" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#content" role="tab">Content</a>
+						<a class="nav-link active" data-toggle="tab" href="#content" role="tab">{% trans %}project.show.content{% endtrans %}</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#members" role="tab">Contributors</a>
+						<a class="nav-link" data-toggle="tab" href="#members" role="tab">{% trans %}project.show.contributors{% endtrans %}</a>
 					</li>
 				</ul>
 				
@@ -44,7 +44,7 @@
 					<div class="tab-pane fade show active" id="content" role="tabpanel">
 						<div class="row content-list-head">
 							<div class="col-auto">
-								<h3>Content</h3>
+								<h3>{% trans %}project.show.content{% endtrans %}</h3>
 							</div>
 						</div>
 						<div class="content-list-body">
@@ -66,7 +66,9 @@
 													</div>
 												</div>
 												<div class="card-meta">
-													<a href="{{ pathToSection(project, section, 'edit') }}" class="btn btn-secondary">Start Translating</a>
+													<a href="{{ pathToSection(project, section, 'edit') }}" class="btn btn-secondary">
+														{% trans %}project.show.start_translate{% endtrans %}
+													</a>
 												</div>
 											</div>
 										</div>
@@ -79,10 +81,10 @@
 						<div class="content-list">
 							<div class="row content-list-head">
 								<div class="col-auto">
-									<h3>Contributors</h3>
+									<h3>{% trans %}project.show.contributors{% endtrans %}</h3>
 									{% if is_granted('ROLE_ADMIN') %}
 										<button class="btn btn-round" data-toggle="modal" data-target="#member-add-modal">
-											<i class="material-icons">add</i>
+											<i class="material-icons">{% trans %}project.show.add_contributor{% endtrans %}</i>
 										</button>
 									{% endif %}
 								</div>
@@ -93,8 +95,16 @@
 										<a class="media media-member">
 											<img class="avatar avatar-lg" src="{{ member.image }}"/>
 											<div class="media-body">
-												<h6 class="mb-0" data-filter-by="text">{{ member.active ?? member.fullName }}{% if not member.active %}<span class="badge badge-secondary">invited</span>{% endif %}</h6>
-												<span data-filter-by="text" class="text-body">{% for group in member.groups %}{{ group.name|capitalize }}{% endfor %}</span>
+												<h6 class="mb-0" data-filter-by="text">
+													{% if member.active %}
+														{{ member.fullName }}
+													{% else %}
+														<span class="badge badge-secondary">
+															{% trans %}project.show.invited_contributor{% endtrans %}
+														</span>
+													{% endif %}
+												</h6>
+												<span data-filter-by="text" class="text-body">{% for group in member.groups %}{{ group.name|capitalize }} {% endfor %}</span>
 											</div>
 										</a>
 									</div>

@@ -1,19 +1,21 @@
 
 {% extends "template.html.twig" %}
 
+{% block title %}{% trans with {'%product_name%': product.name } %}product.edit.title{% endtrans %}{% endblock %}
+
 {% block content %}
 	<div class="container">
 		<div class="row justify-content-center mt-5">
 			<div class="col-lg-3 mb-3">
 				<ul class="nav nav-tabs flex-lg-column">
 					<li class="nav-item">
-						<a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">General</a>
+						<a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">{% trans %}product.edit.general{% endtrans %}</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="specs-tab" data-toggle="tab" href="#specs" role="tab">Specifications</a>
+						<a class="nav-link" id="specs-tab" data-toggle="tab" href="#specs" role="tab">{% trans %}product.edit.specs{% endtrans %}</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">Advanced</a>
+						<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">{% trans %}product.edit.advanced{% endtrans %}</a>
 					</li>
 				</ul>
 			</div>
@@ -29,7 +31,7 @@
 								{{ include('product/form/_general.html.twig', {form: generalForm}) }}
 								{{ form_rest(generalForm) }}
 								<div class="row justify-content-end">
-									<button type="submit" class="btn btn-primary mr-2">Save</button>
+									<button type="submit" class="btn btn-primary mr-2">{% trans %}commons.form.save{% endtrans %}</button>
 								</div>
 								{{ form_end(generalForm) }}
 							</div>
@@ -39,21 +41,21 @@
 								{{ include('product/form/_specs.html.twig', {form: specsForm}) }}
 								{{ form_rest(specsForm) }}
 								<div class="row justify-content-end">
-									<button type="submit" class="btn btn-primary mr-2">Save</button>
+									<button type="submit" class="btn btn-primary mr-2">{% trans %}commons.form.save{% endtrans %}</button>
 								</div>
 								{{ form_end(specsForm) }}
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="advanced">
 								{% if product.idmlFilename %}
 									<a href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
-										Download original InDesign file
+										{% trans %}product.edit.dowload_idml{% endtrans %}
 									</a>
 								{% else %}
 									{{ form_start(idmlForm) }}
 										{{ form_errors(idmlForm) }}
 										{{ form_rest(idmlForm) }}
 										<div class="row justify-content-end">
-											<button type="submit" class="btn btn-primary mr-2">Upload</button>
+											<button type="submit" class="btn btn-primary mr-2">{% trans %}product.edit.upload{% endtrans %}</button>
 										</div>
 									{{ form_end(idmlForm) }}
 								{% endif %}
@@ -64,9 +66,9 @@
 									<button
 										type="submit"
 										class="confirm-dialog btn btn-danger"
-										data-confirm-message="WARNING: This cannot be undone. All translations and associated content will be lost forever."
+										data-confirm-message="{% trans %}product.edit.delete_warning{% endtrans %}"
 									>
-										Delete product
+										{% trans %}product.edit.delete{% endtrans %}
 									</button>
 								{{ form_end(deleteForm) }}
 							</div>

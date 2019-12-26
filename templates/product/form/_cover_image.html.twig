@@ -1,7 +1,7 @@
 <div class="media mb-4">
 	<img alt="Image" width="80" src="{{ coverPath }}{{ product.coverImageFilename }}" class="rounded" />
 	<div class="media-body ml-3">
-		<strong>Cover photo</strong><br>
+		<strong>{% trans %}product.cover_photo.header{% endtrans %}</strong><br>
 		{{ form_row(form.coverImage) }}
 	</div>
 </div>
