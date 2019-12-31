@@ -43,7 +43,7 @@ class SlugSetter implements EventSubscriber
         
         $entity->setSlug(
             $this->stringFunctions->slugify(
-                $entity->getSlug() ?? $entity->setName()
+                $entity->getSlug() ?? $entity->getName()
             )
         );
     }
