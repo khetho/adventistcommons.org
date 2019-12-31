@@ -26,7 +26,22 @@ class IdmlType extends AbstractType
                     'required' => false,
                 ]
             )
-
+            ->add(
+                'pdfOffsetFile',
+                FileType::class,
+                [
+                    'label' => 'PDF offset file',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'pdfDigitalFile',
+                FileType::class,
+                [
+                    'label' => 'PDF digital file',
+                    'required' => false,
+                ]
+            )
         ;
     }
 
