@@ -1,0 +1,52 @@
+{{ form_start(filterForm, {'attr': {'id': 'product-filter-form'}}) }}
+    <div class="row">
+        <div class="col-md-6 box">
+            {{ form_row(filterForm.title) }}
+            {{ form_row(filterForm.series, {'attr': {
+                'class': 'selectize',
+                'placeholder': 'Type or select from list …',
+            }}) }}
+            {{ form_row(filterForm.audience, {'attr': {
+                'class': 'selectize',
+                'placeholder': 'Type or select from list …',
+            }}) }}
+        </div>
+        <div class="col-md-6 box">
+            {{ form_row(filterForm.author) }}
+            {{ form_row(filterForm.type, {'attr': {
+                'class': 'selectize',
+                'placeholder': 'Type or select from list …',
+            }}) }}
+            {{ form_row(filterForm.binding, {'attr': {
+                'class': 'selectize',
+                'placeholder': 'Type or select from list …',
+            }}) }}
+        </div>
+        <div class="col-md-8">
+            {{ form_row(filterForm.sort, {
+                'attr': {
+                    'class': 'form-group row align-items-center h-100',
+                },
+                'row_attr': {
+                    'class': 'col',
+                },
+                'label_attr': {
+                    'class': 'radio-inline',
+                },
+                'choice_attr': {
+                    'class': 'custom-control-input',
+                },
+            }) }}
+        </div>
+        <div class="col-md-4 text-right">
+            <a class="btn btn-primary" href="{{ path('app_product_reset_filters') }}">
+                View All
+            </a>&nbsp;
+            <button class="btn btn-primary" type="submit">
+                Search
+
+            </button>
+        </div>
+    </div>
+    {{ form_rest(filterForm) }}
+{{ form_end(filterForm) }}

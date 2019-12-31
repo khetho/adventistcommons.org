@@ -2,6 +2,7 @@
 
 namespace AdventistCommons\Idml;
 
+use App\Entity\Product;
 use AdventistCommons\Idml\Entity\Holder;
 use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use \LogicException;
@@ -16,7 +17,6 @@ use \finfo;
 class HolderBuilder
 {
     private $storyDomManipulator;
-    private $uploadPath;
     
     private static $arrAcceptedMimeTypes = [
         'application/zip; charset=binary',
@@ -24,44 +24,25 @@ class HolderBuilder
     ];
     
     public function __construct(
-        StoryDomManipulator $domManipulator,
-        $uploadProtectedPath
+        StoryDomManipulator $domManipulator
     ) {
         $this->storyDomManipulator = $domManipulator;
-        $this->uploadPath = $uploadProtectedPath;
     }
-    
-    public function buildFromArrayProduct(array $product): Holder
-    {
-        if (!$product['idml_file']) {
-            return null;
-        }
-        $idmlPath = realpath(sprintf(
-            '%s/%s.idml',
-            $this->uploadPath,
-            $product['idml_file']
-        ));
-        self::checkFile($idmlPath);
-        
-        $holder = new Holder($idmlPath, $product, $this->storyDomManipulator);
 
-        return $holder;
-    }
-    
-    public function buildFromProductAndPath(array $product, string $idmlPath): Holder
+    public function buildFromProductArrayAndPath(array $product, string $idmlPath): Holder
     {
         self::checkFile($idmlPath);
         
-        return new Holder($idmlPath, $product, $this->storyDomManipulator);
+        return new Holder($idmlPath, $this->storyDomManipulator, $product);
     }
-    
-    public function buildFromPath(string $idmlPath)
+
+    public function buildFromPath(string $idmlPath): Holder
     {
         self::checkFile($idmlPath);
-        
-        return new Holder($idmlPath);
+
+        return new Holder($idmlPath, $this->storyDomManipulator);
     }
-    
+
     /**
      * @param $idmlPath
      * @throws FileNotFoundException
@@ -83,8 +64,9 @@ class HolderBuilder
     private static function checkMimeType($location): void
     {
         $fileInfo = new finfo(FILEINFO_MIME);
-        if (!in_array($fileInfo->file($location), self::$arrAcceptedMimeTypes)) {
-            throw new FileNotFoundException('No correct mimetype');
+        $mimeType = $fileInfo->file($location);
+        if (!in_array($mimeType, self::$arrAcceptedMimeTypes)) {
+            throw new FileNotFoundException(sprintf('No correct mimetype, «%s» given', $mimeType));
         }
     }
 }

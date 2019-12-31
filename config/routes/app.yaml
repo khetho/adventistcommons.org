@@ -1,0 +1,70 @@
+app_auth:
+    resource: App\Controller\AuthController
+    type: annotation
+    prefix: /auth
+
+app_dashboard:
+    resource: App\Controller\DashboardController
+    type: annotation
+    prefix: /dashboard
+
+app_account:
+    resource: App\Controller\AccountController
+    type: annotation
+    prefix: /account
+
+app_about:
+    resource: App\Controller\AboutController
+    type: annotation
+    prefix: /
+
+app_product:
+    resource: App\Controller\ProductController
+    type: annotation
+    prefix: /products
+
+app_idml:
+    resource: App\Controller\IdmlController
+    type: annotation
+    prefix: /idml
+
+app_products:
+    resource: App\Controller\ProductsController
+    type: annotation
+    prefix: /product
+
+app_project:
+    resource: App\Controller\ProjectController
+    type: annotation
+    prefix: /products
+
+app_attachment:
+    resource: App\Controller\AttachmentController
+    type: annotation
+    prefix: /products
+
+app_projects:
+    resource: App\Controller\ProjectsController
+    type: annotation
+    prefix: /projects
+
+app_section:
+    resource: App\Controller\SectionController
+    type: annotation
+    prefix: /products
+
+app_feedback:
+    resource: App\Controller\FeedbackController
+    type: annotation
+    prefix: /feedback
+
+app_auth_login_check:
+    path:     /account/login_check
+    methods:  [POST]
+
+app_auth_login_check_json:
+    path:     /api/login_check
+    methods:  [POST]
+
+app_auth_logout:
+    path:     /account/logout

@@ -1,0 +1,74 @@
+{% extends "template.html.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center mt-5">
+			<div class="col-lg-3 mb-3">
+				<ul class="nav nav-tabs flex-lg-column">
+					<li class="nav-item">
+						<a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">Password</a>
+					</li>
+					{% if not is_granted("ROLE_ADMIN") %}
+						<li class="nav-item">
+							<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">Advanced</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+			<div class="col-xl-8 col-lg-9">
+				<div class="card">
+					<div class="card-body">
+						<div class="tab-content">
+							<div class="tab-pane fade show active" role="tabpanel" id="profile">
+								<div class="media mb-4">
+									<img alt="Image" src="https://www.gravatar.com/avatar/{{ user.image }}?s=144&d=mp" class="avatar avatar-lg" />
+									<div class="media-body ml-3">
+										<strong>Profile picture</strong><br>
+										<small>To change profile picture, visit <a href="https://en.gravatar.com/">Gravatar.com</a></small>
+									</div>
+								</div>
+								
+								{{ form_start(accountForm) }}
+									{{ form_errors(accountForm) }}
+									{{ form_rest(accountForm) }}
+									<div class="row justify-content-end">
+										<button type="submit" class="btn btn-primary mr-2">Save</button>
+									</div>
+								{{ form_end(accountForm) }}
+								
+							</div>
+							<div class="tab-pane fade" role="tabpanel" id="password">
+								{{ form_start(passwordForm) }}
+									{{ form_errors(passwordForm) }}
+									{{ form_rest(passwordForm) }}
+									<div class="row justify-content-end">
+										<button type="submit" class="btn btn-primary mr-2">Change Password</button>
+									</div>
+								{{ form_end(passwordForm) }}
+							</div>
+							{% if not is_granted("ROLE_ADMIN") %}
+								<div class="tab-pane fade" role="tabpanel" id="advanced">
+									{{ form_start(deleteForm) }}
+										{{ form_errors(deleteForm) }}
+										{{ form_rest(deleteForm) }}
+										<button type="submit" class="p-0 btn btn-link text-danger confirm-dialog" data-confirm-message="Are you sure? This cannot be undone!">
+											Delete my account
+										</button>
+										<br />
+										<small>
+											WARNING: this can never be undone. All your personal information will be immediately deleted,
+											but contributed content including comments and translations will remain.
+										</small>
+									{{ form_end(deleteForm) }}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

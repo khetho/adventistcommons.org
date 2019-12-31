@@ -1,0 +1,28 @@
+<div class="modal fade" id="{% block id %}{% endblock %}" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			{% block form_start %}
+			{% endblock %}
+			<div class="modal-header">
+				<h5 class="modal-title">{% block title %}{% endblock %}</h5>
+				<button type="button" class="close btn btn-round" data-dismiss="modal">
+					<i class="material-icons">close</i>
+				</button>
+			</div>
+			{% block tabs %}
+			{% endblock %}
+			<div class="modal-body">
+				{% block body %}
+				{% endblock %}
+			</div>
+			<div class="modal-footer">
+				<button role="button" class="btn btn-primary" type="submit">
+					{% block submitLabel %}{% endblock %}
+				</button>
+			</div>
+			{% block form_end %}{% endblock %}
+		</div>
+	</div>
+</div>
+
+

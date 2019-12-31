@@ -1,0 +1,25 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}member-add-modal{% endblock %}
+
+{% block form_start %}
+	{{ form_start(addMemberForm) }}
+{% endblock %}
+
+{% block title %}Add Member{% endblock %}
+
+{% block body %}
+	{{ form_row(addMemberForm.user, {
+		'attr': {
+			'class': 'selectize',
+		},
+	}) }}
+{% endblock %}
+
+{% block submitLabel %}Add member{% endblock %}
+
+{% block form_end %}
+	{{ form_rest(addMemberForm) }}
+	{{ form_end(addMemberForm) }}
+{% endblock %}
+

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   ac-db:
@@ -31,6 +31,7 @@ services:
     ports:
       - 9000:9000
     volumes:
+      - ./public/bundles:/var/www/adventistcommons/public/bundles
       - .:/var/www/adventistcommons:ro
       - ./var:/var/www/adventistcommons/var
       - ./uploads:/var/www/adventistcommons/uploads
@@ -53,9 +54,23 @@ services:
   ac-composer:
     restart: 'no'
     image: composer
-    command: install --ignore-platform-reqs
+    command: install
     volumes:
       - .:/app
       - ./var/cache/composer:/tmp
+
+  ac-admin:
+    build:
+      context: ./admin
+      target: api_platform_admin_development
+      cache_from:
+        - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
+    image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
+    volumes:
+      - ./admin:/usr/src/admin:rw,cached
+    ports:
+      - target: 3000
+        published: 8097
+        protocol: tcp
 
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/

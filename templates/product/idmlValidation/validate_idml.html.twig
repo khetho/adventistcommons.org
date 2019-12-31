@@ -1,0 +1,16 @@
+
+{% extends "template.html.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center mt-5">
+			{{ form_start(idmlValidationForm) }}
+				{% include 'product/idmlValidation/_idml_validation_fields.html.twig' %}
+				{{ form_rest(idmlValidationForm) }}
+				<div class="text-right">
+					<button type="submit" class="btn btn-primary">Validate IDML</button>
+				</div>
+			{{ form_end(idmlValidationForm) }}
+		</div>
+	</div>
+{% endblock %}

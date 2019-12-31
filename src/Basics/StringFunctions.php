@@ -15,29 +15,78 @@ class StringFunctions
      * @param string $ellipsis
      * @return string
      */
-    public static function limit($input, $softLimit = 30, $maxFlexibility = 10, $ellipsis = '…')
+    public static function limit($input, $hardLimit = 40, $maxFlexibility = 10, $ellipsis = '…'): string
     {
         $parts = preg_split('/([\s\n\r]+)/u', $input, null, PREG_SPLIT_DELIM_CAPTURE);
-        $parts_count = count($parts);
-        
-        $length = 0;
-        $last_part = 0;
-        for (; $last_part < $parts_count; ++$last_part) {
-            $length += strlen($parts[$last_part]);
-            if ($length > $softLimit) {
+
+        $stringLength = 0;
+        $output = '';
+        $count = count($parts);
+        for ($iPart = 0; $iPart < $count; ++$iPart) {
+            $stringLength += mb_strlen($parts[$iPart]);
+            if ($stringLength > $hardLimit) {
+                if (mb_strlen($output) < ($hardLimit - $maxFlexibility)) {
+                    $output .= $parts[$iPart];
+                    $output = substr($output, 0, $hardLimit);
+                }
                 break;
             }
+            $output .= $parts[$iPart];
         }
-        
-        $output = implode(array_slice($parts, 0, $last_part));
-        if (strlen($output) > $softLimit + $maxFlexibility) {
-            $output = substr($output, 0, $softLimit + $maxFlexibility);
-        }
+
         $suffix = '';
-        if (strlen($output) < strlen($input)) {
+        if (mb_strlen($output) < mb_strlen($input)) {
+            $output = substr($output, 0, $hardLimit - mb_strlen($ellipsis));
             $suffix = $ellipsis;
         }
-        
+
         return $output.$suffix;
+    }
+ 
+    /**
+     * @param string $length
+     * @return string
+     **/
+    public static function generateString(int $length = 20): string
+    {
+        $finalString = "";
+        $range = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        $rangeMax = strlen($range) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $finalString .= $range[rand(0, $rangeMax)];
+        }
+
+        return $finalString;
+    }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    public static function slugify(string $text): string
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }

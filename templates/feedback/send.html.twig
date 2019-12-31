@@ -1,0 +1,26 @@
+{% extends "template.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11">
+                <div class="page-header">
+                    <h1>Feedback</h1>
+                    <p class="lead">
+                        If you have any feedback or encounter any bugs &#128030;,
+                        please notify us below. Being very specific will help us reproduce the issue and solve the problem.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                {{ form_start(feedbackForm) }}
+                {{ form_errors(feedbackForm) }}
+                {{ form_rest(feedbackForm) }}
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Send feedback</button>
+                </div>
+                {{ form_end(feedbackForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

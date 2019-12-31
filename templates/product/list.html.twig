@@ -1,0 +1,67 @@
+{% extends "template.html.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-11">
+				<div class="page-header d-flex justify-content-between align-items-center">
+					<h1>Products</h1>
+					{% if is_granted("ROLE_ADMIN") %}
+						<div class="btn-group" role="group" aria-label="Produt actions">
+							<button class="btn btn-primary d-flex" data-toggle="modal" data-target="#add-product-form">Add Product</button>
+							<button class="btn btn-secondary d-flex" data-toggle="modal" data-target="#validate-idml-form">Validate IDML</button>
+						</div>
+					{% endif %}
+				</div>
+				<hr>
+				<div class="content-list">
+					{% include 'product/_filter.html.twig' %}
+					<hr>
+					<nav class="pagination justify-content-end">
+						{{ knp_pagination_render(products) }}
+					</nav>
+					<div class="content-list-body row">
+						{% for product in products  %}
+							<div class="col-md-6">
+								<div class="card card-project">
+									<div class="row no-gutters">
+										<div class="col" style="flex: 0 0 120px">
+											<img alt="Product cover" src="{{ coverPath }}{{ product.coverImageFilename }}" height="180" class="rounded-left">
+										</div>
+										<div class="col">
+											<div class="card-body">
+												<div class="card-title">
+													<a href="{{ path('app_product_show', {'slug': product.slug}) }}">
+														<h5 data-filter-by="text">{{ product.name }}</h5>
+													</a>
+												</div>
+												<div class="card-meta d-flex justify-content-between">
+													<div class="">
+														<span class="text-small">Author: {{ product.author }}</span><br>
+														<span class="text-small">Pages: {{ product.pageCount }} </span><br>
+														<span class="text-small">Languages:  {# {{ product.languages }} #} </span><br>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% else %}
+							<div class="m-5 text-center">
+								No product is found
+							</div>
+						{% endfor %}
+					</div>
+					<nav class="pagination justify-content-end">
+						{{ knp_pagination_render(products) }}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if is_granted("ROLE_ADMIN") %}
+		{% include 'product/add/_add_modal.html.twig' %}
+		{% include 'product/idmlValidation/_idml_validation_modal.html.twig' %}
+	{% endif %}
+{% endblock %}

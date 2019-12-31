@@ -1,0 +1,200 @@
+{% extends "template.html.twig" %}
+
+{% block content %}
+	<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-xl-10 col-lg-11">
+			<div class="page-header clearfix">
+				<img src="{{ coverPath }}{{ product.coverImageFilename }}" width="140" class="float-left mr-3 rounded">
+				<div class="d-flex justify-content-between align-items-center">
+					<h2>{{ product.name }}</h2>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('app_product_edit', {'slug': product.slug}) }}" class="btn btn-sm btn-secondary float-right"><i class="material-icons align-top text-small">edit</i> Edit</a>
+					{% endif %}
+				</div>
+				<p>{{ product.description }}</p>
+				{% if product.type %}
+					<span class="text-small pr-2"><strong>Type</strong>: {{ product.type|capitalize }}</span>
+				{% endif %}
+				{% if product.author %}
+					<span class="text-small pr-2"><strong>Author</strong>: {{ product.author }}</span>
+				{% endif %}
+				{% if product.pageCount %}
+					<span class="text-small pr-2"><strong>Pages</strong>: {{ product.pageCount }}</span>
+				{% endif %}
+			</div>
+			<hr>
+			<ul class="nav nav-tabs nav-fill mb-3">
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" href="#product-languages" role="tab">Languages</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#product-specs" role="tab">Specifications</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade show active" id="product-languages" role="tabpanel">
+					<div class="content-list-head d-flex">
+						<h3>Languages</h3>
+						<div class="float-right d-none d-sm-block">
+							<div class="btn-group" role="group" aria-label="Produt actions">
+								{% if is_granted('ROLE_ADMIN') %}
+									<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
+								{% endif %}
+								{% if is_granted('ROLE_USER') %}
+									<button class="btn btn-primary" data-toggle="modal" data-target="#add-project-form">Start New Translation</button>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="content-list-body">
+						<div class="card-list">
+							<div class="card-list-body">
+								{% for project in product.projects %}
+									<div class="card card-task">
+										<div class="progress">
+											<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectRatioCompleted * 100 }}%"></div>
+										</div>
+
+										<div class="card-body">
+											<div class="card-title">
+												<h6 data-filter-by="text">{{ project.language.name }}</h6>
+												<div class="d-flex align-items-center">
+													<span>{{ project.status ? project.status : "" }}</span>
+												</div>
+											</div>
+											<div class="card-meta">
+												{% if project.attachments|length %}
+													{% if is_granted('ROLE_USER') %}
+														<div class="dropdown">
+															<button class="btn btn-secondary dropdown-toggle mr-1" type="button" data-toggle="dropdown">
+																Download
+															</button>
+															<div class="dropdown-menu">
+																{% for attachment in project.attachments %}
+																	<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type') }}</a>
+																{% endfor %}
+															</div>
+														</div>
+													{% else %}
+														<a href="{{ path('app_auth_login') }}" class="text-secondary">Login to download</a>
+													{% endif %}
+												{% endif %}
+
+												<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}" class="btn btn-primary">
+													{% if project.status %}
+														Start Translating
+                                                    {% else %}
+														Translate
+                                                    {% endif %}
+												</a>
+                                                {% if project.status %}
+													<a class="btn btn-secondary" href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}">
+														Download IDML
+													</a>
+                                                {% endif %}
+											</div>
+										</div>
+									</div>
+								{% else %}
+									<p>This product is not yet available in any languages.</p>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="product-specs" role="tabpanel">
+					{% if product.type %}
+						<dl class="row">
+							<dt class="col-sm-4">Product type</dt>
+							<dd class="col-sm-8">{{ product.type|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.author %}
+						<dl class="row">
+							<dt class="col-sm-4">Author(s)</dt>
+							<dd class="col-sm-8">{{ product.author|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.publisher %}
+						<dl class="row">
+							<dt class="col-sm-4">Publisher</dt>
+							<dd class="col-sm-8">
+								{% if product.publisherWebsite %}
+									<a href="{{ product.publisherWebsite }}" target="_blank">{{ product.publisher|capitalize }}</a>
+								{% else %}
+									{{ product.publisher|capitalize }}
+								{% endif %}
+							</dd>
+						</dl>
+					{% endif %}
+					{% if product.pageCount %}
+						<dl class="row">
+							<dt class="col-sm-4">Page count</dt>
+							<dd class="col-sm-8">{{ product.pageCount|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.audiences.count %}
+						<dl class="row">
+							<dt class="col-sm-4">Audience</dt>
+							<dd class="col-sm-8">{{ product.audiences|join(', ')|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.formatOpen %}
+						<dl class="row">
+							<dt class="col-sm-4">Format (open)</dt>
+							<dd class="col-sm-8">{{ product.formatOpen|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.formatClosed %}
+						<dl class="row">
+							<dt class="col-sm-4">Format (closed)</dt>
+							<dd class="col-sm-8">{{ product.formatClosed|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.coverColors %}
+						<dl class="row">
+							<dt class="col-sm-4">Colors (cover)</dt>
+							<dd class="col-sm-8">{{ product.coverColors|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.interiorColors %}
+						<dl class="row">
+							<dt class="col-sm-4">Colors (interior)</dt>
+							<dd class="col-sm-8">{{ product.interiorColors|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.coverPaper %}
+						<dl class="row">
+							<dt class="col-sm-4">Paper (cover)</dt>
+							<dd class="col-sm-8">{{ product.coverPaper|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.interiorPaper %}
+						<dl class="row">
+							<dt class="col-sm-4">Paper (interior)</dt>
+							<dd class="col-sm-8">{{ product.interiorPaper|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.binding %}
+						<dl class="row">
+							<dt class="col-sm-4">Binding</dt>
+							<dd class="col-sm-8">{{ product.binding|capitalize }}</dd>
+						</dl>
+					{% endif %}
+					{% if product.finishing %}
+						<dl class="row">
+							<dt class="col-sm-4">Finishing</dt>
+							<dd class="col-sm-8">{{ product.finishing|capitalize }}</dd>
+						</dl>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'project/add/_add_modal.html.twig' %}
+{% include 'product/_add_file_modal.html.twig' %}
+
+{% endblock %}

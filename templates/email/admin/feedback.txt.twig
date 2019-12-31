@@ -1,0 +1,20 @@
+{% extends "email/template.txt.twig" %}
+
+{% block content %}
+Hello, administrator
+
+A new feedback was posted on adventist commons. Here it is.
+
+Name:
+=========================
+{{ name }}
+
+Email:
+=========================
+{{ sentEmail }}
+
+Message:
+=========================
+{{ message }}
+
+{% endblock %}

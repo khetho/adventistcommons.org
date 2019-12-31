@@ -2,8 +2,8 @@
 
 namespace AdventistCommons\Idml\Entity;
 
-use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use IDML\Package;
+use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use \Exception;
 
 /**
@@ -14,20 +14,22 @@ use \Exception;
  */
 class Holder
 {
-    private $project;
-    private $product;
     private $zipFileName;
+    private $storyDomManipulator;
+    private $product;
+
+    private $project;
+
     /** @var Package */
     private $package;
     private $stories = [];
     private $sections = [];
-    private $domManipulator;
     
-    public function __construct($zipFileName, array $product)
+    public function __construct($zipFileName, StoryDomManipulator $storyDomManipulator, array $product = null)
     {
         $this->zipFileName = $zipFileName;
+        $this->storyDomManipulator = $storyDomManipulator;
         $this->product = $product;
-        $this->domManipulator = $storyDomManipulator;
     }
     
     /**
@@ -40,7 +42,7 @@ class Holder
     {
         $this->checkProduct();
         if ($project['product_id'] !== $this->product['id']) {
-            throw new \Exception('Cannot set the project : this project does not rely on the same product.');
+            throw new Exception('Cannot set the project : this project does not rely on the same product.');
         }
         if ($this->project) {
             throw new Exception('Cannot change the project. You must clone the holder first if you want antoher language.');
@@ -86,7 +88,7 @@ class Holder
     {
         if (!isset($this->stories[$storyKey])) {
             $dom = $this->getPackage()->getStory($storyKey);
-            $this->stories[$storyKey] = new Story($storyKey, $dom, $this->domManipulator);
+            $this->stories[$storyKey] = new Story($storyKey, $dom, $this->storyDomManipulator);
         }
 
         return $this->stories[$storyKey];
@@ -97,7 +99,7 @@ class Holder
         $storiesCount = count($this->getPackage()->getStories());
         if ($storiesCount !== count($this->stories)) {
             foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
-                $this->stories[$storyKey] = new Story($storyKey, $storyNode, StoryBasedOnTags::class);
+                $this->stories[$storyKey] = new Story($storyKey, $storyNode, $this->storyDomManipulator);
             }
         }
 
@@ -107,8 +109,8 @@ class Holder
     public function getSections()
     {
         if (!$this->sections) {
-            foreach ($this->getStories() as $storyKey => $storyNode) {
-                $story = new Story($storyKey, $storyNode, $this->domManipulator);
+            foreach ($this->getPackage()->getStories() as $storyKey => $storyNode) {
+                $story = new Story($storyKey, $storyNode, $this->storyDomManipulator);
                 $this->sections = array_merge($this->sections, $story->getSections());
             }
         }
@@ -126,11 +128,10 @@ class Holder
         foreach ($this->getStories() as $story) {
             $story->validate();
         }
-        $this->getSections();
     }
 
     private function checkProduct()
     {
-        throw new \Exception("The holder was created without a product. This action cannot be executed.");
+        throw new Exception("The holder was created without a product. This action cannot be executed.");
     }
 }

@@ -1,0 +1,11 @@
+<div class="tab-content">
+	<div class="tab-pane fade show active" id="product-add-details" role="tabpanel">
+		{% include 'product/form/_general.html.twig' with {'form': productAddForm} %}
+		<hr>
+		<h6>Files</h6>
+		{% include 'product/form/_files.html.twig' with {'form': productAddForm} %}
+	</div>
+	<div class="tab-pane fade" id="product-add-specs" role="tabpanel">
+		{% include 'product/form/_specs.html.twig' with {'form': productAddForm} %}
+	</div>
+</div>

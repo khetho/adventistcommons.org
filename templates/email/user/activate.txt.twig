@@ -1,0 +1,9 @@
+{% extends "email/template.txt.twig" %}
+
+{% block content %}
+Hello, {{ user.fullName }}
+
+Thank you for joining us! In order to be able to login, your first need to confirm that this is your email address.
+
+Activate account link : {{ activationUrl }}
+{% endblock %}

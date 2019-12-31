@@ -1,0 +1,23 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}add-file-form{% endblock %}
+
+{% block form_start %}
+	{{ form_start(addAttachmentForm) }}
+{% endblock %}
+
+{% block title %}Start new translation{% endblock %}
+
+{% block body %}
+	{{ form_row(addAttachmentForm.fileType, {'attr': {'class': 'selectize'}}) }}
+	{{ form_row(addAttachmentForm.language, {'attr': {'class': 'selectize'}}) }}
+	{{ form_row(addAttachmentForm.file) }}
+	{{ form_rest(addAttachmentForm) }}
+{% endblock %}
+
+{% block submitLabel %}Upload file{% endblock %}
+
+{% block form_end %}
+	{{ form_end(addAttachmentForm) }}
+{% endblock %}
+

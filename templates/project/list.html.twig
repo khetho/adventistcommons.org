@@ -1,0 +1,92 @@
+{% extends "template.html.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-11">
+				<div class="page-header">
+					<h1>Adventist Commons</h1>
+					<p class="lead">Contribute to a project below or browse <a href="{{ path('app_product_list') }}" class="text-secondary">other available products</a> for more books and resources.</p>
+				</div>
+				<hr>
+				<div class="content-list">
+					<div class="row content-list-head">
+						<div class="col-auto">
+							<h3>Ongoing Translations</h3>
+						</div>
+						<div class="col-auto">
+							<div class="dropdown">
+								<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+									<i class="material-icons align-top">language</i> {{ language ? language.name : 'All Languages' }}
+								</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="{{ path('app_project_list') }}">All languages</a>
+									{% for language in languagesWithProjects  %}
+										<a class="dropdown-item" href="{{ path('app_project_list', {'languageCode': language.code}) }}">{{ language.name }}</a>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--end of content list head-->
+					<div class="content-list-body row">
+						{% if projects|length == 0 %}
+							<p class="lead m-auto p-5">
+								{% if selected_language %}
+									No Ongoing Translations for {{ selected_language.name }} – <a href='/projects?language=all'>view all languages</a>
+								{% else %}
+									No Ongoing Translations. 
+								{% endif %}
+							</p>
+						{% endif %}
+						{% for project in projects  %}
+							<div class="col-lg-6">
+								<div class="card card-project">
+
+									<div class="progress">
+										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectApprovedCount * 100 }} %"></div>
+									</div>
+
+									<div class="card-body">
+										{% if is_granted('ROLE_ADMIN') %}
+											<div class="dropdown card-options">
+												<button class="btn-options" type="button" data-toggle="dropdown">
+													<i class="material-icons">more_vert</i>
+												</button>
+												<div class="dropdown-menu dropdown-menu-right">
+													<a href="{{ pathToProject(project, 'delete') }}" class="dropdown-item confirm-dialog" data-confirm-message="Are you sure? All translated content will be destroyed.">Delete</a>
+												</div>
+											</div>
+										{% endif %}
+										<div class="card-title">
+											<a href="{{ pathToProject(project) }}">
+												<h5 data-filter-by="text">{{ project.product.name }}<span class="badge badge-light text-secondary ml-1">{{ project.language.name }}</span></h5>
+											</a>
+										</div>
+										<ul class="avatars">
+											{% for member in project.members  %}
+												<li>
+													<a href="#" data-toggle="tooltip" title="{{ member.fullName }}">
+														<img class="avatar" src="https://www.gravatar.com/avatar/{{ member.image }}" data-filter-by="alt" />
+													</a>
+												</li>
+											{% endfor %}
+										</ul>
+										<div class="card-meta d-flex justify-content-between">
+											<div class="d-flex align-items-center">
+												<i class="material-icons mr-1">playlist_add_check</i>
+												<span class="text-small">{{ project|projectApprovedCount }}/{{ project.product|productCount }}</span>
+											</div>
+											<span class="text-small" data-filter-by="text">{{ project.status }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<!--end of content list body-->
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

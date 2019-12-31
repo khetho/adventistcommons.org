@@ -1,0 +1,23 @@
+{{ form_row(form.name) }}
+		{{ form_row(form.author) }}
+		{{ form_row(form.publisher) }}
+		{{ form_row(form.publisherWebsite) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.audiences, {
+			'attr': {
+				'class': 'selectize',
+			},
+		}) }}
+		{{ form_row(form.pageCount) }}
+		{{ form_row(form.series, {
+			'attr': {
+				'class': 'selectize',
+			},
+		}) }}
+<hr>
+<h6>Product type</h6>
+{{ form_row(form.type, {
+	'label_attr': {
+		'class': 'radio-inline',
+	},
+}) }}
