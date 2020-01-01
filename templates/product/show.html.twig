@@ -38,6 +38,26 @@
 						<h3>Languages</h3>
 						<div class="float-right d-none d-sm-block">
 							<div class="btn-group" role="group" aria-label="Produt actions">
+								{% if product.pdfDigitalFilename or product.pdfOffsetFilename %}
+									<div class="btn-group">
+										<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+											Download
+										</button>
+										<div class="dropdown-menu">
+											{% if product.pdfDigitalFilename %}
+												<a class="dropdown-item" href="{{ path('app_product_download_offset_pdf', {'slug': product.slug}) }}">Pdf for digital printing</a>
+											{% endif %}
+											{% if product.pdfOffsetFilename %}
+												<a class="dropdown-item" href="{{ path('app_product_download_digital_pdf', {'slug': product.slug}) }}">Pdf for offset printing</a>
+											{% endif %}
+											{% if is_granted('ROLE_ADMIN') and product.idmlFilename %}
+												<a href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
+													Original InDesign file
+												</a>
+											{% endif %}
+										</div>
+									</div>
+								{% endif %}
 								{% if is_granted('ROLE_ADMIN') %}
 									<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">Upload File</button>
 								{% endif %}

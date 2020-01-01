@@ -3,9 +3,10 @@
 namespace App\Product;
 
 use App\Entity\Product;
+use App\Form\UploaderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class CoverUploader
+class CoverUploader implements UploaderInterface
 {
     private $targetDirectory;
 
@@ -41,5 +42,10 @@ class CoverUploader
         $product->setCoverImageFilename($fileName);
 
         return $product;
+    }
+        
+    public function handle($data)
+    {
+        return $data instanceof Attachment;
     }
 }

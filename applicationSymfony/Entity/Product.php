@@ -137,6 +137,30 @@ class Product
     private $idmlFilename;
 
     /**
+     * @var File|null
+     */
+    private $pdfOffsetFile;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="pdf_offset_file", type="string", length=255, nullable=true)
+     */
+    private $pdfOffsetFilename;
+
+    /**
+     * @var File|null
+     */
+    private $pdfDigitalFile;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="pdf_digital_file", type="string", length=255, nullable=true)
+     */
+    private $pdfDigitalFilename;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="publisher", type="string", length=255, nullable=true)
@@ -371,6 +395,54 @@ class Product
     public function setIdmlFilename(?string $idmlFilename): self
     {
         $this->idmlFilename = $idmlFilename;
+
+        return $this;
+    }
+    
+    public function getPdfOffsetFile(): ?File
+    {
+        return $this->pdfOffsetFile;
+    }
+
+    public function setPdfOffsetFile(?File $pdfOffsetFile): self
+    {
+        $this->pdfOffsetFile = $pdfOffsetFile;
+
+        return $this;
+    }
+
+    public function getPdfOffsetFilename(): ?string
+    {
+        return $this->pdfOffsetFilename;
+    }
+
+    public function setPdfOffsetFilename(?string $pdfOffsetFilename): self
+    {
+        $this->pdfOffsetFilename = $pdfOffsetFilename;
+
+        return $this;
+    }
+
+    public function getPdfDigitalFile(): ?File
+    {
+        return $this->pdfDigitalFile;
+    }
+
+    public function setPdfDigitalFile(?File $pdfDigitalFile): self
+    {
+        $this->pdfDigitalFile = $pdfDigitalFile;
+
+        return $this;
+    }
+    
+    public function getPdfDigitalFilename(): ?string
+    {
+        return $this->pdfDigitalFilename;
+    }
+
+    public function setPdfDigitalFilename(?string $pdfDigitalFilename): self
+    {
+        $this->pdfDigitalFilename = $pdfDigitalFilename;
 
         return $this;
     }
