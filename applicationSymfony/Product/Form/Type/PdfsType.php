@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IdmlType extends AbstractType
+class PdfsType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -18,11 +18,19 @@ class IdmlType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+           ->add(
+               'pdfOffsetFile',
+               FileType::class,
+               [
+                    'label' => 'PDF offset',
+                    'required' => false,
+                ]
+           )
             ->add(
-                'idmlFile',
+                'pdfDigitalFile',
                 FileType::class,
                 [
-                    'label' => 'IDML file',
+                    'label' => 'PDF digital',
                     'required' => false,
                 ]
             )

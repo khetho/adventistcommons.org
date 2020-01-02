@@ -6,14 +6,17 @@ use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\NamedAddress;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class SenderToUser
 {
     private $sender;
+    private $router;
 
-    public function __construct(Sender $sender)
+    public function __construct(Sender $sender, RouterInterface $router)
     {
         $this->sender = $sender;
+        $this->router = $router;
     }
 
     private function buildEmail(User $recipient): TemplatedEmail

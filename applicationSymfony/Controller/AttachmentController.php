@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Product\CoverUploader;
 use App\Product\AttachmentUploader;
-use App\Product\IdmlUploader;
-use App\Product\Form\Type\IdmlType;
 use App\Product\Form\Type\DeleteType;
 use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;

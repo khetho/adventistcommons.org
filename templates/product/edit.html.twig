@@ -15,6 +15,9 @@
 					<li class="nav-item">
 						<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">Advanced</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_product_show', {'slug': product.slug}) }}">Return to product</a>
+					</li>
 				</ul>
 			</div>
 			<div class="col-xl-8 col-lg-9">
@@ -57,6 +60,14 @@
 										</div>
 									{{ form_end(idmlForm) }}
 								{% endif %}
+								<hr>
+								{{ form_start(pdfsForm) }}
+									{{ form_errors(pdfsForm) }}
+									{{ form_rest(pdfsForm) }}
+									<div class="row justify-content-end">
+										<button type="submit" class="btn btn-primary mr-2">Upload</button>
+									</div>
+								{{ form_end(pdfsForm) }}
 								<hr>
 								{{ form_start(deleteForm) }}
 									{{ form_errors(deleteForm) }}

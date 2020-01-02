@@ -35,8 +35,11 @@ security:
             logout:
                 path: app_auth_logout
             guard:
+                entry_point: App\Security\LoginFormAuthenticator
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+                    - App\Security\FacebookAuthenticator
+                    - App\Security\GoogleAuthenticator
                     
     access_control:
         - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
