@@ -21,12 +21,14 @@ class AddType extends AbstractType
         StringFunctions $stringFunctions,
         GeneralType $generalType,
         SpecsType $specsType,
-        IdmlType $idmlType
+        IdmlType $idmlType,
+        PdfsType $pdfsType
     ) {
         $this->stringFunctions = $stringFunctions;
         $this->generalType = $generalType;
         $this->specsType = $specsType;
         $this->idmlType = $idmlType;
+        $this->pdfsType = $pdfsType;
     }
 
     /**
@@ -40,6 +42,7 @@ class AddType extends AbstractType
         $this->generalType->buildForm($builder, []);
         $this->specsType->buildForm($builder, []);
         $this->idmlType->buildForm($builder, []);
+        $this->pdfsType->buildForm($builder, []);
         $builder
             ->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) use ($stringFunctions) {
                 $product = $event->getData();
