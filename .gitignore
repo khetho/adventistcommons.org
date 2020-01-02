@@ -10,6 +10,7 @@ composer.phar
 /applicationCodeIgniter/config/config.php
 /applicationCodeIgniter/config/database.php
 /applicationCodeIgniter/config/*/config.php
+/applicationAngular/node_modules/*
 /phinx.yml
 google_translate_authentication.json
 /public/bundles
