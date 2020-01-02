@@ -29,8 +29,8 @@ services:
         tags: ['controller.service_arguments']
         
     AdventistCommons\:
-        resource: '../src/*'
-        exclude: '../src/Idml/{Entity,DomManipulation}'
+        resource: '../domain/*'
+        exclude: '../domain/Idml/{Entity,DomManipulation}'
 
     App\Security\UserPasswordUpdater:
         tags:
