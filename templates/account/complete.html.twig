@@ -2,11 +2,11 @@
 
 {% form_theme form 'bootstrap/_form_labelless_layout.html.twig' %}
 
-{% block title %}Complete your account{% endblock %}
+{% block title %}{% trans %}account.complete.title{% endtrans %}{% endblock %}
 
 {% block content %}
-	<h1 class="h2">{{ "Almost done, %s!"|format( user.firstName ) }}</h1>
-	<p class="lead">We need a bit more information about you</p>
+	<h1 class="h2">{% trans with {'%name%': user.firstName} %}account.complete.header{% endtrans %}</h1>
+	<p class="lead">{% trans %}account.complete.intro{% endtrans %}</p>
 	<hr>
 	{{ form_start(form) }}
 		{{ form_errors(form) }}

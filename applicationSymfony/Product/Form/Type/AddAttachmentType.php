@@ -28,7 +28,7 @@ class AddAttachmentType extends AbstractType
                 DictionaryType::class,
                 [
                     'name' => 'file_type',
-                    'label' => 'File type',
+                    'label' => 'attachment.field.type.label',
                 ]
             )
             ->add(
@@ -36,14 +36,14 @@ class AddAttachmentType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Language::class,
-                    'label' => 'Language',
+                    'label' => 'attachment.field.language.label',
                 ]
             )
             ->add(
                 'file',
                 FileType::class,
                 [
-                    'label' => 'File',
+                    'label' => 'attachment.field.file.label',
                     'required' => true,
                 ]
             )

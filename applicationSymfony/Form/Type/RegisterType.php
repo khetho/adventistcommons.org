@@ -26,7 +26,7 @@ class RegisterType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'First name',
+                        'placeholder' => 'account.field.firstname.placeholder',
                     ],
                 ]
             )
@@ -36,7 +36,7 @@ class RegisterType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Last name',
+                        'placeholder' => 'account.field.lastname.placeholder',
                     ],
                 ]
             )
@@ -46,7 +46,7 @@ class RegisterType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Email Address',
+                        'placeholder' => 'account.field.email.placeholder',
                     ],
                 ]
             )
@@ -58,14 +58,14 @@ class RegisterType extends AbstractType
                     'first_options' => [
                         'label' => false,
                         'attr' => [
-                            'placeholder' => 'Password',
+                            'placeholder' => 'account.field.create_password.placeholder',
                         ],
-                        'help' => 'Your password should be at least 8 characters',
+                        'help' => 'account.field.create_password.help',
                     ],
                     'second_options' => [
                         'label' => false,
                         'attr' => [
-                            'placeholder' => 'Confirm password',
+                            'placeholder' => 'account.field.confirm_password.placeholder',
                         ],
                     ],
                 ]
@@ -74,7 +74,7 @@ class RegisterType extends AbstractType
                 'productNotify',
                 null,
                 [
-                    'label' => 'Notify me when new products are available',
+                    'label' => 'account.field.productNotify.label',
                 ]
             )
         ;

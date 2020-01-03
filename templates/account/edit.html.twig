@@ -6,14 +6,14 @@
 			<div class="col-lg-3 mb-3">
 				<ul class="nav nav-tabs flex-lg-column">
 					<li class="nav-item">
-						<a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile">Profile</a>
+						<a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab">{% trans %}account.edit.profile{% endtrans %}</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">Password</a>
+						<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">{% trans %}account.edit.password{% endtrans %}</a>
 					</li>
 					{% if not is_granted("ROLE_ADMIN") %}
 						<li class="nav-item">
-							<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">Advanced</a>
+							<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">{% trans %}account.edit.advanced{% endtrans %}</a>
 						</li>
 					{% endif %}
 				</ul>
@@ -24,10 +24,10 @@
 						<div class="tab-content">
 							<div class="tab-pane fade show active" role="tabpanel" id="profile">
 								<div class="media mb-4">
-									<img alt="Image" src="https://www.gravatar.com/avatar/{{ user.image }}?s=144&d=mp" class="avatar avatar-lg" />
+									<img alt="{% trans %}account.edit.avatar{% endtrans %}" src="https://www.gravatar.com/avatar/{{ user.image }}?s=144&d=mp" class="avatar avatar-lg" />
 									<div class="media-body ml-3">
-										<strong>Profile picture</strong><br>
-										<small>To change profile picture, visit <a href="https://en.gravatar.com/">Gravatar.com</a></small>
+										<strong>{% trans %}account.edit.profile_picture{% endtrans %}</strong><br>
+										<small>{% trans with {'%before_link%': '<a href="https://en.gravatar.com/">', '%after_link%': '</a>' }%}account.edit.gravatar_info{% endtrans %}</small>
 									</div>
 								</div>
 								
@@ -35,7 +35,7 @@
 									{{ form_errors(accountForm) }}
 									{{ form_rest(accountForm) }}
 									<div class="row justify-content-end">
-										<button type="submit" class="btn btn-primary mr-2">Save</button>
+										<button type="submit" class="btn btn-primary mr-2">{% trans %}commons.form.save{% endtrans %}</button>
 									</div>
 								{{ form_end(accountForm) }}
 								
@@ -45,7 +45,7 @@
 									{{ form_errors(passwordForm) }}
 									{{ form_rest(passwordForm) }}
 									<div class="row justify-content-end">
-										<button type="submit" class="btn btn-primary mr-2">Change Password</button>
+										<button type="submit" class="btn btn-primary mr-2">{% trans %}account.edit.change_password{% endtrans %}</button>
 									</div>
 								{{ form_end(passwordForm) }}
 							</div>
@@ -54,13 +54,12 @@
 									{{ form_start(deleteForm) }}
 										{{ form_errors(deleteForm) }}
 										{{ form_rest(deleteForm) }}
-										<button type="submit" class="p-0 btn btn-link text-danger confirm-dialog" data-confirm-message="Are you sure? This cannot be undone!">
+										<button type="submit" class="p-0 btn btn-link text-danger confirm-dialog" data-confirm-message="{% trans %}commons.form.confirm{% endtrans %}">
 											Delete my account
 										</button>
 										<br />
 										<small>
-											WARNING: this can never be undone. All your personal information will be immediately deleted,
-											but contributed content including comments and translations will remain.
+											{% trans %}account.edit.delete_warning{% endtrans %}
 										</small>
 									{{ form_end(deleteForm) }}
 								</div>

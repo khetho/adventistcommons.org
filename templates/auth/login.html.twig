@@ -1,10 +1,10 @@
 {% extends "html.html.twig" %}
 
-{% block title %}Log me in{% endblock %}
+{% block title %}{% trans %}auth.login.title{% endtrans %}{% endblock %}
 
 {% block content %}
-    <h1 class="h2">Welcome Back &#x1f44b;</h1>
-    <p class="lead">Log in to your account to continue</p>
+    <h1 class="h2">{% trans %}auth.login.header{% endtrans %}</h1>
+    <p class="lead">{% trans %}auth.login.intro{% endtrans %}</p>
     {% if message is defined and message %}
         <div class="alert alert-warning">{{ message|raw }}</div>
     {% endif %}
@@ -19,7 +19,7 @@
         <div class="form-group">
             <input class="form-control" type="password" placeholder="Password" name="password" />
             <div class="text-right">
-                <small><a href="{{ path('app_auth_ask_reset_password') }}">Forgot password?</a>
+                <small><a href="{{ path('app_auth_ask_reset_password') }}">{% trans %}auth.login.forgot_password{% endtrans %}</a>
                 </small>
             </div>
         </div>
@@ -27,7 +27,7 @@
                value="{{ csrf_token('authenticate') }}"
         >
         <button class="btn btn-lg btn-block btn-primary" role="button" type="submit">
-            Log in
+            {% trans %}auth.login.login{% endtrans %}
         </button>
 
         {#
@@ -40,7 +40,8 @@
                 </label>
             </div>
         #}
-        <small>Don't have an account yet? <a href="{{ path('app_auth_register') }}">Create one</a>
+        <small>
+            {% trans with {'%link_before%': '<a href="' ~ path('app_auth_register') ~ '">', '%link_after%': '</a>'} %}auth.login.register{% endtrans %}
         </small>
         <br />
         <br />

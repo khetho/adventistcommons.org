@@ -6,7 +6,7 @@
 	{{ form_start(addAttachmentForm) }}
 {% endblock %}
 
-{% block title %}Start new translation{% endblock %}
+{% block title %}{% trans %}product.add_file.header{% endtrans %}{% endblock %}
 
 {% block body %}
 	{{ form_row(addAttachmentForm.fileType, {'attr': {'class': 'selectize'}}) }}
@@ -15,7 +15,7 @@
 	{{ form_rest(addAttachmentForm) }}
 {% endblock %}
 
-{% block submitLabel %}Upload file{% endblock %}
+{% block submitLabel %}{% trans %}product.add_file.submit{% endtrans %}{% endblock %}
 
 {% block form_end %}
 	{{ form_end(addAttachmentForm) }}

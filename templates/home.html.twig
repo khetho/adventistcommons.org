@@ -1,15 +1,15 @@
 {% extends "template.html.twig" %}
 
 {% block title %}
-	Certified Adventist Resources, Culturally Relevant
+	{% trans %}home.title{% endtrans %}
 {% endblock %}
 
 {% block contentHeader %}
 	<div class="jumbotron jumbotron-fluid bg-dark mb-0 banner">
 		<div class="container">
-			<h1 class="display-4">Free Adventist Resources<br><span style="color:#f9dc90">Culturally Relevant</span></h1>
-			<p class="lead">Certified, Translatable, Printable, Sharable.</p>
-			<a href="{{ path('app_product_list') }}" class="btn btn-light mb-5">Get Started</a>
+			<h1 class="display-4">{% trans %}home.jumbo.line1{% endtrans %}<br><span style="color:#f9dc90">{% trans %}home.jumbo.line2{% endtrans %}</span></h1>
+			<p class="lead">{% trans %}home.jumbo.line3{% endtrans %}</p>
+			<a href="{{ path('app_product_list') }}" class="btn btn-light mb-5">{% trans %}home.jumbo.cta{% endtrans %}</a>
 		</div>
 	</div>
 {% endblock %}
@@ -23,8 +23,8 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-11 text-center">
-				<h1 class="mt-4">How It Works</h1>
-				<p class="lead">Adventist resources that are free, translatable, and sharable.</p>
+				<h1 class="mt-4">{% trans %}home.explain.intro{% endtrans %}</h1>
+				<p class="lead">{% trans %}home.explain.desc{% endtrans %}</p>
 				<div class="row mt-4">
 					<div class="col-md-4">
 						<div class="card mb-3">
@@ -32,7 +32,7 @@
 								<img class="card-img-top mt-4 w-25" src="/assets/img/browse.svg">
 							</a>
 							<div class="card-body">
-								<a class="card-title h6" href="{{ path('app_product_list') }}">Browse Products</a>
+								<a class="card-title h6" href="{{ path('app_product_list') }}">{% trans %}home.explain.products_cta{% endtrans %}</a>
 							</div>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 								<img class="card-img-top mt-4 w-25" src="/assets/img/translate.svg">
 							</a>
 							<div class="card-body">
-								<a class="card-title h6" href="{{ path('app_project_list') }}">Translate Products</a>
+								<a class="card-title h6" href="{{ path('app_project_list') }}">{% trans %}home.explain.translate_cta{% endtrans %}</a>
 							</div>
 						</div>
 					</div>
@@ -52,7 +52,7 @@
 								<img class="card-img-top mt-4 w-25" src="/assets/img/download.svg">
 							</a>
 							<div class="card-body">
-								<a class="card-title h6" href="{{ path('app_product_list') }}">Download Products</a>
+								<a class="card-title h6" href="{{ path('app_product_list') }}">{% trans %}home.explain.download_cta{% endtrans %}</a>
 							</div>
 						</div>
 					</div>
@@ -65,11 +65,11 @@
 			<div class='row align-items-center'>
 				<div class='col-md-7 offset-1'>
 					<p class="lead d-inline-block text-left">
-						<b>Ready to bring Adventist resources to the world?</b>
+						<b>{% trans %}home.invite.intro{% endtrans %}</b>
 					</p>
 				</div>
 				<div class='col-md-3 text-left'>
-					<a href="{{ path('app_project_list') }}" class="btn btn-primary btn-lg">Start Translating</a>
+					<a href="{{ path('app_project_list') }}" class="btn btn-primary btn-lg">{% trans %}home.invite.cta{% endtrans %}</a>
 				</div>
 			</div>
 		</div>
@@ -77,8 +77,11 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-11 text-center">
-				<h1 class="mt-4">Partners and Advisors</h1>
-				<p class="lead">Adventist Commons works with Adventist publishers, ministries, and departments.<br> We could not accomplish our mission without the generous support of our partners.</p>
+				<h1 class="mt-4">{% trans %}home.partner.intro{% endtrans %}</h1>
+				<p class="lead">
+					{% trans %}home.partner.line1{% endtrans %}<br>
+					{% trans %}home.partner.line2{% endtrans %}
+				</p>
 				<div class="row text-center text-lg-left d-flex align-items-center">
 				    <div class="col-lg-3 col-md-4 col-6 text-center">
 				      <a target='_blank' href="https://publishing.adventist.org" class="d-block mb-4 h-100">
@@ -125,11 +128,13 @@
 			<div class='row align-items-center'>
 				<div class='col-md-7 offset-1'>
 					<p class="lead d-inline-block text-left">
-						<b>Interested in more resources and languages?</b>
+						<b>{% trans %}home.donate.intro{% endtrans %}</b>
 					</p>
 				</div>
 				<div class='col-md-3 text-left'>
-					<a href="https://www.patreon.com/bePatron?u=23402844" target="_blank" class="btn btn-primary btn-lg">Donate now</a>
+					<a href="https://www.patreon.com/bePatron?u=23402844" target="_blank" class="btn btn-primary btn-lg">
+						{% trans %}home.donate.cta{% endtrans %}
+					</a>
 				</div>
 			</div>
 		</div>
@@ -137,23 +142,26 @@
 	<div class="container mb-4">
 		<div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-11 text-center">
-				<h1 class="mt-4">Our Team</h1>
-				<p class="lead">We believe in the power of teams and individuals that share a common goal.<br>Meet the key members working on Adventist Commons.</p>
+				<h1 class="mt-4">{% trans %}home.team.intro{% endtrans %}</h1>
+				<p class="lead">
+					{% trans %}home.team.line1{% endtrans %}<br>
+					{% trans %}home.team.line2{% endtrans %}
+				</p>
 				<div class="row text-center text-lg-left d-flex align-items-center">
 					<div class='col-md-4 text-center'>
 						<img class='rounded' src="/assets/img/team/Michael.png">
 						<h3 class="mt-4">Michael Eckert</h3>
-						<p class="lead">Project Coordinator</p>
+						<p class="lead">{% trans %}home.team.coordinator{% endtrans %}</p>
 					</div>
 					<div class='col-md-4 text-center'>
 						<img class='rounded' src="/assets/img/team/Samuel.png">
 						<h3 class="mt-4">Samuel Roncal</h3>
-						<p class="lead">Lead Developer</p>
+						<p class="lead">{% trans %}home.team.lead_dev{% endtrans %}</p>
 					</div>
 					<div class='col-md-4 text-center'>
 						<img class='rounded' src="/assets/img/team/Marisa.png">
 						<h3 class="mt-4">Marisa Ferreira</h3>
-						<p class="lead">Product Manager</p>
+						<p class="lead">{% trans %}home.team.product_manager{% endtrans %}</p>
 					</div>
 				</div>
 			</div>

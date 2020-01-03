@@ -134,6 +134,7 @@ Let us know if you have any issues with these steps.
 - copy \phinx.example.yml to \phinx.yml 
 - Edit the file [phinx.yml](https://github.com/AdventistCommons/adventistcommons.org/blob/master/phinx.yml#L19-L22) to set your database credentials. The user defined here **must** be able to set structure data : create, alter and drop tables.
 - Play migration to have a database up to date : ```php vendor/bin/phinx migrate```
+- For development purpose, you can run some fixtures which are some basic data : ```php bin/console do:fi:lo``` you can log-in with the account ```admin``` / ```pass```
 
 #### Config
 - copy \application\config\config.example.php to \application\config\config.php 
@@ -147,97 +148,9 @@ Let us know if you have any issues with these steps.
 
 ### Software elements
 
-#### Code Igniter
+#### Symfony
 
-First base of the application. If you do not know it yet, check this : https://codeigniter.com/
-
-##### The container
-
-The **container** is a convenient way to hold and provide access for tool-objects (that we call services) without you have to care about their dependencies. If you create such a class for a feature, or want to use a class from a library, you should register it in the container file ```application/libraries/Container.php```, at that place :
-
-```PHP
-private function build()
-{
-	// Other services
-	[…]
-	
-	// Add a new service here
-	
-	$this->built = true;
-}
-```
-
-You can register it using closure, so the class will not be instanciated if not called, like this :
-```PHP
-$this->set(
-	// Here is the name of the service.
-	// It could be an abritray string, but the name of the class is a good idea to avoid typo errors.
-	\AdventistCommons\Path\To\MyClass::class,
-	function () { // Here comes the closure
-		// Here we tell how to build the service
-		return new \AdventistCommons\Path\To\MyClass();  
-	}
-);
-```
-
-If your class requires some other stuff, you can set it with constructor. Let’s say you need a zip compressor class, you will create its service too and inject it to create you first service :
-
-```PHP
-$this->set(
-	\AdventistCommons\Another\Path\Zipper::class,
-	function () {
-		return new \AdventistCommons\Another\Path\Zipper();
-	}
-);
-
-$this->set(
-	\AdventistCommons\Path\To\MyClass::class,
-	function () {
-		return new \AdventistCommons\Path\To\MyClass(
-			// $this refers to the container : this other service must be injected in the constructor
-			$this->get(\AdventistCommons\Another\Path\Zipper::class)  
-		);
-	}
-);
-```
-
-Service creator can be even more complex, you have the hand on its creation :
-
-```PHP
-$this->set(
-	\AdventistCommons\Path\To\MyClass::class,
-	function () {
-		$myService = new \AdventistCommons\Path\To\MyClass();
-		$myService->disbaleLog();   // simple method call
-		$myService->setZipper(     // inject dependencies via setters
-			$this->get(\AdventistCommons\Another\Path\Zipper::class)
-		); 
-		$myService->setConfig('someStuff'); // or anything else
-		
-		return $myService; 
-	}
-);
-```
-
-Now, if you want to use the service in your controller, just load the lib and call the service by its name
-```PHP
-
-class MyController extends CI_Controller {
-
-	public function __construct()
-	{
-		…
-		$this->load->library( [ …,  "container" ] );
-	}
-	
-	public function MyAction()
-	{
-		$myService = $this->container->get(\AdventistCommons\Path\To\MyClass::class);
-		$myService->proceedTreatment();
-		…
-	}	
-
-```
+First base of the application. If you do not know it yet, check this : https://symfony.com/
 
 #### Migrations
 
@@ -271,7 +184,7 @@ In order to be able to authentify frontend, application must sign messages with 
 
 #### Angular Frontend
 
-Sme content soon here
+Some content soon here
 
 ## License
 
@@ -285,7 +198,6 @@ The code included in this repository is copyright protected. It may not be repro
 
 - Inspired by Creative Commons: &quot;When we share, everyone wins&quot;
 - Theme by [Medium Rare](http://mediumra.re/)
-- [Codeigniter framework](https://codeigniter.com/)
 - [Bootstrap](https://getbootstrap.com/)
 - [SASS](https://sass-lang.com/)
 

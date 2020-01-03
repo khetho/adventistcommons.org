@@ -30,8 +30,9 @@ class AccountType extends AbstractType
                 'firstName',
                 null,
                 [
+                    'label' => 'account.field.firstname.label',
                     'attr' => [
-                        'placeholder' => 'First name',
+                        'placeholder' => 'account.field.firstname.placeholder',
                     ],
                 ]
             )
@@ -39,8 +40,9 @@ class AccountType extends AbstractType
                 'lastName',
                 null,
                 [
+                    'label' => 'account.field.lastname.label',
                     'attr' => [
-                        'placeholder' => 'Last name',
+                        'placeholder' => 'account.field.lastname.placeholder',
                     ],
                 ]
             )
@@ -48,8 +50,9 @@ class AccountType extends AbstractType
                 'email',
                 null,
                 [
+                    'label' => 'account.field.email.label',
                     'attr' => [
-                        'placeholder' => 'Email Address',
+                        'placeholder' => 'account.field.email.placeholder',
                     ],
                 ]
             )
@@ -57,8 +60,9 @@ class AccountType extends AbstractType
                 'location',
                 null,
                 [
+                    'label' => 'account.field.location.label',
                     'attr' => [
-                        'placeholder' => 'Your location',
+                        'placeholder' => 'account.field.location.placeholder',
                     ]
                 ]
             )
@@ -66,20 +70,21 @@ class AccountType extends AbstractType
                 'bio',
                 null,
                 [
+                    'label' => 'account.field.bio.label',
                     'attr' => [
-                        'placeholder' => 'Tell us a little about yourself',
+                        'placeholder' => 'account.field.bio.placeholder',
                     ],
-                    'help' => 'This will be displayed on your public profile',
+                    'help' => 'account.field.bio.help',
                 ]
             )
             ->add(
                 'motherLanguage',
                 null,
                 [
-                    'label' => 'What is your mother language?',
+                    'label' => 'account.field.motherLanguage.label',
                     'attr' => [
                         'class' => 'language-select',
-                        'placeholder' => 'Select language…',
+                        'placeholder' => 'account.field.motherLanguage.placeholder',
                     ],
                 ]
             )
@@ -87,10 +92,10 @@ class AccountType extends AbstractType
                 'languages',
                 null,
                 [
-                    'label' => 'What other languages are you fluent in?',
+                    'label' => 'account.field.languages.label',
                     'attr' => [
                         'class' => 'language-select',
-                        'placeholder' => 'Select languages…',
+                        'placeholder' => 'account.field.languages.placeholder',
                     ],
                 ]
             )
@@ -98,7 +103,7 @@ class AccountType extends AbstractType
                 'proTranslator',
                 null,
                 [
-                    'label' => 'I am a professional translator',
+                    'label' => 'account.field.proTranslator.label',
                 ]
             );
 

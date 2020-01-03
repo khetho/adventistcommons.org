@@ -6,7 +6,7 @@
 	{{ form_start(projectAddForm) }}
 {% endblock %}
 
-{% block title %}Start new translation{% endblock %}
+{% block title %}{% trans %}project.add.title{% endtrans %}{% endblock %}
 
 {% block body %}
 	{{ form_row(projectAddForm.language, {
@@ -16,7 +16,7 @@
 	}) }}
 {% endblock %}
 
-{% block submitLabel %}Start translation{% endblock %}
+{% block submitLabel %}{% trans %}project.add.submit{% endtrans %}{% endblock %}
 
 {% block form_end %}
 	{{ form_rest(projectAddForm) }}

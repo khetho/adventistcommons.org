@@ -168,7 +168,7 @@ class ProductController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($submittedProduct);
             $manager->flush();
-            $this->addFlash('success', 'Product successfully saved');
+            $this->addFlash('success', 'messages.product.saved');
 
             return $this->redirectToRoute('app_product_edit', ['slug' => $product->getSlug()]);
         }
@@ -206,7 +206,7 @@ class ProductController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($submittedProduct);
             $manager->flush();
-            $this->addFlash('success', 'Product successfully deleted');
+            $this->addFlash('success', 'messages.product.deleted');
 
             return $this->redirectToRoute('app_product_list');
         }

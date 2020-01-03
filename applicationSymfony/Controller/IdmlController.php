@@ -28,7 +28,7 @@ class IdmlController extends AbstractController
             $file->move($file->getPath(), $newPathname);
             try {
                 $validator->validate($file->getPathname().'.idml');
-                $this->addFlash('success', 'Idml validated successfully.');
+                $this->addFlash('success', 'messages.idml.successful');
             } catch (IdmlException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

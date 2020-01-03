@@ -22,7 +22,7 @@ class IdmlType extends AbstractType
                 'idmlFile',
                 FileType::class,
                 [
-                    'label' => 'IDML file',
+                    'label' => 'product.field.idml_file.label',
                     'required' => false,
                 ]
             )

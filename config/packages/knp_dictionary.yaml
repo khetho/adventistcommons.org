@@ -1,23 +1,22 @@
 knp_dictionary:
     dictionaries:
-
         product_type:
             type: 'key_value'
             content:
-                "book": "Book"
-                "magabook": "Magabook"
-                "booklet": "Booklet"
-                "tract": "Tract"
+                "book": "product.field.type.values.book"
+                "magabook": "product.field.type.values.magabook"
+                "booklet": "product.field.type.values.booklet"
+                "tract": "product.field.type.values.tract"
         product_sort:
             type: 'key_value'
             content:
-                "name": "Title"
-                "author": "Author"
-                "publisher": "Publisher"
+                "name": "product.sort.name"
+                "author": "product.sort.author"
+                "publisher": "product.sort.publisher"
         file_type:
             type: 'key_value'
             content:
-                "pdf_printing": "PDF (Production)"
-                "pdf_personal": "PDF (Personal)"
-                "indd": "InDesign"
+                "pdf_printing": "attachment.field.type.values.pdf_prod"
+                "pdf_personal": "attachment.field.type.values.pdf_perso"
+                "indd": "attachment.field.type.values.indesign"
             

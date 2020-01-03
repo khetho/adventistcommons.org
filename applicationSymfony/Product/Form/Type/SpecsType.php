@@ -21,9 +21,9 @@ class SpecsType extends AbstractType
                 'formatClosed',
                 null,
                 [
-                    'label' => 'Closed',
+                    'label' => 'product.field.formatClosed.label',
                     'attr' => [
-                        'placeholder' => 'e.g. 10.4 x 20.5 cm',
+                        'placeholder' => 'product.field.formatClosed.placeholder',
                     ],
                 ]
             )
@@ -31,9 +31,9 @@ class SpecsType extends AbstractType
                 'formatOpen',
                 null,
                 [
-                    'label' => 'Opened',
+                    'label' => 'product.field.formatOpen.label',
                     'attr' => [
-                        'placeholder' => 'e.g. 10.4 x 41 cm',
+                        'placeholder' => 'product.field.formatClosed.placeholder',
                     ],
                 ]
             )
@@ -41,42 +41,42 @@ class SpecsType extends AbstractType
                 'coverColors',
                 null,
                 [
-                    'label' => 'Colors',
+                    'label' => 'product.field.coverColors.label',
                 ]
             )
             ->add(
                 'coverPaper',
                 null,
                 [
-                    'label' => 'Paper',
+                    'label' => 'product.field.coverPaper.label',
                 ]
             )
             ->add(
                 'interiorColors',
                 null,
                 [
-                    'label' => 'Colors',
+                    'label' => 'product.field.interiorColors.label',
                 ]
             )
             ->add(
                 'interiorPaper',
                 null,
                 [
-                    'label' => 'Paper',
+                    'label' => 'product.field.interiorPaper.label',
                 ]
             )
             ->add(
                 'binding',
                 null,
                 [
-                    'label' => 'Binding',
+                    'label' => 'product.field.binding.label',
                 ]
             )
             ->add(
                 'finishing',
                 null,
                 [
-                    'label' => 'Finishing',
+                    'label' => 'product.field.finishing.label',
                 ]
             )
         ;

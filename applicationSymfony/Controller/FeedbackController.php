@@ -26,7 +26,7 @@ class FeedbackController extends AbstractController
             /** @var Feedback $feedback */
             $feedback = $feedbackForm->getData();
             $emailSender->sendFeedback($feedback);
-            $this->addFlash('success', 'Your message as been sent successfuly.');
+            $this->addFlash('success', 'messages.feedback.sent');
 
             return $this->redirectToRoute('app_feedback_send');
         }

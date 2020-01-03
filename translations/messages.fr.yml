@@ -1,0 +1,356 @@
+commons:
+  footer: 
+    desc: Une initiative des Adventistes du Septième Jour du Moyen-Orient et de l’Afrique du nord.
+    feedback: Feedback
+    report: Rapporter un bug
+  menu:
+    account: Compte
+    dashboard: Accueil
+    logout: Déconnexion
+    login: Connexion
+    signup: Inscription   
+    products: Produits
+    translations: Traductions
+    about: À propos
+    faq: FAQ
+    policy: Vie privée
+    terms: Termes du services
+    donate: Faire un don
+    language: Langue
+    my_account: Mon compte
+  modal:
+    close: fermer
+  form:
+    save: Enregistrer
+    confirm: Cette action ne pourra pas être annulée. Souhaitez vous confirmer l’action ?
+  lost_here: Vous êtes perdu ? %before_link% retour à l’accueil%after_link%  
+home:
+  title: Resources Adventiste Certifiées, Culturelement Pertinentes
+  jumbo:
+    line1: Resources Adventistes gratuites 
+    line2: Culturelement Pertinentes
+    line3: Certifiées, Traduisibles, Imprimables, Partageables.
+    cta: Commencer !
+  explain:
+    intro: Comment ça fonctionne
+    desc: Ces resources adventistes sont libre, traduisible et partageables.
+    products_cta: Parcourir les produits
+    translate_cta: Traduire des produits
+    download_cta: Télécharger des produits
+  invite:
+    intro: Êtes-vous pret à participer à la diffussion de contenu adventistes à travers le monde ?
+    cta: Traduire
+  partner:
+    intro: Partenaires et conseils
+    line1: Adventist Commons travaille avec différents éditeurs, ministères et départements Adventistes.
+    line2: Nous ne pourrions accomplir notre mission sans le généreux soutien de nos partenaires !
+  donate:
+    intro: Interessé pour plus de ressources et/ou plus de langues ?
+    cta: Faire un don
+  team:
+    intro: Notre équipe
+    line1: Nous croyons dans le pouvoir des initiatives personnelles et collectives lorsqu’elles partagent le même but.
+    line2: Rencontrez les membres essentiels qui travaillent sur Adventist Commons.
+    coordinator: Coordinateur du projet
+    lead_dev: Dévelopeur principal
+    product_manager: Chef de produit
+account:
+  complete:
+    title: Complétez your compte
+    header: C’est presque fini, %name%!
+    intro: Nous avons besoin d'un peu plus d'informations sur vous
+  edit:
+    profile: Profil
+    password: Mot de passe
+    advanced: Avancé
+    avatar: Avatar
+    profile_picture: Image de profil
+    gravatar_info: Pour changer votre image, visitez %before_link%Gravatar.com%after_link%
+    change_password: Changer le mot de passe
+    delete_warning: "AVERTISSEMENT: cette action ne pourra pas être annulée. Toutes vos informations personnelles seront immédiatement supprimées, mais le contenu contribué, y compris les commentaires et les traductions, seront conservé."
+  field:
+    firstname:
+      label: Prénom
+      placeholder: Prénom
+    lastname: 
+      label: Nom
+      placeholder: Nom
+    email: 
+      label: Courriel
+      placeholder: Adresse courriel
+    location: 
+      label: Localisation
+      placeholder: Votre localisation
+    bio: 
+      label: Bio
+      placeholder: Parlez-nous un peu de vous
+      help: Ce sera affiché sur votre profil public
+    motherLanguage:
+      label: Quelle est votre langue maternelle ?
+      placeholder: Choisir la langue…
+    languages:
+      label: Dans quelles autres langues parlez-vous couramment?
+      placeholder: Choisir la langue…
+    proTranslator:
+      label: Je suis un traducteur/rice professionnel
+    skills:
+      label: Autres compétences
+      placeholder: Choisir des compétences…
+    create_password:
+      placeholder: Mot de passe
+      help: Votre mot de passe doit contenir au moins 8 caractères
+    current_password:
+      label: Mot de passe actuel
+      placeholder: Entrer votre mot de passe actuel
+    new_password:
+      label: Nouveau mot de passe
+      placeholder: Entrez votre nouveau mot de passe
+    confirm_password:
+      label: Confirmez le mot de passe
+      placeholder: entrez le même mot de passe
+    productNotify:
+      label: M'avertir lorsque de nouveaux produits sont disponibles
+auth:
+  ask_reset:
+    title: demander à réinitialiser mon mot de passe
+    header: Bienvenue à nouveau 👋
+    instruction: Entrez votre email pour recevoir un email pour changer votre mot de passe
+    act: Envoyer l'e-mail «changer mon mot de passe»
+  login:
+    title: Me connecter
+    header: Bienvenue à nouveau 👋
+    intro: Connectez-vous à votre compte pour continuer
+    forgot_password: Mot de passe oublié ?
+    login: S'identifier
+    register: Vous n'avez pas encore de compte ? %link_before%Créer mon compte%link_after%
+  register:
+    title: Créez votre compte
+    header: Créer un compte
+    intro: Entrez les informations ci-dessous pour commencer la traduction
+    submit: Créer mon compte
+    accept: En cliquant sur «Créer mon compte», vous acceptez nos %terms_link_before%Conditions d'utilisation%terms_link_after% et %privacy_link_before%Politique de confidentialité%privacy_link_after%.
+  reset:
+    title: Réinitialiser mon mot de passe
+    header: Bienvenue à nouveau 👋
+    intro: Choisissez un nouveau mot de passe
+    submit: Changer mon mot de passe
+  field:
+    email:
+      placeholder: Adresse Courriel
+feedback:
+  send:
+    title: Envoyer des commentaires
+    header: Commentaire
+    intro: Nous sommes intéressé si vous avez des commentaires ou rencontrez des bugs 🐞, veuillez nous en informer ci-dessous. Être très précis nous aidera à reproduire le problème et à le résoudre.
+    submit: Envoyer mon commentaire
+  field:
+    name:
+      label: Nom
+    email:
+      label: Courriel
+    message:
+      label: Message
+product:
+  field:
+    type: 
+      label: Type de Produit
+      values:
+        book: Livre
+        magabook: Maga-livre
+        booklet: Brochure
+        tract: Dépliant
+    title:
+      label: Titre
+    author: 
+      label: Auteur(s)
+    publisher: 
+      label: Éditeur 
+    publisher_website:
+      label: Site internet éditeur
+    cover_image:
+      label: Image de couverture 
+      help: Seuls les images carrés sont acceptées
+    description:
+      label: Déscription
+    page_count: 
+      label: Nombre de pages
+    audience: 
+      label: Public
+    format_open: 
+      label: Format (ouvert)
+    format_closed: 
+      label: Format (fermé)
+    color_cover: 
+      label: Couleurs (cover)
+    color_interior: 
+      label: Couleurs (interieur)
+    paper_cover: 
+      label: Papier (couverture)
+    paper_interior: 
+      label: Papier (interieur)
+    binding: 
+      label: Reliure
+    finishing: 
+      label: Finition
+    series:
+      label: Séries
+    audiences:
+      label: Publics
+    idml_file:
+      label: Fichier IDML
+    formatClosed:
+      label: Fermé
+      placeholder: "ex: 10.4 x 20.5 cm"
+    formatOpen:
+      label: Ouvert
+      formatClosed.placeholder: "ex: 10.4 x 41 cm"
+    coverColors:
+      label: Couleurs
+    coverPaper:
+      label: Papier
+    interiorColors:
+      label: Couleurs
+    interiorPaper:
+      label: Papier
+  list:
+    title: Liste des produits
+    header: Produits
+    add: Ajouter un Produit
+    validate_idml: Valider un IDML
+    author: Auteur(s)
+    page_count: Pages
+    languages: Langues
+    none: Aucun produit n’est trouvé
+  show:
+    title: "produit %product_name%"
+    edit: Éditer
+    type: Type
+    author: Auteur
+    page_count: Pages
+    languages: Langues
+    specification: Spécifications
+    product_actions: Actions produit
+    upload_file: Charger un fichier
+    new_translation: Commencer une nouvelle traduction
+    download: Télécharger
+    login_download: Connexion pour Téléchargement
+    start_translate: Commencer à traduire
+    translate: Traduire
+    download_idml: Télécharger l’IDML
+    untranslated: Ce produit n’est pas encore disponible dans une autre langue.
+  edit:
+    title: "Éditer le produit %product_name%"
+    general: Général
+    specs: Spécifications
+    advanced: Avancé
+    dowload_idml: Télécharger le fichier IDML original
+    upload: Charger
+    delete_warning: "AVERTISSEMENT: cela ne peut pas être annulé. Toutes les traductions et le contenu associé seront perdus à jamais."
+    delete: Supprimer le produit
+  add_file:
+    header: Ajouter un fichier joint
+    submit: Charger le fichier
+  idml:
+    header: Fichier InDesign (.idml)
+  idml_validation:
+    header: Validation d’IDML
+    submit: Validater
+  add:  
+    header: Ajouter un produit
+    submit: Créer le produit
+    general: Général
+    specs: Spécifications
+  cover_photo:
+    header: Image de couverture
+  type:
+    header: Type de produit    
+  filter:
+    view_all: Voir tout
+    search: Filtrer
+    type_or_select: Taper ou choisir dans la liste
+    title:
+      label: Titre original
+    series:
+      label: Dans la série
+    audience:
+      label: Public
+    author:
+      label: Auteur
+    type:
+      label: Type
+    binding:
+      label: Reliure
+  sort:      
+    label: Trier par
+    name: Nom
+    author: Auteur
+    publisher: Éditeur
+project:
+  field:
+    member:
+      label: Utilisateur
+    language:
+      label: Langue
+  add:
+    title: Commencer une nouvelle traduction
+    submit: Commencer à traduire
+  add_member:
+    title: Ajouter un membre
+    submit: Ajouter un membre
+  delete:
+    warning: Vous êtes sur le point de détruire le projet de traduction et tout son contenu. Cette action ne pourra pas être annulée. En êtes-vous sûr ?
+    submit: Supprimer tout
+  list:
+    delete: Supprimer
+    delete_warning: Êtes-vous sûr ? Tout le contenu traduit sera détruit.
+    no_translation: Aucune traduction en cours.
+    view_all_languages: Voir toutes les langues
+    none_for_language: Aucune traduction en cours pour la langue %language_name%
+    all_languages: Toutes les langues
+    ongoing_translations: Traductions en cours
+    intro: Contribuez à un projet ci-dessous ou parcourez les %link_before%autres produits disponibles%link_after% pour plus de livres et de ressources.
+    header: Adventist Commons
+  show:
+    content: Contenu
+    contributors: Contributeurs
+    start_translate: Commencer à traduire
+    add_contributor: ajouter
+    invited_contributor: invité
+attachment:
+  field:
+    type:
+      label: Type de fichier
+      values:
+        pdf_prod: PDF (Production)
+        pdf_perso: PDF (Personnel)
+        indesign: InDesign
+    file:
+      label: Fichier
+    language:
+      label: Langue 
+messages:
+  account:
+    completed: Compte completé avec succès
+    saved: Compte sauvegardé avec succès
+    password_saved: Mot de passe changé avec succès
+    removed: Compte supprimé avec succès
+  attachement:
+    added: Fichier joint ajouté avec succès
+  auth:
+    created: Compte créé avec succès. Nous vous avons adressé un courriel de validation.
+    activated: Compte activé avec succès. Vous pouvez maintenant vous connecter.
+    completed: Compte complété avec succès. Merci de de vérifier vos courriels afin de valider votre compte par le lien d’activation.
+    reset_sent: Requête de mot de passe transmise avec succès. Merci de vérifier vos courriels et cliquez sur le lien pour définir un nouveau mot de passe.
+    password_changed: Mot de passe changé avec succès. Vous pouvez désormais vous connecter avec le nouveau mot de passe.
+  feedback:
+    sent: Votre message a été envoyé avec succès.
+  idml:
+    successful: Idml validé avec succès.
+  product:
+    saved: Produit sauvegardé avec succès
+    deleted: Produit supprimé avec succès
+    created: Produit créé avec succès
+  project:
+    deleted: Project supprimé avec succès
+    created: Project créé avec succès
+    member_added: Membre ajouté avec succès    

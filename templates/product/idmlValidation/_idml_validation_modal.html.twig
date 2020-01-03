@@ -6,13 +6,13 @@
 	{{ form_start(idmlValidationForm) }}
 {% endblock %}
 
-{% block title %}Idml Validation{% endblock %}
+{% block title %}{% trans %}product.idml_validation.header{% endtrans %}{% endblock %}
 
 {% block body %}
 	{% include 'product/idmlValidation/_idml_validation_fields.html.twig' %}
 {% endblock %}
 
-{% block submitLabel %}Validate IDML{% endblock %}
+{% block submitLabel %}{% trans %}product.idml_validation.submit{% endtrans %}{% endblock %}
 
 {% block form_end %}
 	{{ form_end(idmlValidationForm) }}

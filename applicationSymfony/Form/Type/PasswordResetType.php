@@ -25,15 +25,15 @@ class PasswordResetType extends AbstractType
                 [
                     'type' => PasswordFieldType::class,
                     'first_options' => [
-                        'label' => 'New password',
+                        'label' => 'account.field.new_password.label',
                         'attr' => [
-                            'placeholder' => 'Enter your new password',
+                            'placeholder' => 'account.field.new_password.placeholder',
                         ],
                     ],
                     'second_options' => [
-                        'label' => 'Confirm password',
+                        'label' => 'account.field.confirm_password.label',
                         'attr' => [
-                            'placeholder' => 'Enter the same password',
+                            'placeholder' => 'account.field.confirm_password.placeholder',
                         ],
                     ],
                 ]
