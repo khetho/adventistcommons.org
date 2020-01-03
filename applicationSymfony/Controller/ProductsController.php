@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Product\FilterApplier;
-use App\Product\CoverUploader;
-use App\Product\IdmlUploader;
+use App\Form\UploaderAggregator;
 use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\FilterType;
@@ -85,19 +84,17 @@ class ProductsController extends AbstractController
     /**
      * @Route("/add", name="app_product_add")
      * @param Request $request
-     * @param CoverUploader $coverUploader
-     * @param IdmlUploader $idmlUploader
+     * @param UploaderAggregator $uploaderAggregator
      * @return Response
      * @throws \Exception
      */
-    public function add(Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader)
+    public function add(Request $request, UploaderAggregator $uploaderAggregator)
     {
         $addForm = $this->createForm(AddType::class);
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
             $product = $addForm->getData();
-            $product = $coverUploader->upload($product);
-            $product = $idmlUploader->upload($product);
+            $product = $uploaderAggregator->upload($product);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);

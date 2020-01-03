@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Product\CoverUploader;
-use App\Product\AttachmentUploader;
+use App\Form\UploaderAggregator;
 use App\Product\IdmlUploader;
+use App\Product\PdfOffsetUploader;
+use App\Product\PdfDigitalUploader;
 use App\Product\Form\Type\IdmlType;
+use App\Product\Form\Type\PdfsType;
 use App\Product\Form\Type\DeleteType;
 use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;
@@ -23,7 +25,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-
 class ProductController extends AbstractController
 {
     /**
@@ -83,15 +84,55 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/{slug}/offset.pdf", name="app_product_download_offset_pdf")
+     * @param string $slug
+     * @param PdfOffsetUploader $offsetUploader
+     * @return BinaryFileResponse
+     */
+    public function downloadOffsetPdf(string $slug, PdfOffsetUploader $offsetUploader, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        if (!$product->getIdmlFilename()) {
+            $this->createNotFoundException();
+        }
+        
+        $response = new BinaryFileResponse($offsetUploader->getTargetPath().'/'.$product->getPdfOffsetFilename());
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $product->getPdfOffsetFilename());
+        
+        return $response;
+    }
+
+    /**
+     * @Route("/{slug}/digital.pdf", name="app_product_download_digital_pdf")
+     * @param string $slug
+     * @param PdfDigitalUploader $digitalUploader
+     * @return BinaryFileResponse
+     */
+    public function downloadDigitalPdf(string $slug, PdfDigitalUploader $digitalUploader, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        if (!$product->getIdmlFilename()) {
+            $this->createNotFoundException();
+        }
+        
+        $response = new BinaryFileResponse($digitalUploader->getTargetPath().'/'.$product->getPdfDigitalFilename());
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $product->getPdfDigitalFilename());
+        
+        return $response;
+    }
+
+    /**
      * @Route("/{slug}/edit", name="app_product_edit")
      * @param string $slug
      * @param Request $request
-     * @param CoverUploader $coverUploader
-     * @param IdmlUploader $idmlUploader
+     * @param UploaderAggregator $uploader
      * @return Response
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function edit($slug, Request $request, CoverUploader $coverUploader, IdmlUploader $idmlUploader, DataFinder $dataFinder)
+    public function edit($slug, Request $request, UploaderAggregator $uploader, DataFinder $dataFinder)
     {
         $product = $dataFinder->retrieveProductOr404($slug);
         $submittedProduct = null;
@@ -100,7 +141,7 @@ class ProductController extends AbstractController
         $generalForm->handleRequest($request);
         if ($generalForm->isSubmitted() && $generalForm->isValid()) {
             $submittedProduct = $generalForm->getData();
-            $submittedProduct = $coverUploader->upload($submittedProduct);
+            $submittedProduct = $uploader->upload($submittedProduct);
         }
 
         $specsForm = $this->createForm(SpecsType::class, $product);
@@ -113,7 +154,14 @@ class ProductController extends AbstractController
         $idmlForm->handleRequest($request);
         if ($idmlForm->isSubmitted() && $idmlForm->isValid()) {
             $submittedProduct = $idmlForm->getData();
-            $submittedProduct = $idmlUploader->upload($submittedProduct);
+            $submittedProduct = $uploader->upload($submittedProduct);
+        }
+
+        $pdfsForm = $this->createForm(PdfsType::class, $product);
+        $pdfsForm->handleRequest($request);
+        if ($pdfsForm->isSubmitted() && $pdfsForm->isValid()) {
+            $submittedProduct = $pdfsForm->getData();
+            $submittedProduct = $uploader->upload($submittedProduct);
         }
 
         if ($submittedProduct) {
@@ -137,6 +185,7 @@ class ProductController extends AbstractController
             'generalForm'  => $generalForm->createView(),
             'specsForm'    => $specsForm->createView(),
             'idmlForm'     => $idmlForm->createView(),
+            'pdfsForm'     => $pdfsForm->createView(),
             'deleteForm'   => $deleteForm->createView(),
         ]);
     }

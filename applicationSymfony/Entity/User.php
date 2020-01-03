@@ -74,6 +74,20 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="facebook_id", type="integer", nullable=true)
+     */
+    private $facebookId;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="google_id", type="integer", nullable=true)
+     */
+    private $googleId;
 
     /**
      * @var string
@@ -355,6 +369,30 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFacebookId(): ?int
+    {
+        return $this->facebookId;
+    }
+
+    public function setFacebookId($facebookId): self
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    public function getGoogleId(): ?int
+    {
+        return $this->googleId;
+    }
+
+    public function setGoogleId($googleId): self
+    {
+        $this->googleId = $googleId;
+
+        return $this;
     }
 
     public function getIpAddress(): ?string

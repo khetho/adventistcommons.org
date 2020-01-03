@@ -14,10 +14,10 @@ class ProjectAttachment extends AbstractMigration
                 DROP INDEX product_id ON product_attachments;
                 ALTER TABLE product_attachments
                     ADD project_id INT UNSIGNED DEFAULT NULL;
-                UPDATE product_attachments a
-                    INNER JOIN product d as d.id = a.product_id 
-                    INNER JOIN project j as j.product_id = d.id and j.language_id = a.language_id 
-                    SET project_id = j.id;
+                UPDATE product_attachments AS a 
+                    INNER JOIN products AS d ON d.id = a.product_id 
+                    INNER JOIN projects AS j ON j.product_id = d.id AND j.language_id = a.language_id 
+                    SET a.project_id = j.id;
                 ALTER TABLE product_attachments
                     DROP language_id,
                     DROP product_id;

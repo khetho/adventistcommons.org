@@ -3,36 +3,28 @@
 namespace App\Product;
 
 use App\Entity\Product;
-use App\Product\Idml\Importer;
 use App\Form\UploaderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use \Exception;
 
-class IdmlUploader implements UploaderInterface
+class PdfDigitalUploader implements UploaderInterface
 {
     private $targetDirectory;
-    private $importer;
 
-    public function __construct(string $targetDirectory, Importer $importer)
+    public function __construct(string $targetDirectory)
     {
         $this->targetDirectory = $targetDirectory;
-        $this->importer = $importer;
     }
 
-    public function upload($product)
+    public function upload(Product $product): Product
     {
-        $file = $product->getIdmlFile();
+        $file = $product->getPdfDigitalFile();
         if (!$file) {
             return $product;
         }
         
-        if ($product->getIdmlFilename()) {
-            throw new Exception('It is not allowed to change the Idml file');
-        }
-        
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.idml';
+        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
             $file->move($this->targetDirectory, $fileName);
@@ -40,8 +32,14 @@ class IdmlUploader implements UploaderInterface
             // @TODO handle exception if something happens during file upload
         }
         
-        $product->setIdmlFilename($fileName);
-        $product = $this->importer->import($product, $this->targetDirectory);
+        if ($product->getPdfDigitalFilename()) {
+            $previousFilename = $this->targetDirectory.'/'.$product->getPdfDigitalFilename();
+            if (file_exists($previousFilename)) {
+                unlink($previousFilename);
+            }
+        }
+        
+        $product->setPdfDigitalFilename($fileName);
 
         return $product;
     }

@@ -8,6 +8,7 @@ parameters:
     coverReadPath: '/uploads/covers/'
     idmlTargetDirectory: '%kernel.project_dir%/uploads/idmls'
     attachmentTargetDirectory: '%kernel.project_dir%/uploads/attachments'
+    pdfTargetDirectory: '%kernel.project_dir%/uploads/pdfs'
         
 services:
     # default configuration for services in *this* file
@@ -28,8 +29,8 @@ services:
         tags: ['controller.service_arguments']
         
     AdventistCommons\:
-        resource: '../src/*'
-        exclude: '../src/Idml/{Entity,DomManipulation}'
+        resource: '../domain/*'
+        exclude: '../domain/Idml/{Entity,DomManipulation}'
 
     App\Security\UserPasswordUpdater:
         tags:
@@ -42,6 +43,14 @@ services:
     App\Product\CoverUploader:
         arguments: 
             - '%coverTargetDirectory%'        
+
+    App\Product\PdfDigitalUploader:
+        arguments: 
+            - '%pdfTargetDirectory%'        
+
+    App\Product\PdfOffsetUploader:
+        arguments: 
+            - '%pdfTargetDirectory%'       
 
     App\Product\IdmlUploader:
         arguments: 

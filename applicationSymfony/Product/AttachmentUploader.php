@@ -5,10 +5,11 @@ namespace App\Product;
 use App\Entity\Attachment;
 use App\Entity\Product;
 use App\Entity\Project;
+use App\Form\UploaderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class AttachmentUploader
+class AttachmentUploader implements UploaderInterface
 {
     private $targetDirectory;
     private $entityManager;
@@ -54,5 +55,10 @@ class AttachmentUploader
     public function getTargetPath()
     {
         return $this->targetDirectory;
+    }
+    
+    public function handle($data)
+    {
+        return $data instanceof Attachment;
     }
 }
