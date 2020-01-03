@@ -25,7 +25,7 @@ class AskPasswordResetType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Email Address',
+                        'placeholder' => 'auth.field.email.placeholder',
                     ],
                     'empty_data' => 'null',                ]
             )

@@ -1,15 +1,14 @@
 {% extends "template.html.twig" %}
 
+{% block title %}{% trans %}feedback.send.title{% endtrans %}{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-11">
                 <div class="page-header">
-                    <h1>Feedback</h1>
-                    <p class="lead">
-                        If you have any feedback or encounter any bugs &#128030;,
-                        please notify us below. Being very specific will help us reproduce the issue and solve the problem.
-                    </p>
+                    <h1>{% trans %}feedback.send.header{% endtrans %}</h1>
+                    <p class="lead">{% trans %}feedback.send.intro{% endtrans %}</p>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -17,7 +16,7 @@
                 {{ form_errors(feedbackForm) }}
                 {{ form_rest(feedbackForm) }}
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">Send feedback</button>
+                    <button type="submit" class="btn btn-primary">{% trans %}feedback.send.submit{% endtrans %}</button>
                 </div>
                 {{ form_end(feedbackForm) }}
             </div>

@@ -27,7 +27,7 @@ class FilterType extends AbstractType
                 'title',
                 TextType::class,
                 [
-                    'label' => 'Original title',
+                    'label' => 'product.filter.title.label',
                     'required' => false,
                 ]
             )
@@ -36,7 +36,7 @@ class FilterType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Series::class,
-                    'label' => 'Available in',
+                    'label' => 'product.filter.series.label',
                     'required' => false,
                 ]
             )
@@ -45,7 +45,8 @@ class FilterType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Audience::class,
-                    'label' => 'Audience',
+                    'choice_translation_domain' => false,
+                    'label' => 'product.filter.audience.label',
                     'required' => false,
                 ]
             )
@@ -53,7 +54,7 @@ class FilterType extends AbstractType
                 'author',
                 TextType::class,
                 [
-                    'label' => 'Author',
+                    'label' => 'product.filter.author.label',
                     'required' => false,
                 ]
             )
@@ -61,8 +62,8 @@ class FilterType extends AbstractType
                 'type',
                 DictionaryType::class,
                 [
+                    'label' => 'product.filter.type.label',
                     'name' => 'product_type',
-                    'label' => 'Type',
                     'required' => false,
                 ]
             )
@@ -71,7 +72,7 @@ class FilterType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Binding::class,
-                    'label' => 'Binding',
+                    'label' => 'product.filter.binding.label',
                     'required' => false,
                 ]
             )
@@ -82,7 +83,7 @@ class FilterType extends AbstractType
                     'name' => 'product_sort',
                     'multiple' => false,
                     'expanded' => true,
-                    'label' => 'Sort by',
+                    'label' => 'product.sort.label',
                     'required' => true,
                 ]
             )

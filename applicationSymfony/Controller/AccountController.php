@@ -24,7 +24,7 @@ class AccountController extends AbstractController
         $form = $this->createForm(CompleteType::class, $this->getUser());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Account completed successfully');
+            $this->addFlash('success', 'messages.account.completed');
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -56,14 +56,14 @@ class AccountController extends AbstractController
         $accountForm = $this->createForm(AccountType::class, $user);
         $accountForm->handleRequest($request);
         if ($accountForm->isSubmitted() && $accountForm->isValid()) {
-            $this->addFlash('success', 'Account saved successfully');
+            $this->addFlash('success', 'messages.account.saved');
             $modifiedUser = $accountForm->getData();
         }
 
         $passwordForm = $this->createForm(PasswordType::class);
         $passwordForm->handleRequest($request);
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-            $this->addFlash('success', 'Password changed successfully');
+            $this->addFlash('success', 'messages.account.password_saved');
             $password = $passwordForm->getData();
             $modifiedUser = $user;
             $modifiedUser->setPlainPassword($password->getNewPassword());
@@ -72,7 +72,8 @@ class AccountController extends AbstractController
         $deleteForm = $this->createForm(DeleteAccountType::class, $user);
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $this->addFlash('success', 'Account removed successfully');
+            $
+            $this->addFlash('success', 'messages.account.removed');
             $modifiedUser = $user->forget();
             $redirectRoute = 'app_auth_logout';
         }

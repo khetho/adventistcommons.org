@@ -1,0 +1,356 @@
+commons:
+  footer: 
+    desc: An initiative of the Middle East and North Africa Union of Seventh-day Adventists.
+    feedback: Feedback
+    report: Bug report
+  menu:
+    account: Account
+    dashboard: Dashboard
+    logout: Log Out
+    login: Login
+    signup: Sign Up    
+    products: Products
+    translations: Translations
+    about: About
+    faq: FAQ
+    policy: Privacy Policy
+    terms: Terms of Use
+    donate: Donate
+    language: Language
+    my_account: My account
+  modal:
+    close: close    
+  form:
+    save: Save
+    confirm: Are you sure? This cannot be undone!
+  lost_here: Are you lost here? %before_link% get back to home%after_link%  
+home:
+  title: Certified Adventist Resources, Culturally Relevant
+  jumbo:
+    line1: Free Adventist Resources
+    line2: Culturally Relevant
+    line3: Certified, Translatable, Printable, Sharable.
+    cta: Get Started
+  explain:
+    intro: How It Works
+    desc: Adventist resources that are free, translatable, and sharable.
+    products_cta: Browse Products
+    translate_cta: Translate Products
+    download_cta: Download Products
+  invite:
+    intro: Ready to bring Adventist resources to the world?
+    cta: Start Translating
+  partner:
+    intro: Partners and Advisors
+    line1: Adventist Commons works with Adventist publishers, ministries, and departments.
+    line2: We could not accomplish our mission without the generous support of our partners.
+  donate:
+    intro: Interested in more resources and languages?
+    cta: Donate now
+  team:
+    intro: Our Team
+    line1: We believe in the power of teams and individuals that share a common goal.
+    line2: Meet the key members working on Adventist Commons.
+    coordinator: Project Coordinator
+    lead_dev: Lead Developer
+    product_manager: Product Manager
+account:
+  complete:
+    title: Complete your account
+    header: Almost done, %name%!
+    intro: We need a bit more information about you
+  edit:
+    profile: Profile
+    password: Password
+    advanced: Advanced
+    avatar: Avatar
+    profile_picture: Profile picture
+    gravatar_info: To change profile picture, visit %before_link%Gravatar.com%after_link%
+    change_password: Change Password
+    delete_warning: "WARNING: this can never be undone. All your personal information will be immediately deleted, but contributed content including comments and translations will remain."
+  field:
+    firstname:
+      label: First name
+      placeholder: First name
+    lastname: 
+      label: Last name
+      placeholder: Last name
+    email: 
+      label: Email
+      placeholder: Email Address
+    location: 
+      label: Location
+      placeholder: Your location
+    bio: 
+      label: Bio
+      placeholder: Tell us a little about yourself
+      help: This will be displayed on your public profile
+    motherLanguage:
+      label: What is your mother language?
+      placeholder: Select language…
+    languages:
+      label: What other languages are you fluent in?
+      placeholder: Select language…
+    proTranslator:
+      label: I am a professional translator
+    skills:
+      label: Other skills
+      placeholder: Select skills…
+    create_password:
+      placeholder: Password
+      help: Your password should be at least 8 characters
+    current_password:
+      label: Current password
+      placeholder: Enter your current password
+    new_password:
+      label: New password
+      placeholder: Enter your new password
+    confirm_password:
+      label: Confirm password
+      placeholder: Enter the same password
+    productNotify:
+      label: Notify me when new products are available
+auth:
+  ask_reset:
+    title: Ask to reset my password
+    header: Welcome Back 👋
+    instruction: Enter your email to receive an email to change your password
+    act: Send the «change my password» email
+  login:
+    title: Log me in
+    header: Welcome Back 👋
+    intro: Log in to your account to continue
+    forgot_password: Forgot password?
+    login: Log in
+    register: Don't have an account yet? %link_before%Create one%link_after%
+  register:
+    title: Create your account
+    header: Create account
+    intro: Enter the information below to start translating
+    submit: Create account
+    accept: By clicking 'Create Account' you agree to our %terms_link_before%Terms of Use%terms_link_after% and %privacy_link_before%Privacy policy%privacy_link_after%.
+  reset:
+    title: Reset my password
+    header: Welcome Back 👋
+    intro: Choose a new password
+    submit: Change my password
+  field:
+    email:
+      placeholder: Email Address
+feedback:
+  send:
+    title: Send feedback
+    header: Feedback
+    intro: Interested if you have any feedback or encounter any bugs 🐞, please notify us below. Being very specific will help us reproduce the issue and solve the problem.
+    submit: Send feedback    
+  field:
+    name:
+      label: Name
+    email:
+      label: Email
+    message:
+      label: Message
+product:
+  field:
+    type: 
+      label: Product type
+      values:
+        book: Book
+        magabook: Magabook
+        booklet: Booklet
+        tract: Tract
+    title:
+      label: Title
+    author: 
+      label: Author(s)
+    publisher: 
+      label: Publisher 
+    publisher_website:
+      label: Publisher Website
+    cover_image:
+      label: Cover image
+      help: Only square image is allowed
+    description:
+      label: Description
+    page_count: 
+      label: Page count
+    audience: 
+      label: Audience
+    format_open: 
+      label: Format (open)
+    format_closed: 
+      label: Format (closed)
+    color_cover: 
+      label: Colors (cover)
+    color_interior: 
+      label: Colors (interior)
+    paper_cover: 
+      label: Paper (cover)
+    paper_interior: 
+      label: Paper (interior)
+    binding: 
+      label: Binding
+    finishing: 
+      label: Finishing
+    series:
+      label: Series
+    audiences:
+      label: Audiences
+    idml_file:
+      label: IDML file
+    formatClosed:
+      label: Closed
+      placeholder: e.g. 10.4 x 20.5 cm
+    formatOpen:
+      label: Opened
+      formatClosed.placeholder: e.g. 10.4 x 41 cm
+    coverColors:
+      label: Colors
+    coverPaper:
+      label: Paper
+    interiorColors:
+      label: Colors
+    interiorPaper:
+      label: Paper
+  list:
+    title: Products list
+    header: Products
+    add: Add Product
+    validate_idml: Validate IDML
+    author: Author(s)
+    page_count: Pages
+    languages: Languages
+    none: No product is found
+  show:
+    title: "%product_name% product"
+    edit: Edit
+    type: Type
+    author: Author
+    page_count: Pages
+    languages: Languages
+    specification: Specifications
+    product_actions: Produt actions
+    upload_file: Upload File
+    new_translation: Start New Translation
+    download: Download
+    login_download: Login to download
+    start_translate: Start Translating
+    translate: Translate
+    download_idml: Download IDML
+    untranslated: This product is not yet available in any languages.
+  edit:
+    title: "%product_name% product edit"
+    general: General
+    specs: Specifications
+    advanced: Advanced
+    dowload_idml: Download original InDesign file
+    upload: Upload
+    delete_warning: "WARNING: This cannot be undone. All translations and associated content will be lost forever."
+    delete: Delete product
+  add_file:
+    header: Add file attachment
+    submit: Upload file
+  idml:
+    header: InDesign File (.idml)
+  idml_validation:
+    header: Idml Validation
+    submit: Validate IDML
+  add:  
+    header: Add Product
+    submit: Create product
+    general: General
+    specs: Specifications
+  cover_photo:
+    header: Cover photo
+  type:
+    header: Product type    
+  filter:
+    view_all: View All
+    search: Search
+    type_or_select: Type or select from list …
+    title:
+      label: Original title    
+    series:
+      label: Available in
+    audience:
+      label: Audience
+    author:
+      label: Author
+    type:
+      label: Type
+    binding:
+      label: Binding
+  sort:      
+    label: Sort by
+    name: Name
+    author: Author
+    publisher: publisher
+project:
+  field:
+    member:
+      label: User
+    language:
+      label: Language
+  add:
+    title: Start new translation
+    submit: Start translation
+  add_member:
+    title: Add Member
+    submit: Add member
+  delete:
+    warning: You are about to destroy the project of translation and all its content. This action can never be rollback. Are you sure about that ?
+    submit: Remove it all
+  list:
+    delete: Delete  
+    delete_warning: Are you sure? All translated content will be destroyed.
+    no_translation: No Ongoing Translations.
+    view_all_languages: view all languages
+    none_for_language: No Ongoing Translations for %language_name%
+    all_languages: All languages
+    ongoing_translations: Ongoing Translations
+    intro: Contribute to a project below or browse %link_before%other available products%link_after% for more books and resources.
+    header: Adventist Commons
+  show:
+    content: Content
+    contributors: Contributors
+    start_translate: Start Translating
+    add_contributor: add
+    invited_contributor: invited
+attachment:
+  field:
+    type:
+      label: File type
+      values:
+        pdf_prod: typePDF (Production)
+        pdf_perso: PDF (Personal)
+        indesign: InDesign
+    file:
+      label: File
+    language:
+      label: Language 
+messages:
+  account:
+    completed: Account completed successfully
+    saved: Account saved successfully
+    password_saved: Password changed successfully
+    removed: Account removed successfully
+  attachement:
+    added: Attachment successfully added
+  auth:
+    created: Account created successfully. We sent you a validation email.
+    activated: Account activated successfully. You can now Login.
+    completed: Account created successfully. Please, check your emails and click on the link to activate your account.
+    reset_sent: Password request successfully submitted. Please, check your emails and click on the link to set your password.
+    password_changed: Password successfully changed. You can now login with your new password.
+  feedback:
+    sent: Your message as been sent successfuly.
+  idml:
+    successful: Idml validated successfully.
+  product:
+    saved: Product successfully saved
+    deleted: Product successfully deleted
+    created: Product created successfully
+  project:
+    deleted: Project successfully deleted
+    created: Project created successfully
+    member_added: Member successfully added

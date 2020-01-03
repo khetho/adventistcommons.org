@@ -41,7 +41,7 @@ class AttachmentController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($attachment);
             $manager->flush();
-            $this->addFlash('success', 'Attachment successfully added');
+            $this->addFlash('success', 'messages.attachement.added');
 
             return $this->redirectToRoute('app_product_show', ['slug' => $product->getSlug()]);
         }

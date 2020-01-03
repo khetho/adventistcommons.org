@@ -23,65 +23,65 @@ class GeneralType extends AbstractType
                 'coverImage',
                 FileType::class,
                 [
-                    'label' => 'Cover image',
+                    'label' => 'product.field.cover_image.label',
                     'required' => false,
-                    'help' => 'Only square image is allowed',
+                    'help' => 'product.field.cover_image.help',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Title',
+                    'label' => 'product.field.title.label',
                 ]
             )
             ->add(
                 'author',
                 null,
                 [
-                    'label' => 'Author',
+                    'label' => 'product.field.author.label',
                 ]
             )
             ->add(
                 'publisher',
                 null,
                 [
-                    'label' => 'Publisher',
+                    'label' => 'product.field.publisher.label',
                 ]
             )
             ->add(
                 'publisherWebsite',
                 null,
                 [
-                    'label' => 'Publisher Website',
+                    'label' => 'product.field.publisher_website.label',
                 ]
             )
             ->add(
                 'description',
                 null,
                 [
-                    'label' => 'Description',
+                    'label' => 'product.field.description.label',
                 ]
             )
             ->add(
                 'pageCount',
                 null,
                 [
-                    'label' => 'Page count',
+                    'label' => 'product.field.page_count.label',
                 ]
             )
             ->add(
                 'series',
                 null,
                 [
-                    'label' => 'Series',
+                    'label' => 'product.field.series.label',
                 ]
             )
             ->add(
                 'audiences',
                 null,
                 [
-                    'label' => 'Audience',
+                    'label' => 'product.field.audiences.label',
                 ]
             )
             ->add(
@@ -89,7 +89,7 @@ class GeneralType extends AbstractType
                 DictionaryType::class,
                 [
                     'name' => 'product_type',
-                    'label' => 'Type',
+                    'label' => 'product.field.type.label',
                     'expanded' => true,
 
                 ]

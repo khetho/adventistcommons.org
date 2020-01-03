@@ -22,15 +22,24 @@ class FeedbackType extends AbstractType
         $builder
             ->add(
                 'name',
-                TextType::class
+                TextType::class,
+                [
+                    'label' => 'feedback.field.name.label',
+                ]
             )
             ->add(
                 'email',
-                EmailType::class
+                EmailType::class,
+                [
+                    'label' => 'feedback.field.email.label',
+                ]
             )
             ->add(
                 'message',
-                TextareaType::class
+                TextareaType::class,
+                [
+                    'label' => 'feedback.field.message.label',
+                ]
             )
             ;
     }

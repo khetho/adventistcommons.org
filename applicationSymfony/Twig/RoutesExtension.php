@@ -42,7 +42,7 @@ class RoutesExtension extends AbstractExtension
     public function pathToSection(Project $project, Section $section, $action = 'edit')
     {
         return $this->router->generate(
-            sprintf('app_project_%s', $action),
+            sprintf('app_section_%s', $action),
             [
                 'slug' => $project->getProduct()->getSlug(),
                 'languageCode' => $project->getLanguage()->getCode(),

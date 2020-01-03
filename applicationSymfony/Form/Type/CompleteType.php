@@ -31,8 +31,9 @@ class CompleteType extends AbstractType
                 'location',
                 null,
                 [
+                    'label' => 'account.field.location.label',
                     'attr' => [
-                        'placeholder' => 'Enter location',
+                        'placeholder' => 'account.field.location.placeholder',
                     ]
                 ]
             )
@@ -40,8 +41,9 @@ class CompleteType extends AbstractType
                 'bio',
                 null,
                 [
+                    'label' => 'account.field.bio.label',
                     'attr' => [
-                        'placeholder' => 'Tell us a little about yourself',
+                        'placeholder' => 'account.field.bio.placeholder',
                     ]
                 ]
             )
@@ -49,11 +51,12 @@ class CompleteType extends AbstractType
                 'motherLanguage',
                 null,
                 [
+                    'label' => 'account.field.motherLanguage.label',
                     'data' => null,
                     'required' => true,
                     'attr' => [
                         'class' => 'language-select',
-                        'placeholder' => 'Select language…',
+                        'placeholder' => 'account.field.motherLanguage.placeholder',
                     ],
                 ]
             )
@@ -61,10 +64,10 @@ class CompleteType extends AbstractType
                 'languages',
                 null,
                 [
-                    'label' => 'Fluent languages',
+                    'label' => 'account.field.languages.label',
                     'attr' => [
                         'class' => 'language-select',
-                        'placeholder' => 'Select languages…',
+                        'placeholder' => 'account.field.languages.placeholder',
                     ],
                 ]
             )
@@ -72,7 +75,7 @@ class CompleteType extends AbstractType
                 'proTranslator',
                 null,
                 [
-                    'label' => 'I am a professional translator',
+                    'label' => 'account.field.proTranslator.label',
                 ]
             )
         ;

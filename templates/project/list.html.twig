@@ -5,22 +5,31 @@
 		<div class="row justify-content-center">
 			<div class="col-xl-10 col-lg-11">
 				<div class="page-header">
-					<h1>Adventist Commons</h1>
-					<p class="lead">Contribute to a project below or browse <a href="{{ path('app_product_list') }}" class="text-secondary">other available products</a> for more books and resources.</p>
+					<h1>{% trans %}project.list.header{% endtrans %}</h1>
+					<p class="lead">
+						{% trans with {
+							'%link_before%': '<a href="' ~ path('app_product_list') ~ '" class="text-secondary">',
+							'%link_after%': '</a>',
+						} %}project.list.intro{% endtrans %}</p>
 				</div>
 				<hr>
 				<div class="content-list">
 					<div class="row content-list-head">
 						<div class="col-auto">
-							<h3>Ongoing Translations</h3>
+							<h3>{% trans %}project.list.ongoing_translations{% endtrans %}</h3>
 						</div>
 						<div class="col-auto">
 							<div class="dropdown">
 								<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-									<i class="material-icons align-top">language</i> {{ language ? language.name : 'All Languages' }}
+									<i class="material-icons align-top">language</i>
+									{% if language %}
+										{{ language.name }}
+									{% else %}
+										{% trans %}project.list.all_languages{% endtrans %}
+									{% endif %}
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="{{ path('app_project_list') }}">All languages</a>
+									<a class="dropdown-item" href="{{ path('app_project_list') }}">{% trans %}project.list.all_languages{% endtrans %}</a>
 									{% for language in languagesWithProjects  %}
 										<a class="dropdown-item" href="{{ path('app_project_list', {'languageCode': language.code}) }}">{{ language.name }}</a>
 									{% endfor %}
@@ -33,9 +42,9 @@
 						{% if projects|length == 0 %}
 							<p class="lead m-auto p-5">
 								{% if selected_language %}
-									No Ongoing Translations for {{ selected_language.name }} – <a href='/projects?language=all'>view all languages</a>
+									{% trans with {'%language_name%': selected_language.name} %}project.list.none_for_language{% endtrans %} – <a href='/projects?language=all'>{% trans %}project.list.view_all_languages{% endtrans %}</a>
 								{% else %}
-									No Ongoing Translations. 
+									{% trans %}project.list.no_translation{% endtrans %} 
 								{% endif %}
 							</p>
 						{% endif %}
@@ -54,7 +63,7 @@
 													<i class="material-icons">more_vert</i>
 												</button>
 												<div class="dropdown-menu dropdown-menu-right">
-													<a href="{{ pathToProject(project, 'delete') }}" class="dropdown-item confirm-dialog" data-confirm-message="Are you sure? All translated content will be destroyed.">Delete</a>
+													<a href="{{ pathToProject(project, 'delete') }}" class="dropdown-item confirm-dialog" data-confirm-message="{% trans %}project.list.delete_warning{% endtrans %}">{% trans %}project.list.delete{% endtrans %}</a>
 												</div>
 											</div>
 										{% endif %}

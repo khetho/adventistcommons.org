@@ -6,7 +6,7 @@
 	{{ form_start(productAddForm) }}
 {% endblock %}
 
-{% block title %}Add Product{% endblock %}
+{% block title %}{% trans %}product.add.header{% endtrans %}{% endblock %}
 
 {% block tabs %}
 	{% include 'product/add/_add_tabs.html.twig' %}
@@ -16,7 +16,7 @@
 	{% include 'product/add/_add_fields.html.twig' %}
 {% endblock %}
 
-{% block submitLabel %}Create Product{% endblock %}
+{% block submitLabel %}{% trans %}product.add.submit{% endtrans %}{% endblock %}
 
 {% block form_end %}
 	{{ form_rest(productAddForm) }}

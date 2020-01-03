@@ -6,7 +6,7 @@
 	{{ form_start(addMemberForm) }}
 {% endblock %}
 
-{% block title %}Add Member{% endblock %}
+{% block title %}{% trans %}project.add_member.title{% endtrans %}{% endblock %}
 
 {% block body %}
 	{{ form_row(addMemberForm.user, {
@@ -16,7 +16,7 @@
 	}) }}
 {% endblock %}
 
-{% block submitLabel %}Add member{% endblock %}
+{% block submitLabel %}{% trans %}project.add_member.submit{% endtrans %}{% endblock %}
 
 {% block form_end %}
 	{{ form_rest(addMemberForm) }}

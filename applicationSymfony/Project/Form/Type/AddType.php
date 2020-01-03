@@ -21,7 +21,7 @@ class AddType extends AbstractType
                 'language',
                 null,
                 [
-                    'label' => 'Language',
+                    'label' => 'project.field.language.label',
                 ]
             )
         ;

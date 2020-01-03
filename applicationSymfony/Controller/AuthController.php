@@ -50,7 +50,7 @@ class AuthController extends AbstractController
         $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Account created successfully. We sent you a validation email.');
+            $this->addFlash('success', 'messages.auth.created');
             /** @var User $user */
             $user = $form->getData();
             $registerer->register($user, $request->getClientIp());
@@ -81,7 +81,7 @@ class AuthController extends AbstractController
         if (!$user) {
             throw new NotFoundHttpException();
         }
-        $this->addFlash('success', 'Account activated successfully. You can now Login.');
+        $this->addFlash('success', 'messages.auth.activated');
         /** @var User $user */
         $user->setActive(true);
         $user->setActivationCode(null);
@@ -111,7 +111,7 @@ class AuthController extends AbstractController
         $form = $this->createForm(CompleteType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Account created successfully. Please, check your emails and click on the link to activate your account.');
+            $this->addFlash('success', 'messages.auth.completed');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($form->getData());
             $entityManager->flush();
@@ -140,7 +140,7 @@ class AuthController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $tokenGenerator->treatEmail($form->getData()['email']);
-            $this->addFlash('success', 'Password request successfully submitted. Please, check your emails and click on the link to set your password.');
+            $this->addFlash('success', 'messages.auth.reset_sent');
             
             return $this->redirect($this->generateUrl('app_auth_ask_reset_password'));
         }
@@ -173,7 +173,7 @@ class AuthController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            $this->addFlash('success', 'Password successfully changed. You can now login with your new password.');
+            $this->addFlash('success', 'messages.auth.password_changed');
             return $this->redirect($this->generateUrl('app_auth_login'));
         }
 
