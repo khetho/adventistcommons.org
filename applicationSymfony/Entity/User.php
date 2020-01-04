@@ -350,6 +350,11 @@ class User implements UserInterface
      * )
      */
     private $groups;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="members")
+     */
+    private $projects;
 
     public function __construct(string $email)
     {
@@ -849,5 +854,10 @@ class User implements UserInterface
         $this->proTranslator = null;
         
         return $this;
+    }
+    
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

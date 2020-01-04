@@ -54,6 +54,19 @@ home:
     coordinator: Project Coordinator
     lead_dev: Lead Developer
     product_manager: Product Manager
+dashboard:
+  projects:
+    tab: Projects
+    header: My projects
+    none_yet: No project yet
+    available_header: Available projects
+    browse_all: Browse all projects
+    title: Title
+    language: Language
+    status: Status
+  contributions:
+    tab: Contributions
+    header: My contributions
 account:
   complete:
     title: Complete your account

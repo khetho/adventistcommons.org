@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Project;
 use App\Form\Type\AccountType;
 use App\Form\Type\CompleteType;
 use App\Form\Type\PasswordType;
@@ -85,6 +86,7 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute($redirectRoute ?? 'app_account_myself');
         }
+        $projects = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage(null)->setMaxResults(10)->getResult();
         
         return $this->render(
             'account/edit.html.twig',
@@ -93,6 +95,7 @@ class AccountController extends AbstractController
                 'accountForm' => $accountForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
                 'deleteForm' => $deleteForm->createView(),
+                'projects' => $projects,
             ]
         );
     }

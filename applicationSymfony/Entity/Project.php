@@ -66,7 +66,7 @@ class Project
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="projects")
      * @ORM\JoinTable(
      *      name="project_user",
      *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
