@@ -8,6 +8,7 @@
         "ext-iconv": "*",
         "ext-xml": "*",
         "api-platform/api-pack": "^1.2",
+        "beberlei/doctrineextensions": "^1.2",
         "codeigniter/framework": "3.1.10",
         "facebook/graph-sdk": "^5.7",
         "google/cloud-translate": "^1.2",

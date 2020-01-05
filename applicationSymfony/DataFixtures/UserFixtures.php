@@ -23,6 +23,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($user);
         $manager->flush();
+        
+        $this->addReference('user-0001', $user);
     }
     
     public function getDependencies()

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Project;
+use App\Entity\ContentRevision;
 use App\Form\Type\AccountType;
 use App\Form\Type\CompleteType;
 use App\Form\Type\PasswordType;
@@ -87,15 +88,19 @@ class AccountController extends AbstractController
             return $this->redirectToRoute($redirectRoute ?? 'app_account_myself');
         }
         $projects = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage(null)->setMaxResults(10)->getResult();
+        $contributions = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReport($user);
+        $contribPerMonth = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReportPerMounth($user);
         
         return $this->render(
             'account/edit.html.twig',
             [
-                'user' => $this->getUser(),
+                'user' => $user,
                 'accountForm' => $accountForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
                 'deleteForm' => $deleteForm->createView(),
                 'projects' => $projects,
+                'contributions' => $contributions,
+                'contributionsPerMonth' => $contribPerMonth,
             ]
         );
     }

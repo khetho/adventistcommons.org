@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     name="product_content",
  *     indexes={
- *         @ORM\Index(name="product_id", columns={"product_id"}),
  *         @ORM\Index(name="section_id", columns={"section_id"})
  *     }
  * )
@@ -61,16 +60,6 @@ class Content
      * @ORM\Column(name="`order`", type="integer", nullable=true)
      */
     private $order;
-
-    /**
-     * @var Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
-     */
-    private $product;
 
     /**
      * @var Section
@@ -143,18 +132,6 @@ class Content
     public function setOrder(?int $order): self
     {
         $this->order = $order;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }

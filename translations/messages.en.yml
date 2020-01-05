@@ -67,6 +67,12 @@ dashboard:
   contributions:
     tab: Contributions
     header: My contributions
+    none_yet: No contribution yet
+    title: Title
+    language: Language
+    sentences: Sentences
+    date: Date
+    percentage: Percentage
   downloads:
     tab: Download history
     header: My downloads

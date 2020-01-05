@@ -355,6 +355,11 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="Project", mappedBy="members")
      */
     private $projects;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ContentRevision", mappedBy="user")
+     */
+    private $contentRevisions;
 
     public function __construct(string $email)
     {
@@ -859,5 +864,10 @@ class User implements UserInterface
     public function getProjects()
     {
         return $this->projects;
+    }
+    
+    public function getContentRevisions()
+    {
+        return $this->contentRevisions;
     }
 }

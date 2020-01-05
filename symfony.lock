@@ -16,6 +16,9 @@
             "src/Entity/.gitignore"
         ]
     },
+    "beberlei/doctrineextensions": {
+        "version": "v1.2.6"
+    },
     "doctrine/cache": {
         "version": "1.9.1"
     },

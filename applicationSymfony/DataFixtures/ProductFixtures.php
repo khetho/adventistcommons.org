@@ -8,8 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ProductFixtures extends Fixture
 {
-    public const PRODUCT_LAST = '';
-
     public function load(ObjectManager $manager)
     {
         $products = [];

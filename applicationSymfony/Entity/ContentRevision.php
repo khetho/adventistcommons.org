@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="user_id", columns={"user_id"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ContentRevisionRepository"))
  */
 class ContentRevision
 {
@@ -40,7 +40,7 @@ class ContentRevision
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdAt = 'CURRENT_TIMESTAMP';
+    private $createdAt;
 
     /**
      * @var Content
@@ -55,7 +55,7 @@ class ContentRevision
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="contentRevisions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
@@ -71,6 +71,11 @@ class ContentRevision
      * })
      */
     private $project;
+    
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {

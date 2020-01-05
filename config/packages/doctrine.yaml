@@ -17,6 +17,10 @@ doctrine:
             phpserialize:  App\Doctrine\PhpSerializeType
         server_version:       'mariadb-10.4.8'
     orm:
+        dql:
+            string_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true

@@ -45,6 +45,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             LanguageFixtures::class,
+            ProductFixtures::class,
         ];
     }
 }
