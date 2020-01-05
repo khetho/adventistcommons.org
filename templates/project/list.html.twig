@@ -21,7 +21,7 @@
 						<div class="col-auto">
 							<div class="dropdown">
 								<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-									<i class="material-icons align-top">language</i>
+									<i class="fas fa-language"></i>&nbsp;
 									{% if language %}
 										{{ language.name }}
 									{% else %}
@@ -60,7 +60,7 @@
 										{% if is_granted('ROLE_ADMIN') %}
 											<div class="dropdown card-options">
 												<button class="btn-options" type="button" data-toggle="dropdown">
-													<i class="material-icons">more_vert</i>
+													<i class="fas fa-ellipsis-v"></i>&nbsp;
 												</button>
 												<div class="dropdown-menu dropdown-menu-right">
 													<a href="{{ pathToProject(project, 'delete') }}" class="dropdown-item confirm-dialog" data-confirm-message="{% trans %}project.list.delete_warning{% endtrans %}">{% trans %}project.list.delete{% endtrans %}</a>
@@ -83,7 +83,7 @@
 										</ul>
 										<div class="card-meta d-flex justify-content-between">
 											<div class="d-flex align-items-center">
-												<i class="material-icons mr-1">playlist_add_check</i>
+												<i class="fas fa-tasks"></i>&nbsp;
 												<span class="text-small">{{ project|projectApprovedCount }}/{{ project.product|productCount }}</span>
 											</div>
 											<span class="text-small" data-filter-by="text">{{ project.status }}</span>

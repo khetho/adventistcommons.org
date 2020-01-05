@@ -146,6 +146,11 @@ Let us know if you have any issues with these steps.
 	- `$config['composer_autoload'] = 'vendor/autoload.php';`
 - To be able to test some features you may need to create a folder "uploads" in your document root.
 
+#### Frontend
+- compile all assets for frontend, dev mode : ```sudo docker-compose run ac-node npm run dev```
+- compile all assets for frontend, and keep on watching for changes in files : ```sudo docker-compose run ac-node npm run watch```
+- compile and publish for production : ```sudo docker-compose run ac-node npm run prod```
+
 ### Software elements
 
 #### Symfony

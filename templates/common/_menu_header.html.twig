@@ -57,7 +57,7 @@
 		<div class="d-none d-lg-block">
 			<div class="dropdown mr-2">
 				<a class="dropdown-toggle btn btn-secondary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{% trans %}commons.menu.language{% endtrans %}
+					<i class="fas fa-globe"></i>&nbsp;
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 				<a class="dropdown-item {% if app.request.attributes.get('_locale') == 'en' %}active{% endif %}"

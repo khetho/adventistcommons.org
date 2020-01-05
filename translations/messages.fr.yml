@@ -67,6 +67,9 @@ dashboard:
   contributions:
     tab: Contributions
     header: Mes contributions
+  downloads:
+    tab: Historique de téléchargement
+    header: Mes téléchargements
 account:
   complete:
     title: Complétez your compte

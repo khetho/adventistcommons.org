@@ -12,6 +12,9 @@
 						<a class="nav-link" id="contributions-tab" data-toggle="tab" href="#contributions" role="tab">{% trans %}dashboard.contributions.tab{% endtrans %}</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link" id="downloads-tab" data-toggle="tab" href="#downloads" role="tab">{% trans %}dashboard.downloads.tab{% endtrans %}</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab">{% trans %}account.edit.profile{% endtrans %}</a>
 					</li>
 					<li class="nav-item">
@@ -29,92 +32,23 @@
 					<div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane fade show active" role="tabpanel" id="projects">
-								<h3>{% trans %}dashboard.projects.header{% endtrans %}</h3>
-								<table class="table mb-4">
-								  <thead>
-								    <tr>
-								      <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
-								      <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
-								      <th scope="col">{% trans %}dashboard.projects.status{% endtrans %}</th>
-								    </tr>
-								  </thead>
-								  <tbody>
-								  	{% for project in user.projects %}
-									    <tr>
-									      <td>{{ project.product.name }}</td>
-									      <td>{{ project.language.name }}</td>
-									      <td>{{ project.status }}</td>
-									    </tr>
-								    {% else %}
-									    <tr>
-									      <td colspan="3"><em>{% trans %}dashboard.projects.none_yet{% endtrans %}</em></td>
-									    </tr>
-								    {% endfor %}
-								  </tbody>
-								</table>
-								<h3>{% trans %}dashboard.projects.available_header{% endtrans %}</h3>
-								<table class="table">
-								  <thead>
-								    <tr>
-								      <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
-								      <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
-								      <th scope="col">{% trans %}dashboard.projects.status{% endtrans %}</th>
-								    </tr>
-								  </thead>
-								  <tbody>
-								  	{% for project in projects %}
-									    <tr>
-									      <td>{{ project.product.name }}</td>
-									      <td>{{ project.language.name }}</td>
-									      <td>{{ project.status }}</td>
-									    </tr>
-								    {% endfor %}
-								  </tbody>
-								</table>
-								<a href="{{ path('app_project_list') }}" class="btn btn-primary">{% trans %}dashboard.projects.browse_all{% endtrans %}</a>
+								{% include 'account/_projects.html.twig' %}
 							</div>																
 							<div class="tab-pane fade" role="tabpanel" id="contributions">
-								<h3>{% trans %}dashboard.contributions.header{% endtrans %}</h3>
+								{% include 'account/_contributions.html.twig' %}
+							</div>
+							<div class="tab-pane fade" role="tabpanel" id="downloads">
+								{% include 'account/_downloads.html.twig' %}
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="profile">
-								<div class="media mb-4">
-									<img alt="{% trans %}account.edit.avatar{% endtrans %}" src="https://www.gravatar.com/avatar/{{ user.image }}?s=144&d=mp" class="avatar avatar-lg" />
-									<div class="media-body ml-3">
-										<strong>{% trans %}account.edit.profile_picture{% endtrans %}</strong><br>
-										<small>{% trans with {'%before_link%': '<a href="https://en.gravatar.com/">', '%after_link%': '</a>' }%}account.edit.gravatar_info{% endtrans %}</small>
-									</div>
-								</div>
-								
-								{{ form_start(accountForm) }}
-									{{ form_errors(accountForm) }}
-									{{ form_rest(accountForm) }}
-									<div class="row justify-content-end">
-										<button type="submit" class="btn btn-primary mr-2">{% trans %}commons.form.save{% endtrans %}</button>
-									</div>
-								{{ form_end(accountForm) }}								
+								{% include 'account/_profile.html.twig' %}
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="password">
-								{{ form_start(passwordForm) }}
-									{{ form_errors(passwordForm) }}
-									{{ form_rest(passwordForm) }}
-									<div class="row justify-content-end">
-										<button type="submit" class="btn btn-primary mr-2">{% trans %}account.edit.change_password{% endtrans %}</button>
-									</div>
-								{{ form_end(passwordForm) }}
+								{% include 'account/_password.html.twig' %}
 							</div>
 							{% if not is_granted("ROLE_ADMIN") %}
 								<div class="tab-pane fade" role="tabpanel" id="advanced">
-									{{ form_start(deleteForm) }}
-										{{ form_errors(deleteForm) }}
-										{{ form_rest(deleteForm) }}
-										<button type="submit" class="p-0 btn btn-link text-danger confirm-dialog" data-confirm-message="{% trans %}commons.form.confirm{% endtrans %}">
-											Delete my account
-										</button>
-										<br />
-										<small>
-											{% trans %}account.edit.delete_warning{% endtrans %}
-										</small>
-									{{ form_end(deleteForm) }}
+									{% include 'account/_delete.html.twig' %}
 								</div>
 							{% endif %}
 						</div>

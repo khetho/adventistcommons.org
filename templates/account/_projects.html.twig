@@ -1,0 +1,44 @@
+<h3>{% trans %}dashboard.projects.header{% endtrans %}</h3>
+<table class="table mb-4">
+  <thead>
+    <tr>
+      <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.status{% endtrans %}</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for project in user.projects %}
+	    <tr>
+	      <td>{{ project.product.name }}</td>
+	      <td>{{ project.language.name }}</td>
+	      <td>{{ project.status }}</td>
+	    </tr>
+    {% else %}
+	    <tr>
+	      <td colspan="3"><em>{% trans %}dashboard.projects.none_yet{% endtrans %}</em></td>
+	    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>{% trans %}dashboard.projects.available_header{% endtrans %}</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.status{% endtrans %}</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for project in projects %}
+	    <tr>
+	      <td>{{ project.product.name }}</td>
+	      <td>{{ project.language.name }}</td>
+	      <td>{{ project.status }}</td>
+	    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ path('app_project_list') }}" class="btn btn-primary">{% trans %}dashboard.projects.browse_all{% endtrans %}</a>
