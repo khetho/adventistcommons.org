@@ -1,12 +1,26 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class DoctrineStuff extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ */
+final class Version20191118102000 extends AbstractMigration
 {
-    public function up()
+    public function getDescription() : string
     {
-        $this->query(
+        return 'DoctrineStuff';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
             <<<SQL
             ALTER TABLE project_content_approval
                 DROP FOREIGN KEY project_content_approval_ibfk_6;
@@ -22,7 +36,7 @@ class DoctrineStuff extends AbstractMigration
                 ADD CONSTRAINT FK_F9D2BCAD166D1F9C FOREIGN KEY (project_id) REFERENCES projects (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_sections
                 DROP FOREIGN KEY product_sections_ibfk_1;
@@ -34,7 +48,7 @@ SQL
                 ADD CONSTRAINT FK_E026290F4584665A FOREIGN KEY (product_id) REFERENCES products (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE projects
                 DROP FOREIGN KEY projects_ibfk_1;
@@ -46,7 +60,7 @@ SQL
                 ADD CONSTRAINT FK_5C93B3A44584665A FOREIGN KEY (product_id) REFERENCES products (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_content
                 DROP FOREIGN KEY product_content_ibfk_1;
@@ -62,7 +76,7 @@ SQL
                 ADD CONSTRAINT FK_2F1C2B19D823E37A FOREIGN KEY (section_id) REFERENCES product_sections (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE project_members
                 DROP FOREIGN KEY project_members_ibfk_1;
@@ -81,7 +95,7 @@ SQL
                 CHANGE pro_translator pro_translator TINYINT(1) NOT NULL;
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE user_skills MODIFY id INT UNSIGNED NOT NULL;
             ALTER TABLE user_skills DROP PRIMARY KEY;
@@ -98,7 +112,7 @@ SQL
                 ADD CONSTRAINT FK_B0630D4D5585C142 FOREIGN KEY (skill_id) REFERENCES skills (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE user_languages MODIFY id INT UNSIGNED NOT NULL;         
             DROP INDEX uc_users_languages ON user_languages;
@@ -121,7 +135,7 @@ SQL
                 ADD CONSTRAINT FK_A031DE9D82F1BAF4 FOREIGN KEY (language_id) REFERENCES languages (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE users_groups MODIFY id INT UNSIGNED NOT NULL;
             ALTER TABLE users_groups
@@ -141,7 +155,7 @@ SQL
                 ON UPDATE NO ACTION ON DELETE CASCADE;
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_content_log
                 DROP FOREIGN KEY product_content_log_ibfk_1;
@@ -153,7 +167,7 @@ SQL
                 ADD CONSTRAINT FK_96FBA02F166D1F9C FOREIGN KEY (project_id) REFERENCES projects (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE products
                 DROP FOREIGN KEY products_ibfk_2;
@@ -161,7 +175,7 @@ SQL
             ALTER TABLE products ADD binding_id INT DEFAULT NULL, DROP binding;
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_audiences
                 DROP FOREIGN KEY product_audiences_ibfk_1;
@@ -185,13 +199,13 @@ SQL
                 ADD CONSTRAINT FK_663F2C44848CC616 FOREIGN KEY (audience_id) REFERENCES audiences (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_bindings
                 CHANGE id id INT AUTO_INCREMENT NOT NULL;
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_content_revisions
                 DROP FOREIGN KEY product_content_revisions_ibfk_1;
@@ -207,7 +221,7 @@ SQL
                 ADD CONSTRAINT FK_DD358D5166D1F9C FOREIGN KEY (project_id) REFERENCES projects (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE product_attachments
                 DROP FOREIGN KEY product_attachments_ibfk_2;
@@ -215,7 +229,7 @@ SQL
                 ADD CONSTRAINT FK_EBEB64C94584665A FOREIGN KEY (product_id) REFERENCES products (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE project_content_status
                 DROP FOREIGN KEY project_content_status_ibfk_1;
@@ -231,19 +245,19 @@ SQL
                 ADD CONSTRAINT FK_FA812112166D1F9C FOREIGN KEY (project_id) REFERENCES projects (id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE series
                 CHANGE name name VARCHAR(255) NOT NULL;
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE languages
                 CHANGE rtl rtl TINYINT(1) NOT NULL;
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE users_groups DROP PRIMARY KEY;
             ALTER TABLE users_groups DROP id;
@@ -256,7 +270,7 @@ SQL
             ALTER TABLE users_groups ADD PRIMARY KEY (user_id, group_id);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
             ALTER TABLE products
                 ADD CONSTRAINT FK_B3BA5A5A4AC8159D FOREIGN KEY (binding_id) REFERENCES product_bindings (id);
@@ -265,7 +279,7 @@ SQL
         );
     }
 
-    public function down()
+    public function down(Schema $schema) : void
     {
         throw new \Exception('Do NOT make a down on doctrine stuff migration !');
     }

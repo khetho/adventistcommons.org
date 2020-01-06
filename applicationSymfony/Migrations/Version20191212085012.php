@@ -1,12 +1,25 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class ProductType extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+final class Version20191212085012 extends AbstractMigration
 {
-    public function up()
+    public function getDescription() : string
     {
-        $this->query(
+        return 'ProductType';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
             <<<SQL
                 ALTER TABLE `products`
                     CHANGE `type` `type` varchar(10) COLLATE 'utf8_general_ci' NULL,
@@ -15,7 +28,7 @@ class ProductType extends AbstractMigration
                 CREATE UNIQUE INDEX UNIQ_B3BA5A5A989D9B62 ON products (slug);
 SQL
         );
-        $this->query(
+        $this->addSql(
             <<<SQL
                 UPDATE `products`
                 SET `slug` = LOWER(
@@ -71,9 +84,9 @@ SQL
         );
     }
 
-    public function down()
+    public function down(Schema $schema) : void
     {
-        $this->query(
+        $this->addSql(
             <<<SQL
                 DROP INDEX UNIQ_B3BA5A5A989D9B62 ON products;
                 ALTER TABLE `products`

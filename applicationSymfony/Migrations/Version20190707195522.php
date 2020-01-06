@@ -1,12 +1,27 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class Init extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ */
+final class Version20190707195522 extends AbstractMigration
 {
-	public function up()
-	{
-		$this->query(<<<SQL
+    public function getDescription() : string
+    {
+        return 'Init';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
+            <<<SQL
 			CREATE TABLE `groups` (
 				`id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
 				`name` varchar(20) NOT NULL,
@@ -530,6 +545,10 @@ class Init extends AbstractMigration
 			
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SQL
-		);
-	}
+        );
+    }
+
+    public function down(Schema $schema) : void
+    {
+    }
 }

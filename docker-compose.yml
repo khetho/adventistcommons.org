@@ -35,6 +35,7 @@ services:
       - .:/var/www/adventistcommons:ro
       - ./var:/var/www/adventistcommons/var
       - ./uploads:/var/www/adventistcommons/uploads
+      - ./applicationSymfony/Migrations:/var/www/adventistcommons/applicationSymfony/Migrations
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
     working_dir: /var/www/adventistcommons

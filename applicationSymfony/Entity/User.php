@@ -361,6 +361,11 @@ class User implements UserInterface
      */
     private $contentRevisions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="DownloadLog", mappedBy="user")
+     */
+    private $downloads;
+
     public function __construct(string $email)
     {
         $this->groups = new ArrayCollection();
@@ -869,5 +874,10 @@ class User implements UserInterface
     public function getContentRevisions()
     {
         return $this->contentRevisions;
+    }
+
+    public function getDownloads()
+    {
+        return $this->downloads;
     }
 }

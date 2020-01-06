@@ -1,12 +1,25 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class ProjectAttachment extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+final class Version20191223191123 extends AbstractMigration
 {
-    public function up()
+    public function getDescription() : string
     {
-        $this->query(
+        return 'ProjectAttachment';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
             <<<SQL
                 ALTER TABLE product_attachments DROP FOREIGN KEY FK_EBEB64C94584665A;
                 ALTER TABLE product_attachments DROP FOREIGN KEY product_attachments_ibfk_1;
@@ -28,9 +41,9 @@ SQL
         );
     }
 
-    public function down()
+    public function down(Schema $schema) : void
     {
-        $this->query(
+        $this->addSql(
             <<<SQL
 SQL
         );

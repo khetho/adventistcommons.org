@@ -1,12 +1,25 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class UserNull extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+final class Version20191208173941 extends AbstractMigration
 {
-    public function up()
+    public function getDescription() : string
     {
-        $this->query(
+        return 'UserNull';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
             <<<SQL
                 ALTER TABLE `users`
                 CHANGE `ip_address` `ip_address` varchar(45) COLLATE 'utf8_general_ci' NULL AFTER `id`,
@@ -19,9 +32,9 @@ SQL
         );
     }
 
-    public function down()
+    public function down(Schema $schema) : void
     {
-        $this->query(
+        $this->addSql(
             <<<SQL
                 ALTER TABLE `users`
                 CHANGE `ip_address` `ip_address` varchar(45) NOT NULL,

@@ -1,12 +1,25 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class ProjectSecurity extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+final class Version20191216181434 extends AbstractMigration
 {
-    public function up()
+    public function getDescription() : string
     {
-        $this->query(
+        return 'ProjectSecurity';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
             <<<SQL
                  CREATE UNIQUE INDEX UNIQ_5C93B3A44584665A82F1BAF4 ON projects (product_id, language_id);
                  CREATE TABLE project_user (project_id INT UNSIGNED NOT NULL, user_id INT UNSIGNED NOT NULL, INDEX IDX_B4021E51166D1F9C (project_id), INDEX IDX_B4021E51A76ED395 (user_id), PRIMARY KEY(project_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
@@ -16,9 +29,9 @@ SQL
         );
     }
 
-    public function down()
+    public function down(Schema $schema) : void
     {
-        $this->query(
+        $this->addSql(
             <<<SQL
                 DROP INDEX UNIQ_5C93B3A44584665A82F1BAF4 ON projects;
                 DROP TABLE project_user;

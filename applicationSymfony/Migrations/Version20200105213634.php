@@ -1,12 +1,25 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+declare(strict_types=1);
 
-class SectionProduct extends AbstractMigration
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
+final class Version20200105213634 extends AbstractMigration
 {
-    public function up()
+    public function getDescription() : string
     {
-        $this->query(
+        return 'SectionProduct';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        $this->addSql(
             <<<SQL
                  ALTER TABLE product_content DROP FOREIGN KEY FK_2F1C2B194584665A;
                  DROP INDEX product_id ON product_content;
@@ -15,9 +28,9 @@ SQL
         );
     }
 
-    public function down()
+    public function down(Schema $schema) : void
     {
-        $this->query(
+        $this->addSql(
             <<<SQL
                  ALTER TABLE product_content DROP FOREIGN KEY FK_2F1C2B194584665A;
                  DROP INDEX product_id ON product_content;
