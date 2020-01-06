@@ -108,7 +108,6 @@ Just install docker and docker-compose and follow steps :
 - clone the repository somewhere on your computer
 - copy \application\config\database.docker.php to \application\config\database.php
 - copy \application\config\config.docker.php to \application\config\database.php
-- copy \phinx.docker.yml to \phinx.yml
 - Set right on var dirs ``chmod 777 ./var -R``
 - Point your terminal project root and launch project with ``sudo docker-compose up``
 - run migration with command ```docker-compose exec ac-php-fpm bin/console do:mi:mi```
