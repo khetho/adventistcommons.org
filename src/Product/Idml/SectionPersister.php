@@ -15,7 +15,7 @@ class SectionPersister implements SectionPersisterInterface
         $this->entityManager = $entityManager;
     }
     
-    public function create(array $data)
+    public function create(array $data): Section
     {
         $section = new Section();
         $section->setProduct($data['product']);

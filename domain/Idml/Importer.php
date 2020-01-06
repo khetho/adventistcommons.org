@@ -25,7 +25,7 @@ class Importer
         $iSection = 0;
         // import sections
         /** @var Section $section */
-        foreach ($holder->getSections() as &$section) {
+        foreach ($holder->getSections() as $section) {
             $sectionObject = $this->sectionPersister->create(
                 [
                     'product'   => $product,
@@ -35,7 +35,9 @@ class Importer
                 ]
             );
             $iSection++;
-            $section->setDbObject($sectionObject);
+            if ($sectionObject) {
+                $section->setDbObject($sectionObject);
+            }
             // import sections’ contents
             $this->importContents($section);
         }

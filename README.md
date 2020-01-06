@@ -165,12 +165,12 @@ only not-applied-yet migrations will be applied. When you get others work from c
 with same command : ```php bin/console do:mi:migrate```.
 
 The idea of migration is to keep a trace of changes done in database, which can be written
-as SQL code. Migrations are stored in ```/applicationSymfony/Migrations```.
+as SQL code. Migrations are stored in ```/src/Migrations```.
 
 If you want to add a change in database follow these steps :
 - apply changes to the entity(ies) : create new, add a field, change a type …
 - create the migration ```php bin/console do:mi:diff```
-- edit to check the new migration file, created in `/applicationSymfony/Migrations/`.
+- edit to check the new migration file, created in `/src/Migrations/`.
 - play your migration with ```php bin/console do:mi:mi```
 - do not forget to test the down with ```php bin/console do:mi:mi prev``` 
 

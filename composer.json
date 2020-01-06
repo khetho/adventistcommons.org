@@ -55,7 +55,7 @@
     "autoload": {
         "psr-4": {
             "AdventistCommons\\": "domain/",
-            "App\\": "applicationSymfony/"
+            "App\\": "src/"
          }
     },
     "autoload-dev": {

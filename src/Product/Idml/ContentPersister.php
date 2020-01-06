@@ -15,7 +15,7 @@ class ContentPersister implements ContentPersisterInterface
         $this->entityManager = $entityManager;
     }
     
-    public function create(array $data)
+    public function create(array $data): Content
     {
         $content = new Content();
         $content->setSection($data['section']);
@@ -23,5 +23,7 @@ class ContentPersister implements ContentPersisterInterface
         $content->setOrder($data['order']);
         $content->setContentKey($data['key']);
         $this->entityManager->persist($content);
+        
+        return $content;
     }
 }

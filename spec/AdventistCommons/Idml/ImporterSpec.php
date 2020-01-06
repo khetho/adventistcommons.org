@@ -2,6 +2,7 @@
 
 namespace spec\AdventistCommons\Idml;
 
+use App\Entity\Product;
 use AdventistCommons\Idml\Entity\Holder;
 use AdventistCommons\Idml\Entity\Story;
 use AdventistCommons\Idml\Entity\Section;
@@ -11,10 +12,16 @@ use AdventistCommons\Idml\ContentPersisterInterface;
 use phpDocumentor\Reflection\Types\Void_;
 use PhpSpec\ObjectBehavior;
 
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
 class ImporterSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
-    {
+    public function it_is_initializable(
+        SectionPersisterInterface $sectionPersister,
+        ContentPersisterInterface $contentPersister
+    ) {
+        $this->beConstructedWith($sectionPersister, $contentPersister);
         $this->shouldHaveType(Importer::class);
     }
 
@@ -23,7 +30,8 @@ class ImporterSpec extends ObjectBehavior
         ContentPersisterInterface $contentPersister,
         Holder $holder,
         Section $section,
-        Story $story
+        Story $story,
+        Product $product
     ) {
         $this->beConstructedWith($sectionPersister, $contentPersister);
         $story->getKey()->willReturn('storyKey');
@@ -31,14 +39,14 @@ class ImporterSpec extends ObjectBehavior
         $section->getStory()->willReturn($story);
         $section->getContents()->willReturn([]);
         $holder->getSections()->willReturn([$section]);
-        $section->setDbId(null)->checkPrediction();
-        $this->import($holder, 1);
+        $product->getId()->willReturn(1);
+        $this->import($holder, $product);
         $sectionPersister->create(
             [
-                'product_id' => 1,
-                'name'       => 'sectionName',
-                'order'      => 0,
-                'story_key'  => 'storyKey',
+                'product'   => $product,
+                'name'      => 'sectionName',
+                'order'     => 0,
+                'story_key' => 'storyKey',
             ]
         )->shouldHaveBeenCalled();
     }
