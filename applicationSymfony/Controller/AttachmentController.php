@@ -2,19 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
-use App\Product\AttachmentUploader;
-use App\Product\Form\Type\DeleteType;
-use App\Product\Form\Type\GeneralType;
-use App\Product\Form\Type\SpecsType;
-use App\Project\Form\Type\AddType;
+use App\Product\Uploader\AttachmentUploader;
 use App\Product\Form\Type\AddAttachmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,6 +22,7 @@ class AttachmentController extends AbstractController
      * @param Request $request
      * @param string $slug
      * @param DataFinder $dataFinder
+     * @param AttachmentUploader $attachmentUploader
      * @return Response
      */
     public function addAttachment(Request $request, string $slug, DataFinder $dataFinder, AttachmentUploader $attachmentUploader)
@@ -48,21 +43,21 @@ class AttachmentController extends AbstractController
 
         $this->createNotFoundException();
     }
-        
+
     /**
      * @Route("/{slug}/{languageCode}/{id}/download", name="app_attachment_download")
      * @param string $slug
      * @param $languageCode
      * @param $id
-     * @param AttachmentlUploader $attachmentlUploader
+     * @param AttachmentUploader $attachmentUploader
      * @param DataFinder $dataFinder
      * @return BinaryFileResponse
      */
-    public function downloadAttachment(string $slug, $languageCode, $id, AttachmentUploader $attachmentlUploader, DataFinder $dataFinder)
+    public function downloadAttachment(string $slug, $languageCode, $id, AttachmentUploader $attachmentUploader, DataFinder $dataFinder)
     {
         $attachment = $dataFinder->retrieveAttachmentOr404($slug, $languageCode, $id);
-        $response = new BinaryFileResponse($attachmentlUploader->getTargetPath().'/'.$attachment->getFilename());
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $attachment->getFilename());
+        $response = new BinaryFileResponse($attachmentUploader->getTargetPath().'/'.$attachment->getFileName());
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $attachment->getFileName());
         
         return $response;
     }

@@ -53,7 +53,7 @@ class ProjectsController extends AbstractController
      */
     public function list(Request $request, PaginatorInterface $paginator, DataFinder $dataFinder, $languageCode = null)
     {
-        $language = $languageCode ? $dataFinder->retrievelanguageOr404($languageCode) : null;
+        $language = $languageCode ? $dataFinder->retrieveLanguageOr404($languageCode) : null;
         $usedLanguages = $this->getDoctrine()->getRepository(Language::class)->findUsedInProject();
         $projectsQuery = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage($language);
         $pagination = $paginator->paginate(

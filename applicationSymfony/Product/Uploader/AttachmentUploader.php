@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product;
+namespace App\Product\Uploader;
 
 use App\Entity\Attachment;
 use App\Entity\Product;

@@ -8,6 +8,7 @@ use App\Entity\Language;
 use App\Entity\Section;
 use App\Entity\Attachment;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DataFinder
 {
@@ -21,7 +22,8 @@ class DataFinder
     public function retrieveProjectOr404($slug, $languageCode): Project
     {
         $product = $this->retrieveProductOr404($slug);
-        $language = $this->retrievelanguageOr404($languageCode);
+        $language = $this->retrieveLanguageOr404($languageCode);
+        /** @var Project $project */
         $project = $this->registry->getRepository(Project::class)->findOneBy([
             'language' => $language,
             'product' => $product,
@@ -47,7 +49,7 @@ class DataFinder
         return $product;
     }
 
-    public function retrievelanguageOr404(string $code): Language
+    public function retrieveLanguageOr404(string $code): Language
     {
         /** @var Language $language */
         $language = $this->registry->getRepository(Language::class)->findOneBy([
@@ -63,6 +65,7 @@ class DataFinder
     public function retrieveSectionOr404($slug, $sectionName): Section
     {
         $product = $this->retrieveProductOr404($slug);
+        /** @var Section $section */
         $section = $this->registry->getRepository(Section::class)->findOneBy([
             'product' => $product,
             'name' => $sectionName,
@@ -77,8 +80,9 @@ class DataFinder
     public function retrieveAttachmentOr404($slug, $languageCode, $id): Attachment
     {
         $project = $this->retrieveProjectOr404($slug, $languageCode);
+        /** @var Attachment $attachment */
         $attachment = $this->registry->getRepository(Attachment::class)->find($id);
-        if (!$attachment || ($attachment->getProject() != $project)) {
+        if (!$attachment || ($attachment->getProject()->getId() !== $project->getId())) {
             throw new NotFoundHttpException();
         }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Product;
+namespace App\Product\Uploader;
 
 use App\Entity\Product;
 use App\Form\UploaderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class CoverUploader implements UploaderInterface
+class PdfDigitalUploader implements UploaderInterface
 {
     private $targetDirectory;
 
@@ -17,7 +17,7 @@ class CoverUploader implements UploaderInterface
 
     public function upload(Product $product): Product
     {
-        $file = $product->getCoverImage();
+        $file = $product->getPdfDigitalFile();
         if (!$file) {
             return $product;
         }
@@ -32,20 +32,25 @@ class CoverUploader implements UploaderInterface
             // @TODO handle exception if something happens during file upload
         }
         
-        if ($product->getCoverImageFilename()) {
-            $previousFilename = $this->targetDirectory.'/'.$product->getCoverImageFilename();
+        if ($product->getPdfDigitalFilename()) {
+            $previousFilename = $this->targetDirectory.'/'.$product->getPdfDigitalFilename();
             if (file_exists($previousFilename)) {
                 unlink($previousFilename);
             }
         }
         
-        $product->setCoverImageFilename($fileName);
+        $product->setPdfDigitalFilename($fileName);
 
         return $product;
     }
-        
+    
+    public function getTargetPath()
+    {
+        return $this->targetDirectory;
+    }
+    
     public function handle($data)
     {
-        return $data instanceof Attachment;
+        return $data instanceof Product;
     }
 }

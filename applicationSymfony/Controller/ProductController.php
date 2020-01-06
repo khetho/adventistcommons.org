@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
 use App\Form\UploaderAggregator;
-use App\Product\IdmlUploader;
-use App\Product\PdfOffsetUploader;
-use App\Product\PdfDigitalUploader;
+use App\Product\Uploader\IdmlUploader;
+use App\Product\Uploader\PdfOffsetUploader;
+use App\Product\Uploader\PdfDigitalUploader;
 use App\Product\Form\Type\IdmlType;
 use App\Product\Form\Type\PdfsType;
 use App\Product\Form\Type\DeleteType;
@@ -19,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,6 +28,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/{slug}", name="app_product_show")
      * @param string $slug
+     * @param DataFinder $dataFinder
      * @return Response
      */
     public function show(string $slug, DataFinder $dataFinder)
@@ -67,6 +66,7 @@ class ProductController extends AbstractController
      * @Route("/{slug}/product.idml", name="app_product_download_idml")
      * @param string $slug
      * @param IdmlUploader $idmlUploader
+     * @param DataFinder $dataFinder
      * @return BinaryFileResponse
      */
     public function downloadIdml(string $slug, IdmlUploader $idmlUploader, DataFinder $dataFinder)
@@ -87,6 +87,7 @@ class ProductController extends AbstractController
      * @Route("/{slug}/offset.pdf", name="app_product_download_offset_pdf")
      * @param string $slug
      * @param PdfOffsetUploader $offsetUploader
+     * @param DataFinder $dataFinder
      * @return BinaryFileResponse
      */
     public function downloadOffsetPdf(string $slug, PdfOffsetUploader $offsetUploader, DataFinder $dataFinder)
@@ -107,6 +108,7 @@ class ProductController extends AbstractController
      * @Route("/{slug}/digital.pdf", name="app_product_download_digital_pdf")
      * @param string $slug
      * @param PdfDigitalUploader $digitalUploader
+     * @param DataFinder $dataFinder
      * @return BinaryFileResponse
      */
     public function downloadDigitalPdf(string $slug, PdfDigitalUploader $digitalUploader, DataFinder $dataFinder)
@@ -128,8 +130,8 @@ class ProductController extends AbstractController
      * @param string $slug
      * @param Request $request
      * @param UploaderAggregator $uploader
+     * @param DataFinder $dataFinder
      * @return Response
-     * @throws \Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function edit($slug, Request $request, UploaderAggregator $uploader, DataFinder $dataFinder)
@@ -194,6 +196,7 @@ class ProductController extends AbstractController
      * @Route("/{slug}/delete", name="app_product_delete")
      * @param string $slug
      * @param Request $request
+     * @param DataFinder $dataFinder
      * @return Response
      */
     public function delete(string $slug, Request $request, DataFinder $dataFinder)

@@ -8,6 +8,7 @@ use App\Product\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\FilterType;
 use App\Product\Form\Type\ValidateIdmlType;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,7 +87,7 @@ class ProductsController extends AbstractController
      * @param Request $request
      * @param UploaderAggregator $uploaderAggregator
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function add(Request $request, UploaderAggregator $uploaderAggregator)
     {
