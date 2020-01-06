@@ -58,8 +58,9 @@ class FacebookAuthenticator extends SocialAuthenticator
     /**
      * @param Request $request
      * @return \League\OAuth2\Client\Token\AccessToken|mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getCredentials()
+    public function getCredentials(Request $request)
     {
         // this method is only called if supports() returns true
 
@@ -118,7 +119,7 @@ class FacebookAuthenticator extends SocialAuthenticator
      * @return null|Response
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function onAuthenticationSuccess()
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // on success, let the request continue
         return null;

@@ -58,8 +58,9 @@ class GoogleAuthenticator extends SocialAuthenticator
     /**
      * @param Request $request
      * @return \League\OAuth2\Client\Token\AccessToken|mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getCredentials()
+    public function getCredentials(Request $request)
     {
         // this method is only called if supports() returns true
 
