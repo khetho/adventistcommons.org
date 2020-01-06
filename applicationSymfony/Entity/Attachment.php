@@ -104,7 +104,7 @@ class Attachment
 
     public function getLanguage(): ?Language
     {
-        return $this->language ?? $this->getProject()->getLanguage();
+        return $this->language;
     }
 
     public function setLanguage(?Language $language): self

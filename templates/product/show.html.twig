@@ -98,7 +98,7 @@
 															</button>
 															<div class="dropdown-menu">
 																{% for attachment in project.attachments %}
-																	<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type') }}</a>
+																	<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type')|trans }}</a>
 																{% endfor %}
 															</div>
 														</div>

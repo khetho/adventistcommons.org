@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\UploaderAggregator;
+use App\Product\DownloadLogger;
 use App\Product\Uploader\IdmlUploader;
 use App\Product\Uploader\PdfOffsetUploader;
 use App\Product\Uploader\PdfDigitalUploader;
@@ -67,15 +68,21 @@ class ProductController extends AbstractController
      * @param string $slug
      * @param IdmlUploader $idmlUploader
      * @param DataFinder $dataFinder
+     * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
      */
-    public function downloadIdml(string $slug, IdmlUploader $idmlUploader, DataFinder $dataFinder)
-    {
+    public function downloadIdml(
+        string $slug,
+        IdmlUploader $idmlUploader,
+        DataFinder $dataFinder,
+        DownloadLogger $downloadLogger
+    ) {
         $product = $dataFinder->retrieveProductOr404($slug);
         if (!$product->getIdmlFilename()) {
             $this->createNotFoundException();
         }
-        
+        $downloadLogger->log($product);
+
         $response = new BinaryFileResponse($idmlUploader->getTargetPath().'/'.$product->getIdmlFilename());
         $response->headers->set('Content-Type', 'application/zip');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $product->getIdmlFilename());
@@ -88,15 +95,21 @@ class ProductController extends AbstractController
      * @param string $slug
      * @param PdfOffsetUploader $offsetUploader
      * @param DataFinder $dataFinder
+     * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
      */
-    public function downloadOffsetPdf(string $slug, PdfOffsetUploader $offsetUploader, DataFinder $dataFinder)
-    {
+    public function downloadOffsetPdf(
+        string $slug,
+        PdfOffsetUploader $offsetUploader,
+        DataFinder $dataFinder,
+        DownloadLogger $downloadLogger
+    ) {
         $product = $dataFinder->retrieveProductOr404($slug);
         if (!$product->getIdmlFilename()) {
             $this->createNotFoundException();
         }
-        
+        $downloadLogger->log($product);
+
         $response = new BinaryFileResponse($offsetUploader->getTargetPath().'/'.$product->getPdfOffsetFilename());
         $response->headers->set('Content-Type', 'application/pdf');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $product->getPdfOffsetFilename());
@@ -109,15 +122,21 @@ class ProductController extends AbstractController
      * @param string $slug
      * @param PdfDigitalUploader $digitalUploader
      * @param DataFinder $dataFinder
+     * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
      */
-    public function downloadDigitalPdf(string $slug, PdfDigitalUploader $digitalUploader, DataFinder $dataFinder)
-    {
+    public function downloadDigitalPdf(
+        string $slug,
+        PdfDigitalUploader $digitalUploader,
+        DataFinder $dataFinder,
+        DownloadLogger $downloadLogger
+    ) {
         $product = $dataFinder->retrieveProductOr404($slug);
         if (!$product->getIdmlFilename()) {
             $this->createNotFoundException();
         }
-        
+        $downloadLogger->log($product);
+
         $response = new BinaryFileResponse($digitalUploader->getTargetPath().'/'.$product->getPdfDigitalFilename());
         $response->headers->set('Content-Type', 'application/pdf');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $product->getPdfDigitalFilename());

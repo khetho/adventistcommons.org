@@ -67,9 +67,20 @@ dashboard:
   contributions:
     tab: Contributions
     header: Mes contributions
+    none_yet: Aucune pour le moment
+    title: Titre
+    language: Langue
+    sentences: Phrases
+    date: Date
+    percentage: Pourcentage
   downloads:
     tab: Historique de téléchargement
     header: Mes téléchargements
+    title: Titre
+    language: Langue
+    date: Date
+    none_yet: Aucun téléchargement pour le moment
+    download: Télécharger
 account:
   complete:
     title: Complétez your compte

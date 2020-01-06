@@ -28,7 +28,6 @@
     <tr>
       <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
       <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
-      <th scope="col">{% trans %}dashboard.projects.status{% endtrans %}</th>
     </tr>
   </thead>
   <tbody>
@@ -36,7 +35,6 @@
 	    <tr>
 	      <td>{{ project.product.name }}</td>
 	      <td>{{ project.language.name }}</td>
-	      <td>{{ project.status }}</td>
 	    </tr>
     {% endfor %}
   </tbody>

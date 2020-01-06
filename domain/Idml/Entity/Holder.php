@@ -2,6 +2,8 @@
 
 namespace AdventistCommons\Idml\Entity;
 
+use App\Entity\Product;
+use App\Entity\Project;
 use IDML\Package;
 use AdventistCommons\Idml\DomManipulation\StoryDomManipulator;
 use \Exception;
@@ -16,8 +18,9 @@ class Holder
 {
     private $zipFileName;
     private $storyDomManipulator;
+    /** @var Product */
     private $product;
-
+    /** @var Project */
     private $project;
 
     /** @var Package */
@@ -25,23 +28,24 @@ class Holder
     private $stories = [];
     private $sections = [];
     
-    public function __construct($zipFileName, StoryDomManipulator $storyDomManipulator, array $product = null)
+    public function __construct($zipFileName, StoryDomManipulator $storyDomManipulator, Product $product = null)
     {
         $this->zipFileName = $zipFileName;
         $this->storyDomManipulator = $storyDomManipulator;
         $this->product = $product;
     }
-    
+
     /**
      * Set a project is meant to set a translation
      * Never set a translation without cloning your holder
      *
-     * @param array $project
+     * @param Project $project
+     * @throws Exception
      */
-    public function setProject(array $project)
+    public function setProject(Project $project)
     {
         $this->checkProduct();
-        if ($project['product_id'] !== $this->product['id']) {
+        if ($project->getProduct()->getId() !== $this->product->getId()) {
             throw new Exception('Cannot set the project : this project does not rely on the same product.');
         }
         if ($this->project) {
@@ -54,8 +58,8 @@ class Holder
     {
         return sprintf(
             '%s_%s_%s.idml',
-            $this->product['name'],
-            $this->project ? $this->project['language_name'] : 'original',
+            $this->product->getName(),
+            $this->project ? $this->project->getLanguage()->getName() : 'original',
             date('Y-m-d')
         );
     }

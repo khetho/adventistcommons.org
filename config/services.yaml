@@ -40,23 +40,23 @@ services:
         tags:
             - { name: 'doctrine.event_subscriber' }
 
-    App\Product\CoverUploader:
+    App\Product\Uploader\CoverUploader:
         arguments: 
             - '%coverTargetDirectory%'        
 
-    App\Product\PdfDigitalUploader:
+    App\Product\Uploader\PdfDigitalUploader:
         arguments: 
             - '%pdfTargetDirectory%'        
 
-    App\Product\PdfOffsetUploader:
+    App\Product\Uploader\PdfOffsetUploader:
         arguments: 
             - '%pdfTargetDirectory%'       
 
-    App\Product\IdmlUploader:
+    App\Product\Uploader\IdmlUploader:
         arguments: 
             - '%idmlTargetDirectory%'        
 
-    App\Product\AttachmentUploader:
+    App\Product\Uploader\AttachmentUploader:
         arguments: 
             - '%attachmentTargetDirectory%'        
 

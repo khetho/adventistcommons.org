@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Product\DownloadLogger;
 use App\Product\Uploader\AttachmentUploader;
 use App\Product\Form\Type\AddAttachmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,11 +52,19 @@ class AttachmentController extends AbstractController
      * @param $id
      * @param AttachmentUploader $attachmentUploader
      * @param DataFinder $dataFinder
+     * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
      */
-    public function downloadAttachment(string $slug, $languageCode, $id, AttachmentUploader $attachmentUploader, DataFinder $dataFinder)
-    {
+    public function downloadAttachment(
+        string $slug,
+        $languageCode,
+        $id,
+        AttachmentUploader $attachmentUploader,
+        DataFinder $dataFinder,
+        DownloadLogger $downloadLogger
+    ) {
         $attachment = $dataFinder->retrieveAttachmentOr404($slug, $languageCode, $id);
+        $downloadLogger->log($attachment);
         $response = new BinaryFileResponse($attachmentUploader->getTargetPath().'/'.$attachment->getFileName());
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $attachment->getFileName());
         

@@ -76,6 +76,11 @@ dashboard:
   downloads:
     tab: Download history
     header: My downloads
+    title: Title
+    language: Language
+    date: Date
+    none_yet: No download so far
+    download: Download
 account:
   complete:
     title: Complete your account
@@ -343,7 +348,7 @@ attachment:
     type:
       label: File type
       values:
-        pdf_prod: typePDF (Production)
+        pdf_prod: PDF (Production)
         pdf_perso: PDF (Personal)
         indesign: InDesign
     file:

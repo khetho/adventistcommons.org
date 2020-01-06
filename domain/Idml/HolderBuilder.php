@@ -29,7 +29,7 @@ class HolderBuilder
         $this->storyDomManipulator = $domManipulator;
     }
 
-    public function buildFromProductArrayAndPath(array $product, string $idmlPath): Holder
+    public function buildFromProductArrayAndPath(Product $product, string $idmlPath): Holder
     {
         self::checkFile($idmlPath);
         

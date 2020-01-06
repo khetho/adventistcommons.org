@@ -25,13 +25,7 @@ class Importer
             return $product;
         }
         $path = $targetPath.'/'.$product->getIdmlFilename();
-        $holder = $this->holderBuilder->buildFromProductArrayAndPath(
-            [
-                'id'   => $product->getId(),
-                'name' => $product->getName(),
-            ],
-            $path
-        );
+        $holder = $this->holderBuilder->buildFromProductArrayAndPath($product, $path);
         $this->importer->import($holder, $product);
         
         return $product;

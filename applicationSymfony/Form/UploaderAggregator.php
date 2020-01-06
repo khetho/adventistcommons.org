@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
-use App\Product\AttachmentUploader;
-use App\Product\CoverUploader;
-use App\Product\IdmlUploader;
-use App\Product\PdfDigitalUploader;
-use App\Product\PdfOffsetUploader;
+use App\Product\Uploader\AttachmentUploader;
+use App\Product\Uploader\CoverUploader;
+use App\Product\Uploader\IdmlUploader;
+use App\Product\Uploader\PdfDigitalUploader;
+use App\Product\Uploader\PdfOffsetUploader;
 
 class UploaderAggregator
 {
