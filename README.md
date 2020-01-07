@@ -68,7 +68,7 @@ Developers:
 
 Authors:
 
-- Send us manuscripts that you personally created and own and are willing to release exclusively to the Middle East and North Africa Union. You can contact us through our [feedback form](https://adventistcommons.org/feedback).
+- Send us manuscripts that you personally created and own and are willing to release exclusively to Adventist Commons. You can contact us through our [feedback form](https://adventistcommons.org/feedback).
 - If you have experience with religious groups that are predominant in the 10/40 window and have an idea of a helpful resource that you believe you could write, send us a summary of your idea and let&#39;s brainstorm together. You can contact us through our [feedback form](https://adventistcommons.org/feedback).
 - Add your name to a list of volunteers who can write Adventist content for a culturally and religiously diverse audience. You can add your name by [signing up](https://adventistcommons.org/register) at Adventist Commons and by selecting the "writing/editing" skill in the second part of the sign up process.
 
@@ -233,7 +233,7 @@ The code included in this repository is copyright protected. It may not be repro
 **Copyrights, Licensing, and Usage**
 
 - Who owns the copyright for these products?
-  - All products are owned by the Middle East and North Africa Union. Each product will be licensed under the [Creative Commons Attribution-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nd/4.0/) (CC BY-ND 4.0).
+  - Products are owned by different publishers. Each product on Adventist Commons will be licensed under the [Creative Commons Attribution-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nd/4.0/) (CC BY-ND 4.0).
 - Do we need to pay for anything on this platform?
   - There is never any fee for downloading, printing, or sharing any of the available resources on this website.
 - Am I allowed to adapt the text?
