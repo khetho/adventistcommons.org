@@ -5,7 +5,6 @@ namespace App\Controller;
 use AdventistCommons\Idml\Entity\Holder;
 use App\Product\DownloadLogger;
 use App\Product\Idml\Translator;
-use App\Product\Uploader\IdmlUploader;
 use App\Project\Form\Type\AddMemberType;
 use App\Project\Form\Type\DeleteType;
 use App\Twig\RoutesExtension;

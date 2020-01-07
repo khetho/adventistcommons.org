@@ -16,6 +16,7 @@ class AddType extends AbstractType
     private $generalType;
     private $specsType;
     private $idmlType;
+    private $pdfsType;
 
     public function __construct(
         StringFunctions $stringFunctions,

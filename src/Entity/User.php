@@ -512,6 +512,8 @@ class User implements UserInterface
     {
         $this->resetPassTimestamp = $resetPassTimestamp->format('U');
         $this->resetPassDateTime = $resetPassTimestamp;
+
+        return $this;
     }
 
     public function getRememberSelector(): ?string
@@ -805,7 +807,7 @@ class User implements UserInterface
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return (Role|string)[] The user roles
+     * @return string[] The user roles
      */
     public function getRoles()
     {

@@ -84,7 +84,7 @@ class Project
     public function __construct()
     {
         $this->members = new ArrayCollection();
-        $this->attachmemts = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function getId(): ?int

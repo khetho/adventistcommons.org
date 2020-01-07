@@ -18,7 +18,7 @@ class SectionFixtures extends Fixture implements DependentFixtureInterface
         for ($iProduct = 0; $iProduct < 10; $iProduct++) {
             for ($iSection = 0; $iSection < 10; $iSection++) {
                 $section = new Section();
-                $section->setName(sprintf('Product %04d Section', $iProduct, $iSection));
+                $section->setName(sprintf('Product %04d Section %04d', $iProduct, $iSection));
                 $section->setProduct($this->getReference(ProductFixtures::buildReferenceName($iProduct)));
                 $manager->persist($section);
                 $sections[$iProduct][$iSection] = $section;
