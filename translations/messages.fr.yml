@@ -225,6 +225,10 @@ product:
       label: Publics
     idml_file:
       label: Fichier IDML
+    pdf_offset_file:
+      label: PDF offset
+    pdf_digital_file:
+      label: PDF numérique
     formatClosed:
       label: Fermé
       placeholder: "ex: 10.4 x 20.5 cm"
