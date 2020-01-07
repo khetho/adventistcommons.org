@@ -1,19 +1,4 @@
-Hello, there. 😀
-
-We&#39;ve seen people like you before. Mission-minded Adventist professionals trapped in the body of someone who is financially or situationally unable to work as a full-time missionary. It&#39;s hard, we know – you have all these incredible talents like writing, translating, editing, proofreading, graphic design, drawing, or programming, but you&#39;re just not sure how these can be used for God.
-
-We&#39;re here to help you fulfil your dream. ✨
-
-Adventist Commons, an initiative of the Middle East and North Africa Union, is like the &quot;creative commons&quot; of Adventist mission resources for the unreached people groups of the 10/40 window and the world. You would be surprised to know that in many of the world&#39;s major language groups, there isn&#39;t a single Adventist tract or booklet. Or, in places where a few outreach materials have been translated, they are inappropriate for the religious context because they only answer the questions that Western Christians ask.
-
-You see, your talents are needed. No, let&#39;s rephrase that – your talents are _desperately_ needed. This is the mission opportunity you&#39;ve been waiting for! By collaborating with Adventist Commons, you can play an integral part in getting our distinctive Adventist message into the hands of unreached people, right from the comfort of your own home. Do you have skills in writing, translating, editing, proofreading, graphic design, or web development? 🖥📝🎨😀 Learn [here how you can contribute to Adventist Commons!](#contribute)
-
-[AdventistCommons.org](https://www.adventistcommons.org)
-
-[facebook.com/adventistcommons](https://www.facebook.com/adventistcommons)
-
-&quot;The heaven-appointed purpose of giving the gospel to the world in this generation is the noblest that can appeal to any human being. It opens a field of effort to everyone whose heart Christ has touched.&quot; - Ellen White, _Education_ p.262
-
+Adventist Commons is like the &quot;creative commons&quot; of Adventist mission resources for the unreached people groups of the 10/40 window and the world. You would be surprised to know that in many of the world&#39;s major language groups, there isn&#39;t a single Adventist tract or booklet. Or, in places where a few outreach materials have been translated, they are inappropriate for the religious context because they only answer the questions that Western Christians ask.
 
 ## Table of Contents
 
@@ -30,7 +15,7 @@ You see, your talents are needed. No, let&#39;s rephrase that – your talents a
 
 ## Project Overview
 
-[AdventistCommons.org](http://adventistcommons.org/) is an initiative of the Middle East and North Africa Union, an attached Union of the General Conference of Seventh-day Adventists. Adventist Commons provides the global church with Adventist evangelistic and discipleship resources that are:
+[AdventistCommons.org](http://adventistcommons.org/) provides the global church with Adventist evangelistic and discipleship resources that are:
 
 - Theologically sound, based on the present truth contained in the Three Angels&#39; Messages, with a core emphasis on Jesus Christ.
 - Culturally relevant for the people groups of the 10/40 window, prepared and reviewed by Adventist missiologists and theologians
@@ -203,7 +188,7 @@ Some content soon here
 
 All resources on AdventistCommons.org are licensed under the [Creative Commons Attribution-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nd/4.0/) (CC BY-ND 4.0).
 
-The CC BY-ND 4.0 license gives you permission to download, print, distribute, and sell our products without obtaining permission from AdventistCommons.org. You may not use our products to create derivative works of our products. If you remix, transform, or build upon the material, you are legally prohibited to distribute and sell the modified material.
+The CC BY-ND 4.0 license gives you permission to download, print, distribute, and sell our products without obtaining permission from AdventistCommons.org or the original publisher. You may not use our products to create derivative works of our products. If you remix, transform, or build upon the material, you are legally prohibited to distribute and sell the modified material.
 
 The code included in this repository is copyright protected. It may not be reproduced, distributed, or used to create derivative works.
 
@@ -234,7 +219,7 @@ The code included in this repository is copyright protected. It may not be repro
 - What format of files are offered for download?
   - The files will be available online and in PDF format.
 - Who oversees the theological content in these resources?
-  - Every resource is carefully proofread for theological content by selected Adventist theologians and missiologists under the direction of the Middle East and North Africa Union.
+  - Every resource is carefully proofread for theological content by selected Adventist theologians and missiologists.
 
 **Languages and Translations**
 
@@ -260,8 +245,6 @@ The code included in this repository is copyright protected. It may not be repro
   - Please donate through our [Patreon account](http://patreon.com/adventistcommons). If you would like to donate through Paypal, check, or wire transfer, please contact us through our [feedback form](https://adventistcommons.org/feedback.
 - How are my donations used?
   - If you donate towards a specific project on [AdventistCommons.org](http://www.adventistcommons.org), your donations will be strictly used for this purpose only. If you give a general donation, it will be used for the development of tracts, booklets, or other resources available on the website. We also use donations to maintain our website and develop new features.
-- Are donations tax-deductible?
-  - All donations are processed through the Middle East and North Africa Union. Donations are tax deductable if sent to the Middle East and North Africa Union through the General Conference. Funds should be marked for "MENA Publishing – Adventist Commons".
 
 **General**
 
