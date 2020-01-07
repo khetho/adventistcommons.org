@@ -1,0 +1,15 @@
+<div class="media mb-4">
+	<img alt="{% trans %}account.edit.avatar{% endtrans %}" src="https://www.gravatar.com/avatar/{{ user.image }}?s=144&d=mp" class="avatar avatar-lg" />
+	<div class="media-body ml-3">
+		<strong>{% trans %}account.edit.profile_picture{% endtrans %}</strong><br>
+		<small>{% trans with {'%before_link%': '<a href="https://en.gravatar.com/">', '%after_link%': '</a>' }%}account.edit.gravatar_info{% endtrans %}</small>
+	</div>
+</div>
+
+{{ form_start(accountForm) }}
+	{{ form_errors(accountForm) }}
+	{{ form_rest(accountForm) }}
+	<div class="row justify-content-end">
+		<button type="submit" class="btn btn-primary mr-2">{% trans %}commons.form.save{% endtrans %}</button>
+	</div>
+{{ form_end(accountForm) }}								

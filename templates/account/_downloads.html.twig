@@ -1,0 +1,26 @@
+<h3>{% trans %}dashboard.downloads.header{% endtrans %}</h3>
+
+<table class="table mb-4">
+    <thead>
+    <tr>
+        <th scope="col">{% trans %}dashboard.downloads.title{% endtrans %}</th>
+        <th scope="col">{% trans %}dashboard.downloads.language{% endtrans %}</th>
+        <th scope="col">{% trans %}dashboard.downloads.date{% endtrans %}</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for download in user.downloads %}
+        <tr>
+            <td>{{ download.product.name }}</td>
+            <td>{{ download.project ? download.project.language.name : '-' }}</td>
+            <td>{{ download.createdAt|date('d/m/Y H:i:s') }}</td>
+            <td><a href="{{ download.path }}" class="btn btn-primary btn-sm">{% trans %}dashboard.downloads.download{% endtrans %}</a></td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3"><em>{% trans %}dashboard.downloads.none_yet{% endtrans %}</em></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -108,10 +108,9 @@ Just install docker and docker-compose and follow steps :
 - clone the repository somewhere on your computer
 - copy \application\config\database.docker.php to \application\config\database.php
 - copy \application\config\config.docker.php to \application\config\database.php
-- copy \phinx.docker.yml to \phinx.yml
 - Set right on var dirs ``chmod 777 ./var -R``
 - Point your terminal project root and launch project with ``sudo docker-compose up``
-- run migration with command ```docker-compose exec ac-php-fpm vendor/bin/phinx migrate```
+- run migration with command ```docker-compose exec ac-php-fpm bin/console do:mi:mi```
 - In your browser, go to localhost:8096 (the application) and create your account
 - In your browser, go to localhost:8080 (adminer), and connect with parameters Mysql / ac-db / root / somePassword
 - Create ssl private and public keys for relation with frontend (see below)
@@ -131,9 +130,7 @@ Let us know if you have any issues with these steps.
 
 #### Database
 - Create database in your favorite MySQL client or with command line : ```mysql -u root -pPASSWORD -e "create database DBNAME;"``` (replace PASSWORD and DBNAME with real data)
-- copy \phinx.example.yml to \phinx.yml 
-- Edit the file [phinx.yml](https://github.com/AdventistCommons/adventistcommons.org/blob/master/phinx.yml#L19-L22) to set your database credentials. The user defined here **must** be able to set structure data : create, alter and drop tables.
-- Play migration to have a database up to date : ```php vendor/bin/phinx migrate```
+- Play migration to have a database up to date : ```php bin/console do:mi:migrate```
 - For development purpose, you can run some fixtures which are some basic data : ```php bin/console do:fi:lo``` you can log-in with the account ```admin``` / ```pass```
 
 #### Config
@@ -146,6 +143,12 @@ Let us know if you have any issues with these steps.
 	- `$config['composer_autoload'] = 'vendor/autoload.php';`
 - To be able to test some features you may need to create a folder "uploads" in your document root.
 
+#### Frontend
+- install dependencies : ```sudo docker-compose run ac-node npm install --dev```
+- compile all assets for frontend, dev mode : ```sudo docker-compose run ac-node npm run dev```
+- compile all assets for frontend, and keep on watching for changes in files : ```sudo docker-compose run ac-node npm run watch```
+- compile and publish for production : ```sudo docker-compose run ac-node npm run prod```
+
 ### Software elements
 
 #### Symfony
@@ -154,17 +157,27 @@ First base of the application. If you do not know it yet, check this : https://s
 
 #### Migrations
 
-Databases changes are handled in a migrations system : Phinx. To play all migrations, run the command ```php vendor/bin/phinx migrate```. The migrations already executed on your system are stored, so you can play many times safely, only not-applied-yet migrations will be applied. When you get others work from code base (git pull or merge), you must play migrations other developers may have added, with same command : ```php vendor/bin/phinx migrate```.
+Databases changes are handled by doctrine migrations system.
+To play all migrations, run the command ```php bin/console do:mi:migrate```.
+The migrations already executed on your system are stored, so you can play many times safely,
+only not-applied-yet migrations will be applied. When you get others work from code base
+(git pull or merge), you must play migrations other developers may have added,
+with same command : ```php bin/console do:mi:migrate```.
 
-The idea of migration is to keep a trace of changes done in database, which can be written as SQL code. Migrations are stored in ```/db/migrations```.
+The idea of migration is to keep a trace of changes done in database, which can be written
+as SQL code. Migrations are stored in ```/src/Migrations```.
 
 If you want to add a change in database follow these steps :
-- create an empty migration ```php vendor/bin/phinx create MyFeature``` (replace ~MyFeature~ by a camel case semantic name)
-- edit the new migration file, created in `/db/migrations/`, add the ~up~ logic with SQL code on data or structure.
-- play you migration with ```php vendor/bin/phinx migrate```
-- do not forget to add also the ~down~ logic to be able to reverse it. And test it with ```php vendor/bin/phinx rollback``` 
+- apply changes to the entity(ies) : create new, add a field, change a type …
+- create the migration ```php bin/console do:mi:diff```
+- edit to check the new migration file, created in `/src/Migrations/`.
+- play your migration with ```php bin/console do:mi:mi```
+- do not forget to test the down with ```php bin/console do:mi:mi prev``` 
 
 And from now, never do structural changes directly in database, use migrations !
+
+In addition, you can delete database and recreate it all from beginning, including dev sample data with the command
+```sudo docker-compose exec ac-php-fpm bin/clear-db`` 
 
 #### Symfony API backend
 

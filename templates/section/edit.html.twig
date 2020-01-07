@@ -17,7 +17,7 @@
 								</div>
 								<div class="col-md-6 textarea-wrapper">
 									<div class="locked-status {{ p.total_approvals == 0 ? "hidden": '' }}">
-										<small class="status-locked"><i class="material-icons text-small align-middle">lock</i> locked for translators </small>
+										<small class="status-locked"><i class="fas fa-lock"></i>&nbsp; locked for translators </small>
 										<span class="float-right badge badge-secondary"><span class="approval_count">{{ p.total_approvals }}</span>/{{ num_required_approvals }}</span>
 									</div>
 									{% for error in p.errors  %}
@@ -93,7 +93,7 @@
 					<div class="modal-header">
 						<h5 class="modal-title">Suggest Revision</h5>
 						<button type="button" class="close btn btn-round" data-dismiss="modal">
-							<i class="material-icons">close</i>
+							<i class="fas fa-times"></i>
 						</button>
 					</div>
 					<div class="modal-body">

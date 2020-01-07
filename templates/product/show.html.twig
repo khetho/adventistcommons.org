@@ -11,7 +11,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<h2>{{ product.name }}</h2>
 					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_product_edit', {'slug': product.slug}) }}" class="btn btn-sm btn-secondary float-right"><i class="material-icons align-top text-small">edit</i> {% trans %}product.show.edit{% endtrans %}</a>
+						<a href="{{ path('app_product_edit', {'slug': product.slug}) }}" class="btn btn-sm btn-secondary float-right"><i class="fas fa-pen"></i> {% trans %}product.show.edit{% endtrans %}</a>
 					{% endif %}
 				</div>
 				<p>{{ product.description }}</p>
@@ -98,7 +98,7 @@
 															</button>
 															<div class="dropdown-menu">
 																{% for attachment in project.attachments %}
-																	<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type') }}</a>
+																	<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type')|trans }}</a>
 																{% endfor %}
 															</div>
 														</div>

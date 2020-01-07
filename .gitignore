@@ -10,10 +10,16 @@ composer.phar
 /applicationCodeIgniter/config/config.php
 /applicationCodeIgniter/config/database.php
 /applicationCodeIgniter/config/*/config.php
-/phinx.yml
 google_translate_authentication.json
 /public/bundles
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

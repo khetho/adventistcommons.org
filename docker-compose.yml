@@ -35,6 +35,7 @@ services:
       - .:/var/www/adventistcommons:ro
       - ./var:/var/www/adventistcommons/var
       - ./uploads:/var/www/adventistcommons/uploads
+      - ./src/Migrations:/var/www/adventistcommons/src/Migrations
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
     working_dir: /var/www/adventistcommons
@@ -72,5 +73,17 @@ services:
       - target: 3000
         published: 8097
         protocol: tcp
-
+        
+  ac-node:
+    image: "node:8"
+    user: node
+    working_dir: /app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/app
+    expose:
+      - "8081"
+    command: "npm start"
+    
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/

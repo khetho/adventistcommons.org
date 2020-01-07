@@ -1,0 +1,11 @@
+{{ form_start(deleteForm) }}
+	{{ form_errors(deleteForm) }}
+	{{ form_rest(deleteForm) }}
+	<button type="submit" class="p-0 btn btn-link text-danger confirm-dialog" data-confirm-message="{% trans %}commons.form.confirm{% endtrans %}">
+		Delete my account
+	</button>
+	<br />
+	<small>
+		{% trans %}account.edit.delete_warning{% endtrans %}
+	</small>
+{{ form_end(deleteForm) }}

@@ -3,6 +3,7 @@
 namespace AdventistCommons\Idml;
 
 use AdventistCommons\Idml\Entity\Holder;
+use App\Entity\Project;
 use \LogicException;
 
 /**
@@ -15,35 +16,32 @@ class Translator
 {
     const COPY_KEY = '.ac_idml_ccopy.';
     
-    private $productModel;
-    private $projectModel;
     private $holderBuilder;
 
     public function __construct(
-        \Product_model $productModel,
-        \Project_model $projectModel,
         HolderBuilder $holderBuilder
     ) {
-        $this->productModel = $productModel;
-        $this->projectModel = $projectModel;
         $this->holderBuilder = $holderBuilder;
     }
     
-    public function translate(Holder $baseHolder, array $project): Holder
+    public function translate(Holder $baseHolder, Project $project): Holder
     {
-        if ($baseHolder->getProduct()['id'] !== $project['product_id']) {
+        if ($baseHolder->getProduct() !== $project->getProduct()) {
             throw new LogicException('Consistence error in product and project');
         }
         $copyName = self::duplicateIdml($baseHolder->getZipFileName());
+        /** @var Holder $holder */
         $holder = $this->holderBuilder->buildFromProductAndPath($baseHolder->getProduct(), $copyName);
         $holder->setProject($project);
         $package = $holder->getPackage();
-        $sections = $this->projectModel->getSections($project['id']);
-        foreach ($sections as $section) {
-            $story = $holder->getStory($section['story_key']);
-            $contents = $this->productModel->getSectionContent($project['id'], $section['id']);
-            foreach ($contents as $content) {
-                $story->setContent($section['name'], $content['content_key'], $content['latest_revision']);
+        foreach ($project->getProduct()->getSections() as $section) {
+            $story = $holder->getStory($section->getStoryKey());
+            foreach ($section->getContent() as $content) {
+                foreach ($project->getContentRevision() as $revision) {
+                    if ($revision->getContent() == $content) {
+                        $story->setContent($section->getName(), $content->getKey(), $content->getContent());
+                    }
+                }
             }
             $package->addStory($story->getDomDocument());
         }

@@ -5,6 +5,9 @@ namespace spec\AdventistCommons\Basics;
 use AdventistCommons\Basics\StringFunctions;
 use PhpSpec\ObjectBehavior;
 
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
 class StringFunctionsSpec extends ObjectBehavior
 {
     public function it_is_initializable()

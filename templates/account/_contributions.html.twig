@@ -1,0 +1,53 @@
+<h3>{% trans %}dashboard.contributions.header{% endtrans %}</h3>
+
+<div style="display: block;">
+  <script type="text/javascript">
+    window.contributionsGraphData = {
+      datasets: [
+        {% for productName, productPerMonth in contributionsPerMonth %}
+          {
+            label: "{{ productName }}",
+            data: [
+              {% for year, yearPerMonth in productPerMonth %}
+                {% for month, dataPerMonth in yearPerMonth %}
+                  {
+                    t: "{{ year }}-{{ month }}",
+                    y: {{ dataPerMonth }}         
+                  },
+                {% endfor %}
+              {% endfor %}
+            ]
+          },
+        {% endfor %}
+    ]
+  };
+  </script>
+  <canvas id="contributionChart" width="400" height="400"></canvas>
+</div>
+
+<table class="table mb-4">
+  <thead>
+    <tr>
+      <th scope="col">{% trans %}dashboard.contributions.title{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.contributions.language{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.contributions.sentences{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.contributions.date{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.contributions.percentage{% endtrans %}</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for contribution in contributions %}
+	    <tr>
+	      <td>{{ contribution.product_name }}</td>
+	      <td>{{ contribution.language_name }}</td>
+        <td>{{ contribution.trans_count }}</td>
+        <td>{{ contribution.last_date|date('d/m/Y') }}</td>
+        <td></td>
+	    </tr>
+    {% else %}
+	    <tr>
+	      <td colspan="3"><em>{% trans %}dashboard.contributions.none_yet{% endtrans %}</em></td>
+	    </tr>
+    {% endfor %}
+  </tbody>
+</table>
