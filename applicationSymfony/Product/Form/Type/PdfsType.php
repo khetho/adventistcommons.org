@@ -22,7 +22,7 @@ class PdfsType extends AbstractType
                'pdfOffsetFile',
                FileType::class,
                [
-                    'label' => 'PDF offset',
+                    'label' => 'product.field.pdf_offset_file.label',
                     'required' => false,
                 ]
            )
@@ -30,7 +30,7 @@ class PdfsType extends AbstractType
                 'pdfDigitalFile',
                 FileType::class,
                 [
-                    'label' => 'PDF digital',
+                    'label' => 'product.field.pdf_digital_file.label',
                     'required' => false,
                 ]
             )

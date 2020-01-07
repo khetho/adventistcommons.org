@@ -198,6 +198,10 @@ product:
       label: Audiences
     idml_file:
       label: IDML file
+    pdf_offset_file:
+      label: PDF offset
+    pdf_digital_file:
+      label: PDF digital
     formatClosed:
       label: Closed
       placeholder: e.g. 10.4 x 20.5 cm
