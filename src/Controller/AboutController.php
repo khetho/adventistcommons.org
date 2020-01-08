@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,12 +42,16 @@ class AboutController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function page(string $slug)
+    public function page(string $slug, Request $request)
     {
         try {
-            return $this->render(sprintf('about/%s.html.twig', $slug));
+            return $this->render(sprintf('about/%s.%s.html.twig', $slug, $request->getLocale()));
         } catch (LoaderError $e) {
-            throw new NotFoundHttpException();
+            try {
+                return $this->render(sprintf('about/%s.%s.html.twig', $slug, 'en'));
+            } catch (LoaderError $e) {
+                throw new NotFoundHttpException();
+            }
         }
     }
 }
