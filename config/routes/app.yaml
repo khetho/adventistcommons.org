@@ -8,11 +8,6 @@ app_auth_social:
     type: annotation
     prefix: /{_locale}/auth/social
 
-app_dashboard:
-    resource: App\Controller\DashboardController
-    type: annotation
-    prefix: /{_locale}/dashboard
-
 app_account:
     resource: App\Controller\AccountController
     type: annotation

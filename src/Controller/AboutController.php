@@ -13,7 +13,7 @@ class AboutController extends AbstractController
     /**
      * @Route("/", name="app_about_nolanguage")
      */
-    public function nolanguage()
+    public function noLanguage()
     {
         return $this->redirectToRoute('app_about_home');
     }

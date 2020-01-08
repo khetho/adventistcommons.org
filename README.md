@@ -1,3 +1,4 @@
+
 Adventist Commons is like the &quot;creative commons&quot; of Adventist mission resources for the unreached people groups of the 10/40 window and the world. You would be surprised to know that in many of the world&#39;s major language groups, there isn&#39;t a single Adventist tract or booklet. Or, in places where a few outreach materials have been translated, they are inappropriate for the religious context because they only answer the questions that Western Christians ask.
 
 ## Table of Contents
@@ -7,7 +8,6 @@ Adventist Commons is like the &quot;creative commons&quot; of Adventist mission 
 - [Objectives](#objectives)
 - [Features](#features)
 - [Contribute](#contribute)
-- [Development Setup Guide](#development-setup-guide)
 - [License](#license)
 - [Acknowledgements](#acknowledgments)
 - [FAQ](#faq)
@@ -61,7 +61,8 @@ Ready to get started? Here&#39;s how you can help:
 
 Developers:
 
-- The translation platform being developed is built on the Codeigniter 3 PHP framework and Bootstrap 4. Though Codeigniter may not be the most advanced framework out there, it allows us to get a minimum viable product out the door sooner due to its simplicity. We're still in the early stages of development and in the process of determining the best way to implement the various features we need. 
+- The translation platform being developed is built on the PHP Symfony framework and Bootstrap 4. Though Codeigniter may not be the most advanced framework out there, it allows us to get a minimum viable product out the door sooner due to its simplicity. We're still in the early stages of development and in the process of determining the best way to implement the various features we need.
+- You will find some developer contributing instructions in [CONTRIBUTING](https://github.com/AdventistCommons/adventistcommons.org/blob/master/CONTRIBUTING.md)
 - If you're familiar with PHP development, feel free to check out our [Trello board](https://trello.com/b/cCdSmpc0/adventist-commons-development) to see what we're up to and see how you can contribute. You can join the Trello board [here](https://trello.com/invite/b/cCdSmpc0/4527547fa5dedeee84a0ccae33d08865/adventist-commons-development).
 - Communicate and collaborate through our [Slack workspace](https://join.slack.com/t/adventistcommons/shared_invite/enQtNjYzNjAxNTUwMzA1LTEzOTRlMzZkY2ZjYTlmZTRlYThmNzZhMjMxNmQ1NWE5MWNmZDEwYjE3YTA1YWVkMTFmYmQ5YzE5NjIwMGM0MjM) where development ideas and issues can be discussed. 
 - Learn how to contribute through Github with [Github's Guide to Open Source](https://opensource.guide/how-to-contribute).
@@ -80,109 +81,6 @@ Artists:
 Graphic Designers:
 
 - Volunteer to help us layout the print files of new products as they are translated or create new book and tract designs that will be distributed freely around the world. You can add your name to a list of volunteers by [signing up](https://adventistcommons.org/register) at Adventist Commons and by selecting the "Graphic design" skill in the second part of the sign up process.
-
-## Development
-
-Adventistcommons is developed by developers all around the world. Here are technical stuff about how to participate, if you will.
-
-### Docker Development Setup Guide (experimental)
-
-Docker is a solution to make services work in isolated containers. No need to have local lamp, apache, mysql, php, composer … 
-
-Just install docker and docker-compose and follow steps :
-- clone the repository somewhere on your computer
-- copy \application\config\database.docker.php to \application\config\database.php
-- copy \application\config\config.docker.php to \application\config\database.php
-- Set right on var dirs ``chmod 777 ./var -R``
-- Point your terminal project root and launch project with ``sudo docker-compose up``
-- run migration with command ```docker-compose exec ac-php-fpm bin/console do:mi:mi```
-- In your browser, go to localhost:8096 (the application) and create your account
-- In your browser, go to localhost:8080 (adminer), and connect with parameters Mysql / ac-db / root / somePassword
-- Create ssl private and public keys for relation with frontend (see below)
-
-### Manual Development Setup Guide
-
-Follow the steps below to setup AdventistCommons on your local development environment. We assume you already have a functioning localhost environment with webserver (Apache, Nginx …), PHP and MySQL installed. Instructions are for Windows, Mac OS and Linux.
-
-Let us know if you have any issues with these steps.
-
-#### Code base
-- Clone the repository on your localhost environment.
-- Setup your webserver vhost. We recommend setting up adventistcommons.local as a server alias and pointing it to the directory ```/public``` from where you cloned the repository.
-- Install composer : Point your terminal client to the application/ directory, and run `php -r "readfile('https://getcomposer.org/installer');" | php -c php.ini`
-- Install dependencies with composer with ```php composer.phar install```
-- You may need to install code igniter’s twig extension with command ``php vendor /kenjis/codeigniter-ss-twig/install.php``
-
-#### Database
-- Create database in your favorite MySQL client or with command line : ```mysql -u root -pPASSWORD -e "create database DBNAME;"``` (replace PASSWORD and DBNAME with real data)
-- Play migration to have a database up to date : ```php bin/console do:mi:migrate```
-- For development purpose, you can run some fixtures which are some basic data : ```php bin/console do:fi:lo``` you can log-in with the account ```admin``` / ```pass```
-
-#### Config
-- copy \application\config\config.example.php to \application\config\config.php 
-- Update "$config['base_url']" (line 26) in the file \application\config\config.php with the alias you used to access the Adventist Commons install (eg. "localhost" or "adventistcommons.local").
-- copy \application\config\database.example.php to \application\config\database.php 
-- Update 'hostname','username','password','database' (lines 78-81) in the file \application\config\database.php with your database credentials. The user defined here **should not** be able to set structure data : create, alter and drop tables
-- On Mac OS, you may need to Edit `config.php` and change 
-	- ~~`$config['composer_autoload'] = TRUE;`~~
-	- `$config['composer_autoload'] = 'vendor/autoload.php';`
-- To be able to test some features you may need to create a folder "uploads" in your document root.
-
-#### Frontend
-- install dependencies : ```sudo docker-compose run ac-node npm install --dev```
-- compile all assets for frontend, dev mode : ```sudo docker-compose run ac-node npm run dev```
-- compile all assets for frontend, and keep on watching for changes in files : ```sudo docker-compose run ac-node npm run watch```
-- compile and publish for production : ```sudo docker-compose run ac-node npm run prod```
-
-### Software elements
-
-#### Symfony
-
-First base of the application. If you do not know it yet, check this : https://symfony.com/
-
-#### Migrations
-
-Databases changes are handled by doctrine migrations system.
-To play all migrations, run the command ```php bin/console do:mi:migrate```.
-The migrations already executed on your system are stored, so you can play many times safely,
-only not-applied-yet migrations will be applied. When you get others work from code base
-(git pull or merge), you must play migrations other developers may have added,
-with same command : ```php bin/console do:mi:migrate```.
-
-The idea of migration is to keep a trace of changes done in database, which can be written
-as SQL code. Migrations are stored in ```/src/Migrations```.
-
-If you want to add a change in database follow these steps :
-- apply changes to the entity(ies) : create new, add a field, change a type …
-- create the migration ```php bin/console do:mi:diff```
-- edit to check the new migration file, created in `/src/Migrations/`.
-- play your migration with ```php bin/console do:mi:mi```
-- do not forget to test the down with ```php bin/console do:mi:mi prev``` 
-
-And from now, never do structural changes directly in database, use migrations !
-
-In addition, you can delete database and recreate it all from beginning, including dev sample data with the command
-```sudo docker-compose exec ac-php-fpm bin/clear-db`` 
-
-#### Symfony API backend
-
-We use Apiplatform for the backend
-
-##### JWT
-
-In order to be able to authentify frontend, application must sign messages with frontend. Generate keys like this :
-```
-    mkdir -p config/jwt
-    jwt_passhrase=$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')
-    echo "$jwt_passhrase" | openssl genpkey -out config/jwt/private.pem -pass stdin -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
-    echo "$jwt_passhrase" | openssl pkey -in config/jwt/private.pem -passin stdin -out config/jwt/public.pem -pubout
-    setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
-    setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
-```
-
-#### Angular Frontend
-
-Some content soon here
 
 ## License
 
