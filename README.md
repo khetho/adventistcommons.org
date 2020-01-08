@@ -184,6 +184,33 @@ In order to be able to authentify frontend, application must sign messages with 
 
 Some content soon here
 
+## Deployment
+
+Install ansible and roles :
+```
+sudo pip install ansible
+ansible-galaxy install cbrunnkvist.ansistrano-symfony-deploy
+```
+
+You need to have access to destination throuh ssh without password. See ```ssh-copy-id``` command to install your public key on destination server.
+
+Test the deployment (deploy to localhost)
+```
+ansible-playbook -i deploy/hosts/dev deploy/deploy.yml 
+```
+
+Deploy to demo env
+```
+ansible-playbook -i deploy/hosts/demo deploy/deploy.yml 
+```
+
+Note : The vault password is available from administrators
+
+Edit the encrypted variables for an enviroment :
+```
+ansible-vault edit deploy/group_vars/demo
+```
+
 ## License
 
 All resources on AdventistCommons.org are licensed under the [Creative Commons Attribution-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nd/4.0/) (CC BY-ND 4.0).
@@ -254,3 +281,4 @@ The code included in this repository is copyright protected. It may not be repro
 ## Donate
 
 [AdventistCommons.org](http://www.adventistcommons.org) depends on generous donors for the development of Adventist resources that can be shared freely throughout the world. Your donation is highly appreciated and will make valuable Adventist resources accessible around the world. Please donate through our [Patreon account](http://patreon.com/adventistcommons).
+

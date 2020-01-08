@@ -1,0 +1,9 @@
+[demo_webservers]
+localhost ansible_user=sshuser
+
+[demo_dbservers]
+localhost ansible_user=sshuser
+
+[demo:children]
+demo_webservers
+demo_dbservers
