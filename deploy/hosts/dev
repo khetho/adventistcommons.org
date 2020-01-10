@@ -1,9 +1,0 @@
-[dev_webservers]
-localhost ansible_user=vibby
-
-[dev_dbservers]
-localhost ansible_user=vibby
-
-[dev:children]
-dev_webservers
-dev_dbservers

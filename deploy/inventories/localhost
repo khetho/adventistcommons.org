@@ -1,0 +1,9 @@
+[localhost_webservers]
+localhost ansible_user=vibby
+
+[localhost_dbservers]
+localhost ansible_user=vibby
+
+[localhost:children]
+localhost_webservers
+localhost_dbservers

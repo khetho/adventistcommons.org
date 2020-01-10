@@ -186,30 +186,38 @@ Some content soon here
 
 ## Deployment
 
-Install ansible and roles :
+### requirements
+
+Install Ansible and roles :
 ```
 sudo pip install ansible
 ansible-galaxy install cbrunnkvist.ansistrano-symfony-deploy
 ```
 
-You need to have access to destination throuh ssh without password. See ```ssh-copy-id``` command to install your public key on destination server.
+You need to have access to destination through ssh without password.
+* For testing see ```ssh-copy-id``` command to install your public key on destination server.
+* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ```ssh ubuntu@ec2-3-19-236-227.us-east-2.compute.amazonaws.com``` 
+
+### testing
 
 Test the deployment (deploy to localhost)
 ```
-ansible-playbook -i deploy/hosts/dev deploy/deploy.yml 
+ansible-playbook -i deploy/inventories/dev deploy/deploy.yml 
 ```
 
-Deploy to demo env
+Deploy to development env (http://development.adventistcommons.org)
 ```
-ansible-playbook -i deploy/hosts/demo deploy/deploy.yml 
+ansible-playbook -i deploy/inventories/development deploy/deploy.yml 
 ```
 
-Note : The vault password is available from administrators
+Note : The vault password is asked to do so. It is available from administrators
 
-Edit the encrypted variables for an enviroment :
+Edit the encrypted variables for an environment :
 ```
-ansible-vault edit deploy/group_vars/demo
+ansible-vault edit deploy/inventories/development
 ```
+
+
 
 ## License
 

@@ -9,7 +9,7 @@
     ansistrano_deploy_to: "{{ deploy_to }}"
     ansistrano_keep_releases: 3
     ansistrano_deploy_via: "git"
-    ansistrano_git_repo: git@github.com:AdventistCommons/adventistcommons.org.git
+    ansistrano_git_repo: "{{ repository }}"
     ansistrano_git_branch: "{{ git_reference }}"
     ansistrano_shared_paths:
       - var/log
