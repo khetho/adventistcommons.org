@@ -12,11 +12,14 @@
     ansistrano_git_repo: "{{ repository }}"
     ansistrano_git_branch: "{{ git_reference }}"
     ansistrano_shared_paths:
-      - var/log
-      - var/sessions
+      - var
+      - uploads
+    ansistrano_shared_files:
+      - .env.local
     symfony_console_path: 'bin/console'
     symfony_run_assetic_dump: false
-    symfony_run_doctrine_migrations: false
+    symfony_run_doctrine_migrations: true
+    ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/tasks/npm.yml"
   roles:
     - { role: cbrunnkvist.ansistrano-symfony-deploy }
   environment:
@@ -24,4 +27,6 @@
     BASE_URL: "{{ sf_base_url }}"
     HOST: "{{ sf_host }}"
     SCHEME: "{{ sf_scheme }}"
-      
+  
+# npm install
+# npm run build

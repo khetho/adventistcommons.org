@@ -1,7 +1,0 @@
-deploy_to: ~/test-deploy-ac
-symfony_php_path: php
-sf_env: dev
-sf_base_url: /
-sf_host: localhost:8096
-sf_scheme: http
-git_reference: feat-deploy

@@ -1,9 +1,12 @@
-[localhost_webservers]
-localhost ansible_user=vibby
+[web]
+127.0.0.1
 
-[localhost_dbservers]
-localhost ansible_user=vibby
-
-[localhost:children]
-localhost_webservers
-localhost_dbservers
+[web:vars]
+deploy_to= /var/www/adventistcommons.org
+symfony_php_path= php
+sf_env= prod
+sf_base_url= /
+sf_host= localhost
+sf_scheme= http
+git_reference= feat-deploy
+repository= git@github.com:AdventistCommons/adventistcommons.org.git

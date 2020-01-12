@@ -186,7 +186,22 @@ Some content soon here
 
 ## Deployment
 
-### requirements
+### server reqs
+
+```
+sudo apt-get install unzip
+sudo apt-get install nginx
+sudo apt-get install php-fpm
+sudo apt-get install php7.4-xml
+sudo apt-get install php7.4-mysql
+sudo apt-get install php7.4-mbstring
+sudo apt-get install php7.4-zip
+sudo apt-get install php7.4-curl
+curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### deployment point requirements
 
 Install Ansible and roles :
 ```
@@ -196,21 +211,25 @@ ansible-galaxy install cbrunnkvist.ansistrano-symfony-deploy
 
 You need to have access to destination through ssh without password.
 * For testing see ```ssh-copy-id``` command to install your public key on destination server.
-* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ```ssh ubuntu@ec2-3-19-236-227.us-east-2.compute.amazonaws.com``` 
+* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ssh.
 
 ### testing
 
 Test the deployment (deploy to localhost)
 ```
-ansible-playbook -i deploy/inventories/dev deploy/deploy.yml 
+ansible-playbook -i deploy/inventories/loclahost deploy/deploy.yml 
 ```
+
+### deploy
 
 Deploy to development env (http://development.adventistcommons.org)
 ```
-ansible-playbook -i deploy/inventories/development deploy/deploy.yml 
+ansible-playbook -i deploy/inventories/develop deploy/deploy.yml --ask-vault-password
 ```
 
 Note : The vault password is asked to do so. It is available from administrators
+
+### edit
 
 Edit the encrypted variables for an environment :
 ```
