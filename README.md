@@ -186,7 +186,7 @@ Some content soon here
 
 ## Deployment
 
-### server reqs
+### destination server reqs
 
 ```
 sudo apt-get install unzip
@@ -201,7 +201,10 @@ curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-### deployment point requirements
+Nginx vhost config is also required.
+
+
+### deployment point (your machine !) requirements
 
 Install Ansible and roles :
 ```
@@ -209,32 +212,27 @@ sudo pip install ansible
 ansible-galaxy install cbrunnkvist.ansistrano-symfony-deploy
 ```
 
-You need to have access to destination through ssh without password.
-* For testing see ```ssh-copy-id``` command to install your public key on destination server.
-* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ssh.
-
 ### testing
 
 Test the deployment (deploy to localhost)
 ```
-ansible-playbook -i deploy/inventories/loclahost deploy/deploy.yml 
+ansible-playbook -i deploy/inventories/localhost deploy/deploy.yml 
 ```
 
 ### deploy
 
-Deploy to development env (http://development.adventistcommons.org)
-```
-ansible-playbook -i deploy/inventories/develop deploy/deploy.yml --ask-vault-password
-```
+You need to have access to destination through ssh without password.
+* For testing see ```ssh-copy-id``` command to install your public key on destination server.
+* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ssh.
+
+* Deploy to «develop» env (http://develop.adventistcommons.org): ``` ansible-playbook -i deploy/inventories/develop deploy/deploy.yml --ask-vault-password ```
 
 Note : The vault password is asked to do so. It is available from administrators
 
-### edit
 
-Edit the encrypted variables for an environment :
-```
-ansible-vault edit deploy/inventories/development
-```
+### edit deployment config
+
+Edit the encrypted variables for an environment : ``` ansible-vault edit deploy/inventories/develop ```
 
 
 
