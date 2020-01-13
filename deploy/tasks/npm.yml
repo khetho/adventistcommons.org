@@ -1,0 +1,11 @@
+---
+# NPM stuff
+- name: Npm install
+  shell: npm install
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+    
+- name: Npm build
+  shell: npm run build
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"

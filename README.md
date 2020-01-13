@@ -184,6 +184,58 @@ In order to be able to authentify frontend, application must sign messages with 
 
 Some content soon here
 
+## Deployment
+
+### destination server reqs
+
+```
+sudo apt-get install unzip
+sudo apt-get install nginx
+sudo apt-get install php-fpm
+sudo apt-get install php7.4-xml
+sudo apt-get install php7.4-mysql
+sudo apt-get install php7.4-mbstring
+sudo apt-get install php7.4-zip
+sudo apt-get install php7.4-curl
+curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+Nginx vhost config is also required.
+
+
+### deployment point (your machine !) requirements
+
+Install Ansible and roles :
+```
+sudo pip install ansible
+ansible-galaxy install cbrunnkvist.ansistrano-symfony-deploy
+```
+
+### testing
+
+Test the deployment (deploy to localhost)
+```
+ansible-playbook -i deploy/inventories/localhost deploy/deploy.yml 
+```
+
+### deploy
+
+You need to have access to destination through ssh without password.
+* For testing see ```ssh-copy-id``` command to install your public key on destination server.
+* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ssh.
+
+* Deploy to «develop» env (http://develop.adventistcommons.org): ``` ansible-playbook -i deploy/inventories/develop deploy/deploy.yml --ask-vault-password ```
+
+Note : The vault password is asked to do so. It is available from administrators
+
+
+### edit deployment config
+
+Edit the encrypted variables for an environment : ``` ansible-vault edit deploy/inventories/develop ```
+
+
+
 ## License
 
 All resources on AdventistCommons.org are licensed under the [Creative Commons Attribution-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nd/4.0/) (CC BY-ND 4.0).
@@ -254,3 +306,4 @@ The code included in this repository is copyright protected. It may not be repro
 ## Donate
 
 [AdventistCommons.org](http://www.adventistcommons.org) depends on generous donors for the development of Adventist resources that can be shared freely throughout the world. Your donation is highly appreciated and will make valuable Adventist resources accessible around the world. Please donate through our [Patreon account](http://patreon.com/adventistcommons).
+

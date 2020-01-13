@@ -16,14 +16,19 @@ if [ -x "$PRE_COMMIT" ]; then
     HAS_PRE_COMMIT=true
 fi
 
-if $HAS_PRE_COMMIT; then
-    cp ${PRE_COMMIT} .git/hooks/.
+
+if [ -d ${ROOT_DIRECTORY}/.git/hooks ] ; then
+	if $HAS_PRE_COMMIT; then
+	    cp ${PRE_COMMIT} ${ROOT_DIRECTORY}/.git/hooks/.
+	else
+	    echo ""
+	    echo "Cannot find pre-commit script : bin/git-hooks/pre-commit"
+	    echo ""
+		cd $CURRENT_DIRECTORY;
+	    exit 1
+	fi
 else
-    echo ""
-    echo "Cannot find pre-commit script : bin/git-hooks/pre-commit"
-    echo ""
-	cd $CURRENT_DIRECTORY;
-    exit 1
+	echo "skip git hook install"
 fi
 
 cd $CURRENT_DIRECTORY;
