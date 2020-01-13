@@ -7,9 +7,6 @@ composer.phar
 /var/sessions
 /var/cache
 /uploads
-/applicationCodeIgniter/config/config.php
-/applicationCodeIgniter/config/database.php
-/applicationCodeIgniter/config/*/config.php
 google_translate_authentication.json
 /public/bundles
 
@@ -26,3 +23,9 @@ google_translate_authentication.json
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
