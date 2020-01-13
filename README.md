@@ -152,3 +152,4 @@ The code included in this repository is copyright protected. It may not be repro
 ## Donate
 
 [AdventistCommons.org](http://www.adventistcommons.org) depends on generous donors for the development of Adventist resources that can be shared freely throughout the world. Your donation is highly appreciated and will make valuable Adventist resources accessible around the world. Please donate through our [Patreon account](http://patreon.com/adventistcommons).
+

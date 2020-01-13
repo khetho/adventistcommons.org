@@ -7,6 +7,7 @@ use App\Product\Uploader\CoverUploader;
 use App\Product\Uploader\IdmlUploader;
 use App\Product\Uploader\PdfDigitalUploader;
 use App\Product\Uploader\PdfOffsetUploader;
+use \Exception;
 
 class UploaderAggregator
 {

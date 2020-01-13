@@ -90,11 +90,9 @@ class GoogleAuthenticator extends SocialAuthenticator
 
         if (!$user) {
             /** @var User $user */
-            $user = new User();
-            $user->setEnabled(true);
-            $user->setEmail($email);
-            $user->setUsername($googleUser->getName());
-            $user->setPlainPassword();
+            $user = new User($email);
+            $user->setActive(true);
+            $user->setLastName($googleUser->getName());
         }
 
         // 3) Maybe you just want to "register" them by creating

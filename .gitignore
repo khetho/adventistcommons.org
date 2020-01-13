@@ -10,6 +10,9 @@ composer.phar
 google_translate_authentication.json
 /public/bundles
 
+/bin/.phpunit/
+/deploy/deploy.retry
+
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
