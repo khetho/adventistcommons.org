@@ -1,0 +1,4 @@
+---
+- name: finalize deployment
+  deploy_helper: path="{{deploy_root}}" release={{ deploy_helper.new_release }} keep_releases="{{keep_releases|default(5)}}" state=finalize
+  when: update_current_symlink == true

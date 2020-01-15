@@ -1,0 +1,14 @@
+galaxy_info:
+  author: vibby
+  description: Clone a git repo to temporary directory
+
+  license: BSD
+
+  min_ansible_version: 1.2
+
+  galaxy_tags:
+    - git
+    - clone
+    - deployment
+
+dependencies: []
