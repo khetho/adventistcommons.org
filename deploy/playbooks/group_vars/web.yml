@@ -1,0 +1,15 @@
+---
+project_name: adventistcommons
+repository: git@github.com:AdventistCommons/adventistcommons.org.git
+# These are the directories shared between releases
+# Relative to the project root
+shared_directories:
+  - var/log
+  - var/sessions
+  - uploads
+rsync_exclusion:
+  - .git
+  - deploy
+  - var/log
+  - var/sessions
+  - uploads

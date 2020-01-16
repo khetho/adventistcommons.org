@@ -1,0 +1,5 @@
+---
+keep_releases: 5
+shared_directories: []
+shared_files: []
+update_current_symlink: true

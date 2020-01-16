@@ -109,3 +109,65 @@ We use Apiplatform for the backend
 
 Some content soon here
 
+
+## Deployment
+
+### destination server reqs
+
+Nginx, Mysql and PHP 7.4 are required
+```
+sudo apt-get install unzip nginx
+sudo apt-get install php-fpm php7.4-xml php7.4-mysql php7.4-mbstring php7.4-zip php7.4-curl
+```
+Nginx vhost config is also required, only if you want to see it in a browser.
+
+### deployment point (your machine !) requirements
+
+Nodejs :
+```
+curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+Composer :
+```
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'c5b9b6d368201a9db6f74e2611495f369991b72d9c8cbd3ffbc63edff210eb73d46ffbfce88669ad33695ef77dc76976') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+mv composer.phar /usr/bin/composer     # root rights needed
+```
+
+Ansible > 2.8 is needed :
+```
+sudo pip install ansible
+```
+
+### testing and debugging the deployment
+
+Test the deployment (deploy to localhost) :
+* Create a virtual machine at name : ac-deploy.local (with docker, virtuabox, or anything else)
+* Configure it so you can reach through ssh without password. See ```ssh-copy-id``` command to install your public key on it.
+* Install PHP 7.4 on that machine
+* Install mysql and create database «adventistcommons» accessible for user «adventistcommons» with teh password «password»
+* Run the playbook :
+```
+cd deploy
+ansible-playbook -i deploy/inventories/deploy-tester.ini deploy/tasks/deploy.yml 
+```
+
+### deploy
+
+You need to have access to destination through ssh without password.
+* For the demo env, you need the pem key to authenticate against destination server. And add it to you ssh agent : ``` ssh-add development_adventist_commons.pem ```. Then test your connection with ssh.
+* Deploy to «develop» env (http://develop.adventistcommons.org):
+``` 
+cd deploy
+ansible-playbook -i inventories/develop tasks/deploy.yml --ask-vault-password
+```
+
+Note : The vault password is asked to do so. It is available from administrators.
+
+### edit deployment config
+
+Edit the encrypted variables for an environment : ``` ansible-vault edit deploy/inventories/develop ```

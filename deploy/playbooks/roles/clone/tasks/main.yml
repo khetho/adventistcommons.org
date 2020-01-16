@@ -1,0 +1,27 @@
+---
+- name: Get current datetime
+  shell: "date +%Y%m%d%H%M%S"
+  register: current_time
+  delegate_to: localhost
+  run_once: true
+
+- name: Get package directory name
+  set_fact:
+    package_root: "/tmp/{{project_name}}/{{git_ref}}-{{current_time.stdout}}"
+  delegate_to: localhost
+  run_once: true
+
+- name: Clone git repository
+  git:
+    repo: "{{repository}}"
+    dest: "{{package_root}}"
+    version: "{{git_ref}}"
+    recursive: yes
+    force: yes
+    depth: 1
+  delegate_to: localhost
+  run_once: true
+
+- debug: msg="Project file cloned in {{package_root}}"
+  delegate_to: localhost
+  run_once: true

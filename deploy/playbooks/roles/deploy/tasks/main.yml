@@ -1,0 +1,125 @@
+---
+- name: Generate release name
+  command: date +%Y%m%d%H%M%S
+  register: timestamp
+  delegate_to: localhost
+  run_once: true
+
+- name: Touch rsync-exclusion files
+  file: path="{{package_root}}/rsync-exclusion" state=touch
+  delegate_to: localhost
+  run_once: true
+
+- name: Copy exclusion list
+  lineinfile:
+    path: "{{package_root}}/rsync-exclusion"
+    line: "{{item}}"
+  with_items: "{{rsync_exclusion}}"
+  delegate_to: localhost
+  run_once: true
+  when: rsync_exclusion is defined
+
+- name: Exclude rsync-exclusion file
+  lineinfile:
+    path: "{{package_root}}/rsync-exclusion"
+    line: "rsync-exclusion"
+  delegate_to: localhost
+  run_once: true
+
+- name: Initialize the deploy root and gather facts
+  deploy_helper:
+    path: "{{deploy_root}}"
+    release: "{{ timestamp.stdout }}"
+
+- name: Get revision number
+  command: git rev-parse HEAD
+  args:
+    chdir: "{{package_root}}"
+  register: gitrev
+  delegate_to: localhost
+  run_once: true
+
+- name: Create repo directory
+  file: path="{{deploy_root}}/repo" state=directory
+
+- name: Create shared directories
+  file: path="{{ deploy_helper.shared_path }}/{{ item }}" state=directory
+  with_items: "{{shared_directories}}"
+  # Ignore error as it might be an existing symlink
+  ignore_errors: yes
+
+- name: Touch shared files
+  file: path="{{ deploy_helper.shared_path }}/{{ item }}" state=touch
+  with_items: "{{shared_files}}"
+  # Ignore error as it might be an existing symlink
+  ignore_errors: yes
+  when: shared_files is defined
+
+- name: Synchronize target repository
+  synchronize:
+    src: "{{package_root}}/"
+    dest: "{{deploy_root}}/repo/"
+    mode: push
+    use_ssh_args: yes
+    checksum: yes
+    recursive: yes
+    archive: no
+    links: yes
+    delete: yes
+    rsync_opts:
+      - "--exclude-from={{package_root}}/rsync-exclusion"
+
+- name: Copy artifact to new release
+  copy:
+    src: "{{deploy_root}}/repo/"
+    dest: "{{deploy_helper.new_release_path}}"
+    remote_src: yes
+
+- name: Add an unfinished file, to allow cleanup on successful finalize
+  file: path={{ deploy_helper.new_release_path }}/{{ deploy_helper.unfinished_filename }} state=touch
+
+- name: Add revision number to deploy log
+  lineinfile:
+    dest: "{{deploy_root}}/REVISIONS"
+    create: yes
+    line: "Deployed {{gitrev.stdout}} in {{deploy_helper.new_release}}"
+  notify:
+    - finalize deployment
+
+- name: Remove shared directory
+  file: path='{{ deploy_helper.new_release_path }}/{{ item }}'
+    state=absent
+  with_items: '{{shared_directories}}'
+  when: shared_directories is defined
+
+- name: Create parent shared directory
+  file: path='{{ deploy_helper.new_release_path }}/{{ item | dirname }}'
+    state=directory
+  with_items: '{{shared_directories}}'
+  when: shared_directories is defined
+
+- name: Symlink shared directories
+  file: path='{{ deploy_helper.new_release_path }}/{{ item }}'
+    src='{{ deploy_helper.shared_path }}/{{ item }}'
+    state=link
+  with_items: '{{shared_directories}}'
+  when: shared_directories is defined
+
+- name: Remove shared files
+  file: path='{{ deploy_helper.new_release_path }}/{{ item }}'
+    state=absent
+  with_items: '{{shared_files}}'
+  when: shared_files is defined
+
+- name: Create parent directory for shared files
+  file: path='{{ deploy_helper.new_release_path }}/{{ item | dirname }}'
+    state=directory
+  with_items: '{{shared_files}}'
+  when: shared_files is defined
+
+- name: Symlink shared files
+  file: path='{{ deploy_helper.new_release_path }}/{{ item }}'
+    src='{{ deploy_helper.shared_path }}/{{ item }}'
+    state=link
+  with_items: '{{shared_files}}'
+  when: shared_files is defined

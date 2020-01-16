@@ -85,5 +85,5 @@ services:
     expose:
       - "8081"
     command: "npm start"
-    
+
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/

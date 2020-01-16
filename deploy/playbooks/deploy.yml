@@ -1,0 +1,61 @@
+---
+- name: Prepare artifact
+  hosts: web
+  tags:
+    - package
+  tasks:
+    - name: Clone repository
+      include_role:
+        name: clone
+      when: artifact is not defined
+
+    - name: Set package_root
+      set_fact:
+        package_root: "{{artifact}}"
+      when: artifact is defined
+
+    - name: Npm install
+      shell: npm install
+      args:
+        chdir: "{{package_root}}"
+      delegate_to: localhost
+
+    - name: Npm run build
+      shell: npm run build
+      args:
+        chdir: "{{package_root}}"
+      delegate_to: localhost
+
+    - name: Composer install
+      shell: composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
+      args:
+        chdir: "{{package_root}}"
+      delegate_to: localhost
+
+- name: Deploy artifact
+  hosts: web
+  tags:
+    - deploy
+  tasks:
+    - include_role:
+        name: deploy
+
+    - name: Generate the enviroment specific config in .env.local
+      template: src="templates/.env.local.j2" dest="{{ deploy_helper.new_release_path }}/.env.local"
+
+    - name: Run database migrations
+      shell: bin/console doctrine:migrations:migrate --no-interaction
+      args:
+        chdir: "{{ deploy_helper.new_release_path }}"
+
+    - name: Set writing rights to cache and log
+      file:
+        path: "{{ deploy_helper.new_release_path }}/{{item}}"
+        state: directory
+        recurse: yes
+        mode: '0777'
+      loop:
+        - var/cache/
+        - var/log/
+        - var/sessions/
+        - uploads/

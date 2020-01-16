@@ -1,0 +1,14 @@
+galaxy_info:
+  author: vibby
+  description: Deploy an artifact to an enviroment
+
+  license: BSD
+
+  min_ansible_version: 1.2
+
+  galaxy_tags:
+    - git
+    - clone
+    - deployment
+
+dependencies: []
