@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 # Install essentials
 RUN buildDeps="curl libpq-dev libzip-dev libicu-dev libjpeg62-turbo-dev libfreetype6-dev libmagickwand-6.q16-dev libpng-dev" && \
@@ -8,7 +8,7 @@ RUN buildDeps="curl libpq-dev libzip-dev libicu-dev libjpeg62-turbo-dev libfreet
     rm -rf /var/lib/apt/lists/*
 
 # Install PHP modules
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install \
         opcache \
         pdo \
