@@ -7,6 +7,7 @@ use App\Product\Idml\Importer;
 use App\Form\UploaderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use \Exception;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IdmlUploader implements UploaderInterface
 {
@@ -19,17 +20,22 @@ class IdmlUploader implements UploaderInterface
         $this->importer = $importer;
     }
 
-    public function upload($product)
+    public function upload(Product $product)
     {
         $file = $product->getIdmlFile();
         if (!$file) {
             return $product;
         }
-        
+
         if ($product->getIdmlFilename()) {
             throw new Exception('It is not allowed to change the Idml file');
         }
-        
+
+        if ($file instanceof UploadedFile) {
+            throw new Exception('It is not allowed to upload a file that is not an UploadedFile object');
+        }
+
+        /** @var UploadedFile $file */
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.idml';

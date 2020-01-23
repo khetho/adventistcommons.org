@@ -14,6 +14,7 @@ use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;
 use App\Project\Form\Type\AddType;
 use App\Product\Form\Type\AddAttachmentType;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,6 +71,7 @@ class ProductController extends AbstractController
      * @param DataFinder $dataFinder
      * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
+     * @throws Exception
      */
     public function downloadIdml(
         string $slug,
@@ -97,6 +99,7 @@ class ProductController extends AbstractController
      * @param DataFinder $dataFinder
      * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
+     * @throws Exception
      */
     public function downloadOffsetPdf(
         string $slug,
@@ -124,6 +127,7 @@ class ProductController extends AbstractController
      * @param DataFinder $dataFinder
      * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
+     * @throws Exception
      */
     public function downloadDigitalPdf(
         string $slug,
@@ -152,6 +156,7 @@ class ProductController extends AbstractController
      * @param DataFinder $dataFinder
      * @return Response
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @throws Exception
      */
     public function edit($slug, Request $request, UploaderAggregator $uploader, DataFinder $dataFinder)
     {

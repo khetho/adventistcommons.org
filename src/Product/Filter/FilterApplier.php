@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product;
+namespace App\Product\Filter;
 
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;

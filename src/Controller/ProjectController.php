@@ -8,6 +8,7 @@ use App\Product\Idml\Translator;
 use App\Project\Form\Type\AddMemberType;
 use App\Project\Form\Type\DeleteType;
 use App\Twig\RoutesExtension;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,7 +84,7 @@ class ProjectController extends AbstractController
      * @param DataFinder $dataFinder
      * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function downloadIdml(
         string $slug,

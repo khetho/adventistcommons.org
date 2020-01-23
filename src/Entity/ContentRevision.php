@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="product_content_revisions",
  *     indexes={
  *         @ORM\Index(name="project_id", columns={"project_id"}),
- *         @ORM\Index(name="content_id", columns={"content_id"}),
+ *         @ORM\Index(name="sentence_id", columns={"sentence_id"}),
  *         @ORM\Index(name="user_id", columns={"user_id"})
  *     }
  * )
@@ -43,14 +43,14 @@ class ContentRevision
     private $createdAt;
 
     /**
-     * @var Content
+     * @var Paragraph
      *
-     * @ORM\ManyToOne(targetEntity="Content")
+     * @ORM\ManyToOne(targetEntity="Sentence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="content_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sentence_id", referencedColumnName="id")
      * })
      */
-    private $content2;
+    private $sentence;
 
     /**
      * @var User
@@ -106,14 +106,14 @@ class ContentRevision
         return $this;
     }
 
-    public function getContent2(): ?Content
+    public function getSentence(): ?Paragraph
     {
-        return $this->content2;
+        return $this->sentence;
     }
 
-    public function setContent2(?Content $content2): self
+    public function setSentence(?Sentence $sentence): self
     {
-        $this->content2 = $content2;
+        $this->sentence = $sentence;
 
         return $this;
     }

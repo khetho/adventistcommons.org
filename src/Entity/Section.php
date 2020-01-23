@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -87,9 +88,14 @@ class Section
 
     /**
      * One product has many projects. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="Content", mappedBy="section")
+     * @ORM\OneToMany(targetEntity="Paragraph", mappedBy="section")
      */
-    private $contents;
+    private $paragraphs;
+
+    public function __construct()
+    {
+        $this->paragraphs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,8 +198,8 @@ class Section
         return $this;
     }
     
-    public function getContents()
+    public function getParagraphs()
     {
-        return $this->contents;
+        return $this->paragraphs;
     }
 }

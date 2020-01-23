@@ -47,7 +47,7 @@ class AttachmentUploader implements UploaderInterface
         } catch (FileException $e) {
             // @TODO handle exception if something happens during file upload
         }
-        $attachment->setFilename($fileName);
+        $attachment->setFileName($fileName);
 
         return $attachment;
     }

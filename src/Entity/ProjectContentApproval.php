@@ -46,9 +46,9 @@ class ProjectContentApproval
     private $approvedBy;
 
     /**
-     * @var Content
+     * @var Paragraph
      *
-     * @ORM\ManyToOne(targetEntity="Content")
+     * @ORM\ManyToOne(targetEntity="Paragraph")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="content_id", referencedColumnName="id")
      * })
@@ -94,12 +94,12 @@ class ProjectContentApproval
         return $this;
     }
 
-    public function getContent(): ?Content
+    public function getContent(): ?Paragraph
     {
         return $this->content;
     }
 
-    public function setContent(?Content $content): self
+    public function setContent(?Paragraph $content): self
     {
         $this->content = $content;
 

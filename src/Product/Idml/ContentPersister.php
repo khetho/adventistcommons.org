@@ -3,7 +3,7 @@
 namespace App\Product\Idml;
 
 use AdventistCommons\Idml\ContentPersisterInterface;
-use App\Entity\Content;
+use App\Entity\Paragraph;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ContentPersister implements ContentPersisterInterface
@@ -15,9 +15,9 @@ class ContentPersister implements ContentPersisterInterface
         $this->entityManager = $entityManager;
     }
     
-    public function create(array $data): Content
+    public function create(array $data): Paragraph
     {
-        $content = new Content();
+        $content = new Paragraph();
         $content->setSection($data['section']);
         $content->setContent($data['content']);
         $content->setOrder($data['order']);

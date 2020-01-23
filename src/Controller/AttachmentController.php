@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Product\DownloadLogger;
 use App\Product\Uploader\AttachmentUploader;
 use App\Product\Form\Type\AddAttachmentType;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,6 +55,7 @@ class AttachmentController extends AbstractController
      * @param DataFinder $dataFinder
      * @param DownloadLogger $downloadLogger
      * @return BinaryFileResponse
+     * @throws Exception
      */
     public function downloadAttachment(
         string $slug,

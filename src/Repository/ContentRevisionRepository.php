@@ -17,9 +17,9 @@ class ContentRevisionRepository extends ServiceEntityRepository
     public function getUserReport(User $user)
     {
         $queryBuilder = $this->createQueryBuilder('cr')
-            ->select('d.name as product_name, l.name as language_name, count(distinct(c.id)) as trans_count, max(cr.createdAt) as last_date')
+            ->select('d.name as product_name, l.name as language_name, count(distinct(s.id)) as trans_count, max(cr.createdAt) as last_date')
             ->innerJoin('cr.project', 'j')
-            ->innerJoin('cr.content2', 'c')
+            ->innerJoin('cr.sentence', 's')
             ->innerJoin('j.product', 'd')
             ->innerJoin('j.language', 'l')
             ->where('cr.user = :user')
@@ -34,9 +34,9 @@ class ContentRevisionRepository extends ServiceEntityRepository
         $sixMonthsAgo = new \DateTime('first day of this month');
         $sixMonthsAgo->sub(new \DateInterval('P6M'));
         $queryBuilder = $this->createQueryBuilder('cr')
-            ->select('count(distinct(c.id)) as month_count, MONTH(cr.createdAt) as month, YEAR(cr.createdAt) AS year, d.name as product_name')
+            ->select('count(distinct(s.id)) as month_count, MONTH(cr.createdAt) as month, YEAR(cr.createdAt) AS year, d.name as product_name')
             ->innerJoin('cr.project', 'j')
-            ->innerJoin('cr.content2', 'c')
+            ->innerJoin('cr.sentence', 's')
             ->innerJoin('j.product', 'd')
             ->groupBy('month, year, d.id')
             ->orderBy('year, month')

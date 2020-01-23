@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Project;
 use App\Entity\ContentRevision;
+use App\Entity\Project;
+use App\Entity\User;
 use App\Form\Type\AccountType;
 use App\Form\Type\CompleteType;
-use App\Form\Type\PasswordType;
 use App\Form\Type\DeleteAccountType;
+use App\Form\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +54,7 @@ class AccountController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $modifiedUser = null;
-        
+
         $accountForm = $this->createForm(AccountType::class, $user);
         $accountForm->handleRequest($request);
         if ($accountForm->isSubmitted() && $accountForm->isValid()) {
@@ -79,7 +79,7 @@ class AccountController extends AbstractController
             $modifiedUser = $user->forget();
             $redirectRoute = 'app_auth_logout';
         }
-        
+
         if ($modifiedUser) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($modifiedUser);
@@ -90,7 +90,7 @@ class AccountController extends AbstractController
         $projects = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage(null)->setMaxResults(10)->getResult();
         $contributions = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReport($user);
         $contribPerMonth = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReportPerMounth($user);
-        
+
         return $this->render(
             'account/edit.html.twig',
             [

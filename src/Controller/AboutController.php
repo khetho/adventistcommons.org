@@ -40,6 +40,7 @@ class AboutController extends AbstractController
     /**
      * @Route("/{_locale}/about/{slug}", name="app_about_page")
      * @param string $slug
+     * @param Request $request
      * @return Response
      */
     public function page(string $slug, Request $request)

@@ -43,6 +43,7 @@ class AuthController extends AbstractController
     /**
      * @Route("/register", name="app_auth_register")
      * @param Request $request
+     * @param Registerer $registerer
      * @return Response
      */
     public function register(Request $request, Registerer $registerer)
