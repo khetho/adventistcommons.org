@@ -43,7 +43,7 @@ class Paragraph
     /**
      * @var Section
      *
-     * @ORM\ManyToOne(targetEntity="Section", inversedBy="contents")
+     * @ORM\ManyToOne(targetEntity="Section", inversedBy="paragraphs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      * })

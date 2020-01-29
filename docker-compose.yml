@@ -66,7 +66,7 @@ services:
   ac-admin:
     build:
       context: ./admin
-      target: api_platform_admin_development
+      target: api_platform_idmin_development
       cache_from:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
@@ -93,5 +93,9 @@ services:
     build:
       context: ./docker/nltk
     command: "python3 -m nlp_api ac-nltk 2230"
+    ports:
+      - target: 2230
+        published: 8098
+        protocol: tcp
 
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/

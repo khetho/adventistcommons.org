@@ -31,7 +31,7 @@ class IdmlUploader implements UploaderInterface
             throw new Exception('It is not allowed to change the Idml file');
         }
 
-        if ($file instanceof UploadedFile) {
+        if (!$file instanceof UploadedFile) {
             throw new Exception('It is not allowed to upload a file that is not an UploadedFile object');
         }
 
