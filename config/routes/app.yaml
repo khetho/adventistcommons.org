@@ -58,6 +58,11 @@ app_feedback:
     type: annotation
     prefix: /{_locale}/feedback
 
+app_translation_memory:
+    resource: App\Controller\TranslationMemoryController
+    type: annotation
+    prefix: /{_locale}/translation-memory
+
 app_auth_login_check:
     path:     /account/login_check
     methods:  [POST]

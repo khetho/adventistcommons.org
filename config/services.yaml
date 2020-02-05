@@ -10,6 +10,7 @@ parameters:
     attachmentTargetDirectory: '%kernel.project_dir%/uploads/attachments'
     pdfTargetDirectory: '%kernel.project_dir%/uploads/pdfs'
     nlpHost: '%env(string:NLP_HOST)%'
+    elasticsearchHost: '%env(string:ELASTICSEARCH_HOST)%'
         
 services:
     # default configuration for services in *this* file
@@ -74,3 +75,6 @@ services:
         arguments:
             - '%nlpHost%'
 
+    App\TranslationMemory\ClientBuilder:
+        arguments:
+            - '%elasticsearchHost%'

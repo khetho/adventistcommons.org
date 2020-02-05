@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  * @ORM\Entity
+ * @ApiResource()
  */
 class Sentence
 {
@@ -78,7 +80,7 @@ class Sentence
         return $this;
     }
 
-    public function getParagraph(): ?Section
+    public function getParagraph(): ?Paragraph
     {
         return $this->paragraph;
     }

@@ -81,6 +81,11 @@ class Project
      */
     private $attachments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ContentRevision", mappedBy="project")
+     */
+    private $contentRevisions;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -157,5 +162,13 @@ class Project
     public function getAttachments(): Collection
     {
         return $this->attachments;
+    }
+
+    /**
+     * @return ContentRevision[]
+     */
+    public function getContentRevisions(): Collection
+    {
+        return $this->contentRevisions;
     }
 }

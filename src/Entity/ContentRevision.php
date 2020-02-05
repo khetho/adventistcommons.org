@@ -43,7 +43,7 @@ class ContentRevision
     private $createdAt;
 
     /**
-     * @var Paragraph
+     * @var Sentence
      *
      * @ORM\ManyToOne(targetEntity="Sentence")
      * @ORM\JoinColumns({
@@ -64,8 +64,8 @@ class ContentRevision
 
     /**
      * @var Project
-     *
-     * @ORM\ManyToOne(targetEntity="Project")
+user     *
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="contentRevisions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      * })
@@ -106,7 +106,7 @@ class ContentRevision
         return $this;
     }
 
-    public function getSentence(): ?Paragraph
+    public function getSentence(): ?Sentence
     {
         return $this->sentence;
     }

@@ -868,12 +868,12 @@ class User implements UserInterface
         return $this;
     }
     
-    public function getProjects()
+    public function getProjects(): Collection
     {
         return $this->projects;
     }
     
-    public function getContentRevisions()
+    public function getContentRevisions(): Collection
     {
         return $this->contentRevisions;
     }

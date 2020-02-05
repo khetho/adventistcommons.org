@@ -87,6 +87,8 @@ class Section
     private $product;
 
     /**
+     * @var Paragraph[]
+     *
      * One product has many projects. This is the inverse side.
      * @ORM\OneToMany(targetEntity="Paragraph", mappedBy="section")
      */

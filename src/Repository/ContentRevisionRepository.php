@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Project;
 use App\Entity\User;
 use App\Entity\ContentRevision;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -52,5 +53,20 @@ class ContentRevisionRepository extends ServiceEntityRepository
         }
         
         return $results;
+    }
+
+    public function getLatestRevisionsForProject(Project $project)
+    {
+        $queryBuilder = $this->createQueryBuilder('cr')
+            ->select('cr.content as translation, l.code as language_code, s.content as source')
+            ->innerJoin('cr.project', 'j')
+            ->innerJoin('j.language', 'l')
+            ->innerJoin('cr.sentence', 's')
+            ->groupBy('cr.sentence')
+            ->orderBy('cr.createdAt', 'DESC')
+            ->where('cr.project = :project')
+            ->setParameter('project', $project);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }
