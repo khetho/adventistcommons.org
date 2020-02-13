@@ -137,6 +137,9 @@
             "config/packages/knpu_oauth2_client.yaml"
         ]
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.1"
+    },
     "lcobucci/jwt": {
         "version": "3.3.1"
     },
@@ -186,7 +189,7 @@
         "version": "2.5.2"
     },
     "php": {
-        "version": "7.4"
+        "version": "7.4.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -548,6 +551,9 @@
     },
     "symfony/yaml": {
         "version": "v4.3.8"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.0"
     },
     "webmozart/assert": {
         "version": "1.5.0"
