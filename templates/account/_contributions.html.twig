@@ -42,7 +42,7 @@
 	      <td>{{ contribution.language_name }}</td>
         <td>{{ contribution.trans_count }}</td>
         <td>{{ contribution.last_date|date('d/m/Y') }}</td>
-        <td></td>
+        <td>{{ (100 * contribution.trans_count / contribution.total_count) | round }}%</td>
 	    </tr>
     {% else %}
 	    <tr>
