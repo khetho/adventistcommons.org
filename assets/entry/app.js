@@ -14,5 +14,5 @@ import 'bootstrap/js/dist/tooltip';
 
 require('dropzone/dist/dropzone-amd-module.js');
 
-import './theme.js';
-import './custom.js';
+import '../js/theme.js';
+import '../js/app-custom.js';

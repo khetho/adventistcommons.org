@@ -1,0 +1,428 @@
+// 
+// 
+// user.scss
+//
+// Place your own custom CSS or SCSS rules below this line, these rules will override any Bootstrap and theme variables.
+
+body {
+  background: $editor-body;
+}
+
+.editor {
+  &__container {
+    margin-top: 20px;
+    background-color: $white;
+  }
+
+  .page-link:hover {
+    background: transparent;
+    color: $blue;
+  }
+}
+
+.page-chapter {
+  text-align: center;
+
+  &_dropdown {
+    flex-grow: 1;
+    border: 1px solid $gray-300;
+    margin-left: -1px;
+
+    > a {
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+}
+
+.editor-columns {
+  margin-bottom: $dashboard-height - 10px;
+  padding-bottom: 20px;
+
+  .column-left,
+  .column-right {
+    .content {
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 14px;
+    }
+
+    p {
+      position: relative;
+    }
+
+    .sentence {
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      box-sizing: content-box;
+      line-height: 24px;
+    }
+  }
+}
+
+// Translation tooltips
+
+.t-comment {
+  fill: $gray-500;
+  transform: scale(-1, 1);
+  display: block;
+  width: 20px;
+  top: 0;
+  position: absolute;
+  left: -35px;
+  height: 20px;
+  bottom: 0;
+  margin: auto;
+}
+
+// Translation dashboard
+
+.translator-dashboard {
+  @extend .t-shadow-sm;
+
+  //height: $dashboard-height;
+  max-width: $lg-max-width;
+ // min-height: $dashboard-height;
+  background: $white;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  margin: auto;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.machine-translation,
+.translation-memory {
+  .subject {
+    font-size: .875rem;
+    line-height: 1.01rem;
+  }
+
+  .badge-success,
+  .badge-pill,
+  .btn-outline-secondary {
+    border: 1px solid $gray-300;
+    outline-color: $gray-300;
+    display: flex;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 20px;
+    align-items: center;
+  }
+
+  .badge-success {
+    border: 1px solid $green;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .badge-pill {
+    border-radius: .25rem;
+    border: 1px solid $gray-300;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+// Translation Area
+.translation-area {
+  .btn {
+    border: 1px solid $gray-300;
+    outline-color: $gray-300;
+  }
+
+  .toolset {
+    position: relative;
+    width: 25px;
+    height: 24px;
+  }
+}
+
+.translation-area__form {
+  textarea {
+    font-weight: 200;
+  }
+
+  .save-translation {
+    min-width: 105px;
+    padding-right: $btn-padding-x-sm * 2.9;
+    padding-left: $btn-padding-x-sm * 2.9;
+  }
+}
+
+// Statistics
+
+.statistic-window {
+  max-width: $lg-max-width - $grid-gutter-width;
+  background: $white;
+  bottom: 230px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 100;
+
+  @extend .t-shadow-sm;
+}
+
+.statistic-container {
+  padding: 10px 15px 11px;
+
+  .stat__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 99%;
+  }
+
+  .progress {
+    flex: 0 1 85%;
+  }
+
+  .stat-label {
+    flex: 0 0 9%;
+  }
+
+  .stat-value {
+    flex: 0 1 6%;
+    text-align: center;
+  }
+
+  .btn-close {
+    right: 5px;
+    top: 5px;
+  }
+}
+
+.progress-bar_saved {
+  background-color: $tt-light-red;
+}
+
+.progress-bar_proofreaded {
+  background-color: $tt-light-green;
+}
+
+.progress-bar_reviwed {
+  background-color: $tt-light-orange;
+}
+
+// Chat
+.chat-module {
+  .chat-item > .media-body {
+    padding: .5rem .8rem;
+  }
+
+  &.chat-comments {
+    height: 170px;
+
+    .chat-module-top {
+      max-height: 170px;
+    }
+
+    .chat-module-body {
+      top: 6px;
+      height: 120px
+    }
+
+    .chat-module-bottom {
+      overflow: hidden;
+      padding: 0 24px 0 48px;
+      border-top: 0;
+    }
+
+    .form-control {
+      height: 31px;
+      padding: .3375rem 1rem;
+    }
+  }
+
+  &.chat-revision {
+    .chat-module-body {
+      top: 6px;
+      height: 164px;
+    }
+  }
+
+  .transfer {
+    margin-right: auto;
+  }
+}
+
+
+
+// Misc
+
+.t-shadow-sm {
+  box-shadow: $t-box-shadow-sm;
+}
+
+.collapse.show,
+.collapsing {
+  .btn-close {
+    @extend .total-visible;
+  }
+}
+
+.btn-close {
+  font-size: 23px;
+  position: absolute;
+  font-weight: bold;
+  border: 1px solid $gray-300;
+  color: $gray-900;
+  text-shadow: 0 1px 0 $gray-900;
+  opacity: .5;
+  border-radius: .25rem;
+  padding: 2px;
+  background: transparent;
+
+  @extend .total-hidden;
+
+  span {
+    display: flex;
+    height: 14px;
+    align-items: center;
+  }
+}
+
+.noresize {
+  resize: none;
+}
+
+.btn-extra-sm {
+  padding-left: .4rem;
+  padding-right: .4rem;
+  font-size: .60rem;
+}
+
+.btn-group-extra-sm > .btn {
+  @extend .btn-extra-sm;
+}
+
+.highlighted {
+  background-color: lighten($tt-light-green, 25%);
+}
+
+.crossed-out {
+  background-color: lighten($tt-light-red, 30%);
+  text-decoration: line-through;
+}
+
+.total-hidden {
+  visibility: hidden;
+  display: none;
+}
+
+.total-visible {
+  visibility: visible;
+  display: block;
+}
+
+
+.svg-text_left-dims {
+  fill: $gray-500;
+  position: absolute;
+  width: 20px;
+  height: 24px;
+}
+
+.svg-reply {
+  border: 1px solid $gray-300;
+  fill: $gray-600;
+  border-radius: .25rem;
+  transform: scale(-1, 1);
+  width: 20px;
+  height: 20px;
+}
+
+
+.role {
+  button.btn {
+    border: 1px solid $gray-300;
+    outline-color: $gray-300;
+    display: flex;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 21px;
+    font-size: 11px;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .btn-outline-secondary:not(:disabled):not(.disabled):active,
+  .btn-outline-secondary:not(:disabled):not(.disabled).active,
+  .show > .btn-outline-secondary.dropdown-toggle {
+    color: $gray-700;
+    border-color: $gray-300;
+  }
+
+  .btn-outline-secondary:not(:disabled):not(.disabled):active.trans,
+  .btn-outline-secondary:not(:disabled):not(.disabled).active.trans,
+  .show > .btn-outline-secondary.dropdown-toggle {
+    background-color: lighten($tt-light-red, 30%);
+  }
+
+  .btn-outline-secondary:not(:disabled):not(.disabled):active.proof,
+  .btn-outline-secondary:not(:disabled):not(.disabled).active.proof,
+  .show > .btn-outline-secondary.dropdown-toggle {
+    background-color: lighten($tt-light-orange, 30%);
+  }
+
+  .btn-outline-secondary:not(:disabled):not(.disabled):active.rev,
+  .btn-outline-secondary:not(:disabled):not(.disabled).active.rev,
+  .show > .btn-outline-secondary.dropdown-toggle {
+    background-color: lighten($tt-light-green, 25%);
+  }
+}
+
+.adventist_terms {
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    border-bottom: 1px dotted $gray-600;
+    text-decoration: none;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.highlighted-radius {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.s_selected {
+  background-color: rgba(77, 145, 226, 0.3);
+  border-bottom: 2px solid rgba(77, 145, 226, 0.8);
+}
+
+[data-sentence-state="translated"] {
+  background-color: lighten($tt-light-red, 30%);
+  border-bottom: 2px solid lighten($tt-light-red, 14%);
+
+  @extend .highlighted-radius;
+}
+
+[data-sentence-state="approved"] {
+  background-color: lighten($tt-light-orange, 25%);
+  border-bottom: 2px solid $tt-light-orange;
+
+  @extend .highlighted-radius;
+}
+
+[data-sentence-state="reviewed"] {
+  background-color: lighten($tt-light-green, 25%);
+  border-bottom: 2px solid lighten($tt-light-green, 5%);
+
+  @extend .highlighted-radius;
+}
