@@ -89,7 +89,7 @@ class AccountController extends AbstractController
         }
         $projects = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage(null)->setMaxResults(10)->getResult();
         $contributions = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReport($user);
-        $contribPerMonth = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReportPerMounth($user);
+        $contribPerMonth = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReportPerMonth($user);
         
         return $this->render(
             'account/edit.html.twig',

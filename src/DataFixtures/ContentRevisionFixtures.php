@@ -15,9 +15,9 @@ class ContentRevisionFixtures extends Fixture implements DependentFixtureInterfa
     public function load(ObjectManager $manager)
     {
         $contentRevisions = [];
-        for ($iProduct = 0; $iProduct < 10; $iProduct++) {
-            for ($iSection = 0; $iSection < 10; $iSection++) {
-                for ($iContent = 0; $iContent < 10; $iContent++) {
+        for ($iProduct = 0; $iProduct < 8; $iProduct++) {
+            for ($iSection = 0; $iSection < 7; $iSection++) {
+                for ($iContent = 0; $iContent < 6; $iContent++) {
                     for ($iProject = 0; $iProject < 3; $iProject++) {
                         $contentRevision = new ContentRevision();
                         $contentRevision->setContent('Previously translated content.');
@@ -45,10 +45,10 @@ class ContentRevisionFixtures extends Fixture implements DependentFixtureInterfa
             }
         }
         $manager->flush();
-        
-        for ($iProduct = 0; $iProduct < 10; $iProduct++) {
-            for ($iSection = 0; $iSection < 10; $iSection++) {
-                for ($iContent = 0; $iContent < 10; $iContent++) {
+
+        for ($iProduct = 0; $iProduct < 8; $iProduct++) {
+            for ($iSection = 0; $iSection < 7; $iSection++) {
+                for ($iContent = 0; $iContent < 6; $iContent++) {
                     for ($iProject = 0; $iProject < 3; $iProject++) {
                         $this->addReference(self::buildReferenceName($iProduct, $iSection, $iContent, $iProject, 1), $contentRevisions[$iProduct][$iSection][$iContent][$iProject][1]);
                         $this->addReference(self::buildReferenceName($iProduct, $iSection, $iContent, $iProject, 2), $contentRevisions[$iProduct][$iSection][$iContent][$iProject][2]);
