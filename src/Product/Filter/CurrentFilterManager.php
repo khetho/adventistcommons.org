@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Product;
+namespace App\Product\Filter;
 
-use App\Product\Entity\FilterStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CurrentFilterManager
 {
+    private static $sessionKey = 'product_filter';
+
     private $session;
     
     private $entityManager;
@@ -24,7 +25,7 @@ class CurrentFilterManager
     
     public function reset()
     {
-        $this->session->set('product_filter', null);
+        $this->session->set(self::$sessionKey, null);
     }
 
     public function getCurrentFilterStatus(): FilterStatus
@@ -34,7 +35,7 @@ class CurrentFilterManager
         }
 
         /** @var FilterStatus $filterStatus */
-        $filterStatus = $this->session->get('product_filter');
+        $filterStatus = $this->session->get(self::$sessionKey);
         if (!$filterStatus || !($filterStatus instanceof FilterStatus)) {
             $filterStatus = new FilterStatus();
         }
@@ -47,6 +48,6 @@ class CurrentFilterManager
     public function setCurrentFilterStatus(FilterStatus $currentFilterStatus): void
     {
         $this->currentFilterStatus = $currentFilterStatus;
-        $this->session->set('product_filter', $currentFilterStatus);
+        $this->session->set(self::$sessionKey, $currentFilterStatus);
     }
 }

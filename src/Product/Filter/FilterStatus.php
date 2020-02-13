@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product\Entity;
+namespace App\Product\Filter;
 
 use App\Entity\Audience;
 use App\Entity\Binding;

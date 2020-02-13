@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
-use App\Entity\Content;
+use App\Entity\Paragraph;
 use App\Entity\ProjectContentApproval;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -25,7 +25,7 @@ class ProductRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('count(c.id)')
-            ->from(Content::class, 'c')
+            ->from(Paragraph::class, 'c')
             ->innerJoin('c.section', 's')
             ->where('s.product = :product')
             ->setParameter('product', $product);

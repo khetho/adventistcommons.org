@@ -5,7 +5,7 @@ namespace App\Twig;
 use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
-use App\Entity\Content;
+use App\Entity\Paragraph;
 use App\Entity\ProjectContentApproval;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

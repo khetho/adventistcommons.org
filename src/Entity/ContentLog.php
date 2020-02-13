@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="product_content_log",
  *     indexes={
  *         @ORM\Index(name="project_id", columns={"project_id"}),
- *         @ORM\Index(name="content_id", columns={"content_id"}),
+ *         @ORM\Index(name="sentence_id", columns={"sentence_id"}),
  *         @ORM\Index(name="resolved_by", columns={"resolved_by"}),
  *         @ORM\Index(name="user_id", columns={"user_id"})
  *     }
@@ -65,14 +65,14 @@ class ContentLog
     private $resolvedOn;
 
     /**
-     * @var Content
+     * @var Paragraph
      *
-     * @ORM\ManyToOne(targetEntity="Content")
+     * @ORM\ManyToOne(targetEntity="Sentence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="content_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sentence_id", referencedColumnName="id")
      * })
      */
-    private $content;
+    private $sentence;
 
     /**
      * @var User
@@ -169,14 +169,14 @@ class ContentLog
         return $this;
     }
 
-    public function getContent(): ?Content
+    public function getSentence(): ?Sentence
     {
-        return $this->content;
+        return $this->sentence;
     }
 
-    public function setContent(?Content $content): self
+    public function setSentence(?Sentence $sentence): self
     {
-        $this->content = $content;
+        $this->sentence = $sentence;
 
         return $this;
     }

@@ -31,16 +31,19 @@ services:
     ports:
       - 9000:9000
     volumes:
-      - ./public/bundles:/var/www/adventistcommons/public/bundles
+      # read only
       - .:/var/www/adventistcommons:ro
+      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
+      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
+      # read/write
+      - ./public/bundles:/var/www/adventistcommons/public/bundles
       - ./var:/var/www/adventistcommons/var
       - ./uploads:/var/www/adventistcommons/uploads
       - ./src/Migrations:/var/www/adventistcommons/src/Migrations
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
     working_dir: /var/www/adventistcommons
     links:
       - ac-db
+      - ac-nltk
     depends_on:
       - ac-db
 
@@ -63,7 +66,7 @@ services:
   ac-admin:
     build:
       context: ./admin
-      target: api_platform_admin_development
+      target: api_platform_idmin_development
       cache_from:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
@@ -85,5 +88,14 @@ services:
     expose:
       - "8081"
     command: "npm start"
+
+  ac-nltk:
+    build:
+      context: ./docker/nltk
+    command: "python3 -m nlp_api ac-nltk 2230"
+    ports:
+      - target: 2230
+        published: 8098
+        protocol: tcp
 
 # FOR DNS problems, see here : https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/

@@ -12,8 +12,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class LanguageFixtures extends Fixture
 {
-    const LANGUAGE_LAST = 'language-last';
-    
     public function load(ObjectManager $manager)
     {
         $langFlatData = self::getData();

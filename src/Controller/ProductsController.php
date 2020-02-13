@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Product\FilterApplier;
+use App\Product\Filter\FilterApplier;
 use App\Form\UploaderAggregator;
-use App\Product\CurrentFilterManager;
+use App\Product\Filter\CurrentFilterManager;
 use App\Product\Form\Type\AddType;
 use App\Product\Form\Type\FilterType;
 use App\Product\Form\Type\ValidateIdmlType;

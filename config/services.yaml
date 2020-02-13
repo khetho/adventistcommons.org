@@ -9,6 +9,7 @@ parameters:
     idmlTargetDirectory: '%kernel.project_dir%/uploads/idmls'
     attachmentTargetDirectory: '%kernel.project_dir%/uploads/attachments'
     pdfTargetDirectory: '%kernel.project_dir%/uploads/pdfs'
+    nlpHost: '%env(string:NLP_HOST)%'
         
 services:
     # default configuration for services in *this* file
@@ -69,3 +70,7 @@ services:
             
     AdventistCommons\Idml\DomManipulation\StoryBasedOnTags: ~            
             
+    App\Nlp\Client:
+        arguments:
+            - '%nlpHost%'
+
