@@ -27,15 +27,16 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->select(
                 'd.name as product_name,
                 l.name as language_name,
-                count(distinct(c.id)) as trans_count,
+                count(distinct(st1.id)) as trans_count,
                 max(cr.createdAt) as last_date,
-                count(distinct(dc.id)) as total_count'
+                count(distinct(st2.id)) as total_count'
             )
             ->innerJoin('cr.project', 'j')
-            ->innerJoin('cr.sentence', 's')
+            ->innerJoin('cr.sentence', 'st1')
             ->innerJoin('j.product', 'd')
             ->innerJoin('d.sections', 's')
-            ->innerJoin('s.contents', 'dc')
+            ->innerJoin('s.paragraphs', 'p')
+            ->innerJoin('p.sentences', 'st2')
             ->innerJoin('j.language', 'l')
             ->where('cr.user = :user')
             ->groupBy('d.id, l.id')

@@ -20,6 +20,7 @@ class SectionController extends AbstractController
     {
         $section = $dataFinder->retrieveSectionOr404($slug, $sectionName);
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
+
         return $this->render(
             'section/edit.html.twig',
             [

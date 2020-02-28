@@ -12,7 +12,7 @@ require('@fortawesome/fontawesome-free/js/all.js');
 
 import 'bootstrap/js/dist/tooltip';
 
-const dropzone = require('dropzone/dist/dropzone-amd-module.js');
+require('dropzone/dist/dropzone-amd-module.js');
 
 import './theme.js';
 import './custom.js';
