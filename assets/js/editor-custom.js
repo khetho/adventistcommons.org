@@ -34,33 +34,21 @@ define(
             return  word+'_'+Math.random().toString(36).substring(7);
         }
 
-        function escapeRegExp(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
+        // function escapeRegExp(string) {
+        //     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // }
 
-        function textToSentence(text) {
-            let pattern = /(.+?([A-Z].)[\.|\?](?:['")\\\s]?)+?\s?)/igm, match;
-            let text_buffer = [];
-            while( ( match = pattern.exec( text )) != null ) {
-                if( match.index === pattern.lastIndex ) {
-                    pattern.lastIndex++;
-                }
-                text_buffer.push(match[0].trim());
-            }
-            return text_buffer;
-        }
-
-        function mirrorMarkSearch(needle, id) {
-            let instance = new Mark($('div[data-role="translation"]'));
-            instance.markRegExp(new RegExp(needle, 'gm'), {
-                "element" : "span",
-                "className": "sentence",
-                "each" : htmlElement => {
-                    //console.log('target: ' + htmlElement.textContent);
-                    htmlElement.dataset.concord = id;
-                },
-            });
-        }
+        // function mirrorMarkSearch(needle, id) {
+        //     let instance = new Mark($('div[data-role="translation"]'));
+        //     instance.markRegExp(new RegExp(needle, 'gm'), {
+        //         "element" : "span",
+        //         "className": "sentence",
+        //         "each" : htmlElement => {
+        //             //console.log('target: ' + htmlElement.textContent);
+        //             htmlElement.dataset.concord = id;
+        //         },
+        //     });
+        // }
 
         $( document ).ready(function() {
             let editor_content = $('div[data-role="origin"], div[data-role="translation"]');
@@ -68,17 +56,17 @@ define(
             /**
              * Sentence handling
              */
-            let instance = new Mark(editor_content);
-            instance.markRegExp(new RegExp(/(.+?([A-Z].)[\.|\?](?:['")\\\s]?)+?\s?)/, 'gim'), {
-                "element" : "span",
-                "className": "sentence",
-                "each" : htmlElement => {
-                    let id = salted('s_');
-                    //console.log('donor: ' + htmlElement.textContent);
-                    htmlElement.dataset.concord = id;
-                    mirrorMarkSearch(escapeRegExp(htmlElement.textContent), id);
-                },
-            });
+            // let instance = new Mark(editor_content);
+            // instance.markRegExp(new RegExp(/(.+?([A-Z].)[\.|\?](?:['")\\\s]?)+?\s?)/, 'gim'), {
+            //     "element" : "span",
+            //     "className": "sentence",
+            //     "each" : htmlElement => {
+            //         let id = salted('s_');
+            //         //console.log('donor: ' + htmlElement.textContent);
+            //         htmlElement.dataset.concord = id;
+            //         mirrorMarkSearch(escapeRegExp(htmlElement.textContent), id);
+            //     },
+            // });
 
             // Translation caret
             editor_content.on('click', '.sentence', function (e) {

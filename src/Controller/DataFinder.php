@@ -7,6 +7,7 @@ use App\Entity\Project;
 use App\Entity\Language;
 use App\Entity\Section;
 use App\Entity\Attachment;
+use App\Entity\ContentRevision;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -72,6 +73,20 @@ class DataFinder
         ]);
         if (!$section) {
             throw new NotFoundHttpException();
+        }
+
+        return $section;
+    }
+
+    public function addLatestTranslations(Section $section, Project $project): Section
+    {
+        $translationsBySentenceId = $this->registry->getRepository(ContentRevision::class)->getLatestForProjectAndSection($project, $section);
+        foreach ($section->getParagraphs() as $paragraph) {
+            foreach ($paragraph->getSentences() as $sentence) {
+                if (isset($translationsBySentenceId[$sentence->getId()])) {                
+                    $sentence->setTranslation($translationsBySentenceId[$sentence->getId()]);
+                }
+            }
         }
 
         return $section;

@@ -48,6 +48,11 @@ class Sentence
      * })
      */
     private $paragraph;
+    
+    /**
+     * @var string
+     */
+    private $translation;
 
     public function getId(): ?int
     {
@@ -88,5 +93,17 @@ class Sentence
         $this->paragraph = $paragraph;
 
         return $this;
+    }
+    
+    public function setTranslation(string $translation): self
+    {
+        $this->translation = $translation;
+ 
+        return $this;
+    }
+    
+    public function getTranslation(): ?string
+    {
+        return $this->translation;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Project;
+use App\Entity\Section;
 use App\Entity\ContentRevision;
 use DateInterval;
 use DateTime;
@@ -69,6 +71,32 @@ class ContentRevisionRepository extends ServiceEntityRepository
         $results = [];
         foreach ($queryBuilder->getQuery()->getResult() as $result) {
             $results[$result['product_name']][$result['year']][$result['month']] = $result['month_count'];
+        }
+        
+        return $results;
+    }
+    
+    /**
+     * @param Project $project
+     * @param Section $section
+     * @return array
+     */
+    public function getLatestForProjectAndSection(Project $project, Section $section)
+    {
+        $queryBuilder = $this->createQueryBuilder('cr')
+            ->select('s.id', 'cr.content')
+            ->innerJoin('cr.sentence', 's')
+            ->innerJoin('s.paragraph', 'p')
+            ->where('p.section = :section')
+            ->setParameter('section', $section)
+            ->andWhere('cr.project = :project')
+            ->setParameter('project', $project)
+            ->groupBy('s.id')
+            ->orderBy('cr.createdAt','DESC');
+            
+        $results = [];
+        foreach ($queryBuilder->getQuery()->getResult() as $result) {
+            $results[$result['id']] = $result['content'];
         }
         
         return $results;
