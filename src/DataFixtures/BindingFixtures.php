@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Binding;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.StaticAccess)
@@ -13,7 +13,7 @@ class BindingFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        foreach ([        
+        foreach ([
             'Hardcover',
             'Perfect Bound',
             'Spiral Bound',

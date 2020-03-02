@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Skill;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.StaticAccess)
@@ -13,7 +13,7 @@ class SkillFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        foreach ([        
+        foreach ([
             ['Graphic design','GD'],
             ['Web development','WD'],
             ['Software development','SD'],

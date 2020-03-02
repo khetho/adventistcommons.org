@@ -2,10 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\Email\Sender;
 use App\Entity\ContentRevision;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -22,7 +21,7 @@ class ContentRevisionFixtures extends Fixture implements DependentFixtureInterfa
                 for ($iParagraph = 0; $iParagraph < 10; $iParagraph++) {
                     for ($iSentence = 0; $iSentence < 2; $iSentence++) {
                         for ($iProject = 0; $iProject < 2; $iProject++) {
-                            foreach (['Previously translated content.','Translated content.'] as $key => $content) {
+                            foreach (['Translated content.','Previously translated content.'] as $key => $content) {
                                 $contentRevision = new ContentRevision();
                                 $contentRevision->setContent($content);
                                 $contentRevision->setSentence(
@@ -42,7 +41,7 @@ class ContentRevisionFixtures extends Fixture implements DependentFixtureInterfa
                                 );
                                 $contentRevision->setUser($this->getReference('user-0001'));
                                 $date = new \DateTime();
-                                $date->sub(new \DateInterval(sprintf('P%dD', rand(0, 300))));
+                                $date->sub(new \DateInterval(sprintf('P%dD', rand($key*100, ($key*100)+99))));
                                 $contentRevision->setCreatedAt($date);
                                 $manager->persist($contentRevision);
                                 $contentRevisions[$iProduct][$iSection][$iParagraph][$iSentence][$iProject][$key] = $contentRevision;
@@ -59,7 +58,7 @@ class ContentRevisionFixtures extends Fixture implements DependentFixtureInterfa
                 for ($iParagraph = 0; $iParagraph < 10; $iParagraph++) {
                     for ($iSentence = 0; $iSentence < 2; $iSentence++) {
                         for ($iProject = 0; $iProject < 2; $iProject++) {
-                            foreach (['Previously translated content.','Translated content.'] as $key => $content) {
+                            foreach (['Translated content.','Previously translated content.'] as $key => $content) {
                                 $this->addReference(
                                     self::buildReferenceName(
                                         $iProduct,

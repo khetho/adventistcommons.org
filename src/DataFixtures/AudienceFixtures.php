@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Audience;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.StaticAccess)
@@ -13,7 +13,7 @@ class AudienceFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        foreach ([        
+        foreach ([
             'Christian',
             'Muslim',
             'Buddhist',

@@ -92,7 +92,7 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->andWhere('cr.project = :project')
             ->setParameter('project', $project)
             ->groupBy('s.id')
-            ->orderBy('cr.createdAt','DESC');
+            ->orderBy('cr.createdAt', 'DESC');
             
         $results = [];
         foreach ($queryBuilder->getQuery()->getResult() as $result) {
