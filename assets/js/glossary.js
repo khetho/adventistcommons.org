@@ -10,12 +10,13 @@ define(
             "morning":"Yoruba: owurọ",
             "raising":"Yoruba: igbega",
             "salesman":"Yoruba: olutaja",
-            "translate":"Info: detail"
+            "translate":"Info: detail",
+            "line":"Seventh day of the Bible week, from friday sunset to saturday sunset"
         };
 
-        function setup_words(word, resWord, resDef, e)
+        function setup_words(word, resWord, resDef, e, parent)
         {
-            let editor_content = $('div[data-role="origin"], div[data-role="translation"]');
+            let editor_content = $(parent);
             let instance = new Mark(editor_content);
             instance.markRegExp(new RegExp("\\b" + word + "\\b", 'gim'), {
                 "element" : "span",
@@ -25,8 +26,6 @@ define(
                     htmlElement.classList.add(elemClass);
                 },
             });
-
-            console.log('PX:'+e.clientX, 'PY:'+e.clientY);
 
             $('.'+document.elementFromPoint(e.pageX - window.pageXOffset,e.pageY - window.pageYOffset).classList)
                 .popover({
@@ -99,7 +98,7 @@ define(
                                     resDef = response.definitions[0].definition;
                                 }
 
-                                setup_words(word, resWord, resDef, e);
+                                setup_words(word, resWord, resDef, e, parent);
                             })
                             .fail(function (response) {
                                 setup_words(word, 'Word not found', 'Definition not found', e);

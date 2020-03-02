@@ -13,47 +13,34 @@ define(
             /**
              * TODO: Refactor
              */
-            $('#show_comments').on('click', function () {
-                if ($('#comments').hasClass('show')) {
-                    $('#comments').collapse('hide');
-                    $('#machine').collapse('show');
+            $('.js-show-comments').on('click', function () {
+                if ($('.js-comments').hasClass('show')) {
+                    $('.js-comments').collapse('hide');
+                    $('.js-machine').collapse('show');
 
-                    $('#show_comments').removeClass('active');
+                    $('.js-show-comments').removeClass('active');
                 } else {
-                    $('#show_review').removeClass('active');
-                    $('#show_comments').addClass('active');
+                    $('.js-show-review').removeClass('active');
+                    $('.js-show-comments').addClass('active');
 
-                    $('#machine').collapse('hide');
-                    $('#revisions').collapse('hide');
-                    $('#comments').collapse('show');
+                    $('.js-machine').collapse('hide');
+                    $('.js-revisions').collapse('hide');
+                    $('.js-comments').collapse('show');
                 }
             });
-            $('#show_review').on('click', function () {
-                if ($('#revisions').hasClass('show')) {
-                    $('#revisions').collapse('hide');
-                    $('#machine').collapse('show');
+            $('.js-show-review').on('click', function () {
+                if ($('.js-revisions').hasClass('show')) {
+                    $('.js-revisions').collapse('hide');
+                    $('.js-machine').collapse('show');
 
-                    $('show_review').removeClass('active');
+                    $('.js-show-review').removeClass('active');
                 } else {
-                    $('#show_comments').removeClass('active');
-                    $('#show_review').addClass('active');
+                    $('.js-show-comments').removeClass('active');
+                    $('.js-show-review').addClass('active');
 
-                    $('#machine').collapse('hide');
-                    $('#comments').collapse('hide');
-                    $('#revisions').collapse('show');
-                }
-            });
-        }
-
-        function initRoles() {
-            $('.role > button').on('click', function () {
-                $(this).addClass('active');
-                $('.role > button').not($(this)).removeClass('active');
-
-                if ($(this).hasClass('proof') || $(this).hasClass('rev')) {
-                    $('.save-translation').text('Approve');
-                } else {
-                    $('.save-translation').text('Save');
+                    $('.js-machine').collapse('hide');
+                    $('.js-comments').collapse('hide');
+                    $('.js-revisions').collapse('show');
                 }
             });
         }
@@ -62,7 +49,6 @@ define(
             editor_content_origin = $('div[data-role="origin"]');
             editor_content_translation = $('div[data-role="translation"]');
 
-            initRoles();
             initPanels();
 
             // Translation system
@@ -76,7 +62,7 @@ define(
             Glossary.wordApi(editor_content_origin);
 
             // Chat
-            Chat.init($("#comment"));
+            Chat.init($("js-comment"));
         });
     }
 );

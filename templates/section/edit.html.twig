@@ -37,7 +37,7 @@
                         {% for paragraphKey,paragraph in section.paragraphs %}
                         <p>
                             {% for sentenceKey,sentence in paragraph.sentences %}
-                            <span class="sentence" data-concord="{{ paragraphKey }}_{{ sentenceKey }}">
+                            <span class="js-sentence" data-concord="{{ paragraphKey }}_{{ sentenceKey }}">
                                 {{ sentence.content }}
                             </span>
                             {% endfor %}
@@ -50,7 +50,7 @@
                         {% for paragraphKey,paragraph in section.paragraphs %}
                         <p>
                             {% for sentenceKey,sentence in paragraph.sentences %}
-                            <span class="sentence" data-concord="{{ paragraphKey }}_{{ sentenceKey }}">
+                            <span class="js-sentence" data-concord="{{ paragraphKey }}_{{ sentenceKey }}">
                                 {% if sentence.translation %}
                                     {{ sentence.translation }}
                                 {% else %}
@@ -67,13 +67,13 @@
 
             <!-- Dashboard -->
             <div class="row">
-                <div class="col-10 position-fixed translator-dashboard">
+                <div class="col-10 position-fixed translator-dashboard js-translator-dashboard">
                     <div class="row h-100">
 
                         <div class="col-6 h-100 translator-tools ">
 
                             <!-- Machine Translation -->
-                            <div id="machine" class="collapse show">
+                            <div class="js-machine collapse show">
                                 <div id="machine-translation" class="d-flex flex-wrap machine-translation mb-4">
 
                                     <div class="h-5 font-weight-bold mr-1 title">
@@ -81,7 +81,7 @@
                                     </div>
 
                                     <div class="flex-grow-1 toolset">
-                                        <span class="transfer">
+                                        <span class="js-transfer">
                                             <svg viewBox="0 0 20 20" class="svg-reply">
                                                 <use xlink:href="#reply-24px"></use>
                                             </svg>
@@ -109,7 +109,7 @@
                                             <button type="button" class="btn btn-outline-secondary">&gt;&gt;</button>
                                         </div>
 
-                                        <span data-action="transfer" class="transfer">
+                                        <span class="js-transfer">
                                             <svg viewBox="0 0 20 20" class="svg-reply">
                                                 <use xlink:href="#reply-24px"></use>
                                             </svg>
@@ -124,7 +124,7 @@
                             <!-- Machine Translation END -->
 
                             <!-- Comments -->
-                            <div id="comments" class="collapse">
+                            <div class="js-comments collapse">
 
                                 <div class="h-5 font-weight-bold mr-1 title">Comments</div>
 
@@ -134,14 +134,14 @@
                                         <div class="chat-module-body">
 
                                             <!-- Message -->
-                                            <div class="media chat-item">
+                                            <div class="media js-chat-item chat-item js-chat-item">
                                                 <img alt="..." src="assets/img/avatar-female-4.jpg" class="avatar" />
                                                 <div class="media-body">
                                                     <div class="chat-item-title">
-                                                        <span class="chat-item-author">Claire</span>
-                                                        <span class="chat-item-time">2 days ago</span>
+                                                        <span class="js-chat-item-author chat-item-author">Claire</span>
+                                                        <span class="js-chat-item-time chat-item-time">2 days ago</span>
                                                     </div>
-                                                    <div class="chat-item-body">
+                                                    <div class="js-chat-item-body chat-item-body">
                                                         Coming along nicely, we've got a draft for the client questionnaire completed, take a look!
                                                     </div>
                                                 </div>
@@ -149,14 +149,14 @@
                                             <!-- Message END -->
 
                                             <!-- Message -->
-                                            <div class="media chat-item">
+                                            <div class="media js-chat-item chat-item js-chat-item">
                                                 <img alt="..." src="assets/img/avatar-male-4.jpg" class="avatar" />
                                                 <div class="media-body">
                                                     <div class="chat-item-title">
-                                                        <span class="chat-item-author">David</span>
-                                                        <span class="chat-item-time">2 days ago</span>
+                                                        <span class="js-chat-item-author chat-item-author">David</span>
+                                                        <span class="js-chat-item-time chat-item-time">2 days ago</span>
                                                     </div>
-                                                    <div class="chat-item-body">
+                                                    <div class="js-chat-item-body chat-item-body">
                                                         Coming along nicely, we've got a draft for the client questionnaire completed, take a look!
                                                     </div>
                                                 </div>
@@ -179,24 +179,24 @@
                             <!-- Comment END-->
 
                             <!-- Revisions -->
-                            <div id="revisions" class="collapse ">
+                            <div class="collapse js-revisions">
 
                                 <div class="h-5 font-weight-bold mr-1 title">Revisions</div>
 
                                 <!-- Chat module -->
                                 <div class="chat-module chat-revision">
                                     <div class="chat-module-top">
-                                        <div class="chat-module-body">
+                                        <div class="js-chat-module-body chat-module-body">
 
                                             <!-- Message -->
-                                            <div class="media chat-item">
+                                            <div class="media chat-item js-chat-item">
                                                 <img alt="..." src="assets/img/avatar-female-4.jpg" class="avatar" />
                                                 <div class="media-body">
                                                     <div class="chat-item-title">
-                                                        <span class="chat-item-author">Claire</span>
+                                                        <span class="js-chat-item-author chat-item-author">Claire</span>
 
                                                         <span class="revision-info">
-                                                            <span class="chat-item-time">2 days ago</span>
+                                                            <span class="js-chat-item-time chat-item-time">2 days ago</span>
                                                         <span class="transfer">
                                                               <svg viewBox="0 0 20 20" class="svg-reply">
                                                                 <use xlink:href="#reply-24px"></use>
@@ -204,7 +204,7 @@
                                                         </span>
                                                         </span>
                                                     </div>
-                                                    <div class="chat-item-body subject">
+                                                    <div class="js-chat-item-body chat-item-body subject">
                                                         Coming along nicely, we've got a draft for the <span class="highlighted">client</span> <span class="crossed-out">questionnaire</span> completed, take a look!
                                                     </div>
                                                 </div>
@@ -212,13 +212,13 @@
                                             <!-- Message END -->
 
                                             <!-- Message -->
-                                            <div class="media chat-item">
+                                            <div class="media chat-item js-chat-item">
                                                 <img alt="..." src="assets/img/avatar-male-4.jpg" class="avatar" />
                                                 <div class="media-body">
                                                     <div class="chat-item-title">
-                                                        <span class="chat-item-author">David</span>
+                                                        <span class="js-chat-item-author chat-item-author">David</span>
                                                         <span class="revision-info">
-                                                        <span class="chat-item-time">1 day ago</span>
+                                                        <span class="js-chat-item-time chat-item-time">1 day ago</span>
                                                         <span class="transfer">
                                                           <svg viewBox="0 0 20 20" class="svg-reply">
                                                             <use xlink:href="#reply-24px"></use>
@@ -226,7 +226,7 @@
                                                     </span>
                                                         </span>
                                                     </div>
-                                                    <div class="chat-item-body subject">
+                                                    <div class="js-chat-item-body chat-item-body subject">
                                                         However hard he threw himself onto his right, he always rolled back to where he was.
                                                     </div>
                                                 </div>
@@ -247,10 +247,10 @@
 
                             <div class="d-flex flex-wrap mb-1 translation-stat">
                                 <div class="h-5 font-weight-bold mr-1 title">
-                                    <div id="roles" class="btn-group btn-group-extra-sm ml-auto mr-1 role" role="group" aria-label="Translation State Navigation">
-                                        <button type="button" class="btn btn-outline-secondary trans" data-role="translator">Translate</button>
-                                        <button type="button" class="btn btn-outline-secondary proof" data-role="proofreader">Proofread</button>
-                                        <button type="button" class="btn btn-outline-secondary rev" data-role="reviewer">Review</button>
+                                    <div class="js-roles btn-group btn-group-extra-sm ml-auto mr-1 js-role role" role="group" aria-label="Translation State Navigation">
+                                        <button type="button" class="btn btn-outline-secondary js-trans trans active" data-role="translator">Translate</button>
+                                        <button type="button" class="btn btn-outline-secondary js-proof proof" data-role="proofreader">Proofread</button>
+                                        <button type="button" class="btn btn-outline-secondary js-rev rev" data-role="reviewer">Review</button>
                                     </div>
                                 </div>
                                 <div class="ml-auto toolset">
@@ -265,23 +265,23 @@
                             <div class="d-flex flex-wrap">
                                 <form class="w-100 translation-area__form">
                                     <div class="form-group">
-                                        <textarea class="form-control mb-2 noresize" id="translation_area" rows="5"></textarea>
+                                        <textarea class="form-control mb-2 noresize js-translation-area" rows="5"></textarea>
 
                                         <div class="d-flex form-group">
-                                            <button id="show_comments" type="button" class="btn btn-outline-secondary btn-sm mr-1">
-                                <span id="count_comments" class="pr-1">2</span>Comments
-                            </button>
+                                            <button type="button" class="js-show-comments btn btn-outline-secondary btn-sm mr-1">
+                                                <span id="count_comments" class="pr-1">2</span>Comments
+                                            </button>
 
-                                            <button id="show_review" type="button" class="btn btn-outline-secondary btn-sm mr-1">
-                            <span id="rev_comments" class="pr-1">5</span>Revisions
-                        </button>
+                                            <button type="button" class="js-show-review btn btn-outline-secondary btn-sm mr-1">
+                                                <span id="rev_comments" class="pr-1">5</span>Revisions
+                                            </button>
 
                                             <div id="translation_nav" class="btn-group btn-group-sm ml-auto mr-1" role="group" aria-label="Human Translation Navigation">
                                                 <button type="button" class="btn btn-outline-secondary prev">&lt;&lt;</button>
                                                 <button type="button" class="btn btn-outline-secondary next">&gt;&gt;</button>
                                             </div>
 
-                                            <button type="button" class="btn btn-primary btn-sm save-translation">Save</button>
+                                            <button type="button" class="btn btn-primary btn-sm js-save-translation">Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -339,5 +339,25 @@
         </div>
     </div>
 
+    <div class="modal fade" id="changedTranslationModal" tabindex="-1" role="dialog" aria-labelledby="changedTranslationModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="changedTnanslationModalLongTitle">Cancel editing ?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            You changed the content of the current translation but did not save it, changes will be lost if you continue
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-action="saveContinue">Save translation and continue</button>
+            <button type="button" class="btn btn-primary" data-action="undoContinue">Undo and Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </main>
 {% endblock %}
