@@ -57,7 +57,9 @@ app_content_revision:
     resource: App\Controller\ContentRevisionController
     type: annotation
     prefix: /{_locale}/content-revision
-
+    options:
+        expose: true
+        
 app_feedback:
     resource: App\Controller\FeedbackController
     type: annotation

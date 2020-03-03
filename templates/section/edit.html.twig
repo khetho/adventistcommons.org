@@ -37,7 +37,7 @@
                         {% for paragraphKey,paragraph in section.paragraphs %}
                         <p>
                             {% for sentenceKey,sentence in paragraph.sentences %}
-                            <span class="js-sentence" data-concord="{{ paragraphKey }}_{{ sentenceKey }}">
+                            <span class="js-sentence" data-sentence-id="{{ sentence.id }}">
                                 {{ sentence.content }}
                             </span>
                             {% endfor %}
@@ -50,7 +50,7 @@
                         {% for paragraphKey,paragraph in section.paragraphs %}
                         <p>
                             {% for sentenceKey,sentence in paragraph.sentences %}
-                            <span class="js-sentence" data-concord="{{ paragraphKey }}_{{ sentenceKey }}">
+                            <span class="js-sentence" data-sentence-id="{{ sentence.id }}">
                                 {% if sentence.translation %}
                                     {{ sentence.translation }}
                                 {% else %}
@@ -87,7 +87,7 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <div class="font-weight-light text-small subject">
+                                    <div class="font-weight-light text-small js-subject">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Integer posuere erat a ante.
                                     </div>
 
@@ -116,7 +116,7 @@
                                         </span>
                                     </div>
 
-                                    <div class="font-weight-light text-small subject">
+                                    <div class="font-weight-light text-small js-subject">
                                         Integer posuere erat a ante. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     </div>
                                 </div>

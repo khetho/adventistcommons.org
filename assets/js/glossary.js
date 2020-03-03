@@ -43,8 +43,8 @@ define(
         }
 
         return {
-            adventist: function (parent) {
-                parent.mark(Object.keys(adventist_glossary), {
+            adventist: function (container) {
+                container.mark(Object.keys(adventist_glossary), {
                     "element": "span",
                     "accuracy": "complementary",
                     "className": "adventist_terms",
@@ -57,7 +57,7 @@ define(
                     },
                 });
                 $.each(adventist_glossary, function (term, def) {
-                    parent
+                    container
                         .find('.' + term)
                         .popover({
                             placement: 'top',
@@ -72,8 +72,8 @@ define(
                 });
             },
 
-            wordApi: function(parent) {
-                parent.on('dblclick', parent, function (e) {
+            wordApi: function(container) {
+                container.on('dblclick', container, function (e) {
                     let range = window.getSelection() || document.getSelection() || document.selection.createRange();
                     let word = $.trim(range.toString().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,""));
 
@@ -98,7 +98,7 @@ define(
                                     resDef = response.definitions[0].definition;
                                 }
 
-                                setup_words(word, resWord, resDef, e, parent);
+                                setup_words(word, resWord, resDef, e, container);
                             })
                             .fail(function (response) {
                                 setup_words(word, 'Word not found', 'Definition not found', e);

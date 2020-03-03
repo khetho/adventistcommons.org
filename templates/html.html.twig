@@ -13,13 +13,13 @@
 
     <body
             {% if app.request.attributes.has('slug') %}
-                data-product-slug="{{ app.request.attributes.get('slug') }}"
+                data-productSlug="{{ app.request.attributes.get('slug') }}"
             {% endif %}
             {% if app.request.attributes.has('languageCode') %}
-                data-language-code="{{ app.request.attributes.get('languageCode') }}"
+                data-languageCode="{{ app.request.attributes.get('languageCode') }}"
             {% endif %}
             {% if app.request.attributes.has('sectionName') %}
-                data-section-name="{{ app.request.attributes.get('sectionName') }}"
+                data-sectionName="{{ app.request.attributes.get('sectionName') }}"
             {% endif %}
     >
         {% block body %}

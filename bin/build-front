@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+CURRENT_DIRECTORY=`pwd`
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$BIN_DIR"
+./console fos:js-routing:dump --target ./assets/config/routes.json --format json
+
+cd "$CURRENT_DIRECTORY";

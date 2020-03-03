@@ -40,6 +40,10 @@ services:
       - ./var:/var/www/adventistcommons/var
       - ./uploads:/var/www/adventistcommons/uploads
       - ./src/Migrations:/var/www/adventistcommons/src/Migrations
+      - ./vendor:/var/www/adventistcommons/vendor
+      - ./.git:/var/www/adventistcommons/.git
+      - ./composer.json:/var/www/adventistcommons/composer.json
+      - ./assets/config:/var/www/adventistcommons/assets/config
     working_dir: /var/www/adventistcommons
     links:
       - ac-db
@@ -54,14 +58,6 @@ services:
       - ac-db
     ports:
       - 8080:8080
-
-  ac-composer:
-    restart: 'no'
-    image: composer
-    command: install
-    volumes:
-      - .:/app
-      - ./var/cache/composer:/tmp
 
   ac-admin:
     build:

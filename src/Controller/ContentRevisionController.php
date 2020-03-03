@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContentRevisionController extends AbstractController
 {
     /**
-     * @Route("/{slug}/{languageCode}/{sentenceId}", name="app_content_revision_add", methods={"PUT"})
+     * @Route("/{slug}/{languageCode}/{sentenceId}", name="app_content_revision_put", methods={"PUT"})
      * @param $slug
      * @param $languageCode
      * @param $sentenceId

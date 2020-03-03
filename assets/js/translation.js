@@ -1,8 +1,9 @@
 define(
     [
         'jquery',
-        './backend-caller'
-    ],function($, BackendCaller) {
+        './backend-caller',
+        'mark.js/dist/jquery.mark.js',
+    ],function($, BackendCaller, Mark) {
 
         let editor_content_origin = null;
         let editor_content_translation = null;
@@ -21,31 +22,28 @@ define(
                 modal.modal();
                 modal.find('[data-action="saveContinue"]').unbind('click').click(function(e){
                     save();
-                    setWorkingTranslationFromModal(modal, content, translation);
+                    setWorkingTranslation(content, translation);
+                    modal.modal('hide');
                 });
                 modal.find('[data-action="undoContinue"]').unbind('click').click(function(e){
-                    setWorkingTranslationFromModal(modal, content, translation);
+                    setWorkingTranslation(content, translation);
+                    modal.modal('hide');
                 });
             } else {
                 setWorkingTranslation(content, translation);
             }
         }
 
-        function setWorkingTranslationFromModal(modal, content, translation) {
-            setWorkingTranslation(content);
+        function setWorkingTranslation(content, translation) {
             if (translation) {
-                highLightTranslation(translation);
+                highlightTranslation(translation);
             }
-            modal.modal('hide');
-        }
-
-        function setWorkingTranslation(content) {
             current_translation = stripHtml(content);
             translation_area.val(current_translation);
             translator_dashboard.show();    
         }
 
-        function highLightTranslation(translation) {
+        function highlightTranslation(translation) {
             editor_content_origin.find('.s_selected').removeClass('s_selected');
             editor_content_translation.find('.s_selected').removeClass('s_selected');
             $(translation).addClass('s_selected');
@@ -53,11 +51,11 @@ define(
         }
         
         function getTranslationFromOriginal(sentence) {
-            return editor_content_translation.find('[data-concord="' + $(sentence).data('concord') + '"]');
+            return editor_content_translation.find('[data-sentence-id="' + $(sentence).data('sentence-id') + '"]');
         }
 
         function getOriginalFromTranslation(translation) {
-            return editor_content_origin.find('[data-concord="' + $(translation).data('concord') + '"]');
+            return editor_content_origin.find('[data-sentence-id="' + $(translation).data('sentence-id') + '"]');
         }
 
         function stripHtml(html)
@@ -69,8 +67,9 @@ define(
         }
                 
         function save() {
-            let role = roles.find('.active').data('role');
-            let translation = editor_content_translation.find('.s_selected');
+            const role = roles.find('.active').data('role');
+            const translation = editor_content_translation.find('.s_selected');
+            const sentenceId = translation.attr('data-sentence-id'); 
 
             if (!translation.length) {
                 console.log('Error: Nothing to save');
@@ -84,7 +83,7 @@ define(
             switch (role) {
                 case 'translator':
                     // generate ajax coll to backend here, after success:
-                    BackendCaller.call();
+                    BackendCaller.callContentRevisionPut(sentenceId, );
                     translation.removeData('sentence-state').attr("data-sentence-state", 'translated');
                     current_translation = translation_area.val();
                     translation.html(current_translation);
@@ -142,7 +141,7 @@ define(
                 // Move content
                 let translation_tools = $('.js-chat-item, #translation-memory, #machine-translation');
                 translation_tools.on('click', '.js-transfer', function (e) {
-                    setWorkingTranslationIfOk($(e.delegateTarget).find('.subject').text());
+                    setWorkingTranslationIfOk($(e.delegateTarget).find('.js-subject').text());
                 });
             }
         }
