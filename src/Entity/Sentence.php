@@ -83,7 +83,7 @@ class Sentence
         return $this;
     }
 
-    public function getParagraph(): ?Section
+    public function getParagraph(): ?Paragraph
     {
         return $this->paragraph;
     }

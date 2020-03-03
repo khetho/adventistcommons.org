@@ -53,6 +53,11 @@ app_section:
     type: annotation
     prefix: /{_locale}/products
 
+app_content_revision:
+    resource: App\Controller\ContentRevisionController
+    type: annotation
+    prefix: /{_locale}/content-revision
+
 app_feedback:
     resource: App\Controller\FeedbackController
     type: annotation

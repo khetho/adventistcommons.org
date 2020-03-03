@@ -107,4 +107,14 @@ class DataFinder
 
         return $attachment;
     }
+
+    public function retrieveSentenceOr404($sentenceId, $project)
+    {
+        $sentence = $this->registry->getRepository(Sentence::class)->find($sentenceId);
+        if (!$sentence || ($sentence->getParagraph()->getSection()->getProduct()->getId() !== $project->getProduct->getId())) {
+            throw new NotFoundHttpException();
+        }
+
+        return $sentence;
+    }
 }

@@ -1,7 +1,8 @@
 define(
     [
         'jquery',
-    ],function($) {
+        './backend-caller'
+    ],function($, BackendCaller) {
 
         let editor_content_origin = null;
         let editor_content_translation = null;
@@ -15,34 +16,40 @@ define(
         }
 
         function setWorkingTranslationIfOk(content, translation) {
-            if (current_translation != translation_area.val()) {
-                modal = $('#changedTranslationModal');
+            if (translator_dashboard.is(":visible") && current_translation != translation_area.val()) {
+                const modal = $('#changedTranslationModal');
                 modal.modal();
                 modal.find('[data-action="saveContinue"]').unbind('click').click(function(e){
                     save();
-                    setWorkingTranslation(content, translation);
-                    modal.modal('hide');
+                    setWorkingTranslationFromModal(modal, content, translation);
                 });
                 modal.find('[data-action="undoContinue"]').unbind('click').click(function(e){
-                    setWorkingTranslation(content, translation);
-                    modal.modal('hide');
+                    setWorkingTranslationFromModal(modal, content, translation);
                 });
             } else {
                 setWorkingTranslation(content, translation);
             }
         }
-        
-        function setWorkingTranslation(content, translation) {
-            current_translation = stripHtml(content); 
+
+        function setWorkingTranslationFromModal(modal, content, translation) {
+            setWorkingTranslation(content);
+            if (translation) {
+                highLightTranslation(translation);
+            }
+            modal.modal('hide');
+        }
+
+        function setWorkingTranslation(content) {
+            current_translation = stripHtml(content);
             translation_area.val(current_translation);
             translator_dashboard.show();    
-            
-            if (translation !== undefined) {
-                editor_content_origin.find('.s_selected').removeClass('s_selected');
-                editor_content_translation.find('.s_selected').removeClass('s_selected');
-                $(translation).addClass('s_selected');
-                getOriginalFromTranslation(translation).addClass('s_selected');                
-            }
+        }
+
+        function highLightTranslation(translation) {
+            editor_content_origin.find('.s_selected').removeClass('s_selected');
+            editor_content_translation.find('.s_selected').removeClass('s_selected');
+            $(translation).addClass('s_selected');
+            getOriginalFromTranslation(translation).addClass('s_selected');
         }
         
         function getTranslationFromOriginal(sentence) {
@@ -57,6 +64,7 @@ define(
         {
             const tmp = document.createElement("DIV");
             tmp.innerHTML = html;
+
             return tmp.textContent.trim() || tmp.innerText.trim() || "";
         }
                 
@@ -76,6 +84,7 @@ define(
             switch (role) {
                 case 'translator':
                     // generate ajax coll to backend here, after success:
+                    BackendCaller.call();
                     translation.removeData('sentence-state').attr("data-sentence-state", 'translated');
                     current_translation = translation_area.val();
                     translation.html(current_translation);
@@ -107,8 +116,8 @@ define(
 
         return {
             init: function () {
-                translation_area = $('#translation_area');
-                roles = $('#roles');
+                translation_area = $('.js-translation-area');
+                roles = $('.js-roles');
                 editor_content_origin = $('div[data-role="origin"]');
                 editor_content_translation = $('div[data-role="translation"]');
 

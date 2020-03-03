@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Sentence;
 use App\Entity\User;
 use App\Entity\Project;
 use App\Entity\Section;
@@ -100,5 +101,25 @@ class ContentRevisionRepository extends ServiceEntityRepository
         }
         
         return $results;
+    }
+
+    /**
+     * @param Sentence $sentence
+     * @param Project $project
+     * @return ContentRevision|null
+     */
+    public function findLatestForSentenceAndProject(Sentence $sentence, Project $project): ?ContentRevision
+    {
+        $queryBuilder = $this->createQueryBuilder('cr')
+            ->where('cr.project = :project')
+            ->setParameter('project', $project)
+            ->andWhere('cr.sentence = :sentence')
+            ->setParameter('sentence', $sentence)
+            ->orderBy('cr.createdAt', 'DESC')
+            ->setMaxResults(1);
+
+        $result = $queryBuilder->getQuery()->getResult();
+
+        return count($result) ? $result[0] : null;
     }
 }
