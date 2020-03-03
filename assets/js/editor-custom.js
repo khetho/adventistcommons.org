@@ -47,15 +47,11 @@ define(
 
         $(document).ready(function () {
             editor_content_origin = $('div[data-role="origin"]');
-            editor_content_translation = $('div[data-role="translation"]');
 
             initPanels();
 
             // Translation system
-            Translation(
-                editor_content_origin,
-                editor_content_translation
-            );
+            Translation.init();
 
             // Glossary
             Glossary.adventist(editor_content_origin);

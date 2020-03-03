@@ -105,34 +105,37 @@ define(
             });
         }
 
-        return function (a_editor_content_origin, a_editor_content_translation) {
-            translation_area = $('.js-translation-area');
-            roles = $('.js-roles');
-            translator_dashboard = $('.js-translator-dashboard');
-            translator_dashboard.hide();
-            translation_area.val('');
-            editor_content_origin = a_editor_content_origin;
-            editor_content_translation = a_editor_content_translation;
+        return {
+            init: function () {
+                translation_area = $('#translation_area');
+                roles = $('#roles');
+                editor_content_origin = $('div[data-role="origin"]');
+                editor_content_translation = $('div[data-role="translation"]');
 
-            editor_content_origin.on('click', '.js-sentence', function (e) {
-                setCurrentTranslation(getTranslationFromOriginal(this));
-            });
-            editor_content_translation.on('click', '.js-sentence', function (e) {
-                setCurrentTranslation(this);
-            });
+                translator_dashboard = $('.js-translator-dashboard');
+                translator_dashboard.hide();
+                translation_area.val('');
+
+                editor_content_origin.on('click', '.js-sentence', function (e) {
+                    setCurrentTranslation(getTranslationFromOriginal(this));
+                });
+                editor_content_translation.on('click', '.js-sentence', function (e) {
+                    setCurrentTranslation(this);
+                });
             
-            initRoles();
+                initRoles();
 
-            // Translator save
-            $('.js-save-translation').on('click', function () {
-                save();
-            });
+                // Translator save
+                $('.js-save-translation').on('click', function () {
+                    save();
+                });
 
-            // Move content
-            let translation_tools = $('.js-chat-item, #translation-memory, #machine-translation');
-            translation_tools.on('click', '.js-transfer', function (e) {
-                setWorkingTranslationIfOk($(e.delegateTarget).find('.subject').text());
-            });
+                // Move content
+                let translation_tools = $('.js-chat-item, #translation-memory, #machine-translation');
+                translation_tools.on('click', '.js-transfer', function (e) {
+                    setWorkingTranslationIfOk($(e.delegateTarget).find('.subject').text());
+                });
+            }
         }
     }
 );
