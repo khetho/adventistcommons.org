@@ -2,17 +2,8 @@ define(
     [
         'jquery',
         'mark.js/dist/jquery.mark.js',
-    ],function($, Mark){
-        /**
-         * Glossary example
-         */
-        let adventist_glossary = {
-            "morning":"Yoruba: owurọ",
-            "raising":"Yoruba: igbega",
-            "salesman":"Yoruba: olutaja",
-            "translate":"Info: detail",
-            "line":"Seventh day of the Bible week, from friday sunset to saturday sunset"
-        };
+        '../config/adventist-glossary'
+    ],function($, Mark, AdventistGlossary){
 
         function setup_words(word, resWord, resDef, e, parent)
         {
@@ -44,19 +35,19 @@ define(
 
         return {
             adventist: function (container) {
-                container.mark(Object.keys(adventist_glossary), {
+                container.mark(Object.keys(AdventistGlossary), {
                     "element": "span",
                     "accuracy": "complementary",
                     "className": "adventist_terms",
                     "each": htmlElement => {
-                        $.each(adventist_glossary, function (term, def) {
+                        $.each(AdventistGlossary, function (term, def) {
                             if (htmlElement.textContent === term) {
                                 htmlElement.classList.add(term);
                             }
                         });
                     },
                 });
-                $.each(adventist_glossary, function (term, def) {
+                $.each(AdventistGlossary, function (term, def) {
                     container
                         .find('.' + term)
                         .popover({
