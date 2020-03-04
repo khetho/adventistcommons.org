@@ -31,8 +31,13 @@ class ContentRevisionController extends AbstractController
     ) {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
         $sentence = $dataFinder->retrieveSentenceOr404($sentenceId, $project);
-        $translationAdder->addTranslation($sentence, $project, $request->request->get('value'));
+        $data = json_decode($request->getContent(), true);
+        $contentRevision = $translationAdder->addTranslation($sentence, $project, $data['content']);
 
-        return new JsonResponse(['status' => 'success']);
+        if ($contentRevision) {
+            return new JsonResponse(['status' => 'created'], 201);
+        }
+
+        return new JsonResponse(['status' => 'no-action'], 204);
     }
 }

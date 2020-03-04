@@ -384,4 +384,43 @@ messages:
   project:
     deleted: Project supprimé avec succès
     created: Project créé avec succès
-    member_added: Membre ajouté avec succès    
+    member_added: Membre ajouté avec succès
+editor:
+  pagination:
+    previous: Précédent
+    next: Suivant
+  working:
+    machine: Traduction automatisé
+    machine_none: Aucune traduction
+    memory: Traduction mémoire
+    memory_stats: Informations
+    memory_nav: Navigation
+    memory_none: Aucune traduction
+    role:
+      title: Roles
+      translate: Traduction
+      translate_save: Sauver
+      proofread: Relecture
+      proofread_save: Approuver
+      review: Revue
+      review_save: Approuver
+    stats:
+      title: Statistiques
+      translated: Traduit
+      proofread: Relu
+      reviewed: Revu
+    changed:
+      title: Des données peuvent être perdues
+      body: Vous avez fait des modifications pour la traduction actuelle mais ne l’avez pas sauvé. Que souhaitez-vous faire ?
+      button:
+        cancel: Annuler
+        save: Sauver
+        dismiss: Perdre les modifications
+  comments:
+    title: Commentaires
+    button: Commentaires
+  revisions:
+    title: Historique
+    button: Historique
+  navigation:
+    title: Navigation

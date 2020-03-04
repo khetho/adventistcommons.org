@@ -12,7 +12,7 @@ define(
         let translator_dashboard = null;
         let current_translation = '';
 
-        function setCurrentTranslation(translation) {
+        function setCurrentSentence(translation) {
             setWorkingTranslationIfOk($(translation).html().trim(), translation);
         }
 
@@ -65,28 +65,42 @@ define(
 
             return tmp.textContent.trim() || tmp.innerText.trim() || "";
         }
+
+        function getCurrentSentence() {
+            const translation = editor_content_translation.find('.s_selected');
+            if (!translation.length) {
+                exception('Error: cannot find current translation');
+                return;
+            }
+            return translation;
+        }
                 
         function save() {
             const role = roles.find('.active').data('role');
-            const translation = editor_content_translation.find('.s_selected');
-            const sentenceId = translation.attr('data-sentence-id'); 
-
-            if (!translation.length) {
-                console.log('Error: Nothing to save');
-                return;
-            }
             if (typeof role === 'undefined') {
-                alert('You need choice a role');
+                exception('You must choose a role');
                 return;
             }
+
+            const translation = getCurrentSentence();
+            if (!translation.length) {
+                return;
+            }
+
+            const sentenceId = translation.attr('data-sentence-id');
 
             switch (role) {
                 case 'translator':
                     // generate ajax coll to backend here, after success:
-                    BackendCaller.callContentRevisionPut(sentenceId, );
-                    translation.removeData('sentence-state').attr("data-sentence-state", 'translated');
-                    current_translation = translation_area.val();
-                    translation.html(current_translation);
+                    BackendCaller.callContentRevisionPut(
+                        sentenceId,
+                        translation_area.val(),
+                        function() {
+                            translation.removeData('sentence-state').attr("data-sentence-state", 'translated');
+                            current_translation = translation_area.val();
+                            translation.html(current_translation);
+                        }
+                    );
                     break;
                 case 'proofreader':
                     // generate ajax coll to backend here, after success:
@@ -99,43 +113,84 @@ define(
         }
         
         function initRoles() {
-            $('.js-role > button').on('click', function () {
-                $(this).addClass('active');
-                $('.js-role > button').not($(this)).removeClass('active');
+            $('[data-save-role]').hide();
+            $('[data-save-role="trans"]').show();
 
-                if ($(this).hasClass('js-proof') || $(this).hasClass('js-rev')) {
-                    $('.js-save-translation').text('Approve');
+            $('.js-role > button').on('click', function () {
+                $('.js-role > button').removeClass('active');
+                $(this).addClass('active');
+                $('[data-save-role]').hide();
+
+                if ($(this).hasClass('js-proof')) {
+                    $('[data-save-role="proof"]').show();
                     translation_area.attr('readonly','readonly');
-                } else {
-                    $('.js-save-translation').text('Save');
+                } else if($(this).hasClass('js-rev')) {
+                    $('[data-save-role="rev"]').show();
+                    translation_area.attr('readonly','readonly');
+                } else if($(this).hasClass('js-trans')) {
+                    $('[data-save-role="trans"]').show();
                     translation_area.removeAttr('readonly');
                 }
             });
         }
 
+        function selectNextSentence() {
+            let next = getCurrentSentence().next();
+            if (!next.length) {
+                next = getCurrentSentence().closest('p').next().find('.js-sentence').first();
+            }
+            if (!next.length) {
+                return;
+            }
+            setCurrentSentence(next);
+        }
+
+        function selectPrevSentence() {
+            let prev = getCurrentSentence().prev();
+            if (!prev.length) {
+                prev = getCurrentSentence().closest('p').prev().find('.js-sentence').last();
+            }
+            if (!prev.length) {
+                return;
+            }
+            setCurrentSentence(prev);
+        }
+
+        function exception(message) {
+            alert(message);
+        }
+
         return {
             init: function () {
                 translation_area = $('.js-translation-area');
-                roles = $('.js-roles');
                 editor_content_origin = $('div[data-role="origin"]');
                 editor_content_translation = $('div[data-role="translation"]');
+
+                editor_content_origin.on('click', '.js-sentence', function (e) {
+                    setCurrentSentence(getTranslationFromOriginal(this));
+                });
+                editor_content_translation.on('click', '.js-sentence', function (e) {
+                    setCurrentSentence(this);
+                });
 
                 translator_dashboard = $('.js-translator-dashboard');
                 translator_dashboard.hide();
                 translation_area.val('');
 
-                editor_content_origin.on('click', '.js-sentence', function (e) {
-                    setCurrentTranslation(getTranslationFromOriginal(this));
-                });
-                editor_content_translation.on('click', '.js-sentence', function (e) {
-                    setCurrentTranslation(this);
-                });
-            
+                roles = $('.js-roles');
                 initRoles();
 
                 // Translator save
                 $('.js-save-translation').on('click', function () {
-                    save();
+                    save(this);
+                });
+
+                $('.js-next-translation').on('click', function () {
+                    selectNextSentence();
+                });
+
+                $('.js-prev-translation').on('click', function () {
+                    selectPrevSentence();
                 });
 
                 // Move content

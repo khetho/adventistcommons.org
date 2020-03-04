@@ -13,7 +13,7 @@
 
     <body
             {% if app.request.attributes.has('slug') %}
-                data-productSlug="{{ app.request.attributes.get('slug') }}"
+                data-slug="{{ app.request.attributes.get('slug') }}"
             {% endif %}
             {% if app.request.attributes.has('languageCode') %}
                 data-languageCode="{{ app.request.attributes.get('languageCode') }}"

@@ -5,7 +5,7 @@ namespace App\Project\Translation;
 use App\Entity\ContentRevision;
 use App\Entity\Project;
 use App\Entity\Sentence;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
 
 class TranslationAdder
@@ -13,7 +13,7 @@ class TranslationAdder
     private $registry;
     private $user;
 
-    public function __construct(Registry $registry, Security $security)
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         $this->registry = $registry;
         $this->user = $security->getUser();

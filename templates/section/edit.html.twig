@@ -1,9 +1,23 @@
-{% extends "template.html.twig" %} {% block stylesheets %} {{ encore_entry_link_tags('editor') }} {% endblock %} {% block javascripts %} {{ encore_entry_script_tags('editor') }} {% endblock %} {% block content %}
+{% extends "template.html.twig" %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('editor') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('editor') }}
+{% endblock %}
+
+{% block content %}
 <main role="main" class="container">
     <div class="editor editor__container">
         <nav class="editor-nav">
             <ul class="pagination justify-content-center">
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">
+                        {% trans %}editor.pagination.previous{% endtrans %}
+                    </a>
+                </li>
 
                 <li class="page-item page-chapter page-chapter_dropdown dropdown">
                     <a class="page-link dropdown-toggle"
@@ -24,7 +38,11 @@
                     </div>
                 </li>
 
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        {% trans %}editor.pagination.next{% endtrans %}
+                    </a>
+                </li>
             </ul>
         </nav>
         
@@ -77,7 +95,7 @@
                                 <div id="machine-translation" class="d-flex flex-wrap machine-translation mb-4">
 
                                     <div class="h-5 font-weight-bold mr-1 title">
-                                        Machine Translation
+                                        {% trans %}editor.working.machine{% endtrans %}
                                     </div>
 
                                     <div class="flex-grow-1 toolset">
@@ -88,23 +106,29 @@
                                         </span>
                                     </div>
                                     <div class="font-weight-light text-small js-subject">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Integer posuere erat a ante.
+                                        {% trans %}editor.working.machine_none{% endtrans %}
                                     </div>
 
                                 </div>
                                 <div id="translation-memory" class="d-flex flex-wrap translation-memory">
 
                                     <div class="h-5 font-weight-bold mr-1 title">
-                                        Translation Memory
+                                        {% trans %}editor.working.memory{% endtrans %}
                                     </div>
 
                                     <div class="flex-grow-1 toolset">
-                                        <div class="btn-group btn-group-sm ml-auto mr-1" role="group" aria-label="Translation Memory Stats">
+                                        <div class="btn-group btn-group-sm ml-auto mr-1"
+                                             role="group"
+                                             aria-label="{% trans %}editor.working.memory_stats{% endtrans %}"
+                                        >
                                             <span class="badge badge-pill mr-0">1 of 4</span>
                                             <span class="badge badge-success">100%</span>
                                         </div>
 
-                                        <div class="btn-group btn-group-extra-sm ml-auto mr-1" role="group" aria-label="Translation Memory Navigation">
+                                        <div class="btn-group btn-group-extra-sm ml-auto mr-1"
+                                             role="group"
+                                             aria-label="{% trans %}editor.working.memory_nav{% endtrans %}"
+                                        >
                                             <button type="button" class="btn btn-outline-secondary">&lt;&lt;</button>
                                             <button type="button" class="btn btn-outline-secondary">&gt;&gt;</button>
                                         </div>
@@ -117,7 +141,7 @@
                                     </div>
 
                                     <div class="font-weight-light text-small js-subject">
-                                        Integer posuere erat a ante. Integer posuere erat a ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        {% trans %}editor.working.memory_none{% endtrans %}
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +150,9 @@
                             <!-- Comments -->
                             <div class="js-comments collapse">
 
-                                <div class="h-5 font-weight-bold mr-1 title">Comments</div>
+                                <div class="h-5 font-weight-bold mr-1 title">
+                                    {% trans %}editor.comments.title{% endtrans %}
+                                </div>
 
                                 <!-- Chat module -->
                                 <div class="chat-module chat-comments">
@@ -167,7 +193,13 @@
 
                                     <div class="chat-module-bottom">
                                         <form class="chat-form">
-                                            <textarea id="comment" class="form-control" placeholder="Type message" rows="1" required></textarea>
+                                            <textarea id="comment"
+                                                      class="form-control"
+                                                      placeholder="Type message"
+                                                      rows="1"
+                                                      required
+                                            >
+                                            </textarea>
                                             <div class="chat-form-buttons">
                                             </div>
                                         </form>
@@ -181,7 +213,9 @@
                             <!-- Revisions -->
                             <div class="collapse js-revisions">
 
-                                <div class="h-5 font-weight-bold mr-1 title">Revisions</div>
+                                <div class="h-5 font-weight-bold mr-1 title">
+                                    {% trans %}editor.revisions.title{% endtrans %}
+                                </div>
 
                                 <!-- Chat module -->
                                 <div class="chat-module chat-revision">
@@ -196,7 +230,9 @@
                                                         <span class="js-chat-item-author chat-item-author">Claire</span>
 
                                                         <span class="revision-info">
-                                                            <span class="js-chat-item-time chat-item-time">2 days ago</span>
+                                                            <span class="js-chat-item-time chat-item-time">
+                                                                2 days ago
+                                                            </span>
                                                         <span class="transfer">
                                                               <svg viewBox="0 0 20 20" class="svg-reply">
                                                                 <use xlink:href="#reply-24px"></use>
@@ -247,17 +283,40 @@
 
                             <div class="d-flex flex-wrap mb-1 translation-stat">
                                 <div class="h-5 font-weight-bold mr-1 title">
-                                    <div class="js-roles btn-group btn-group-extra-sm ml-auto mr-1 js-role role" role="group" aria-label="Translation State Navigation">
-                                        <button type="button" class="btn btn-outline-secondary js-trans trans active" data-role="translator">Translate</button>
-                                        <button type="button" class="btn btn-outline-secondary js-proof proof" data-role="proofreader">Proofread</button>
-                                        <button type="button" class="btn btn-outline-secondary js-rev rev" data-role="reviewer">Review</button>
+                                    <div class="js-roles btn-group btn-group-extra-sm ml-auto mr-1 js-role role"
+                                         role="group"
+                                         aria-label="{% trans %}editor.working.role.title{% endtrans %}"
+                                    >
+                                        <button type="button"
+                                                class="btn btn-outline-secondary js-trans trans active"
+                                                data-role="translator"
+                                        >
+                                            {% trans %}editor.working.role.translate{% endtrans %}
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-outline-secondary js-proof proof"
+                                                data-role="proofreader"
+                                        >
+                                            {% trans %}editor.working.role.proofread{% endtrans %}
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-outline-secondary js-rev rev"
+                                                data-role="reviewer"
+                                        >
+                                            {% trans %}editor.working.role.review{% endtrans %}
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="ml-auto toolset">
-                                    <a class="transfer" data-toggle="collapse" data-target="#stats_bars" aria-expanded="false" aria-controls="stats_bars">
+                                    <a class="transfer"
+                                       data-toggle="collapse"
+                                       data-target="#stats_bars"
+                                       aria-expanded="false"
+                                       aria-controls="stats_bars"
+                                    >
                                         <svg viewBox="0 0 20 20" class="svg-text_left-dims">
-                                <use xlink:href="#text_left"></use>
-                            </svg>
+                                            <use xlink:href="#text_left"></use>
+                                        </svg>
                                     </a>
                                 </div>
                             </div>
@@ -265,23 +324,51 @@
                             <div class="d-flex flex-wrap">
                                 <form class="w-100 translation-area__form">
                                     <div class="form-group">
-                                        <textarea class="form-control mb-2 noresize js-translation-area" rows="5"></textarea>
+                                        <textarea class="form-control mb-2 noresize js-translation-area" rows="5">
+                                        </textarea>
 
                                         <div class="d-flex form-group">
-                                            <button type="button" class="js-show-comments btn btn-outline-secondary btn-sm mr-1">
-                                                <span id="count_comments" class="pr-1">2</span>Comments
+                                            <button type="button"
+                                                    class="js-show-comments btn btn-outline-secondary btn-sm mr-1"
+                                            >
+                                                <span id="count_comments" class="pr-1">2</span>
+                                                {% trans %}editor.comments.button{% endtrans %}
                                             </button>
 
-                                            <button type="button" class="js-show-review btn btn-outline-secondary btn-sm mr-1">
-                                                <span id="rev_comments" class="pr-1">5</span>Revisions
+                                            <button type="button"
+                                                    class="js-show-review btn btn-outline-secondary btn-sm mr-1"
+                                            >
+                                                <span id="rev_comments" class="pr-1">5</span>
+                                                {% trans %}editor.revisions.button{% endtrans %}
                                             </button>
 
-                                            <div id="translation_nav" class="btn-group btn-group-sm ml-auto mr-1" role="group" aria-label="Human Translation Navigation">
-                                                <button type="button" class="btn btn-outline-secondary prev">&lt;&lt;</button>
-                                                <button type="button" class="btn btn-outline-secondary next">&gt;&gt;</button>
+                                            <div id="translation_nav"
+                                                 class="btn-group btn-group-sm ml-auto mr-1"
+                                                 role="group"
+                                                 aria-label="{% trans %}editor.navigation.title{% endtrans %}"
+                                            >
+                                                <button type="button" class="btn btn-outline-secondary js-prev-translation">&lt;&lt;</button>
+                                                <button type="button" class="btn btn-outline-secondary js-next-translation">&gt;&gt;</button>
                                             </div>
 
-                                            <button type="button" class="btn btn-primary btn-sm js-save-translation">Save</button>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm js-save-translation"
+                                                    data-save-role="trans"
+                                            >
+                                                {% trans %}editor.working.role.translate_save{% endtrans %}
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm js-save-translation"
+                                                    data-save-role="proof"
+                                            >
+                                                {% trans %}editor.working.role.proofread_save{% endtrans %}
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm js-save-translation"
+                                                    data-save-role="rev"
+                                            >
+                                                {% trans %}editor.working.role.review_save{% endtrans %}
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -299,34 +386,59 @@
                 <div class="col-9">
                     <div id="stats_bars" class="position-fixed statistic-window collapse">
                         <div class="statistic-container">
-                            <button type="button" class="btn-close" aria-label="Close" data-toggle="collapse" data-target="#stats_bars" aria-expanded="false" aria-controls="stats_bars">
+                            <button type="button"
+                                    class="btn-close"
+                                    aria-label="Close"
+                                    data-toggle="collapse"
+                                    data-target="#stats_bars"
+                                    aria-expanded="false"
+                                    aria-controls="stats_bars"
+                            >
                                 <span aria-hidden="true">&times;</span>
                             </button>
 
                             <div class="h-5 font-weight-bold text-center mr-1 title">
-                                Project Statistics
+                                {% trans %}editor.working.stats.title{% endtrans %}
                             </div>
 
                             <div class="stat__item">
-                                <span class="stat-label">Translated</span>
+                                <span class="stat-label">{% trans %}editor.working.stats.translated{% endtrans %}</span>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar_saved" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar_saved"
+                                         role="progressbar"
+                                         style="width: 75%"
+                                         aria-valuenow="75"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                    ></div>
                                 </div>
                                 <span class="stat-value">75%</span>
                             </div>
 
                             <div class="stat__item">
-                                <span class="stat-label">Proofread</span>
+                                <span class="stat-label">{% trans %}editor.working.stats.proofread{% endtrans %}</span>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar_proofreaded" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar_proofreaded"
+                                         role="progressbar"
+                                         style="width: 55%"
+                                         aria-valuenow="55"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                    ></div>
                                 </div>
                                 <span class="stat-value">55%</span>
                             </div>
 
                             <div class="stat__item">
-                                <span class="stat-label">Reviewed</span>
+                                <span class="stat-label">{% trans %}editor.working.stats.reviewed{% endtrans %}</span>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar_reviwed" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar_reviwed"
+                                         role="progressbar"
+                                         style="width: 25%"
+                                         aria-valuenow="25"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                    ></div>
                                 </div>
                                 <span class="stat-value">25%</span>
                             </div>
@@ -339,22 +451,36 @@
         </div>
     </div>
 
-    <div class="modal fade" id="changedTranslationModal" tabindex="-1" role="dialog" aria-labelledby="changedTranslationModalTitle" aria-hidden="true">
+    <div class="modal fade"
+         id="changedTranslationModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="changedTranslationModalTitle"
+         aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="changedTranslationModalLongTitle">Cancel editing ?</h5>
+            <h5 class="modal-title" id="changedTranslationModalTitle">
+                {% trans %}editor.working.changed.title{% endtrans %}
+            </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            You changed the content of the current translation but did not save it, changes will be lost if you continue
+              {% trans %}editor.working.changed.body{% endtrans %}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" data-action="saveContinue">Save translation and continue</button>
-            <button type="button" class="btn btn-primary" data-action="undoContinue">Undo and Continue</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                {% trans %}editor.working.changed.button.cancel{% endtrans %}
+            </button>
+            <button type="button" class="btn btn-primary" data-action="undoContinue">
+                {% trans %}editor.working.changed.button.dismiss{% endtrans %}
+            </button>
+              <button type="button" class="btn btn-primary" data-action="saveContinue">
+                  {% trans %}editor.working.changed.button.save{% endtrans %}
+              </button>
           </div>
         </div>
       </div>

@@ -11,6 +11,8 @@ use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\AST\ConditionalTerm;
+use Doctrine\ORM\Query\Expr\Join;
 use Exception;
 
 class ContentRevisionRepository extends ServiceEntityRepository
@@ -86,15 +88,20 @@ class ContentRevisionRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('cr')
             ->select('s.id', 'cr.content')
+            ->leftJoin(
+                ContentRevision::class,
+                'cr2',
+                Join::WITH,
+                'cr2.sentence = cr.sentence AND cr.createdAt < cr2.createdAt'
+            )
             ->innerJoin('cr.sentence', 's')
             ->innerJoin('s.paragraph', 'p')
             ->where('p.section = :section')
             ->setParameter('section', $section)
             ->andWhere('cr.project = :project')
             ->setParameter('project', $project)
-            ->groupBy('s.id')
-            ->orderBy('cr.createdAt', 'DESC');
-            
+            ->andWhere('cr2.id IS NULL');
+
         $results = [];
         foreach ($queryBuilder->getQuery()->getResult() as $result) {
             $results[$result['id']] = $result['content'];
