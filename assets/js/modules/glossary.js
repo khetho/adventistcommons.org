@@ -2,7 +2,7 @@ define(
     [
         'jquery',
         'mark.js/dist/jquery.mark.js',
-        '../config/adventist-glossary'
+        '../../config/adventist-glossary'
     ],function($, Mark, AdventistGlossary){
 
         function setup_words(word, resWord, resDef, e, parent)
