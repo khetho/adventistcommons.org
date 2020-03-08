@@ -60,6 +60,7 @@ services:
       - ./vendor:/var/www/adventistcommons/vendor
       - ./.git:/var/www/adventistcommons/.git
       - ./composer.json:/var/www/adventistcommons/composer.json
+      - ./composer.lock:/var/www/adventistcommons/composer.lock
       - ./assets/config:/var/www/adventistcommons/assets/config
     working_dir: /var/www/adventistcommons
     links:

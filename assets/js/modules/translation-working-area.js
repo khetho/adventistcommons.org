@@ -5,12 +5,14 @@ define(
         './translation-history',
         '../utils/error-reporter',
         './translation-sentences',
+        './translation-chat',
     ],function(
         $,
         BackendCaller,
         TranslationHistory,
         ErrorReporter,
         TranslationSentences,
+        TranslationChat,
     ) {
         let translation_area = null;
         let roles = null;
@@ -26,6 +28,8 @@ define(
             current_translation = stripHtml(content);
             translation_area.val(current_translation);
             translator_dashboard.show();    
+            TranslationHistory.hide();
+            TranslationChat.hide();
         }
 
         function stripHtml(html)
@@ -131,6 +135,7 @@ define(
                 initRoles();
 
                 TranslationSentences.init(this);
+                TranslationChat.init();
                 TranslationHistory.init(this);
 
                 // Translator save

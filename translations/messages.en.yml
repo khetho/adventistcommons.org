@@ -422,5 +422,6 @@ editor:
   revisions:
     title: Revisions
     button: Revisions
+    none-found: None found
   navigation:
     title: Human Translation Navigation

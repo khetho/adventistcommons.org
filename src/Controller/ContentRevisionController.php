@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class ContentRevisionController extends AbstractController
 {
@@ -63,6 +64,7 @@ class ContentRevisionController extends AbstractController
      * @param $sentenceId
      * @param DataFinder $dataFinder
      * @param EntityManagerInterface
+     * @param Environement
      * @return Response
      */
     public function history(
@@ -70,21 +72,26 @@ class ContentRevisionController extends AbstractController
         $languageCode,
         $sentenceId,
         DataFinder $dataFinder,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        Environment $twig
     ) {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
         $sentence = $dataFinder->retrieveSentenceOr404($sentenceId, $project);
-        $data = $manager->getRepository(ContentRevision::class)->findBy([
+        $revisions = $manager->getRepository(ContentRevision::class)->findBy([
             'sentence' => $sentence
         ]);
-
-        dump($data);
 
         return new JsonResponse(
             [
                 'status' => 'success',
                 'result' => 'list',
-                'data'   => (array) $data,
+                'html'   => $twig->render(
+                    'section/_history.html.twig',
+                    [
+                        'revisions' => $revisions
+                    ]
+                ),
+                'target' => '.js-revisions',
             ],
             200
         );

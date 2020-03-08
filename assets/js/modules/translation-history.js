@@ -8,6 +8,8 @@ define(
     ) {
         let TransactionWorkingArea = null;
         let sentenceId = null;
+        let revisions = null;
+        let machine = null;
 
         function showHistory()
         {
@@ -17,36 +19,46 @@ define(
             }
             sentenceId = newSentenceId;
             BackendCaller.callContentRevisionHistory(
-                sentenceId,
-                function() {
-                    alert('ok');
-                }
+                sentenceId
             );
+        }
+        
+        function show() {
+            showHistory();
+            $('.js-show-comments').removeClass('active');
+            $('.js-show-review').addClass('active');
+
+            machine.collapse('hide');
+            $('.js-comments').collapse('hide');
+            revisions.collapse('show');
+        }
+        
+        function hide() {
+            revisions.collapse('hide');
+            machine.collapse('show');
+
+            $('.js-show-review').removeClass('active');            
         }
 
         return {
             init: function (transaction_working_area) {
+                revisions = $('.js-revisions');
+                machine = $('.js-machine');
+
                 TranslationWorkingArea = transaction_working_area;
 
                 $('.js-show-review').on('click', function () {
-                    const revisions = $('.js-revisions');
-                    const machine = $('.js-machine');
                     if (revisions.hasClass('show')) {
-                        revisions.collapse('hide');
-                        machine.collapse('show');
-
-                        $('.js-show-review').removeClass('active');
+                        hide();
                     } else {
-                        showHistory();
-                        $('.js-show-comments').removeClass('active');
-                        $('.js-show-review').addClass('active');
-
-                        machine.collapse('hide');
-                        $('.js-comments').collapse('hide');
-                        revisions.collapse('show');
+                        show();
                     }
                 });
-            }
+            },
+            
+            hide: function () {
+                hide();
+            },
         }
     }
 );

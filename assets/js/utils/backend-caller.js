@@ -22,10 +22,14 @@ define(
                 url: Router.generate(routeName, routeParams || {}),
                 contentType: 'application/json',
                 data: data ? JSON.stringify(data) : null,
-                success: function (results) {
-                    if (results.status === 'success') {
+                success: function (backendReturn) {
+                    if (backendReturn.status === 'success') {
                         if (successAction) {
                             successAction();
+                        }
+                        console.log(backendReturn);
+                        if (backendReturn.html && backendReturn.target) {
+                            $(backendReturn.target).html(backendReturn.html);
                         }
                     } else {
                         ErrorReporter.report('A client error occurred during the action');
