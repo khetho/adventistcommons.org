@@ -129,4 +129,14 @@ class ContentRevisionRepository extends ServiceEntityRepository
 
         return count($result) ? $result[0] : null;
     }
+    
+    public function findBySentence(Sentence $sentence)
+    {
+        $queryBuilder = $this->createQueryBuilder('cr')
+            ->where('cr.sentence = :sentence')
+            ->setParameter('sentence', $sentence)
+            ->orderBy('cr.createdAt', 'DESC');
+
+        return $queryBuilder->getQuery()->getResult();        
+    }
 }

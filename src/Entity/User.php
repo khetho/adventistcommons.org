@@ -378,7 +378,7 @@ class User implements UserInterface
     
     public function __toString()
     {
-        return $this->getFirstName().' '.$this->getLastName();
+        return $this->getFullName();
     }
 
     public function getId(): ?int
@@ -604,7 +604,7 @@ class User implements UserInterface
     
     public function getFullName(): string
     {
-        return $this->getFirstName().' '.$this->getLastName();
+        return $this->getFirstName().($this->getFirstName() && $this->getFirstName() ? ' ' : '').$this->getLastName();
     }
 
     public function getCompany(): ?string

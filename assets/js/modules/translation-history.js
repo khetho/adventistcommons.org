@@ -10,6 +10,7 @@ define(
         let sentenceId = null;
         let revisions = null;
         let machine = null;
+        let panel = null;
 
         function showHistory()
         {
@@ -25,16 +26,17 @@ define(
         
         function show() {
             showHistory();
+            revisions.html(revisions.data('loading'));
             $('.js-show-comments').removeClass('active');
             $('.js-show-review').addClass('active');
 
             machine.collapse('hide');
             $('.js-comments').collapse('hide');
-            revisions.collapse('show');
+            panel.collapse('show');
         }
         
         function hide() {
-            revisions.collapse('hide');
+            panel.collapse('hide');
             machine.collapse('show');
 
             $('.js-show-review').removeClass('active');            
@@ -42,13 +44,14 @@ define(
 
         return {
             init: function (transaction_working_area) {
-                revisions = $('.js-revisions');
+                panel = $('.js-revisions-panel');
                 machine = $('.js-machine');
+                revisions = $('.js-revisions')
 
                 TranslationWorkingArea = transaction_working_area;
 
                 $('.js-show-review').on('click', function () {
-                    if (revisions.hasClass('show')) {
+                    if (panel.hasClass('show')) {
                         hide();
                     } else {
                         show();

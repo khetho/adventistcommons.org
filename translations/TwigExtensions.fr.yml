@@ -1,0 +1,8 @@
+diff:
+  ago:
+    second: "{1}Il y a 1 seconde|[2,Inf] Il y a %count% secondes"
+    minute: "{1}Il y a 1 minute ago|[2,Inf] Il y a %count% minutes"
+    hour: "{1}Il y a 1 heure|[2,Inf] Il y a %count% heures"
+    day: "{1}Il y a 1 jour|[2,Inf] Il y a %count% jours"
+    month: "{1}Il y a 1 mois|[2,Inf] Il y a %count% mois"
+    year: "{1}Il y a 1 an|[2,Inf] Il y a %count% années"

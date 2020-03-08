@@ -423,5 +423,6 @@ editor:
     title: Revisions
     button: Revisions
     none-found: None found
+    loading: Loading …
   navigation:
     title: Human Translation Navigation

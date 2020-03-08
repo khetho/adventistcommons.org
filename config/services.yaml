@@ -73,9 +73,3 @@ services:
     App\Nlp\Client:
         arguments:
             - '%nlpHost%'
-
-    salavert.twig.time_ago:
-        class: Salavert\Twig\Extension\TimeAgoExtension
-        arguments: ["@translator"]
-        tags:
-            - { name: twig.extension }

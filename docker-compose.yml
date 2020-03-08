@@ -62,6 +62,7 @@ services:
       - ./composer.json:/var/www/adventistcommons/composer.json
       - ./composer.lock:/var/www/adventistcommons/composer.lock
       - ./assets/config:/var/www/adventistcommons/assets/config
+      - ./config/packages:/var/www/adventistcommons/config/packages
     working_dir: /var/www/adventistcommons
     links:
       - ac-db

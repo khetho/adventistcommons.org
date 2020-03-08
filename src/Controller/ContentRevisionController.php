@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class ContentRevisionController extends AbstractController
@@ -73,13 +74,13 @@ class ContentRevisionController extends AbstractController
         $sentenceId,
         DataFinder $dataFinder,
         EntityManagerInterface $manager,
-        Environment $twig
+        Environment $twig,
+        TranslatorInterface $translator
     ) {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
         $sentence = $dataFinder->retrieveSentenceOr404($sentenceId, $project);
-        $revisions = $manager->getRepository(ContentRevision::class)->findBy([
-            'sentence' => $sentence
-        ]);
+        $revisions = $manager->getRepository(ContentRevision::class)->findBySentence($sentence);
+        $twig->addExtension(new \Twig_Extensions_Extension_Date($translator));
 
         return new JsonResponse(
             [
