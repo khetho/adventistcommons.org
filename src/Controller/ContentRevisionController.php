@@ -2,17 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\ContentRevision;
 use App\Project\Translation\TranslationAdder;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use App\Response\JsonResponseBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
-use Twig\Environment;
 
 class ContentRevisionController extends AbstractController
 {
@@ -24,6 +19,7 @@ class ContentRevisionController extends AbstractController
      * @param Request $request
      * @param DataFinder $dataFinder
      * @param TranslationAdder $translationAdder
+     * @param JsonResponseBuilder $responseBuilder
      * @return Response
      */
     public function put(
@@ -32,29 +28,18 @@ class ContentRevisionController extends AbstractController
         $sentenceId,
         Request $request,
         DataFinder $dataFinder,
-        TranslationAdder $translationAdder
-    ) {
+        TranslationAdder $translationAdder,
+        JsonResponseBuilder $responseBuilder
+    ): Response {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
         $sentence = $dataFinder->retrieveSentenceOr404($sentenceId, $project);
         $data = json_decode($request->getContent(), true);
         $contentRevision = $translationAdder->addTranslation($sentence, $project, $data['content']);
 
-        if ($contentRevision) {
-            return new JsonResponse(
-                [
-                    'status' => 'success',
-                    'result' => 'created',
-                ],
-                201
-            );
-        }
-
-        return new JsonResponse(
-            [
-                'status' => 'success',
-                'result' => 'no-action',
-            ],
-            204
+        return $responseBuilder->buildWithData(
+            $contentRevision ? 'created' : 'no-action',
+            [],
+            $contentRevision ? 201 : 204
         );
     }
 
@@ -64,8 +49,7 @@ class ContentRevisionController extends AbstractController
      * @param $languageCode
      * @param $sentenceId
      * @param DataFinder $dataFinder
-     * @param EntityManagerInterface
-     * @param Environement
+     * @param JsonResponseBuilder $responseBuilder
      * @return Response
      */
     public function history(
@@ -73,28 +57,18 @@ class ContentRevisionController extends AbstractController
         $languageCode,
         $sentenceId,
         DataFinder $dataFinder,
-        EntityManagerInterface $manager,
-        Environment $twig,
-        TranslatorInterface $translator
-    ) {
+        JsonResponseBuilder $responseBuilder
+    ): Response {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
         $sentence = $dataFinder->retrieveSentenceOr404($sentenceId, $project);
-        $revisions = $manager->getRepository(ContentRevision::class)->findBySentence($sentence);
-        $twig->addExtension(new \Twig_Extensions_Extension_Date($translator));
+        $revisions = $dataFinder->retrieveRevisions($sentence);
 
-        return new JsonResponse(
+        return $responseBuilder->buildWithTemplate(
+            'list',
+            'section/_history.html.twig',
             [
-                'status' => 'success',
-                'result' => 'list',
-                'html'   => $twig->render(
-                    'section/_history.html.twig',
-                    [
-                        'revisions' => $revisions
-                    ]
-                ),
-                'target' => '.js-revisions',
-            ],
-            200
+                'revisions' => $revisions
+            ]
         );
     }
 }

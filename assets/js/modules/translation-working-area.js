@@ -26,10 +26,16 @@ define(
                 TranslationSentences.setCurrentSentence(sentence_id);
             }
             current_translation = stripHtml(content);
+            BackendCaller.callSentenceInfo(
+                sentence_id,
+                function (backendResponse) {
+                    $('.js-revisions-count').html(backendResponse.data.revisions_count);
+                    $('.js-comments-count').html(backendResponse.data.comments_count);
+                }
+            );
             translation_area.val(current_translation);
-            translator_dashboard.show();    
-            TranslationHistory.hide();
-            TranslationChat.hide();
+            translator_dashboard.show();
+            initPanels();
         }
 
         function stripHtml(html)
@@ -101,7 +107,33 @@ define(
             });
         }
 
+        function hidePanels() {
+            $('.js-machine').collapse('hide');
+            hideOptionnalPanels();
+        }
+
+        function hideOptionnalPanels() {
+            $('.js-comments-panel').collapse('hide');
+            $('.js-revisions-panel').collapse('hide');
+
+            $('.js-show-comments').removeClass('active');
+            $('.js-show-review').removeClass('active');
+        }
+
+        function initPanels() {
+            hideOptionnalPanels();
+            $('.js-machine').collapse('show');
+        }
+
         return {
+            hidePanels: function() {
+                hidePanels();
+            },
+
+            initPanels: function() {
+                initPanels();
+            },
+
             getCurrentSentenceId: function() {
                 return current_sentence_id;
             },
@@ -135,7 +167,7 @@ define(
                 initRoles();
 
                 TranslationSentences.init(this);
-                TranslationChat.init();
+                TranslationChat.init(this);
                 TranslationHistory.init(this);
 
                 // Translator save

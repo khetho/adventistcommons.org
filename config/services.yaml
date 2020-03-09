@@ -68,8 +68,10 @@ services:
         arguments:
             - '@AdventistCommons\Idml\DomManipulation\StoryBasedOnTags'
             
-    AdventistCommons\Idml\DomManipulation\StoryBasedOnTags: ~            
-            
+    AdventistCommons\Idml\DomManipulation\StoryBasedOnTags: ~
+
+    App\Response\JsonResponseBuilder: ~
+
     App\Nlp\Client:
         arguments:
             - '%nlpHost%'

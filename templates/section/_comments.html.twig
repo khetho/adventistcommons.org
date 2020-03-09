@@ -1,0 +1,44 @@
+<div class="chat-module-body">
+    {% for comment in comments %}
+        <div class="media js-chat-item chat-item js-chat-item">
+            {% include 'common/_avatar.html.twig' with {user: comment.user} %}
+            <div class="media-body">
+                <div class="chat-item-title">
+                    <span class="js-chat-item-author chat-item-author">{{ comment.user.fullname }}</span>
+                    <span class="js-chat-item-time chat-item-time">{{ comment.createdAt|time_diff }}</span>
+                </div>
+                <div class="js-chat-item-body chat-item-body">
+                    {{ comment.content }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {% trans %}editor.comments.none-found{% endtrans %}
+    {% endfor %}
+
+    <div class="media js-chat-item chat-item js-chat-item">
+        {% include 'common/_avatar.html.twig' with {user: app.user} %}
+        <div class="media-body">
+            <div class="chat-item-title">
+                <span class="js-chat-item-author chat-item-author">Claire</span>
+                <span class="js-chat-item-time chat-item-time">2 days ago</span>
+            </div>
+            <div class="js-chat-item-body chat-item-body">
+                Coming along nicely, we've got a draft for the client questionnaire completed, take a look!
+            </div>
+        </div>
+    </div>
+
+    <div class="media js-chat-item chat-item js-chat-item">
+        {% include 'common/_avatar.html.twig' with {user: app.user} %}
+        <div class="media-body">
+            <div class="chat-item-title">
+                <span class="js-chat-item-author chat-item-author">David</span>
+                <span class="js-chat-item-time chat-item-time">2 days ago</span>
+            </div>
+            <div class="js-chat-item-body chat-item-body">
+                Coming along nicely, we've got a draft for the client questionnaire completed, take a look!
+            </div>
+        </div>
+    </div>
+</div>

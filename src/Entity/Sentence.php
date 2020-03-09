@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="paragraph_id", columns={"paragraph_id"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SentenceRepository"))
  */
 class Sentence
 {

@@ -59,7 +59,21 @@ app_content_revision:
     prefix: /{_locale}/content-revision
     options:
         expose: true
-        
+
+app_comments:
+    resource: App\Controller\CommentsController
+    type: annotation
+    prefix: /{_locale}/comment
+    options:
+        expose: true
+
+app_sentence:
+    resource: App\Controller\SentenceController
+    type: annotation
+    prefix: /{_locale}/sentence
+    options:
+        expose: true
+
 app_feedback:
     resource: App\Controller\FeedbackController
     type: annotation

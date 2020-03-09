@@ -14,6 +14,7 @@ define(
         let editor_content_origin = null;
         let editor_content_translation = null;
         let TranslationWorkingArea = null;
+        const selected_class = 's_selected';
 
         function setCurrentSentenceIfOk(sentence_id) {
             TranslationWorkingArea.setWorkingTranslationIfOk(
@@ -36,7 +37,7 @@ define(
 
         return {
             getCurrentSentence: function () {
-                const translation = editor_content_translation.find('.s_selected');
+                const translation = editor_content_translation.find('.'+selected_class);
                 if (!translation.length) {
                     ErrorReporter.report('Error: cannot find current translation');
                     return;
@@ -45,10 +46,10 @@ define(
             },
 
             setCurrentSentence: function(sentence_id) {
-                editor_content_origin.find('.s_selected').removeClass('s_selected');
-                editor_content_translation.find('.s_selected').removeClass('s_selected');
-                getOriginalFromSentenceId(sentence_id).addClass('s_selected');
-                getTranslationFromSentenceId(sentence_id).addClass('s_selected');
+                editor_content_origin.find('.'+selected_class).removeClass(selected_class);
+                editor_content_translation.find('.'+selected_class).removeClass(selected_class);
+                getOriginalFromSentenceId(sentence_id).addClass(selected_class);
+                getTranslationFromSentenceId(sentence_id).addClass(selected_class);
             },
 
             selectNextSentence: function () {
@@ -71,8 +72,8 @@ define(
                 }
             },
 
-            init: function (translationWorkingArea) {
-                TranslationWorkingArea = translationWorkingArea;
+            init: function (translation_working_area) {
+                TranslationWorkingArea = translation_working_area;
                 editor_content_origin = $('div[data-role="origin"]');
                 editor_content_translation = $('div[data-role="translation"]');
 

@@ -419,6 +419,8 @@ editor:
   comments:
     title: Comments
     button: Comments
+    none-found: None found
+    loading: Loading …
   revisions:
     title: Revisions
     button: Revisions
@@ -426,3 +428,6 @@ editor:
     loading: Loading …
   navigation:
     title: Human Translation Navigation
+json:
+  error:
+    generic: An error occured on the server. Please try again later.

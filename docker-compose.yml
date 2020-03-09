@@ -51,18 +51,9 @@ services:
     container_name: ac-php-cli
     volumes:
       # read only
-      - .:/var/www/adventistcommons:ro
       - ./docker/php/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
       # read/write
-      - ./public/bundles:/var/www/adventistcommons/public/bundles
-      - ./src/Migrations:/var/www/adventistcommons/src/Migrations
-      - ./var:/var/www/adventistcommons/var
-      - ./vendor:/var/www/adventistcommons/vendor
-      - ./.git:/var/www/adventistcommons/.git
-      - ./composer.json:/var/www/adventistcommons/composer.json
-      - ./composer.lock:/var/www/adventistcommons/composer.lock
-      - ./assets/config:/var/www/adventistcommons/assets/config
-      - ./config/packages:/var/www/adventistcommons/config/packages
+      - .:/var/www/adventistcommons
     working_dir: /var/www/adventistcommons
     links:
       - ac-db

@@ -15,12 +15,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DataFinder
 {
     private $registry;
-    
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
-        $this->registry	= $managerRegistry;
+        $this->registry = $managerRegistry;
     }
-    
+
     public function retrieveProjectOr404($slug, $languageCode): Project
     {
         $product = $this->retrieveProductOr404($slug);
@@ -30,11 +30,11 @@ class DataFinder
             'language' => $language,
             'product' => $product,
         ]);
-        
+
         if (!$project) {
             throw new NotFoundHttpException();
         }
-        
+
         return $project;
     }
 
@@ -95,7 +95,7 @@ class DataFinder
 
         return $section;
     }
-    
+
     public function retrieveAttachmentOr404($slug, $languageCode, $id): Attachment
     {
         $project = $this->retrieveProjectOr404($slug, $languageCode);
@@ -118,5 +118,20 @@ class DataFinder
         }
 
         return $sentence;
+    }
+
+    public function retrieveRevisions($sentence)
+    {
+        return $this->registry
+            ->getRepository(ContentRevision::class)
+            ->findBySentence($sentence);
+    }
+
+    public function retrieveSentenceInfoOr404($slug, $languageCode, $sentenceId)
+    {
+        $project = $this->retrieveProjectOr404($slug, $languageCode);
+        $sentence = $this->retrieveSentenceOr404($sentenceId, $project);
+
+        return $this->registry->getRepository(Sentence::class)->getSentenceInfo($project, $sentence);
     }
 }

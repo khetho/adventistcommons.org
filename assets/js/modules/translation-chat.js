@@ -1,28 +1,51 @@
 define(
     [
         'jquery',
-    ],function($) {
-        
-        show = function() {
-            $('.js-show-review').removeClass('active');
-            $('.js-show-comments').addClass('active');
+        './../utils/backend-caller',
+    ],function(
+        $,
+        BackendCaller,
+    ) {
+        let TranslationWorkingArea = null;
+        let sentenceId = null;
+        let content = null;
+        let panel = null;
+        let button = null;
 
-            $('.js-machine').collapse('hide');
-            $('.js-revisions').collapse('hide');
-            $('.js-comments').collapse('show');            
+        function retrieveContent()
+        {
+            const newSentenceId = TranslationWorkingArea.getCurrentSentenceId();
+            if (newSentenceId === sentenceId) {
+                return;
+            }
+            content.html(content.data('loading'));
+            sentenceId = newSentenceId;
+            BackendCaller.callSentenceComments(
+                sentenceId,
+                content
+            );
+        }
+
+        function show() {
+            TranslationWorkingArea.hidePanels();
+            retrieveContent();
+            button.addClass('active');
+            panel.collapse('show');
         }
         
-        hide = function() {
-            $('.js-comments').collapse('hide');
-            $('.js-machine').collapse('show');
-
-            $('.js-show-comments').removeClass('active');
+        function hide() {
+            TranslationWorkingArea.initPanels();
         }
         
         return {
-            init: function () {
-                $('.js-show-comments').on('click', function () {
-                    if ($('.js-comments').hasClass('show')) {
+            init: function (transaction_working_area) {
+                TranslationWorkingArea = transaction_working_area;
+                panel = $('.js-comments-panel');
+                button = $('.js-show-comments');
+                content = $('.js-comments');
+
+                button.on('click', function () {
+                    if (button.hasClass('active')) {
                         hide();
                     } else {
                         show();
@@ -30,7 +53,7 @@ define(
                 });
             },
             
-            hide: function() {
+            hide: function () {
                 hide();
             },
         }

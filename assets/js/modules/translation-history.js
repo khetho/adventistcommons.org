@@ -6,52 +6,46 @@ define(
         $,
         BackendCaller,
     ) {
-        let TransactionWorkingArea = null;
+        let TranslationWorkingArea = null;
         let sentenceId = null;
-        let revisions = null;
-        let machine = null;
+        let content = null;
         let panel = null;
+        let button = null;
 
-        function showHistory()
+        function retrieveContent()
         {
             const newSentenceId = TranslationWorkingArea.getCurrentSentenceId();
             if (newSentenceId === sentenceId) {
                 return;
             }
+            content.html(content.data('loading'));
             sentenceId = newSentenceId;
             BackendCaller.callContentRevisionHistory(
-                sentenceId
+                sentenceId,
+                content
             );
         }
         
         function show() {
-            showHistory();
-            revisions.html(revisions.data('loading'));
-            $('.js-show-comments').removeClass('active');
-            $('.js-show-review').addClass('active');
-
-            machine.collapse('hide');
-            $('.js-comments').collapse('hide');
+            TranslationWorkingArea.hidePanels();
+            retrieveContent();
+            button.addClass('active');
             panel.collapse('show');
         }
         
         function hide() {
-            panel.collapse('hide');
-            machine.collapse('show');
-
-            $('.js-show-review').removeClass('active');            
+            TranslationWorkingArea.initPanels();
         }
 
         return {
             init: function (transaction_working_area) {
-                panel = $('.js-revisions-panel');
-                machine = $('.js-machine');
-                revisions = $('.js-revisions')
-
                 TranslationWorkingArea = transaction_working_area;
+                panel = $('.js-revisions-panel');
+                button = $('.js-show-review');
+                content = $('.js-revisions');
 
-                $('.js-show-review').on('click', function () {
-                    if (panel.hasClass('show')) {
+                button.on('click', function () {
+                    if (button.hasClass('active')) {
                         hide();
                     } else {
                         show();

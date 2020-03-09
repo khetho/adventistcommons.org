@@ -148,7 +148,7 @@
                             <!-- Machine Translation END -->
 
                             <!-- Comments -->
-                            <div class="js-comments collapse">
+                            <div class="js-comments-panel collapse">
 
                                 <div class="h-5 font-weight-bold mr-1 title">
                                     {% trans %}editor.comments.title{% endtrans %}
@@ -156,39 +156,9 @@
 
                                 <!-- Chat module -->
                                 <div class="chat-module chat-comments">
-                                    <div class="chat-module-top">
-                                        <div class="chat-module-body">
-
-                                            <!-- Message -->
-                                            <div class="media js-chat-item chat-item js-chat-item">
-                                                <img alt="..." src="assets/img/avatar-female-4.jpg" class="avatar" />
-                                                <div class="media-body">
-                                                    <div class="chat-item-title">
-                                                        <span class="js-chat-item-author chat-item-author">Claire</span>
-                                                        <span class="js-chat-item-time chat-item-time">2 days ago</span>
-                                                    </div>
-                                                    <div class="js-chat-item-body chat-item-body">
-                                                        Coming along nicely, we've got a draft for the client questionnaire completed, take a look!
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Message END -->
-
-                                            <!-- Message -->
-                                            <div class="media js-chat-item chat-item js-chat-item">
-                                                <img alt="..." src="assets/img/avatar-male-4.jpg" class="avatar" />
-                                                <div class="media-body">
-                                                    <div class="chat-item-title">
-                                                        <span class="js-chat-item-author chat-item-author">David</span>
-                                                        <span class="js-chat-item-time chat-item-time">2 days ago</span>
-                                                    </div>
-                                                    <div class="js-chat-item-body chat-item-body">
-                                                        Coming along nicely, we've got a draft for the client questionnaire completed, take a look!
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Message END -->
-                                        </div>
+                                    <div class="chat-module-top js-comments"
+                                         data-loading="{% trans %}editor.comments.loading{% endtrans %}"
+                                    >
                                     </div>
 
                                     <div class="chat-module-bottom">
@@ -215,7 +185,9 @@
                                 <div class="h-5 font-weight-bold mr-1 title">
                                     {% trans %}editor.revisions.title{% endtrans %}
                                 </div>
-                                <div class="js-revisions" data-loading="{% trans %}editor.revisions.loading{% endtrans %}">
+                                <div class="js-revisions"
+                                     data-loading="{% trans %}editor.revisions.loading{% endtrans %}"
+                                >
                                 </div>
                             </div>
                             <!-- Revisions END-->
@@ -275,15 +247,15 @@
                                             <button type="button"
                                                     class="js-show-comments btn btn-outline-secondary btn-sm mr-1"
                                             >
-                                                <span id="count_comments" class="pr-1">2</span>
                                                 {% trans %}editor.comments.button{% endtrans %}
+                                                <span class="pl-1 badge badge-pill badge-secondary js-comments-count"></span>
                                             </button>
 
                                             <button type="button"
                                                     class="js-show-review btn btn-outline-secondary btn-sm mr-1"
                                             >
-                                                <span id="rev_comments" class="pr-1">5</span>
                                                 {% trans %}editor.revisions.button{% endtrans %}
+                                                <span class="pl-1 badge badge-pill badge-primary js-revisions-count"></span>
                                             </button>
 
                                             <div id="translation_nav"
@@ -291,8 +263,14 @@
                                                  role="group"
                                                  aria-label="{% trans %}editor.navigation.title{% endtrans %}"
                                             >
-                                                <button type="button" class="btn btn-outline-secondary js-prev-translation">&lt;&lt;</button>
-                                                <button type="button" class="btn btn-outline-secondary js-next-translation">&gt;&gt;</button>
+                                                <button type="button"
+                                                        class="btn btn-outline-secondary js-prev-translation">
+                                                    &lt;&lt;
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-outline-secondary js-next-translation">
+                                                    &gt;&gt;
+                                                </button>
                                             </div>
 
                                             <button type="button"

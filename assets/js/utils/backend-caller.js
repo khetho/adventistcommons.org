@@ -13,7 +13,7 @@ define(
             return $('body').attr('data-' + name);
         };
 
-        const call = function(routeName, routeParams, successAction, method, data){
+        const call = function(routeName, routeParams, action, parent, method, data){
             // @TODO : add a loader somewhere
             routeParams = routeParams || {};
             routeParams._locale = getLocale();
@@ -23,19 +23,20 @@ define(
                 contentType: 'application/json',
                 data: data ? JSON.stringify(data) : null,
                 success: function (backendReturn) {
-                    if (backendReturn.status === 'success') {
-                        if (successAction) {
-                            successAction();
-                        }
-                        console.log(backendReturn);
-                        if (backendReturn.html && backendReturn.target) {
-                            $(backendReturn.target).html(backendReturn.html);
-                        }
-                    } else {
+                    if (action) {
+                        action(backendReturn);
+                    }
+                    if (parent && backendReturn.html) {
+                        parent.html(backendReturn.html);
+                    }
+                    if (backendReturn.status !== 'success') {
                         ErrorReporter.report('A client error occurred during the action');
                     }
                 },
                 error: function () {
+                    if (parent) {
+                        parent.html('A server error occurred during the action');
+                    }
                     ErrorReporter.report('A server error occurred during the action');
                 },
             });
@@ -57,7 +58,7 @@ define(
                     },
                 );
             },
-            callContentRevisionHistory: function (sentenceId, successAction) {
+            callContentRevisionHistory: function (sentenceId, parent) {
                 call(
                     'app_content_revision_history',
                     {
@@ -65,9 +66,33 @@ define(
                         'languageCode': getContextVar('languageCode'),
                         'sentenceId': sentenceId,
                     },
-                    successAction
+                    undefined,
+                    parent
                 );
             },
+            callSentenceComments: function (sentenceId, parent) {
+                call(
+                    'app_comment_for_sentence',
+                    {
+                        'slug': getContextVar('slug'),
+                        'languageCode': getContextVar('languageCode'),
+                        'sentenceId': sentenceId,
+                    },
+                    undefined,
+                    parent
+                );
+            },
+            callSentenceInfo: function (sentenceId, successAction) {
+                call(
+                    'app_sentence_info',
+                    {
+                        'slug': getContextVar('slug'),
+                        'languageCode': getContextVar('languageCode'),
+                        'sentenceId': sentenceId,
+                    },
+                    successAction
+                )
+            }
         };
     }
 );
