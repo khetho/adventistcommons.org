@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\ContentRevision\Lister;
 use App\Project\Translation\TranslationAdder;
 use App\Response\JsonResponseBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,11 +58,13 @@ class ContentRevisionController extends AbstractController
         $languageCode,
         $sentenceId,
         DataFinder $dataFinder,
-        JsonResponseBuilder $responseBuilder
+        JsonResponseBuilder $responseBuilder,
+        Lister $lister
     ): Response {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
         $sentence = $dataFinder->retrieveSentenceOr404($sentenceId, $project);
         $revisions = $dataFinder->retrieveRevisions($sentence);
+        $revisions = $lister->diff($revisions);
 
         return $responseBuilder->buildWithTemplate(
             'list',

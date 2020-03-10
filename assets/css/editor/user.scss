@@ -302,11 +302,11 @@ body {
   @extend .btn-extra-sm;
 }
 
-.highlighted {
+.js-chat-item-body > ins {
   background-color: lighten($tt-light-green, 25%);
 }
 
-.crossed-out {
+.js-chat-item-body > del {
   background-color: lighten($tt-light-red, 30%);
   text-decoration: line-through;
 }

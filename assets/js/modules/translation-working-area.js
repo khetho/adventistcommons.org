@@ -61,7 +61,6 @@ define(
 
             switch (role) {
                 case 'translator':
-                    // generate ajax coll to backend here, after success:
                     BackendCaller.callContentRevisionPut(
                         sentenceId,
                         translation_area.val(),

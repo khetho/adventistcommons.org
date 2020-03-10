@@ -43,7 +43,7 @@ class JsonResponseBuilder
                 $code
             );
         } catch (\Exception $e) {
-            return $this->buildErrorResponse();
+            return $this->buildErrorResponse($e);
         }
     }
 
@@ -68,7 +68,7 @@ class JsonResponseBuilder
                 $code
             );
         } catch (\Exception $e) {
-            return $this->buildErrorResponse();
+            return $this->buildErrorResponse($e);
         }
     }
 
