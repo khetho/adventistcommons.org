@@ -3,7 +3,6 @@ define(
         'jquery',
         '../utils/backend-caller',
         'mark.js/dist/jquery.mark.js',
-        './translation-working-area',
         '../utils/error-reporter',
     ],function(
         $,
@@ -70,6 +69,13 @@ define(
                 if (prev.length) {
                     setCurrentSentenceIfOk(getSentenceId(prev));
                 }
+            },
+
+            markCurrentAs: function (targetState) {
+                if (!['translated', 'approved', 'reviewed'].includes(targetState)) {
+                    ErrorReporter.report('Unknown state : ' + targetState);
+                }
+                this.getCurrentSentence().removeData('sentence-state').attr("data-sentence-state", targetState);
             },
 
             init: function (translation_working_area) {

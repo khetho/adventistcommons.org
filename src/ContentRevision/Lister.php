@@ -23,15 +23,17 @@ class Lister
 
     public function diff(array $revisions)
     {
-        $revisions = (array) $revisions;
+        $revisions = array_reverse($revisions);
         $previousContent = '';
 
-        foreach (array_reverse($revisions) as &$revision) {
+        foreach ($revisions as &$revision) {
+            $newContent = $this->differ->combine(
+                $previousContent,
+                $revision->getContent()
+            );
+            $previousContent = $revision->getContent();
             $revision->setContent(
-                $this->differ->combine(
-                    $previousContent,
-                    $revision->getContent()
-                )
+                $newContent
             );
         }
 

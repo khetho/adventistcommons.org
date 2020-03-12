@@ -4,6 +4,8 @@ namespace App\Tool\FineDiff;
 
 class FineDiffInsertOp extends FineDiffOp
 {
+    private $text;
+
     public function __construct($text)
     {
         $this->text = $text;

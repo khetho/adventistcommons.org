@@ -10,7 +10,7 @@ class Differ
         $old,
         $new
     ): string {
-        $diff = new FineDiff($old, $new);
+        $diff = new FineDiff($old, $new, FineDiff::$characterGranularity);
 
         return $diff->renderDiffToHTML();
     }

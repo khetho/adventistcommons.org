@@ -20,32 +20,73 @@ define(
         let current_translation = '';
         let current_sentence_id = null;
 
-        function setWorkingTranslation(content, sentence_id) {
-            if (sentence_id) {
-                current_sentence_id = sentence_id;
-                TranslationSentences.setCurrentSentence(sentence_id);
+        /**
+         * Check if current content has change from saved, propose to save if not
+         * @param content
+         * @param sentence_id
+         */
+        function setWorkingTranslationIfOk(content, sentence_id) {
+            if (translator_dashboard.is(":visible") && current_translation !== translation_area.val()) {
+                const modal = $('#changedTranslationModal');
+                modal.modal();
+                modal.find('[data-action="saveContinue"]').unbind('click').click(function(){
+                    save(function() {
+                        setWorkingTranslation(content, sentence_id);
+                        modal.modal('hide');
+                    });
+                });
+                modal.find('[data-action="undoContinue"]').unbind('click').click(function(){
+                    setWorkingTranslation(content, sentence_id);
+                    modal.modal('hide');
+                });
+            } else {
+                setWorkingTranslation(content, sentence_id);
             }
-            current_translation = stripHtml(content);
-            BackendCaller.callSentenceInfo(
-                sentence_id,
-                function (backendResponse) {
-                    $('.js-revisions-count').html(backendResponse.data.revisions_count);
-                    $('.js-comments-count').html(backendResponse.data.comments_count);
+        }
+
+        /**
+         * Set the current translation content and may change also the sentence to translate
+         * @param content
+         * @param sentence_id
+         */
+        function setWorkingTranslation(content, sentence_id ) {
+            if (sentence_id) {
+                if (sentence_id !== current_sentence_id) {
+                    BackendCaller.callSentenceInfo(
+                        sentence_id,
+                        function (backendResponse) {
+                            $('.js-revisions-count').html(backendResponse.data.revisions_count);
+                            $('.js-comments-count').html(backendResponse.data.comments_count);
+                        }
+                    );
                 }
-            );
-            translation_area.val(current_translation);
-            translator_dashboard.show();
-            initPanels();
+                current_sentence_id = sentence_id;
+                current_translation = cleanUpHtml(content);
+                TranslationSentences.setCurrentSentence(sentence_id);
+                initPanels();
+                translator_dashboard.show();
+            }
+            translation_area.val(cleanUpHtml(content));
         }
 
-        function stripHtml(html)
+        /**
+         * Remove html taqs, and content inside <del» tags too
+         * @param html
+         * @returns {string | string}
+         */
+        function cleanUpHtml(html)
         {
-            const tmp = document.createElement("DIV");
-            tmp.innerHTML = html;
-
-            return tmp.textContent.trim() || tmp.innerText.trim() || "";
+            const tmpDiv = document.createElement("DIV");
+            // Remove <DEL> tags and their contents, when content is coming from history
+            tmpDiv.innerHTML = html.replace(/<del([\S\s]*?)>([\S\s]*?)<\/del>/ig, "");
+            // remove all tags
+            return tmpDiv.textContent.trim() || tmpDiv.innerText.trim() || "";
         }
 
+        /**
+         * Save the translation !
+         * @param successAction
+         */
         function save(successAction) {
             const role = roles.find('.active').data('role');
             if (typeof role === 'undefined') {
@@ -65,7 +106,7 @@ define(
                         sentenceId,
                         translation_area.val(),
                         function() {
-                            translation.removeData('sentence-state').attr("data-sentence-state", 'translated');
+                            TranslationSentences.markCurrentAs('translated');
                             current_translation = translation_area.val();
                             translation.html(current_translation);
                             if (successAction) {
@@ -76,14 +117,15 @@ define(
                     break;
                 case 'proofreader':
                     // generate ajax coll to backend here, after success:
-                    translation.removeData('sentence-state').attr("data-sentence-state", 'approved');
+                    TranslationSentences.markCurrentAs('approved');
                     break;
                 case 'reviewer':
                     // generate ajax coll to backend here, after success:
-                    translation.removeData('sentence-state').attr("data-sentence-state", 'reviewed');
+                    TranslationSentences.markCurrentAs('reviewed');
+
             }
         }
-        
+
         function initRoles() {
             $('[data-save-role]').hide();
             $('[data-save-role="trans"]').show();
@@ -138,22 +180,7 @@ define(
             },
 
             setWorkingTranslationIfOk: function(content, sentence_id) {
-                if (translator_dashboard.is(":visible") && current_translation !== translation_area.val()) {
-                    const modal = $('#changedTranslationModal');
-                    modal.modal();
-                    modal.find('[data-action="saveContinue"]').unbind('click').click(function(){
-                        save(function() {
-                            setWorkingTranslation(content, sentence_id);
-                            modal.modal('hide');
-                        });
-                    });
-                    modal.find('[data-action="undoContinue"]').unbind('click').click(function(){
-                        setWorkingTranslation(content, sentence_id);
-                        modal.modal('hide');
-                    });
-                } else {
-                    setWorkingTranslation(content, sentence_id);
-                }
+                return setWorkingTranslationIfOk(content, sentence_id);
             },
 
             init: function () {
@@ -183,9 +210,8 @@ define(
                 });
 
                 // Move content
-                let translation_tools = $('.js-chat-item, #translation-memory, #machine-translation');
-                translation_tools.on('click', '.js-transfer', function (e) {
-                    this.setWorkingTranslationIfOk($(e.delegateTarget).find('.js-subject').text());
+                translator_dashboard.on('click', '.js-transfer-button', function (e) {
+                    setWorkingTranslationIfOk($(e.target).closest('.js-transfer-group').find('.js-transfer-subject').html());
                 });
             }
         }

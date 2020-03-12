@@ -2,7 +2,7 @@
     <div class="chat-module-top">
         <div class="js-chat-module-body chat-module-body">
             {% for revision in revisions %}
-                <div class="media chat-item js-chat-item">
+                <div class="media chat-item js-chat-item js-transfer-group">
                     {% include 'common/_avatar.html.twig' with {user: revision.user} %}
                     <div class="media-body">
                         <div class="chat-item-title">
@@ -13,16 +13,15 @@
                                 <span class="js-chat-item-time chat-item-time">
                                     {{ revision.createdAt|time_diff }}
                                 </span>
-                            <span class="transfer">
+                            <span class="js-transfer-button">
                                   <svg viewBox="0 0 20 20" class="svg-reply">
                                     <use xlink:href="#reply-24px"></use>
                                 </svg>
                             </span>
                             </span>
                         </div>
-                        <div class="js-chat-item-body chat-item-body subject">
+                        <div class="js-chat-item-body chat-item-body js-transfer-subject">
                             {{ revision.content|raw }}
-                            <span class="highlighted">added</span> <span class="crossed-out">removed</span>
                         </div>
                     </div>
                 </div>                

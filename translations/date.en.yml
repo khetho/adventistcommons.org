@@ -1,6 +1,6 @@
 diff:
   ago:
-    second: "{1} 1 second ago|[2,Inf] %count%seconds ago"
+    second: "{1} 1 second ago|[2,Inf] %count% seconds ago"
     minute: "{1} 1 minute ago|[2,Inf] %count% minutes ago"
     hour: "{1} 1 hour ago|[2,Inf] %count% hours ago"
     day: "{1} 1 day ago|[2,Inf] %count% days ago"

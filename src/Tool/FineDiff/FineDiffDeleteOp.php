@@ -4,6 +4,8 @@ namespace App\Tool\FineDiff;
 
 class FineDiffDeleteOp extends FineDiffOp
 {
+    private $fromLen;
+
     public function __construct($len)
     {
         $this->fromLen = $len;

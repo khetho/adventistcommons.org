@@ -6,8 +6,7 @@ define(
     '@shopify/draggable',
     'dropzone',
     'list.js',
-    'prismjs'
-],function($, autosize, Draggable, Dropzone, List, Prism){
+],function($, autosize, Draggable, Dropzone, List){
   //
   // Util
   //
@@ -467,12 +466,4 @@ define(
       appendTo: 'body'
     })
   }; //
-  //
-  // prism.js
-  //
-  // Initialises the prism code highlighting plugin
-
-  /* global Prism */
-
-  Prism.highlightAll(); //
 });

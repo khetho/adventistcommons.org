@@ -37,6 +37,11 @@ class ContentRevision
     private $content;
 
     /**
+     * @var string|null
+     */
+    private $diffContent;
+
+    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
@@ -91,6 +96,18 @@ class ContentRevision
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getDiffContent(): ?string
+    {
+        return $this->diffContent;
+    }
+
+    public function setDiffContent(?string $diffContent): self
+    {
+        $this->diffContent = $diffContent;
 
         return $this;
     }

@@ -4,6 +4,8 @@ namespace App\Tool\FineDiff;
 
 class FineDiffCopyOp extends FineDiffOp
 {
+    private $len;
+
     public function __construct($len)
     {
         $this->len = $len;

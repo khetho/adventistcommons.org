@@ -92,25 +92,27 @@
 
                             <!-- Machine Translation -->
                             <div class="js-machine collapse show">
-                                <div id="machine-translation" class="d-flex flex-wrap machine-translation mb-4">
+                                <div id="machine-translation"
+                                     class="d-flex flex-wrap machine-translation mb-4 js-transfer-group">
 
                                     <div class="h-5 font-weight-bold mr-1 title">
                                         {% trans %}editor.working.machine{% endtrans %}
                                     </div>
 
                                     <div class="flex-grow-1 toolset">
-                                        <span class="js-transfer">
+                                        <span class="js-transfer-button">
                                             <svg viewBox="0 0 20 20" class="svg-reply">
                                                 <use xlink:href="#reply-24px"></use>
                                             </svg>
                                         </span>
                                     </div>
-                                    <div class="font-weight-light text-small js-subject">
+                                    <div class="font-weight-light text-small js-transfer-subject">
                                         {% trans %}editor.working.machine_none{% endtrans %}
                                     </div>
 
                                 </div>
-                                <div id="translation-memory" class="d-flex flex-wrap translation-memory">
+                                <div id="translation-memory"
+                                     class="d-flex flex-wrap translation-memory js-transfer-group">
 
                                     <div class="h-5 font-weight-bold mr-1 title">
                                         {% trans %}editor.working.memory{% endtrans %}
@@ -133,14 +135,14 @@
                                             <button type="button" class="btn btn-outline-secondary">&gt;&gt;</button>
                                         </div>
 
-                                        <span class="js-transfer">
+                                        <span class="js-transfer-button">
                                             <svg viewBox="0 0 20 20" class="svg-reply">
                                                 <use xlink:href="#reply-24px"></use>
                                             </svg>
                                         </span>
                                     </div>
 
-                                    <div class="font-weight-light text-small js-subject">
+                                    <div class="font-weight-light text-small  js-transfer-subject">
                                         {% trans %}editor.working.memory_none{% endtrans %}
                                     </div>
                                 </div>

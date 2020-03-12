@@ -135,6 +135,7 @@ class ContentRevisionRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('cr')
             ->where('cr.sentence = :sentence')
             ->setParameter('sentence', $sentence)
+            ->setMaxResults(30)
             ->orderBy('cr.createdAt', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();        

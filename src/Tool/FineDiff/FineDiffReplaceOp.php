@@ -4,6 +4,9 @@ namespace App\Tool\FineDiff;
 
 class FineDiffReplaceOp extends FineDiffOp
 {
+    private $fromLen;
+    private $text;
+
     public function __construct($fromLen, $text)
     {
         $this->fromLen = $fromLen;
