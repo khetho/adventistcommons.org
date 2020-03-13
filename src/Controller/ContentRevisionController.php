@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\ContentRevision\Lister;
 use App\Project\Translation\TranslationAdder;
 use App\Response\JsonResponseBuilder;
+use App\Security\LanguageVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,6 +94,7 @@ class ContentRevisionController extends AbstractController
         JsonResponseBuilder $responseBuilder
     ) {
         $contentRevision = $dataFinder->retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId);
+        $this->denyAccessUnlessGranted(LanguageVoter::APPROVE, $contentRevision->getProject()->getLanguage());
         $contentRevision->approve();
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($contentRevision);
@@ -118,6 +120,7 @@ class ContentRevisionController extends AbstractController
         JsonResponseBuilder $responseBuilder
     ) {
         $contentRevision = $dataFinder->retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId);
+        $this->denyAccessUnlessGranted(LanguageVoter::REVIEW, $contentRevision->getProject()->getLanguage());
         $contentRevision->review();
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($contentRevision);

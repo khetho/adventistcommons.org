@@ -11,7 +11,6 @@ use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\AST\ConditionalTerm;
 use Doctrine\ORM\Query\Expr\Join;
 use Exception;
 
@@ -139,5 +138,29 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->orderBy('cr.createdAt', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getApprovedCount(Project $project, Section $section = null): int
+    {
+        $queryBuilder = $this->createQueryBuilder('cr')
+            ->select('count(cr.id)')
+            ->leftJoin(
+                ContentRevision::class,
+                'cr2',
+                Join::WITH,
+                'cr2.sentence = cr.sentence AND cr.createdAt < cr2.createdAt'
+            )
+            ->innerJoin('cr.sentence', 's')
+            ->innerJoin('s.paragraph', 'p')
+            ->where('p.section = :section')
+            ->andWhere('cr.status = :approved')
+            ->andWhere('cr2.status = :approved')
+            ->setParameter('approved', ContentRevision::STATUS_APPROVED)
+            ->setParameter('section', $section)
+            ->andWhere('cr.project = :project')
+            ->setParameter('project', $project)
+            ->andWhere('cr2.id IS NULL');
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 }

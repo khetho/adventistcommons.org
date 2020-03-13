@@ -2,11 +2,10 @@
 
 namespace App\Twig;
 
+use App\Entity\ContentRevision;
 use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
-use App\Entity\Paragraph;
-use App\Entity\ProjectContentApproval;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +42,7 @@ class ProjectStatusExtension extends AbstractExtension
     
     public function projectApprovedCount(Project $project, Section $section = null): int
     {
-        return $this->manager->getRepository(Project::class)->getApprovedCount($project, $section);
+        return $this->manager->getRepository(ContentRevision::class)->getApprovedCount($project, $section);
     }
     
     public function productCount(Product $product): int

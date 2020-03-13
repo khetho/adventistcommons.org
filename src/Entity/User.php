@@ -339,7 +339,29 @@ class User implements UserInterface
      * )
      */
     private $languages;
-    
+
+    /**
+     * The languages that user is granted to approve
+     * @ORM\ManyToMany(targetEntity="Language")
+     * @ORM\JoinTable(
+     *      name="user_languages_approved",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+     * )
+     */
+    private $languagesHeCanApprove;
+
+    /**
+     * The languages that user is granted to approve
+     * @ORM\ManyToMany(targetEntity="Language")
+     * @ORM\JoinTable(
+     *      name="user_languages_reviewable",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+     * )
+     */
+    private $languagesHeCanReview;
+
     /**
      * Many User have Many Groups.
      * @ORM\ManyToMany(targetEntity="Group")
@@ -371,6 +393,8 @@ class User implements UserInterface
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
+        $this->languagesHeCanApprove = new ArrayCollection();
+        $this->languagesHeCanReview = new ArrayCollection();
         $this->username = $email;
         $this->email = $email;
         $this->createdOn = date('U');
@@ -769,6 +793,58 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Language[]
+     */
+    public function getLanguagesHeCanApprove(): Collection
+    {
+        return $this->languagesHeCanApprove;
+    }
+
+    public function addLanguageHeCanApprove(Language $language): self
+    {
+        if (!$this->languagesHeCanApprove->contains($language)) {
+            $this->languagesHeCanApprove[] = $language;
+        }
+
+        return $this;
+    }
+
+    public function removeLanguageHeCanApprove(Language $language): self
+    {
+        if ($this->languagesHeCanApprove->contains($language)) {
+            $this->languagesHeCanApprove->removeElement($language);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Language[]
+     */
+    public function getLanguagesHeCanReview(): Collection
+    {
+        return $this->languagesHeCanReview;
+    }
+
+    public function addLanguageHeCanReview(Language $languagesHeCanApprove): self
+    {
+        if (!$this->languagesHeCanReview->contains($languagesHeCanApprove)) {
+            $this->languagesHeCanReview[] = $languagesHeCanApprove;
+        }
+
+        return $this;
+    }
+
+    public function removeLanguageHeCanReview(Language $languagesHeCanApprove): self
+    {
+        if ($this->languagesHeCanReview->contains($languagesHeCanApprove)) {
+            $this->languagesHeCanReview->removeElement($languagesHeCanApprove);
+        }
+
+        return $this;
+    }
+    
     /**
      * @return Collection|Group[]
      */

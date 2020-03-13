@@ -10,18 +10,22 @@
             >
                 {% trans %}editor.working.role.translate{% endtrans %}
             </button>
-            <button type="button"
-                    class="btn btn-outline-secondary js-proof proof"
-                    data-role="proofreader"
-            >
-                {% trans %}editor.working.role.proofread{% endtrans %}
-            </button>
-            <button type="button"
-                    class="btn btn-outline-secondary js-rev rev"
-                    data-role="reviewer"
-            >
-                {% trans %}editor.working.role.review{% endtrans %}
-            </button>
+            {% if is_granted('approve', project.language) %}
+                <button type="button"
+                        class="btn btn-outline-secondary js-proof proof"
+                        data-role="proofreader"
+                >
+                    {% trans %}editor.working.role.proofread{% endtrans %}
+                </button>
+            {% endif %}
+            {% if is_granted('review', project.language) %}
+                <button type="button"
+                        class="btn btn-outline-secondary js-rev rev"
+                        data-role="reviewer"
+                >
+                    {% trans %}editor.working.role.review{% endtrans %}
+                </button>
+            {% endif %}
         </div>
     </div>
     <div class="ml-auto toolset">
