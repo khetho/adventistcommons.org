@@ -27,6 +27,7 @@ class SectionController extends AbstractController
             [
                 'section' => $section,
                 'project' => $project,
+                'product' => $project->getProduct(),
             ]
         );
     }

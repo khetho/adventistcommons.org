@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-9">
+        <div id="stats_bars" class="position-fixed statistic-window collapse">
+            <div class="statistic-container">
+                <button type="button"
+                        class="btn-close"
+                        aria-label="Close"
+                        data-toggle="collapse"
+                        data-target="#stats_bars"
+                        aria-expanded="false"
+                        aria-controls="stats_bars"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="h-5 font-weight-bold text-center mr-1 title">
+                    {% trans %}editor.working.stats.title{% endtrans %}
+                </div>
+                <div class="stat__item">
+                    <span class="stat-label">{% trans %}editor.working.stats.translated{% endtrans %}</span>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar_saved"
+                             role="progressbar"
+                             style="width: 75%"
+                             aria-valuenow="75"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                        ></div>
+                    </div>
+                    <span class="stat-value">75%</span>
+                </div>
+                <div class="stat__item">
+                    <span class="stat-label">{% trans %}editor.working.stats.proofread{% endtrans %}</span>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar_proofreaded"
+                             role="progressbar"
+                             style="width: 55%"
+                             aria-valuenow="55"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                        ></div>
+                    </div>
+                    <span class="stat-value">55%</span>
+                </div>
+                <div class="stat__item">
+                    <span class="stat-label">{% trans %}editor.working.stats.reviewed{% endtrans %}</span>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar_reviwed"
+                             role="progressbar"
+                             style="width: 25%"
+                             aria-valuenow="25"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                        ></div>
+                    </div>
+                    <span class="stat-value">25%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

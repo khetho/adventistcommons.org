@@ -1,0 +1,23 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}changedTranslationModal{% endblock %}
+
+{% block title %}
+    {% trans %}editor.working.changed.title{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    {% trans %}editor.working.changed.body{% endtrans %}
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        {% trans %}editor.working.changed.button.cancel{% endtrans %}
+    </button>
+    <button type="button" class="btn btn-primary" data-action="undoContinue">
+        {% trans %}editor.working.changed.button.dismiss{% endtrans %}
+    </button>
+    <button type="button" class="btn btn-primary" data-action="saveContinue">
+        {% trans %}editor.working.changed.button.save{% endtrans %}
+    </button>
+{% endblock %}

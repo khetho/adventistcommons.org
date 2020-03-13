@@ -1,0 +1,43 @@
+<nav class="editor-nav">
+    <ul class="pagination justify-content-center">
+        {% set urlForPrev = pathToPreviousSection(project, section) %}
+        <li class="page-item {% if not urlForPrev %}disabled{% endif %}">
+            <a class="page-link" href="{{ urlForPrev|default('#') }}">
+                {% trans %}editor.pagination.previous{% endtrans %}
+            </a>
+        </li>
+        <li class="page-item page-chapter page-chapter_dropdown dropdown">
+            <a class="page-link dropdown-toggle"
+               href="#"
+               role="button"
+               id="dropdownMenuLink"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false"
+            >
+                {{ section.name }}
+            </a>
+            <div class="dropdown-menu page-links" aria-labelledby="dropdownMenuLink">
+                {% for otherSection in product.sections  %}
+                    {% if otherSection == section %}
+                        <span class="dropdown-item current">
+                            {{ otherSection.name }}
+                        </span>
+                    {% else %}
+                        <a class="dropdown-item"
+                           href="{{ pathToSection(project, otherSection) }}"
+                        >
+                            {{ otherSection.name }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </li>
+        {% set urlForNext = pathToNextSection(project, section) %}
+        <li class="page-item {% if not urlForNext %}disabled{% endif %}">
+            <a class="page-link" href="{{ urlForNext|default('#') }}">
+                {% trans %}editor.pagination.next{% endtrans %}
+            </a>
+        </li>
+    </ul>
+</nav>

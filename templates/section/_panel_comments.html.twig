@@ -1,0 +1,24 @@
+<div class="js-comments-panel collapse">
+    <div class="h-5 font-weight-bold mr-1 title">
+        {% trans %}editor.comments.title{% endtrans %}
+    </div>
+    <div class="chat-module chat-comments">
+        <div class="chat-module-top js-comments"
+             data-loading="{% trans %}editor.comments.loading{% endtrans %}"
+        >
+        </div>
+        <div class="chat-module-bottom">
+            <form class="chat-form">
+                <textarea id="comment"
+                          class="form-control"
+                          placeholder="Type message"
+                          rows="1"
+                          required
+                >
+                </textarea>
+                <div class="chat-form-buttons">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
