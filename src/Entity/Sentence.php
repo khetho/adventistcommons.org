@@ -50,7 +50,7 @@ class Sentence
     private $paragraph;
     
     /**
-     * @var string
+     * @var ContentRevision
      */
     private $translation;
 
@@ -95,14 +95,14 @@ class Sentence
         return $this;
     }
     
-    public function setTranslation(string $translation): self
+    public function setTranslation(ContentRevision $translation): self
     {
         $this->translation = $translation;
  
         return $this;
     }
     
-    public function getTranslation(): ?string
+    public function getTranslation(): ?ContentRevision
     {
         return $this->translation;
     }

@@ -87,7 +87,7 @@ class ContentRevisionRepository extends ServiceEntityRepository
     public function getLatestForProjectAndSection(Project $project, Section $section)
     {
         $queryBuilder = $this->createQueryBuilder('cr')
-            ->select('s.id', 'cr.content')
+            ->select('s.id as sentence_id', 'cr')
             ->leftJoin(
                 ContentRevision::class,
                 'cr2',
@@ -104,7 +104,7 @@ class ContentRevisionRepository extends ServiceEntityRepository
 
         $results = [];
         foreach ($queryBuilder->getQuery()->getResult() as $result) {
-            $results[$result['id']] = $result['content'];
+            $results[$result['sentence_id']] = $result[0];
         }
         
         return $results;
@@ -138,6 +138,6 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->setMaxResults(30)
             ->orderBy('cr.createdAt', 'DESC');
 
-        return $queryBuilder->getQuery()->getResult();        
+        return $queryBuilder->getQuery()->getResult();
     }
 }

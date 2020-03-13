@@ -59,6 +59,32 @@ define(
                     },
                 );
             },
+            callContentRevisionApprove: function (sentenceId, successAction) {
+                call(
+                    'app_content_revision_approve',
+                    {
+                        'slug': getContextVar('slug'),
+                        'languageCode': getContextVar('languageCode'),
+                        'sentenceId': sentenceId,
+                    },
+                    successAction,
+                    undefined,
+                    'POST',
+                );
+            },
+            callContentRevisionReview: function (sentenceId, successAction) {
+                call(
+                    'app_content_revision_review',
+                    {
+                        'slug': getContextVar('slug'),
+                        'languageCode': getContextVar('languageCode'),
+                        'sentenceId': sentenceId,
+                    },
+                    successAction,
+                    undefined,
+                    'POST',
+                );
+            },
             callContentRevisionHistory: function (sentenceId, parent) {
                 call(
                     'app_content_revision_history',

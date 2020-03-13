@@ -134,4 +134,19 @@ class DataFinder
 
         return $this->registry->getRepository(Sentence::class)->getSentenceInfo($project, $sentence);
     }
+
+    public function retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId)
+    {
+        $project = $this->retrieveProjectOr404($slug, $languageCode);
+        $sentence = $this->retrieveSentenceOr404($sentenceId, $project);
+        $contentRevision = $this->registry
+            ->getRepository(ContentRevision::class)
+            ->findLatestForSentenceAndProject($sentence, $project);
+
+        if (!$contentRevision) {
+            throw new NotFoundHttpException();
+        }
+
+        return $contentRevision;
+    }
 }

@@ -33,8 +33,8 @@ Chart.defaults.global.colours = [
     }
 ];
 
-var ctx = document.getElementById('contributionChart');
-var myChart = new Chart(ctx, {
+const ctx = document.getElementById('contributionChart');
+new Chart(ctx, {
     type: 'line',
     data: window.contributionsGraphData,
     options: {

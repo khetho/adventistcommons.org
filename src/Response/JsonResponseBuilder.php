@@ -55,7 +55,7 @@ class JsonResponseBuilder
      */
     public function buildWithData(
         $result,
-        array $data,
+        array $data = [],
         $code = 200
     ): JsonResponse {
         try {

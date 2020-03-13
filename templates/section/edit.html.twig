@@ -55,7 +55,9 @@
                         {% for paragraphKey,paragraph in section.paragraphs %}
                         <p>
                             {% for sentenceKey,sentence in paragraph.sentences %}
-                            <span class="js-sentence" data-sentence-id="{{ sentence.id }}">
+                            <span class="js-sentence"
+                                  data-sentence-id="{{ sentence.id }}"
+                            >
                                 {{ sentence.content }}
                             </span>
                             {% endfor %}
@@ -68,9 +70,12 @@
                         {% for paragraphKey,paragraph in section.paragraphs %}
                         <p>
                             {% for sentenceKey,sentence in paragraph.sentences %}
-                            <span class="js-sentence" data-sentence-id="{{ sentence.id }}">
+                            <span class="js-sentence"
+                                  data-sentence-id="{{ sentence.id }}"
+                                  data-sentence-state="{% if sentence.translation and sentence.translation.isApproved %}approved{% elseif sentence.translation and sentence.translation.isReviewed %}reviewed{%  endif %}"
+                            >
                                 {% if sentence.translation %}
-                                    {{ sentence.translation }}
+                                    {{ sentence.translation.content }}
                                 {% else %}
                                     {{ sentence.content }}
                                 {% endif %}

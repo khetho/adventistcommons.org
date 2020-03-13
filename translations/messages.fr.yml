@@ -431,3 +431,8 @@ editor:
 json:
   error:
     generic: Une erreur est survenue sur le serveur. Merci de réssayer plus tard.
+content_revision:
+  status:
+    new: Nouveau
+    approved: Approuvé
+    reviewed: Relu

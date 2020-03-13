@@ -45,12 +45,13 @@ class ContentRevisionController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/{languageCode}/{sentenceId}", name="app_content_revision_history")
+     * @Route("/{slug}/{languageCode}/{sentenceId}/history", name="app_content_revision_history", methods={"GET"})
      * @param $slug
      * @param $languageCode
      * @param $sentenceId
      * @param DataFinder $dataFinder
      * @param JsonResponseBuilder $responseBuilder
+     * @param Lister $lister
      * @return Response
      */
     public function history(
@@ -73,5 +74,55 @@ class ContentRevisionController extends AbstractController
                 'revisions' => $revisions
             ]
         );
+    }
+
+    /**
+     * @Route("/{slug}/{languageCode}/{sentenceId}/approve", name="app_content_revision_approve", methods={"POST"})
+     * @param $slug
+     * @param $languageCode
+     * @param $sentenceId
+     * @param DataFinder $dataFinder
+     * @param JsonResponseBuilder $responseBuilder
+     * @return Response
+     */
+    public function approve(
+        $slug,
+        $languageCode,
+        $sentenceId,
+        DataFinder $dataFinder,
+        JsonResponseBuilder $responseBuilder
+    ) {
+        $contentRevision = $dataFinder->retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId);
+        $contentRevision->approve();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($contentRevision);
+        $manager->flush();
+
+        return $responseBuilder->buildWithData('updated');
+    }
+
+    /**
+     * @Route("/{slug}/{languageCode}/{sentenceId}/review", name="app_content_revision_review", methods={"POST"})
+     * @param $slug
+     * @param $languageCode
+     * @param $sentenceId
+     * @param DataFinder $dataFinder
+     * @param JsonResponseBuilder $responseBuilder
+     * @return Response
+     */
+    public function review(
+        $slug,
+        $languageCode,
+        $sentenceId,
+        DataFinder $dataFinder,
+        JsonResponseBuilder $responseBuilder
+    ) {
+        $contentRevision = $dataFinder->retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId);
+        $contentRevision->review();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($contentRevision);
+        $manager->flush();
+
+        return $responseBuilder->buildWithData('updated');
     }
 }

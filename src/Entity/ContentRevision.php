@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
 
 /**
  * ContentRevisions
@@ -20,6 +21,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class ContentRevision
 {
+    const STATUS_NEW = '';
+    const STATUS_APPROVED = 'app';
+    const STATUS_REVIEWED = 'rev';
+
     /**
      * @var int
      *
@@ -77,10 +82,19 @@ class ContentRevision
      * })
      */
     private $project;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="text", length=3, nullable=false)
+     * @Dictionary(name="content_revision_status")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->status = self::STATUS_NEW;
     }
 
     public function getId(): ?int
@@ -158,5 +172,35 @@ class ContentRevision
         $this->project = $project;
 
         return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
+    }
+
+    public function approve()
+    {
+        $this->setStatus(self::STATUS_APPROVED);
+    }
+
+    public function review()
+    {
+        $this->setStatus(self::STATUS_REVIEWED);
+    }
+
+    public function isApproved()
+    {
+        return $this->getStatus() === self::STATUS_APPROVED;
+    }
+
+    public function isReviewed()
+    {
+        return $this->getStatus() === self::STATUS_REVIEWED;
     }
 }

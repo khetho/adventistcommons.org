@@ -116,12 +116,21 @@ define(
                     );
                     break;
                 case 'proofreader':
-                    // generate ajax coll to backend here, after success:
-                    TranslationSentences.markCurrentAs('approved');
+                    BackendCaller.callContentRevisionApprove(
+                        sentenceId,
+                        function() {
+                            TranslationSentences.markCurrentAs('approved');
+                        }
+                    );
                     break;
                 case 'reviewer':
-                    // generate ajax coll to backend here, after success:
-                    TranslationSentences.markCurrentAs('reviewed');
+                    BackendCaller.callContentRevisionReview(
+                        sentenceId,
+                        function() {
+                            TranslationSentences.markCurrentAs('reviewed');
+                        }
+                    );
+                    break;
 
             }
         }
