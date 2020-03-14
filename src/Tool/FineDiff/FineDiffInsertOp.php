@@ -24,10 +24,10 @@ class FineDiffInsertOp extends FineDiffOp
     }
     public function getOpcode()
     {
-        $to_len = strlen($this->text);
-        if ($to_len === 1) {
+        $toLen = strlen($this->text);
+        if ($toLen === 1) {
             return "i:{$this->text}";
         }
-        return "i{$to_len}:{$this->text}";
+        return "i{$toLen}:{$this->text}";
     }
 }

@@ -26,15 +26,12 @@ class FineDiffReplaceOp extends FineDiffOp
     }
     public function getOpcode()
     {
-        if ($this->fromLen === 1) {
-            $del_opcode = 'd';
-        } else {
-            $del_opcode = "d{$this->fromLen}";
+        $delOpcode = 'd';
+        $delOpcode .= $this->fromLen === 1 ? '' : "{$this->fromLen}";
+        $toLen = strlen($this->text);
+        if ($toLen === 1) {
+            return "{$delOpcode}i:{$this->text}";
         }
-        $to_len = strlen($this->text);
-        if ($to_len === 1) {
-            return "{$del_opcode}i:{$this->text}";
-        }
-        return "{$del_opcode}i{$to_len}:{$this->text}";
+        return "{$delOpcode}i{$toLen}:{$this->text}";
     }
 }

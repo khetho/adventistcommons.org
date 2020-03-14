@@ -11,14 +11,18 @@ class FineDiffOps
 {
     public $edits = array();
 
-    public function appendOpcode($opcode, $from, $from_offset, $from_len)
+    public function appendOpcode($opcode, $from, $fromOffset, $fromLen): void
     {
         if ($opcode === 'c') {
-            $this->edits[] = new FineDiffCopyOp($from_len);
+            $this->edits[] = new FineDiffCopyOp($fromLen);
+            return;
         } elseif ($opcode === 'd') {
-            $this->edits[] = new FineDiffDeleteOp($from_len);
-        } else /* if ( $opcode === 'i' ) */ {
-            $this->edits[] = new FineDiffInsertOp(substr($from, $from_offset, $from_len));
+            $this->edits[] = new FineDiffDeleteOp($fromLen);
+            return;
         }
+
+        /* $opcode === 'i' */
+        $this->edits[] = new FineDiffInsertOp(substr($from, $fromOffset, $fromLen));
+        return;
     }
 }

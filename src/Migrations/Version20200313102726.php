@@ -8,6 +8,9 @@ use App\Entity\ContentRevision;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 final class Version20200313102726 extends AbstractMigration
 {
     public function getDescription() : string

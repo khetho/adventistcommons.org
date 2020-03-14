@@ -47,11 +47,11 @@ class LanguageVoter extends Voter
 
     private function canApprove(Language $language, User $user)
     {
-        return $this->canReview($language, $user) || $user->getLanguagesHeCanApprove()->contains($language);
+        return $this->canReview($language, $user) || $user->getLangsHeCanApprove()->contains($language);
     }
 
     private function canReview(Language $language, User $user)
     {
-        return $user->getLanguagesHeCanReview()->contains($language);
+        return $user->getLangsHeCanReview()->contains($language);
     }
 }

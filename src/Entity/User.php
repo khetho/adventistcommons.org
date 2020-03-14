@@ -63,6 +63,7 @@ use \Exception;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class User implements UserInterface
 {
@@ -349,7 +350,7 @@ class User implements UserInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
      * )
      */
-    private $languagesHeCanApprove;
+    private $langsHeCanApprove;
 
     /**
      * The languages that user is granted to approve
@@ -360,7 +361,7 @@ class User implements UserInterface
      *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
      * )
      */
-    private $languagesHeCanReview;
+    private $langsHeCanReview;
 
     /**
      * Many User have Many Groups.
@@ -393,8 +394,8 @@ class User implements UserInterface
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
-        $this->languagesHeCanApprove = new ArrayCollection();
-        $this->languagesHeCanReview = new ArrayCollection();
+        $this->langsHeCanApprove = new ArrayCollection();
+        $this->langsHeCanReview = new ArrayCollection();
         $this->username = $email;
         $this->email = $email;
         $this->createdOn = date('U');
@@ -796,15 +797,15 @@ class User implements UserInterface
     /**
      * @return Collection|Language[]
      */
-    public function getLanguagesHeCanApprove(): Collection
+    public function getLangsHeCanApprove(): Collection
     {
-        return $this->languagesHeCanApprove;
+        return $this->langsHeCanApprove;
     }
 
     public function addLanguageHeCanApprove(Language $language): self
     {
-        if (!$this->languagesHeCanApprove->contains($language)) {
-            $this->languagesHeCanApprove[] = $language;
+        if (!$this->langsHeCanApprove->contains($language)) {
+            $this->langsHeCanApprove[] = $language;
         }
 
         return $this;
@@ -812,8 +813,8 @@ class User implements UserInterface
 
     public function removeLanguageHeCanApprove(Language $language): self
     {
-        if ($this->languagesHeCanApprove->contains($language)) {
-            $this->languagesHeCanApprove->removeElement($language);
+        if ($this->langsHeCanApprove->contains($language)) {
+            $this->langsHeCanApprove->removeElement($language);
         }
 
         return $this;
@@ -822,24 +823,24 @@ class User implements UserInterface
     /**
      * @return Collection|Language[]
      */
-    public function getLanguagesHeCanReview(): Collection
+    public function getLangsHeCanReview(): Collection
     {
-        return $this->languagesHeCanReview;
+        return $this->langsHeCanReview;
     }
 
-    public function addLanguageHeCanReview(Language $languagesHeCanApprove): self
+    public function addLanguageHeCanReview(Language $langsHeCanApprove): self
     {
-        if (!$this->languagesHeCanReview->contains($languagesHeCanApprove)) {
-            $this->languagesHeCanReview[] = $languagesHeCanApprove;
+        if (!$this->langsHeCanReview->contains($langsHeCanApprove)) {
+            $this->langsHeCanReview[] = $langsHeCanApprove;
         }
 
         return $this;
     }
 
-    public function removeLanguageHeCanReview(Language $languagesHeCanApprove): self
+    public function removeLanguageHeCanReview(Language $langsHeCanApprove): self
     {
-        if ($this->languagesHeCanReview->contains($languagesHeCanApprove)) {
-            $this->languagesHeCanReview->removeElement($languagesHeCanApprove);
+        if ($this->langsHeCanReview->contains($langsHeCanApprove)) {
+            $this->langsHeCanReview->removeElement($langsHeCanApprove);
         }
 
         return $this;

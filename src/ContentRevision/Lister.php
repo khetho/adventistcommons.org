@@ -25,6 +25,7 @@ class Lister
     {
         $revisions = array_reverse($revisions);
         $previousContent = '';
+        $revision = null;
 
         foreach ($revisions as &$revision) {
             $newContent = $this->differ->combine(
