@@ -28,6 +28,7 @@ final class Version20200123154824 extends AbstractMigration
         $this->addSql('CREATE TABLE sentence (id INT UNSIGNED AUTO_INCREMENT NOT NULL, paragraph_id INT UNSIGNED DEFAULT NULL, content TEXT DEFAULT NULL, `order` INT DEFAULT NULL, INDEX paragraph_id (paragraph_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE sentence ADD CONSTRAINT FK_9D664ED58B50597F FOREIGN KEY (paragraph_id) REFERENCES paragraph (id)');
 
+        $this->addSql('DELETE FROM product_content_revisions');
         $this->addSql('ALTER TABLE product_content_revisions DROP FOREIGN KEY FK_DD358D584A0A3ED');
         $this->addSql('DROP INDEX content_id ON product_content_revisions');
         $this->addSql('ALTER TABLE product_content_revisions CHANGE content_id sentence_id INT UNSIGNED DEFAULT NULL');
