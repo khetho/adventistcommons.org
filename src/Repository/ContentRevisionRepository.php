@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\Sentence;
 use App\Entity\User;
 use App\Entity\Project;
@@ -160,6 +161,18 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->andWhere('cr.project = :project')
             ->setParameter('project', $project)
             ->andWhere('cr2.id IS NULL');
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+    public function countForProduct(Product $product)
+    {
+        $queryBuilder = $this->createQueryBuilder('cr')
+            ->select('count(cr.id)')
+            ->innerJoin('cr.project', 'j')
+            ->where('j.product = :product')
+            ->setParameter('product', $product)
+        ;
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }

@@ -316,6 +316,12 @@ product:
     name: Name
     author: Author
     publisher: publisher
+  delete:
+    warning1: You are about to delete a product and all translation project, including all sentences translations.
+    warning2: There are currently %translation_count% sentence translations that will be definitively deleted, without any way back.
+    warning3: Are you sure about that ?
+    submit: Delete
+    force: Enforce deletion
 project:
   field:
     member:

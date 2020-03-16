@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DeleteType extends AbstractType
+class DeleteConfirmType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -18,6 +18,17 @@ class DeleteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder
+            ->add(
+                'force',
+                CheckboxType::class,
+                [
+                    'label' => 'product.delete.force',
+                    'required' => true,
+                    'mapped' => false,
+                ]
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

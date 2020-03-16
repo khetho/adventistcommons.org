@@ -316,6 +316,12 @@ product:
     name: Nom
     author: Auteur
     publisher: Éditeur
+  delete:
+    warning1: Vous allez suprimer un produit et toutes ses traductions associées.
+    warning2: Il y a actuellement %translation_count% traductions de phrases qui seront supprimées, sans aucune possibilité d’annulation.
+    warning3: En êtes-vous bien sûr ?
+    submit: Suprimer
+    force: Forcer la supression
 project:
   field:
     member:
