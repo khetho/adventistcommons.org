@@ -2,7 +2,7 @@
 
 namespace App\Tool;
 
-use App\Tool\FineDiff\FineDiff;
+use PhpTextDiff\FineDiff;
 
 class Differ
 {
@@ -10,7 +10,7 @@ class Differ
         $old,
         $new
     ): string {
-        $diff = new FineDiff($old, $new, FineDiff::$characterGranularity);
+        $diff = new FineDiff($old, $new);
 
         return $diff->renderDiffToHTML();
     }
