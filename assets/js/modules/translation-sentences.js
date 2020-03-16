@@ -16,8 +16,9 @@ define(
         const selected_class = 's_selected';
 
         function setCurrentSentenceIfOk(sentence_id) {
+            const hasTranslation = getTranslationFromSentenceId(sentence_id).data('sentence-state') !== '';
             TranslationWorkingArea.setWorkingTranslationIfOk(
-                getTranslationFromSentenceId(sentence_id).html().trim(),
+                hasTranslation ? getTranslationFromSentenceId(sentence_id).html().trim() : '',
                 sentence_id
             );
         }
@@ -30,7 +31,7 @@ define(
             return editor_content_translation.find('[data-sentence-id="' + sentenceId + '"]');
         }
 
-        function getSentenceId(el) {
+        function extractSentenceId(el) {
             return $(el).data('sentence-id');
         }
 
@@ -57,7 +58,7 @@ define(
                     next = this.getCurrentSentence().closest('p').next().find('.js-sentence').first();
                 }
                 if (next.length) {
-                    setCurrentSentenceIfOk(getSentenceId(next));
+                    setCurrentSentenceIfOk(extractSentenceId(next));
                 }
             },
 
@@ -67,14 +68,14 @@ define(
                     prev = this.getCurrentSentence().closest('p').prev().find('.js-sentence').last();
                 }
                 if (prev.length) {
-                    setCurrentSentenceIfOk(getSentenceId(prev));
+                    setCurrentSentenceIfOk(extractSentenceId(prev));
                 }
             },
 
             selectFirst: function () {
                 const first = editor_content_origin.find('.js-sentence')[0];
                 if (first) {
-                    setCurrentSentenceIfOk(getSentenceId(first));
+                    setCurrentSentenceIfOk(extractSentenceId(first));
                 }
             },
 
@@ -91,10 +92,10 @@ define(
                 editor_content_translation = $('div[data-role="translation"]');
 
                 editor_content_origin.on('click', '.js-sentence', function () {
-                    setCurrentSentenceIfOk(getSentenceId(this));
+                    setCurrentSentenceIfOk(extractSentenceId(this));
                 });
                 editor_content_translation.on('click', '.js-sentence', function () {
-                    setCurrentSentenceIfOk(getSentenceId(this));
+                    setCurrentSentenceIfOk(extractSentenceId(this));
                 });
             }
         }

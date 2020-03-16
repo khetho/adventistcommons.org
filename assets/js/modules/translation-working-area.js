@@ -65,6 +65,7 @@ define(
                 TranslationSentences.setCurrentSentence(sentence_id);
                 initPanels();
                 translator_dashboard.show();
+                translation_area.focus();
             }
             translation_area.val(cleanUpHtml(content));
         }
