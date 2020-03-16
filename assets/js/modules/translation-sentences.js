@@ -71,6 +71,13 @@ define(
                 }
             },
 
+            selectFirst: function () {
+                const first = editor_content_origin.find('.js-sentence')[0];
+                if (first) {
+                    setCurrentSentenceIfOk(getSentenceId(first));
+                }
+            },
+
             markCurrentAs: function (targetState) {
                 if (!['translated', 'approved', 'reviewed'].includes(targetState)) {
                     ErrorReporter.report('Unknown state : ' + targetState);

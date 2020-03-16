@@ -194,7 +194,6 @@ define(
 
             init: function () {
                 translator_dashboard = $('.js-translator-dashboard');
-                translator_dashboard.hide();
                 translation_area = $('.js-translation-area');
                 translation_area.val('');
 
@@ -217,6 +216,7 @@ define(
                 $('.js-prev-translation').on('click', function () {
                     TranslationSentences.selectPrevSentence();
                 });
+                TranslationSentences.selectFirst();
 
                 // Move content
                 translator_dashboard.on('click', '.js-transfer-button', function (e) {
