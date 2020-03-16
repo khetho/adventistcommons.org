@@ -44,7 +44,7 @@ class Sentence
      *
      * @ORM\ManyToOne(targetEntity="Paragraph", inversedBy="sentences")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="paragraph_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="paragraph_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $paragraph;

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\ContentRevision;
 use App\Form\UploaderAggregator;
 use App\Product\DownloadLogger;
+use App\Product\Form\Type\DeleteConfirmType;
 use App\Product\Uploader\IdmlUploader;
 use App\Product\Uploader\PdfOffsetUploader;
 use App\Product\Uploader\PdfDigitalUploader;
@@ -14,6 +16,7 @@ use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;
 use App\Project\Form\Type\AddType;
 use App\Product\Form\Type\AddAttachmentType;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -229,8 +232,13 @@ class ProductController extends AbstractController
         $deleteForm = $this->createForm(DeleteType::class, $product);
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $submittedProduct = $deleteForm->getData();
             $manager = $this->getDoctrine()->getManager();
+            $submittedProduct = $deleteForm->getData();
+            $count = $manager->getRepository(ContentRevision::class)->countForProduct($product);
+            if ($count) {
+                return $this->redirectToRoute('app_product_delete_confirm', ['slug' => $slug]);
+            }
+
             $manager->remove($submittedProduct);
             $manager->flush();
             $this->addFlash('success', 'messages.product.deleted');
@@ -239,5 +247,35 @@ class ProductController extends AbstractController
         }
 
         $this->createNotFoundException();
+    }
+
+
+    /**
+     * @Route("/{slug}/delete/confirm", name="app_product_delete_confirm")
+     * @param string $slug
+     * @param Request $request
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function deleteConfirm(string $slug, Request $request, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        $confirmDeleteForm = $this->createForm(DeleteConfirmType::class, $product);
+        $manager = $this->getDoctrine()->getManager();
+        $confirmDeleteForm->handleRequest($request);
+        if ($confirmDeleteForm->isSubmitted() && $confirmDeleteForm->isValid()) {
+            $manager->remove($product);
+            $manager->flush();
+            $this->addFlash('success', 'messages.product.deleted');
+
+            return $this->redirectToRoute('app_product_list');
+        }
+        $count = $manager->getRepository(ContentRevision::class)->countForProduct($product);
+
+        return $this->render('product/delete.html.twig', [
+            'product'          => $product,
+            'deleteForm'       => $confirmDeleteForm->createView(),
+            'translationCount' => $count,
+        ]);
     }
 }
