@@ -178,9 +178,9 @@ Adventistcommons uses a Python software tool to separate paragraphs into sentenc
  
 Steps to install it :
 ```shell script
-sudo apt-get install python3
-sudo apt-get install python3-pip
-pip3 install nlp-api
+sudo apt-get install python3.8
+python3.8 -m pip install pyinotify
+pip install nlp-api
 ```
 
 To make it run as a service with systemd, create the service :
@@ -198,7 +198,7 @@ Conflicts=getty@tty1.service
 [Service]
 User=ubuntu
 Type=simple
-ExecStart=/usr/bin/python3 -m nlp_api localhost 2230
+ExecStart=/usr/bin/python3.8 -m nlp_api localhost 2230
 StandardInput=tty-force
 
 [Install]
