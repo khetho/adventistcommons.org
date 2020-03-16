@@ -3,9 +3,8 @@
 define(
 [
     'jquery',
-    'timeago',
     'selectize'
-],function($, timeago, selectize){
+],function($, selectize){
 
 	//Modified from:
 	//https://webdesign.tutsplus.com/tutorials/how-to-add-deep-linking-to-the-bootstrap-4-tabs-component--cms-31180
@@ -35,8 +34,6 @@ define(
 		}
 		history.replaceState( null, null, newUrl );
 	});
-
-	$( "time" ).timeago();
 
 	function handleFormResponse( $form, message, type = "danger" ) {
 		$form.append( '<div class="alert alert-' + type + ' mt-2 form-response">' + message + '</div>' );

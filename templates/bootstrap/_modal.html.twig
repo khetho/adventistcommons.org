@@ -16,9 +16,11 @@
 				{% endblock %}
 			</div>
 			<div class="modal-footer">
-				<button role="button" class="btn btn-primary" type="submit">
-					{% block submitLabel %}{% endblock %}
-				</button>
+				{% block footer %}
+					<button role="button" class="btn btn-primary" type="submit">
+						{% block submitLabel %}{% endblock %}
+					</button>
+				{% endblock %}
 			</div>
 			{% block form_end %}{% endblock %}
 		</div>

@@ -19,4 +19,9 @@ knp_dictionary:
                 "pdf_printing": "attachment.field.type.values.pdf_prod"
                 "pdf_personal": "attachment.field.type.values.pdf_perso"
                 "indd": "attachment.field.type.values.indesign"
-            
+        content_revision_status:
+            type: 'key_value'
+            content:
+                App\Entity\ContentRevision::STATUS_NEW: "content_revision.status.new"
+                App\Entity\ContentRevision::STATUS_APPROVED: "content_revision.status.approved"
+                App\Entity\ContentRevision::STATUS_REVIEWED: "content_revision.status.reviewed"

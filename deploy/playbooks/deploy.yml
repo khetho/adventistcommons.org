@@ -14,6 +14,18 @@
         package_root: "{{artifact}}"
       when: artifact is defined
 
+    - name: Composer install
+      shell: composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
+      args:
+        chdir: "{{package_root}}"
+      delegate_to: localhost
+
+    - name: Publish exposed routes to js
+      shell: bin/console fos:js-routing:dump --target ./assets/config/routes.json --format json --env prod
+      args:
+        chdir: "{{package_root}}"
+      delegate_to: localhost
+
     - name: Npm install
       shell: npm install
       args:
@@ -22,12 +34,6 @@
 
     - name: Npm run build
       shell: npm run build
-      args:
-        chdir: "{{package_root}}"
-      delegate_to: localhost
-
-    - name: Composer install
-      shell: composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
       args:
         chdir: "{{package_root}}"
       delegate_to: localhost

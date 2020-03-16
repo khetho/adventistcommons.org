@@ -7,18 +7,23 @@ use App\Entity\Project;
 use App\Entity\Language;
 use App\Entity\Section;
 use App\Entity\Attachment;
+use App\Entity\ContentRevision;
+use App\Entity\Sentence;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class DataFinder
 {
     private $registry;
-    
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
-        $this->registry	= $managerRegistry;
+        $this->registry = $managerRegistry;
     }
-    
+
     public function retrieveProjectOr404($slug, $languageCode): Project
     {
         $product = $this->retrieveProductOr404($slug);
@@ -28,11 +33,11 @@ class DataFinder
             'language' => $language,
             'product' => $product,
         ]);
-        
+
         if (!$project) {
             throw new NotFoundHttpException();
         }
-        
+
         return $project;
     }
 
@@ -76,7 +81,24 @@ class DataFinder
 
         return $section;
     }
-    
+
+    public function addLatestTranslations(Section $section, Project $project): Section
+    {
+        $transBySentenceId = $this->registry
+            ->getRepository(ContentRevision::class)
+            ->getLatestForProjectAndSection($project, $section);
+        foreach ($section->getParagraphs() as $paragraph) {
+            /** @var Sentence $sentence */
+            foreach ($paragraph->getSentences() as $sentence) {
+                if (isset($transBySentenceId[$sentence->getId()])) {
+                    $sentence->setTranslation($transBySentenceId[$sentence->getId()]);
+                }
+            }
+        }
+
+        return $section;
+    }
+
     public function retrieveAttachmentOr404($slug, $languageCode, $id): Attachment
     {
         $project = $this->retrieveProjectOr404($slug, $languageCode);
@@ -87,5 +109,47 @@ class DataFinder
         }
 
         return $attachment;
+    }
+
+    public function retrieveSentenceOr404($sentenceId, $project): Sentence
+    {
+        $sentence = $this->registry->getRepository(Sentence::class)->find($sentenceId);
+        if (!$sentence || (
+            $sentence->getParagraph()->getSection()->getProduct()->getId() !== $project->getProduct()->getId()
+        )) {
+            throw new NotFoundHttpException();
+        }
+
+        return $sentence;
+    }
+
+    public function retrieveRevisions($sentence)
+    {
+        return $this->registry
+            ->getRepository(ContentRevision::class)
+            ->findBySentence($sentence);
+    }
+
+    public function retrieveSentenceInfoOr404($slug, $languageCode, $sentenceId)
+    {
+        $project = $this->retrieveProjectOr404($slug, $languageCode);
+        $sentence = $this->retrieveSentenceOr404($sentenceId, $project);
+
+        return $this->registry->getRepository(Sentence::class)->getSentenceInfo($project, $sentence);
+    }
+
+    public function retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId)
+    {
+        $project = $this->retrieveProjectOr404($slug, $languageCode);
+        $sentence = $this->retrieveSentenceOr404($sentenceId, $project);
+        $contentRevision = $this->registry
+            ->getRepository(ContentRevision::class)
+            ->findLatestForSentenceAndProject($sentence, $project);
+
+        if (!$contentRevision) {
+            throw new NotFoundHttpException();
+        }
+
+        return $contentRevision;
     }
 }

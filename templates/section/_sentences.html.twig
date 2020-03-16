@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-6 column-left">
+        <div class="content" data-role="origin">
+            {% for paragraphKey,paragraph in section.paragraphs %}
+                <p>
+                    {% for sentenceKey,sentence in paragraph.sentences %}
+                        <span class="js-sentence"
+                              data-sentence-id="{{ sentence.id }}"
+                        >
+                            {{ sentence.content }}
+                        </span>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-6 column-right">
+        <div class="content" data-role="translation">
+            {% for paragraphKey,paragraph in section.paragraphs %}
+                <p>
+                    {% for sentenceKey,sentence in paragraph.sentences %}
+                        <span class="js-sentence"
+                              data-sentence-id="{{ sentence.id }}"
+                              data-sentence-state="{% if sentence.translation and sentence.translation.isApproved %}approved{% elseif sentence.translation and sentence.translation.isReviewed %}reviewed{%  endif %}"
+                        >
+                            {% if sentence.translation %}
+                                {{ sentence.translation.content }}
+                            {% else %}
+                                {{ sentence.content }}
+                            {% endif %}
+                        </span>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

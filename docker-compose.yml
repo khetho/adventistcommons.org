@@ -26,20 +26,34 @@ services:
 
   ac-php-fpm:
     build:
-      context: ./docker/php-fpm
+      context: ./docker/php
     container_name: ac-php-fpm
     ports:
       - 9000:9000
     volumes:
       # read only
       - .:/var/www/adventistcommons:ro
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
+      - ./docker/php/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini:ro
       # read/write
-      - ./public/bundles:/var/www/adventistcommons/public/bundles
-      - ./var:/var/www/adventistcommons/var
+      - ./var/log:/var/www/adventistcommons/var/log
+      - ./var/cache:/var/www/adventistcommons/var/cache
       - ./uploads:/var/www/adventistcommons/uploads
-      - ./src/Migrations:/var/www/adventistcommons/src/Migrations
+    working_dir: /var/www/adventistcommons
+    links:
+      - ac-db
+      - ac-nltk
+    depends_on:
+      - ac-db
+
+  ac-php-cli:
+    build:
+      context: ./docker/php
+    container_name: ac-php-cli
+    volumes:
+      # read only
+      - ./docker/php/php-ini-overrides.ini:/etc/php/7.2/cli/conf.d/99-overrides.ini:ro
+      # read/write
+      - .:/var/www/adventistcommons
     working_dir: /var/www/adventistcommons
     links:
       - ac-db
@@ -55,18 +69,10 @@ services:
     ports:
       - 8080:8080
 
-  ac-composer:
-    restart: 'no'
-    image: composer
-    command: install
-    volumes:
-      - .:/app
-      - ./var/cache/composer:/tmp
-
   ac-admin:
     build:
       context: ./admin
-      target: api_platform_idmin_development
+      target: api_platform_admin_development
       cache_from:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}

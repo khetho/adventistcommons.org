@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
-CURRENT_DIRECTORY=`pwd`
+CURRENT_DIRECTORY=$(pwd)
 
 BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -11,9 +11,13 @@ ROOT_DIRECTORY="$BIN_DIR/../.."
 
 echo "php-cs-fixer starts"
 
-cd $ROOT_DIRECTORY;
+cd "$ROOT_DIRECTORY";
 
-PHP_CS_FIXER="vendor/bin/php-cs-fixer"
+if hash docker-composer 2>/dev/null; then
+  PHP_CS_FIXER="sudo docker-compose run ac-php-cli vendor/bin/php-cs-fixer"
+else
+  PHP_CS_FIXER="vendor/bin/php-cs-fixer"
+fi
 
 HAS_PHP_CS_FIXER=false
 
@@ -23,7 +27,7 @@ fi
 
 if $HAS_PHP_CS_FIXER; then
     git diff --name-only --diff-filter=ACMR HEAD | grep -e '.*\.php$' | while read line; do
-        ${PHP_CS_FIXER} fix ${line};
+        ${PHP_CS_FIXER} fix "${line}";
         git add "$line";
     done
 else
@@ -31,7 +35,7 @@ else
     echo "Please install php-cs-fixer dependence"
     echo "  composer install"
     echo ""
-	cd $CURRENT_DIRECTORY;
+	cd "$CURRENT_DIRECTORY";
     exit 1
 fi
 
@@ -41,7 +45,7 @@ echo "php-cs-fixer ends"
 
 echo "phpmd starts"
 
-cd $ROOT_DIRECTORY;
+cd "$ROOT_DIRECTORY";
 
 PHPMD="vendor/bin/phpmd"
 
@@ -53,14 +57,14 @@ fi
 
 if $HAS_PHPMD; then
     git diff --name-only --diff-filter=ACMR HEAD | grep -e '.*\.php$' | while read line; do
-        ${PHPMD} ${line} xml ./ruleset.xml;
+        ${PHPMD} "${line}" xml ./ruleset.xml;
     done
 else
     echo ""
     echo "Please install phpmd dependence"
     echo "  composer install"
     echo ""
-	cd $CURRENT_DIRECTORY;
+	cd "$CURRENT_DIRECTORY";
     exit 1
 fi
 
@@ -68,4 +72,4 @@ echo "phpmd ends"
 
 #================================================================
 
-cd $CURRENT_DIRECTORY;
+cd "$CURRENT_DIRECTORY";

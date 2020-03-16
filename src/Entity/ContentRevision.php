@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
 
 /**
  * ContentRevisions
@@ -19,6 +21,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ContentRevision
 {
+    const STATUS_NEW = '';
+    const STATUS_APPROVED = 'app';
+    const STATUS_REVIEWED = 'rev';
+
     /**
      * @var int
      *
@@ -34,6 +40,11 @@ class ContentRevision
      * @ORM\Column(name="content", type="text", length=65535, nullable=true)
      */
     private $content;
+
+    /**
+     * @var string|null
+     */
+    private $diffContent;
 
     /**
      * @var \DateTime|null
@@ -65,16 +76,25 @@ class ContentRevision
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="contentRevisions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      * })
      */
     private $project;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="text", length=3, nullable=false)
+     * @Dictionary(name="content_revision_status")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->status = self::STATUS_NEW;
     }
 
     public function getId(): ?int
@@ -90,6 +110,18 @@ class ContentRevision
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getDiffContent(): ?string
+    {
+        return $this->diffContent;
+    }
+
+    public function setDiffContent(?string $diffContent): self
+    {
+        $this->diffContent = $diffContent;
 
         return $this;
     }
@@ -123,7 +155,7 @@ class ContentRevision
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?UserInterface $user): self
     {
         $this->user = $user;
 
@@ -140,5 +172,35 @@ class ContentRevision
         $this->project = $project;
 
         return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
+    }
+
+    public function approve()
+    {
+        $this->setStatus(self::STATUS_APPROVED);
+    }
+
+    public function review()
+    {
+        $this->setStatus(self::STATUS_REVIEWED);
+    }
+
+    public function isApproved()
+    {
+        return $this->getStatus() === self::STATUS_APPROVED;
+    }
+
+    public function isReviewed()
+    {
+        return $this->getStatus() === self::STATUS_REVIEWED;
     }
 }

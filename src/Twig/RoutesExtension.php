@@ -23,6 +23,8 @@ class RoutesExtension extends AbstractExtension
         return [
             new TwigFunction('pathToProject', [$this, 'pathToProject']),
             new TwigFunction('pathToSection', [$this, 'pathToSection']),
+            new TwigFunction('pathToPreviousSection', [$this, 'pathToPreviousSection']),
+            new TwigFunction('pathToNextSection', [$this, 'pathToNextSection']),
             new TwigFunction('pathToProjectSection', [$this, 'pathToProjectSection']),
             new TwigFunction('pathToAttachment', [$this, 'pathToAttachment']),
         ];
@@ -50,7 +52,35 @@ class RoutesExtension extends AbstractExtension
             ]
         );
     }
-    
+
+    public function pathToPreviousSection(Project $project, Section $section, $action = 'edit')
+    {
+        $prevSection = null;
+        foreach ($project->getProduct()->getSections() as $otherSection) {
+            if ($otherSection == $section) {
+                break;
+            }
+            $prevSection = $otherSection;
+        }
+        return $prevSection ? $this->pathToSection($project, $prevSection, $action) : null;
+    }
+
+    public function pathToNextSection(Project $project, Section $section, $action = 'edit')
+    {
+        $nextSection = null;
+        $next = false;
+        foreach ($project->getProduct()->getSections() as $otherSection) {
+            if ($next) {
+                $nextSection = $otherSection;
+                break;
+            }
+            if ($otherSection == $section) {
+                $next = true;
+            }
+        }
+        return $nextSection ? $this->pathToSection($project, $nextSection, $action) : null;
+    }
+
     public function pathToAttachment(Attachment $attachment)
     {
         return $this->router->generate(

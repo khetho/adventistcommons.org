@@ -385,3 +385,54 @@ messages:
     deleted: Project successfully deleted
     created: Project created successfully
     member_added: Member successfully added
+editor:
+  pagination:
+    previous: Previous
+    next: Next
+  working:
+    machine: Machine translation
+    machine_none: No translation
+    memory: Translation Memory
+    memory_stats: Translation Memory Stats
+    memory_nav: Translation Memory Navigation
+    memory_none: No translation
+    role:
+      title: Translation State Navigation
+      translate: Translate
+      translate_save: Save
+      proofread: Proofread
+      proofread_save: Approve
+      review: Review
+      review_save: Approve
+    stats:
+      title: Project Statistics
+      translated: Translated
+      proofread: Proofread
+      reviewed: Reviewed
+    changed:
+      title: Changed could be lost
+      body: You changed the content of the current translation but did not save it, changes will be lost if you continue
+      button:
+        cancel: Cancel
+        save: Save
+        dismiss: Dismiss
+  comments:
+    title: Comments
+    button: Comments
+    none-found: None found
+    loading: Loading …
+  revisions:
+    title: Revisions
+    button: Revisions
+    none-found: None found
+    loading: Loading …
+  navigation:
+    title: Human Translation Navigation
+json:
+  error:
+    generic: An error occured on the server. Please try again later.
+content_revision:
+  status:
+    new: New
+    approved: Approved
+    reviewed: Reviewed

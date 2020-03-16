@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="paragraph_id", columns={"paragraph_id"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SentenceRepository"))
  */
 class Sentence
 {
@@ -48,6 +48,11 @@ class Sentence
      * })
      */
     private $paragraph;
+    
+    /**
+     * @var ContentRevision
+     */
+    private $translation;
 
     public function getId(): ?int
     {
@@ -78,7 +83,7 @@ class Sentence
         return $this;
     }
 
-    public function getParagraph(): ?Section
+    public function getParagraph(): ?Paragraph
     {
         return $this->paragraph;
     }
@@ -88,5 +93,17 @@ class Sentence
         $this->paragraph = $paragraph;
 
         return $this;
+    }
+    
+    public function setTranslation(ContentRevision $translation): self
+    {
+        $this->translation = $translation;
+ 
+        return $this;
+    }
+    
+    public function getTranslation(): ?ContentRevision
+    {
+        return $this->translation;
     }
 }

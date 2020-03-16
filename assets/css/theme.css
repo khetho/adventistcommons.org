@@ -3322,6 +3322,10 @@ input[type="button"].btn-block {
   .page-link:not(:disabled):not(.disabled) {
     cursor: pointer; }
 
+.page-links .current, .page-links .current:hover {
+  color: #007bff;
+}
+
 .page-item:first-child .page-link {
   margin-left: 0;
   border-top-left-radius: 0.25rem;

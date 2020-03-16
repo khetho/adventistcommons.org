@@ -1,0 +1,57 @@
+<div class="d-flex flex-wrap">
+    <form class="w-100 translation-area__form">
+        <div class="form-group">
+            <textarea class="form-control mb-2 noresize js-translation-area" rows="5">
+            </textarea>
+            <div class="d-flex form-group">
+                <button type="button"
+                        class="js-show-comments btn btn-outline-secondary btn-sm mr-1"
+                >
+                    {% trans %}editor.comments.button{% endtrans %}
+                    <span class="pl-1 badge badge-pill badge-secondary js-comments-count"></span>
+                </button>
+
+                <button type="button"
+                        class="js-show-review btn btn-outline-secondary btn-sm mr-1"
+                >
+                    {% trans %}editor.revisions.button{% endtrans %}
+                    <span class="pl-1 badge badge-pill badge-primary js-revisions-count"></span>
+                </button>
+
+                <div id="translation_nav"
+                     class="btn-group btn-group-sm ml-auto mr-1"
+                     role="group"
+                     aria-label="{% trans %}editor.navigation.title{% endtrans %}"
+                >
+                    <button type="button"
+                            class="btn btn-outline-secondary js-prev-translation">
+                        &lt;&lt;
+                    </button>
+                    <button type="button"
+                            class="btn btn-outline-secondary js-next-translation">
+                        &gt;&gt;
+                    </button>
+                </div>
+
+                <button type="button"
+                        class="btn btn-primary btn-sm js-save-translation"
+                        data-save-role="trans"
+                >
+                    {% trans %}editor.working.role.translate_save{% endtrans %}
+                </button>
+                <button type="button"
+                        class="btn btn-primary btn-sm js-save-translation"
+                        data-save-role="proof"
+                >
+                    {% trans %}editor.working.role.proofread_save{% endtrans %}
+                </button>
+                <button type="button"
+                        class="btn btn-primary btn-sm js-save-translation"
+                        data-save-role="rev"
+                >
+                    {% trans %}editor.working.role.review_save{% endtrans %}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

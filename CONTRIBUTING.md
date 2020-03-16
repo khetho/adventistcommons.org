@@ -1,7 +1,7 @@
 
 Adventistcommons is developed by developers all around the world. Here are technical stuff about how to participate, if you will.
 
-## Docker Development Setup Guide (experimental)
+## Docker Development Setup Guide
 
 Docker is a solution to make services work in isolated containers. No need to have local lamp, apache, mysql, php, composer … 
 
@@ -171,3 +171,43 @@ Note : The vault password is asked to do so. It is available from administrators
 ### edit deployment config
 
 Edit the encrypted variables for an environment : ``` ansible-vault edit deploy/inventories/develop ```
+
+## Natural Language Processor
+
+Adventistcommons uses a Python software tool to separate paragraphs into sentences. It is called "nlp-api".
+ 
+Steps to install it :
+```shell script
+sudo apt-get install python3.8
+python3.8 -m pip install pyinotify
+pip install nlp-api
+```
+
+To make it run as a service with systemd, create the service :
+```shell script
+sudo vi  /lib/systemd/system/nlp-api.service
+```
+
+And add service code
+```
+[Unit]
+Description=Natural Language Processiong API
+After=multi-user.target
+Conflicts=getty@tty1.service
+
+[Service]
+User=ubuntu
+Type=simple
+ExecStart=/usr/bin/python3.8 -m nlp_api localhost 2230
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Starts service
+```shell script
+sudo systemctl daemon-reload
+sudo systemctl enable nlp-api.service
+sudo systemctl start nlp-api.service
+```

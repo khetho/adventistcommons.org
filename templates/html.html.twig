@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app.request.locale }}">
 
     <head>
         <meta charset="utf-8">
@@ -11,7 +11,17 @@
         {% endblock %}
     </head>
 
-    <body>
+    <body
+            {% if app.request.attributes.has('slug') %}
+                data-slug="{{ app.request.attributes.get('slug') }}"
+            {% endif %}
+            {% if app.request.attributes.has('languageCode') %}
+                data-languageCode="{{ app.request.attributes.get('languageCode') }}"
+            {% endif %}
+            {% if app.request.attributes.has('sectionName') %}
+                data-sectionName="{{ app.request.attributes.get('sectionName') }}"
+            {% endif %}
+    >
         {% block body %}
             <div class="main-container fullscreen">
                 <div class="container">

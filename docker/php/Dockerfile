@@ -23,4 +23,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 
 RUN usermod -u 1000 www-data
 
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
 CMD ["php-fpm"]

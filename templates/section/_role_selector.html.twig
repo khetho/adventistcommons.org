@@ -1,0 +1,43 @@
+<div class="d-flex flex-wrap mb-1 translation-stat">
+    <div class="h-5 font-weight-bold mr-1 title">
+        <div class="js-roles btn-group btn-group-extra-sm ml-auto mr-1 js-role role"
+             role="group"
+             aria-label="{% trans %}editor.working.role.title{% endtrans %}"
+        >
+            <button type="button"
+                    class="btn btn-outline-secondary js-trans trans active"
+                    data-role="translator"
+            >
+                {% trans %}editor.working.role.translate{% endtrans %}
+            </button>
+            {% if is_granted('approve', project.language) %}
+                <button type="button"
+                        class="btn btn-outline-secondary js-proof proof"
+                        data-role="proofreader"
+                >
+                    {% trans %}editor.working.role.proofread{% endtrans %}
+                </button>
+            {% endif %}
+            {% if is_granted('review', project.language) %}
+                <button type="button"
+                        class="btn btn-outline-secondary js-rev rev"
+                        data-role="reviewer"
+                >
+                    {% trans %}editor.working.role.review{% endtrans %}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="ml-auto toolset">
+        <a class="transfer"
+           data-toggle="collapse"
+           data-target="#stats_bars"
+           aria-expanded="false"
+           aria-controls="stats_bars"
+        >
+            <svg viewBox="0 0 20 20" class="svg-text_left-dims">
+                <use xlink:href="#text_left"></use>
+            </svg>
+        </a>
+    </div>
+</div>

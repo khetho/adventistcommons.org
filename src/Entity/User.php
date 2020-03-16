@@ -63,6 +63,7 @@ use \Exception;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class User implements UserInterface
 {
@@ -339,7 +340,29 @@ class User implements UserInterface
      * )
      */
     private $languages;
-    
+
+    /**
+     * The languages that user is granted to approve
+     * @ORM\ManyToMany(targetEntity="Language")
+     * @ORM\JoinTable(
+     *      name="user_languages_approved",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+     * )
+     */
+    private $langsHeCanApprove;
+
+    /**
+     * The languages that user is granted to approve
+     * @ORM\ManyToMany(targetEntity="Language")
+     * @ORM\JoinTable(
+     *      name="user_languages_reviewable",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+     * )
+     */
+    private $langsHeCanReview;
+
     /**
      * Many User have Many Groups.
      * @ORM\ManyToMany(targetEntity="Group")
@@ -371,6 +394,8 @@ class User implements UserInterface
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
+        $this->langsHeCanApprove = new ArrayCollection();
+        $this->langsHeCanReview = new ArrayCollection();
         $this->username = $email;
         $this->email = $email;
         $this->createdOn = date('U');
@@ -378,7 +403,7 @@ class User implements UserInterface
     
     public function __toString()
     {
-        return $this->getFirstName().' '.$this->getLastName();
+        return $this->getFullName();
     }
 
     public function getId(): ?int
@@ -604,7 +629,7 @@ class User implements UserInterface
     
     public function getFullName(): string
     {
-        return $this->getFirstName().' '.$this->getLastName();
+        return $this->getFirstName().($this->getFirstName() && $this->getFirstName() ? ' ' : '').$this->getLastName();
     }
 
     public function getCompany(): ?string
@@ -769,6 +794,58 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Language[]
+     */
+    public function getLangsHeCanApprove(): Collection
+    {
+        return $this->langsHeCanApprove;
+    }
+
+    public function addLanguageHeCanApprove(Language $language): self
+    {
+        if (!$this->langsHeCanApprove->contains($language)) {
+            $this->langsHeCanApprove[] = $language;
+        }
+
+        return $this;
+    }
+
+    public function removeLanguageHeCanApprove(Language $language): self
+    {
+        if ($this->langsHeCanApprove->contains($language)) {
+            $this->langsHeCanApprove->removeElement($language);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Language[]
+     */
+    public function getLangsHeCanReview(): Collection
+    {
+        return $this->langsHeCanReview;
+    }
+
+    public function addLanguageHeCanReview(Language $langsHeCanApprove): self
+    {
+        if (!$this->langsHeCanReview->contains($langsHeCanApprove)) {
+            $this->langsHeCanReview[] = $langsHeCanApprove;
+        }
+
+        return $this;
+    }
+
+    public function removeLanguageHeCanReview(Language $langsHeCanApprove): self
+    {
+        if ($this->langsHeCanReview->contains($langsHeCanApprove)) {
+            $this->langsHeCanReview->removeElement($langsHeCanApprove);
+        }
+
+        return $this;
+    }
+    
     /**
      * @return Collection|Group[]
      */
