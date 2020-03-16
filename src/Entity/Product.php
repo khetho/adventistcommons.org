@@ -84,9 +84,9 @@ class Product
      * @var File|null
 
      * @Assert\Image(
-     *     allowPortrait = false,
+     *     allowPortrait = true,
      *     maxSize = "1024k",
-     *     allowLandscape = false,
+     *     allowLandscape = true    ,
      *     minWidth = 75,
      *     maxWidth = 1000,
      *     minHeight = 75,
