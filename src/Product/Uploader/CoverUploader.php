@@ -32,7 +32,7 @@ class CoverUploader implements UploaderInterface
         } catch (FileException $e) {
             // @TODO handle exception if something happens during file upload
         }
-        
+
         if ($product->getCoverImageFilename()) {
             $previousFilename = $this->targetDirectory.'/'.$product->getCoverImageFilename();
             if (file_exists($previousFilename)) {
@@ -47,6 +47,6 @@ class CoverUploader implements UploaderInterface
         
     public function handle($data)
     {
-        return $data instanceof Attachment;
+        return $data instanceof Product;
     }
 }

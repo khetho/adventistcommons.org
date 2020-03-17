@@ -196,7 +196,7 @@ product:
       label: Publisher Website
     cover_image:
       label: Cover image
-      help: Only square image is allowed
+      help: "Maximum height / width  : 1000 pixels"
     description:
       label: Description
     page_count: 

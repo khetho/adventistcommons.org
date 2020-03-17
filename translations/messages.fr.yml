@@ -196,7 +196,7 @@ product:
       label: Site internet éditeur
     cover_image:
       label: Image de couverture 
-      help: Seuls les images carrés sont acceptées
+      help: "Hauteur / largeur maxi : 1000 pixels"
     description:
       label: Déscription
     page_count: 
