@@ -269,6 +269,9 @@ product:
     translate: Translate
     download_idml: Download IDML
     untranslated: This product is not yet available in any languages.
+    pdf_digital_printing: Pdf for digital printing
+    pdf_offset_printing: Pdf for offset printing
+    source_idml_file: Original InDesign file
   edit:
     title: "%product_name% product edit"
     general: General

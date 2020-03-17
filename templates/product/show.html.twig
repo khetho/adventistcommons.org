@@ -25,22 +25,22 @@
 								{% if product.pdfDigitalFilename or product.pdfOffsetFilename %}
 									<div class="btn-group">
 										<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-											Download
+											{% trans %}product.show.download{% endtrans %}
 										</button>
 										<div class="dropdown-menu">
 											{% if product.pdfDigitalFilename %}
 												<a class="dropdown-item" href="{{ path('app_product_download_digital_pdf', {'slug': product.slug}) }}">
-													Pdf for digital printing
+													{% trans %}product.show.pdf_digital_printing{% endtrans %}Pdf for digital printing
 												</a>
 											{% endif %}
 											{% if product.pdfOffsetFilename %}
 												<a class="dropdown-item" href="{{ path('app_product_download_offset_pdf', {'slug': product.slug}) }}">
-													Pdf for offset printing
+													{% trans %}product.show.pdf_offset_printing{% endtrans %}
 												</a>
 											{% endif %}
 											{% if is_granted('ROLE_ADMIN') and product.idmlFilename %}
 												<a class="dropdown-item" href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
-													Original InDesign file
+													{% trans %}product.show.source_idml_file{% endtrans %}
 												</a>
 											{% endif %}
 										</div>

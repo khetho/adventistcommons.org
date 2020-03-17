@@ -269,6 +269,9 @@ product:
     translate: Traduire
     download_idml: Télécharger l’IDML
     untranslated: Ce produit n’est pas encore disponible dans une autre langue.
+    pdf_digital_printing: Pdf pour impression numérique
+    pdf_offset_printing: Pdf pour impression offset
+    source_idml_file: Fichier InDesign Original
   edit:
     title: "Éditer le produit %product_name%"
     general: Général
