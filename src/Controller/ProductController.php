@@ -16,7 +16,6 @@ use App\Product\Form\Type\GeneralType;
 use App\Product\Form\Type\SpecsType;
 use App\Project\Form\Type\AddType;
 use App\Product\Form\Type\AddAttachmentType;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

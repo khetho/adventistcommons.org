@@ -1,0 +1,23 @@
+{% extends "template.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                {% include 'product/_header.html.twig' %}
+            </div>
+            <div class="col-12">
+                <div>
+                    <h2>{% trans %}product.add_file.header{% endtrans %}</h2>
+                    {{ form_start(addForm) }}
+                    {{ form_errors(addForm) }}
+                    {{ form_rest(addForm) }}
+                    <div class="row justify-content-end">
+                        <button type="submit" class="btn btn-primary mr-2">{% trans %}commons.form.save{% endtrans %}</button>
+                    </div>
+                    {{ form_end(addForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,25 +6,7 @@
 	<div class="container">
 	<div class="row justify-content-center">
 		<div class="col-xl-10 col-lg-11">
-			<div class="page-header clearfix">
-				<img src="{{ coverPath }}{{ product.coverImageFilename }}" width="140" class="float-left mr-3 rounded">
-				<div class="d-flex justify-content-between align-items-center">
-					<h2>{{ product.name }}</h2>
-					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_product_edit', {'slug': product.slug}) }}" class="btn btn-sm btn-secondary float-right"><i class="fas fa-pen"></i> {% trans %}product.show.edit{% endtrans %}</a>
-					{% endif %}
-				</div>
-				<p>{{ product.description }}</p>
-				{% if product.type %}
-					<span class="text-small pr-2"><strong>{% trans %}product.show.type{% endtrans %}</strong>: {{ product.type|capitalize }}</span>
-				{% endif %}
-				{% if product.author %}
-					<span class="text-small pr-2"><strong>{% trans %}product.show.author{% endtrans %}</strong>: {{ product.author }}</span>
-				{% endif %}
-				{% if product.pageCount %}
-					<span class="text-small pr-2"><strong>{% trans %}product.show.page_count{% endtrans %}</strong>: {{ product.pageCount }}</span>
-				{% endif %}
-			</div>
+			{% include 'product/_header.html.twig' %}
 			<hr>
 			<ul class="nav nav-tabs nav-fill mb-3">
 				<li class="nav-item">
@@ -47,17 +29,17 @@
 										</button>
 										<div class="dropdown-menu">
 											{% if product.pdfDigitalFilename %}
-												<a class="dropdown-item" href="{{ path('app_product_download_offset_pdf', {'slug': product.slug}) }}">
-                          Pdf for digital printing
-                        </a>
+												<a class="dropdown-item" href="{{ path('app_product_download_digital_pdf', {'slug': product.slug}) }}">
+													Pdf for digital printing
+												</a>
 											{% endif %}
 											{% if product.pdfOffsetFilename %}
-												<a class="dropdown-item" href="{{ path('app_product_download_digital_pdf', {'slug': product.slug}) }}">
-                          Pdf for offset printing
-                        </a>
+												<a class="dropdown-item" href="{{ path('app_product_download_offset_pdf', {'slug': product.slug}) }}">
+													Pdf for offset printing
+												</a>
 											{% endif %}
 											{% if is_granted('ROLE_ADMIN') and product.idmlFilename %}
-												<a href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
+												<a class="dropdown-item" href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
 													Original InDesign file
 												</a>
 											{% endif %}
@@ -110,15 +92,15 @@
 												<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}" class="btn btn-primary">
 													{% if project.status %}
 														{% trans %}product.show.start_translate{% endtrans %}
-                                                    {% else %}
+													{% else %}
 														{% trans %}product.show.translate{% endtrans %}
-                                                    {% endif %}
+													{% endif %}
 												</a>
-                                                {% if project.status %}
+												{% if project.status %}
 													<a class="btn btn-secondary" href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}">
 														{% trans %}product.show.download_idml{% endtrans %}
 													</a>
-                                                {% endif %}
+												{% endif %}
 											</div>
 										</div>
 									</div>
@@ -217,10 +199,10 @@
 				</div>
 			</div>
 		</div>
+		</div>
 	</div>
-</div>
 
-{% include 'project/add/_add_modal.html.twig' %}
-{% include 'product/_add_file_modal.html.twig' %}
+	{% include 'project/add/_add_modal.html.twig' %}
+	{% include 'product/_add_file_modal.html.twig' %}
 
 {% endblock %}

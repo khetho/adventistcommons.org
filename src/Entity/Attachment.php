@@ -42,7 +42,7 @@ class Attachment
     /**
      * @var string|null
      *
-     * @ORM\Column(name="file_type", type="string", length=0, nullable=true)
+     * @ORM\Column(name="file_type", type="string", length=20, nullable=true)
      */
     private $fileType;
 

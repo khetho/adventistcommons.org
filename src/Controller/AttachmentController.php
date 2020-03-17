@@ -43,7 +43,13 @@ class AttachmentController extends AbstractController
             return $this->redirectToRoute('app_product_show', ['slug' => $product->getSlug()]);
         }
 
-        $this->createNotFoundException();
+        return $this->render(
+            'attachment/add.html.twig',
+            [
+                'product' => $product,
+                'addForm' => $addAttachmentForm->createView(),
+            ]
+        );
     }
 
     /**
