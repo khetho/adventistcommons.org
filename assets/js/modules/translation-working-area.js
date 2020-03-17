@@ -219,6 +219,32 @@ define(
                 });
                 TranslationSentences.selectFirst();
 
+                translation_area.keydown(function(event) {
+                    if (event.keyCode === 13 /* ENTER */) {
+                        save(function() {
+                            TranslationSentences.selectNextSentence();
+                        });
+                        return false;
+                    }
+                });
+
+                $('body').keydown(function(event) {
+                    if (event.altKey && event.keyCode === 38 /* UP ARROW */) {
+                        TranslationSentences.selectPrevSentence();
+                    } else if (event.altKey && event.keyCode === 40 /* DOWN ARROW */) {
+                        TranslationSentences.selectNextSentence();
+                    }
+                });
+
+                translation_area.keypress(function(e) {
+                    const c = String.fromCharCode(e.which);
+                    if (c.toUpperCase() === c && c.toLowerCase() !== c && !e.shiftKey) {
+                        $('#message').show();
+                    } else {
+                        $('#message').hide();
+                    }
+                });
+
                 // Move content
                 translator_dashboard.on('click', '.js-transfer-button', function (e) {
                     setWorkingTranslationIfOk($(e.target).closest('.js-transfer-group').find('.js-transfer-subject').html());
