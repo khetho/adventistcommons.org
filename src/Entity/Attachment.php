@@ -56,7 +56,7 @@ class Attachment
      *
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="attachments",cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $project;

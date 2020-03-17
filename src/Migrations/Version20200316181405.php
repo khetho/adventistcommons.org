@@ -14,7 +14,7 @@ final class Version20200316181405 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return '';
+        return 'Add cascade delete from product deletion';
     }
 
     public function up(Schema $schema) : void

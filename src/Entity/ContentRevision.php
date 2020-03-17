@@ -54,11 +54,11 @@ class ContentRevision
     private $createdAt;
 
     /**
-     * @var Paragraph
+     * @var Sentence
      *
      * @ORM\ManyToOne(targetEntity="Sentence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sentence_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sentence_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $sentence;
