@@ -41,7 +41,6 @@ class SkillsAdder
                     'choice_label' => function ($choice) {
                         return (string) $choice;
                     },
-                    'translation_domain' => false,
                     'label' => 'account.field.skills.label',
                     'attr' => [
                         'class' => 'skills-select',

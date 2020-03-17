@@ -83,7 +83,7 @@ class AccountType extends AbstractType
                 [
                     'label' => 'account.field.motherLanguage.label',
                     'attr' => [
-                        'class' => 'language-select',
+                        'class' => 'language-select selectize',
                         'placeholder' => 'account.field.motherLanguage.placeholder',
                     ],
                 ]
@@ -94,7 +94,7 @@ class AccountType extends AbstractType
                 [
                     'label' => 'account.field.languages.label',
                     'attr' => [
-                        'class' => 'language-select',
+                        'class' => 'language-select selectize',
                         'placeholder' => 'account.field.languages.placeholder',
                     ],
                 ]
