@@ -44,8 +44,14 @@ security:
     access_control:
         - { path: "^/.{2}/auth", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/.{2}/account", roles: IS_AUTHENTICATED_FULLY }
-        - { path: "^/.{2}/products/.+/.{3}/.+", roles: IS_AUTHENTICATED_FULLY }
+        - { path: "^/.{2}/products/.+/.{3}/.+", roles: IS_AUTHENTICATED_FULLY }  # Editor
+        - { path: "^/.{2}/products/.+/product.idml", roles: IS_AUTHENTICATED_FULLY }  # Download idml
+        - { path: "^/.{2}/products/.+/.+.pdf", roles: IS_AUTHENTICATED_FULLY }  # Download product attachment
+        - { path: "^/.{2}/products/.+/.{3}/\\d*/download", roles: IS_AUTHENTICATED_FULLY }  # Download project attachment
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+
+

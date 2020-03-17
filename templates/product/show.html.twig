@@ -24,9 +24,14 @@
 							<div class="btn-group" role="group" aria-label="{% trans %}product.show.product_actions{% endtrans %}">
 								{% if product.pdfDigitalFilename or product.pdfOffsetFilename %}
 									<div class="btn-group">
-										<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-											{% trans %}product.show.download{% endtrans %}
-										</button>
+										{% if is_granted('ROLE_USER') %}
+											<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+												{% trans %}product.show.download{% endtrans %}
+											</button>
+										{% else %}
+											<a href="{{ path('app_auth_login') }}" class="text-secondary">{% trans %}product.show.login_download{% endtrans %}</a>
+										{% endif %}
+
 										<div class="dropdown-menu">
 											{% if product.pdfDigitalFilename %}
 												<a class="dropdown-item" href="{{ path('app_product_download_digital_pdf', {'slug': product.slug}) }}">

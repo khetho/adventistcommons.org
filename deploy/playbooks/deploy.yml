@@ -65,7 +65,7 @@
         - var/log/
         - var/sessions/
 
-    - name: Set writing rights to cache and log
+    - name: Set writing rights to uploads
       file:
         path: "{{ deploy_helper.new_release_path }}/{{item}}"
         state: directory
