@@ -150,6 +150,7 @@ auth:
     forgot_password: Forgot password?
     login: Log in
     register: Don't have an account yet? %link_before%Create one%link_after%
+    required: Login required
   register:
     title: Create your account
     header: Create account
@@ -260,7 +261,8 @@ product:
     page_count: Pages
     languages: Languages
     specification: Specifications
-    product_actions: Produt actions
+    product_actions: Product actions
+    project_actions: Project actions
     upload_file: Upload File
     new_translation: Start New Translation
     download: Download

@@ -150,6 +150,7 @@ auth:
     forgot_password: Mot de passe oublié ?
     login: S'identifier
     register: Vous n'avez pas encore de compte ? %link_before%Créer mon compte%link_after%
+    required: connexion requise
   register:
     title: Créez votre compte
     header: Créer un compte
@@ -261,6 +262,7 @@ product:
     languages: Langues
     specification: Spécifications
     product_actions: Actions produit
+    project_actions: Actions projet
     upload_file: Charger un fichier
     new_translation: Commencer une nouvelle traduction
     download: Télécharger

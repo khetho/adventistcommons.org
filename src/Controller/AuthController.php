@@ -21,10 +21,11 @@ class AuthController extends AbstractController
 {
     /**
      * @Route("/login", name="app_auth_login")
+     * @param Request $request
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -37,6 +38,7 @@ class AuthController extends AbstractController
             'breadcrumbs' => [],
             'last_username' => $lastUsername,
             'error' => $error,
+            'redirect' => $request->get('redirect', null),
         ]);
     }
 
