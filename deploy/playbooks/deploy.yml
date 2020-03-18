@@ -74,3 +74,15 @@
       loop:
         - uploads/
         - uploads/covers/
+
+    - name: Create the uploads directory if it does not exist
+      file:
+        path: "{{ deploy_helper.shared_path }}/uploads/exposed/covers"
+        state: directory
+        mode: '0777'
+
+    - name: Create a symbolic link
+      file:
+        src: "{{ deploy_helper.new_release_path }}/uploads/exposed"
+        dest: "{{ deploy_helper.new_release_path }}/public/uploads"
+        state: link
