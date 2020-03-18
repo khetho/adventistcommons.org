@@ -51,12 +51,36 @@ Let us know if you have any issues with these steps.
 - compile all assets for frontend, and keep on watching for changes in files : ```sudo docker-compose run ac-node npm run watch```
 - compile and publish for production : ```sudo docker-compose run ac-node npm run prod```
 
+## Admin app
+
+### Copy
+
+```
+cp -r current/admin .
+mkdir ../admin/publicroot
+cd ../admin/publicroot
+ln ../build admin
+```
+
+### compile it
+
+```
+cd ../admin
+npm install
+npm run build
+```
+
+Fix path
+```
+sed -i 's/src="\/static/src="static/g' ./publicroot/admin/index.html 
+```
+
 ### JWT
 
-In order to be able to authentify frontend, application must sign messages with frontend. Generate keys like this :
+In order to be able to authenticate users in admin frontend, application must sign messages with frontend. Generate keys like this :
 ```
     mkdir -p config/jwt
-    jwt_passhrase=$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')
+    jwt_passhrase=$(grep ''^JWT_PASSPHRASE='' .env.local | cut -f 2 -d ''='')
     echo "$jwt_passhrase" | openssl genpkey -out config/jwt/private.pem -pass stdin -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
     echo "$jwt_passhrase" | openssl pkey -in config/jwt/private.pem -passin stdin -out config/jwt/public.pem -pubout
     setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt

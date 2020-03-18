@@ -7,6 +7,7 @@ shared_directories:
   - var/log
   - var/sessions
   - uploads
+  - config/jwt
 rsync_exclusion:
   - .git
   - deploy
