@@ -9,11 +9,9 @@
 					<p class="lead">{{ project.product.description }}</p>
 					<div class="d-flex align-items-center">
 						<ul class="avatars">
-							{% for member in project.members  %}
+							{% for contributor in contributors  %}
 								<li>
-									<a href="#" data-toggle="tooltip" data-placement="top" title="{{ member.fullName }}">
-										<img class="avatar" src="{{ member.image }}"/>
-									</a>
+									{% include 'common/_avatar.html.twig' with {user: contributor} %}
 								</li>
 							{% endfor %}
 						</ul>
