@@ -21,7 +21,7 @@ use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
  */
 class ContentRevision
 {
-    const STATUS_NEW = '';
+    const STATUS_TRANSLATED = '';
     const STATUS_APPROVED = 'app';
     const STATUS_REVIEWED = 'rev';
 
@@ -94,7 +94,7 @@ class ContentRevision
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->status = self::STATUS_NEW;
+        $this->status = self::STATUS_TRANSLATED;
     }
 
     public function getId(): ?int

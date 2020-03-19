@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\ContentRevision;
+use App\Entity\Product;
 use App\Entity\Project;
+use App\Entity\Section;
 use App\Entity\Sentence;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -30,5 +32,29 @@ class SentenceRepository extends ServiceEntityRepository
         ;
 
         return $queryBuilder->getQuery()->getResult()[0];
+    }
+
+    public function getCountForProduct(Product $product): int
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->innerJoin('s.paragraph', 'p')
+            ->innerJoin('p.section', 'c')
+            ->where('c.product = :product')
+            ->setParameter('product', $product);
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+
+    public function getCountForSection(Section $section): int
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->innerJoin('s.paragraph', 'p')
+            ->where('p.section = :section')
+            ->setParameter('section', $section);
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 }

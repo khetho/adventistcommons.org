@@ -25,7 +25,7 @@ final class Version20200313102726 extends AbstractMigration
         $this->addSql('ALTER TABLE product_content_revisions ADD status TINYTEXT NOT NULL');
         $this->addSql(sprintf(
             'UPDATE product_content_revisions SET status="%s"',
-            ContentRevision::STATUS_NEW
+            ContentRevision::STATUS_TRANSLATED
         ));
     }
 

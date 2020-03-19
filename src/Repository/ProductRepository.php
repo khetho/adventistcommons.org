@@ -13,17 +13,4 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
-    
-    public function getContentCount(Product $product): int
-    {
-        $queryBuilder = $this->getEntityManager()
-            ->createQueryBuilder()
-            ->select('count(c.id)')
-            ->from(Paragraph::class, 'c')
-            ->innerJoin('c.section', 's')
-            ->where('s.product = :product')
-            ->setParameter('product', $product);
-        
-        return $queryBuilder->getQuery()->getSingleScalarResult();
-    }
 }

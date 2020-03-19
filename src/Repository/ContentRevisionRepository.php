@@ -141,8 +141,19 @@ class ContentRevisionRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function getApprovedCount(Project $project, Section $section = null): int
-    {
+    public function getCountForStatus(
+        Project $project,
+        string $status = ContentRevision::STATUS_TRANSLATED,
+        Section $section = null
+    ): int {
+        $status = [$status];
+        if ($status === [ContentRevision::STATUS_TRANSLATED]) {
+            $status[] = ContentRevision::STATUS_REVIEWED;
+            $status[] = ContentRevision::STATUS_APPROVED;
+        }
+        if ($status === [ContentRevision::STATUS_APPROVED]) {
+            $status[] = ContentRevision::STATUS_REVIEWED;
+        }
         $queryBuilder = $this->createQueryBuilder('cr')
             ->select('count(cr.id)')
             ->leftJoin(
@@ -154,9 +165,8 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->innerJoin('cr.sentence', 's')
             ->innerJoin('s.paragraph', 'p')
             ->where('p.section = :section')
-            ->andWhere('cr.status = :approved')
-            ->andWhere('cr2.status = :approved')
-            ->setParameter('approved', ContentRevision::STATUS_APPROVED)
+            ->andWhere('cr.status IN (:status)')
+            ->setParameter('status', $status)
             ->setParameter('section', $section)
             ->andWhere('cr.project = :project')
             ->setParameter('project', $project)

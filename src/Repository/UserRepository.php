@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Group;
+use App\Entity\Paragraph;
+use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

@@ -25,7 +25,7 @@
 						<div class="d-flex justify-content-between text-small">
 							<div class="d-flex align-items-center">
 								<i class="fas fa-tasks"></i>&nbsp;
-								<span>{{ project|projectApprovedCount }} / {{ project.product|productCount }} ({{ project|projectRatioCompleted * 100 }} %)</span>
+								<span>{{ project|projectApprovedCount }} / {{ project.product|sentenceCountForProduct }} ({{ project|projectRatioCompleted * 100 }} %)</span>
 							</div>
 							<span>{{ project.status }}</span>
 						</div>

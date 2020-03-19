@@ -6,6 +6,7 @@ use App\Entity\ContentRevision;
 use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
+use App\Entity\Sentence;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,9 +24,11 @@ class ProjectStatusExtension extends AbstractExtension
     {
         return [
             new TwigFilter('projectRatioCompleted', [$this, 'projectRatioCompleted']),
+            new TwigFilter('projectTranslatedCount', [$this, 'projectTranslatedCount']),
             new TwigFilter('projectApprovedCount', [$this, 'projectApprovedCount']),
-            new TwigFilter('productCount', [$this, 'productCount']),
-            new TwigFilter('sectionCount', [$this, 'sectionCount']),
+            new TwigFilter('projectReviewedCount', [$this, 'projectReviewedCount']),
+            new TwigFilter('sentenceCountForProduct', [$this, 'sentenceCountForProduct']),
+            new TwigFilter('sentenceCountForSection', [$this, 'sentenceCountForSection']),
         ];
     }
 
@@ -39,19 +42,29 @@ class ProjectStatusExtension extends AbstractExtension
         $productCount = $this->productCount($project->getProduct());
         return $productCount ? $this->projectApprovedCount($project) / $productCount : 0;
     }
-    
+
+    public function projectTranslatedCount(Project $project, Section $section = null): int
+    {
+        return $this->manager->getRepository(ContentRevision::class)->getCountForStatus($project, ContentRevision::STATUS_TRANSLATED, $section);
+    }
+
     public function projectApprovedCount(Project $project, Section $section = null): int
     {
-        return $this->manager->getRepository(ContentRevision::class)->getApprovedCount($project, $section);
+        return $this->manager->getRepository(ContentRevision::class)->getCountForStatus($project, ContentRevision::STATUS_APPROVED, $section);
+    }
+
+    public function projectReviewedCount(Project $project, Section $section = null): int
+    {
+        return $this->manager->getRepository(ContentRevision::class)->getCountForStatus($project, ContentRevision::STATUS_REVIEWED, $section);
+    }
+
+    public function sentenceCountForProduct(Product $product): int
+    {
+        return $this->manager->getRepository(Sentence::class)->getCountForProduct($product);
     }
     
-    public function productCount(Product $product): int
+    public function sentenceCountForSection(Section $section): int
     {
-        return $this->manager->getRepository(Product::class)->getContentCount($product);
-    }
-    
-    public function sectionCount(Section $section): int
-    {
-        return $this->manager->getRepository(Section::class)->getContentCount($section);
+        return $this->manager->getRepository(Sentence::class)->getCountForSection($section);
     }
 }
