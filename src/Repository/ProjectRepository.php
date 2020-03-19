@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Project;
 use App\Entity\Language;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -27,11 +28,25 @@ class ProjectRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery();
     }
 
-    public function findQueryForLanguages(Collection $languages): Query
+    public function findQueryForUserNotMember(User $user): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->leftJoin('p.contentRevisions', 'cr')
+            ->where('p.language IN (:languages)')
+            ->setParameter('languages', $user->getAllLanguages())
+            ->andWhere('cr.id IS NULL');
+
+        return $queryBuilder->getQuery();
+    }
+
+    public function findQueryForMember(User $user): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->where('p.language IN (:languages)')
-            ->setParameter('languages', $languages);
+            ->innerJoin('p.contentRevisions', 'cr')
+            ->where('cr.user = :user')
+            ->setParameter('user', $user)
+            ->groupBy('p.id');
 
         return $queryBuilder->getQuery();
     }

@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for project in user.projects %}
+    {% for project in myProjects %}
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>
@@ -31,7 +31,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for project in projects %}
+    {% for project in otherProjects %}
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>

@@ -87,9 +87,14 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute($redirectRoute ?? 'app_account_myself');
         }
-        $projects = $this->getDoctrine()
+        $myProjects = $this->getDoctrine()
             ->getRepository(Project::class)
-            ->findQueryForLanguages($user->getAllLanguages())
+            ->findQueryForMember($user)
+            ->setMaxResults(10)
+            ->getResult();
+        $otherProjects = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->findQueryForUserNotMember($user)
             ->setMaxResults(10)
             ->getResult();
         $contributions = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReport($user);
@@ -102,7 +107,8 @@ class AccountController extends AbstractController
                 'accountForm' => $accountForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
                 'deleteForm' => $deleteForm->createView(),
-                'projects' => $projects,
+                'myProjects' => $myProjects,
+                'otherProjects' => $otherProjects,
                 'contributions' => $contributions,
                 'contributionsPerMonth' => $contribPerMonth,
             ]
