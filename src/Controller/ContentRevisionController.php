@@ -41,7 +41,7 @@ class ContentRevisionController extends AbstractController
         return $responseBuilder->buildWithData(
             $contentRevision ? 'created' : 'no-action',
             [],
-            $contentRevision ? 201 : 204
+            201
         );
     }
 

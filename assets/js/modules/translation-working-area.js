@@ -89,10 +89,13 @@ define(
          * @param successAction
          */
         function save(successAction) {
-            const role = roles.find('.active').data('role');
-            if (typeof role === 'undefined') {
-                ErrorReporter.report('You must choose a role');
-                return;
+            let role = 'translator';
+            if (roles.length) {
+                role = roles.find('.active').data('role');
+                if (typeof role === 'undefined') {
+                    ErrorReporter.report('You must choose a role');
+                    return;
+                }
             }
 
             const translation = TranslationSentences.getCurrentSentence();
