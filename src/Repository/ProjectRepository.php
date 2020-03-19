@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Project;
 use App\Entity\Language;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 
@@ -23,6 +24,15 @@ class ProjectRepository extends ServiceEntityRepository
                 ->setParameter('language', $language);
         }
         
+        return $queryBuilder->getQuery();
+    }
+
+    public function findQueryForLanguages(Collection $languages): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.language IN (:languages)')
+            ->setParameter('languages', $languages);
+
         return $queryBuilder->getQuery();
     }
 }

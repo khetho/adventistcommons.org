@@ -794,6 +794,14 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getAllLanguages(): Collection
+    {
+        $languages = $this->getLanguages();
+        $languages->add($this->getMotherLanguage());
+
+        return $languages;
+    }
+
     /**
      * @return Collection|Language[]
      */

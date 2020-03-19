@@ -87,7 +87,11 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute($redirectRoute ?? 'app_account_myself');
         }
-        $projects = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage(null)->setMaxResults(10)->getResult();
+        $projects = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->findQueryForLanguages($user->getAllLanguages())
+            ->setMaxResults(10)
+            ->getResult();
         $contributions = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReport($user);
         $contribPerMonth = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReportPerMonth($user);
         
