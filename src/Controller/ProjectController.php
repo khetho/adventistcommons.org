@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use AdventistCommons\Idml\Entity\Holder;
+use App\Entity\User;
 use App\Product\DownloadLogger;
 use App\Product\Idml\Translator;
 use App\Project\Form\Type\AddMemberType;
@@ -41,8 +42,12 @@ class ProjectController extends AbstractController
 
             return $this->redirect($routesMaker->pathToProject($project));
         }
+        $contributors = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->getContributorsForProject($project);
 
         return $this->render('project/show.html.twig', [
+            'contributors' => $contributors,
             'addMemberForm' => $addUserForm->createView(),
             'project' => $project,
         ]);

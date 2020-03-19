@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Group;
+use App\Entity\Project;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -22,6 +23,18 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->where(":group MEMBER OF u.groups")
             ->setParameter('group', $adminGroup)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getContributorsForProject(Project $project)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.contentRevisions', 'cr')
+            ->where('cr.project = :project')
+            ->setParameter('project', $project)
+            ->groupBy('u')
+            ->setMaxResults(30)
             ->getQuery()
             ->getResult();
     }

@@ -82,33 +82,59 @@
 							<div class="row content-list-head">
 								<div class="col-auto">
 									<h3>{% trans %}project.show.contributors{% endtrans %}</h3>
+								</div>
+							</div>
+							<div class="content-list-body row">
+								{% for contributor in contributors  %}
+									<div class="col-6">
+										<div class="media media-member">
+											{% include 'common/_avatar.html.twig' with {user: contributor} %}
+											<div class="media-body">
+												<h6 class="mb-0" data-filter-by="text">
+													{% if contributor.active %}
+														{{ contributor.fullName }}
+													{% else %}
+														<span class="badge badge-secondary">
+															{% trans %}project.show.contributor{% endtrans %}
+														</span>
+													{% endif %}
+												</h6>
+												<span data-filter-by="text" class="text-body">{% for group in contributor.groups %}{{ group.name|capitalize }} {% endfor %}</span>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+							<div class="row content-list-head">
+								<div class="col-auto">
+									<h3>{% trans %}project.show.members{% endtrans %}</h3>
 									{% if is_granted('ROLE_ADMIN') %}
-										<button class="btn btn-round" data-toggle="modal" data-target="#member-add-modal" alt="{% trans %}project.show.add_contributor{% endtrans %}">
+										<button class="btn btn-round btn-primary" data-toggle="modal" data-target="#member-add-modal" alt="{% trans %}project.show.add_contributor{% endtrans %}">
 											<i class="fas fa-user-plus"></i>&nbsp;
 										</button>
 									{% endif %}
 								</div>
 							</div>
 							<div class="content-list-body row">
-								{% for member in project.members  %}
-									<div class="col-6">
-										<a class="media media-member">
-											<img class="avatar avatar-lg" src="{{ member.image }}"/>
-											<div class="media-body">
-												<h6 class="mb-0" data-filter-by="text">
-													{% if member.active %}
-														{{ member.fullName }}
-													{% else %}
-														<span class="badge badge-secondary">
-															{% trans %}project.show.invited_contributor{% endtrans %}
-														</span>
-													{% endif %}
-												</h6>
-												<span data-filter-by="text" class="text-body">{% for group in member.groups %}{{ group.name|capitalize }} {% endfor %}</span>
-											</div>
-										</a>
+							{% for member in project.members  %}
+								<div class="col-6">
+									<div class="media media-member">
+										{% include 'common/_avatar.html.twig' with {user: member} %}
+										<div class="media-body">
+											<h6 class="mb-0" data-filter-by="text">
+												{% if member.active %}
+													{{ member.fullName }}
+												{% else %}
+													<span class="badge badge-secondary">
+														{% trans %}project.show.invited_contributor{% endtrans %}
+													</span>
+												{% endif %}
+											</h6>
+											<span data-filter-by="text" class="text-body">{% for group in member.groups %}{{ group.name|capitalize }} {% endfor %}</span>
+										</div>
 									</div>
-								{% endfor %}
+								</div>
+							{% endfor %}
 							</div>
 						</div>
 					</div>
@@ -116,5 +142,7 @@
 			</div>
 		</div>
 	</div>
-	{{ include('project/_add_members_modal.html.twig') }}
+	{% if is_granted('ROLE_ADMIN') %}
+		{{ include('project/_add_members_modal.html.twig') }}
+	{% endif %}
 {% endblock %}

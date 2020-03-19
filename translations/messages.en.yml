@@ -358,6 +358,8 @@ project:
     start_translate: Start Translating
     add_contributor: add
     invited_contributor: invited
+    contributor: Contributor
+    members: Members
 attachment:
   field:
     type:
