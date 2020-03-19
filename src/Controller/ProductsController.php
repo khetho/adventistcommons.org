@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use AdventistCommons\Idml\DomManipulation\Exception as IdmlException;
 use App\Product\Filter\FilterApplier;
 use App\Form\UploaderAggregator;
 use App\Product\Filter\CurrentFilterManager;
@@ -95,7 +96,15 @@ class ProductsController extends AbstractController
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
             $product = $addForm->getData();
-            $product = $uploaderAggregator->upload($product);
+            try {
+                $product = $uploaderAggregator->upload($product);
+            } catch (IdmlException $e) {
+                $this->addFlash('danger', $e->getMessage());
+                
+                return $this->render('product/add/add.html.twig', [
+                    'productAddForm' => $addForm->createView(),
+                ]);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
