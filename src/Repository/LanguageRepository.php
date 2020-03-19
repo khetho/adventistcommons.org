@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Language;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 class LanguageRepository extends ServiceEntityRepository
 {
@@ -13,13 +14,19 @@ class LanguageRepository extends ServiceEntityRepository
         parent::__construct($registry, Language::class);
     }
     
-    public function findUsedInProject()
+    public function findUsedInProject(): array
+    {
+        return $this
+            ->findUsedInProjectQueryBuilder()
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUsedInProjectQueryBuilder(): QueryBuilder
     {
         return $this
             ->createQueryBuilder('l')
             ->innerJoin('l.projects', 'p')
-            ->groupBy('l')
-            ->getQuery()
-            ->getResult();
+            ->groupBy('l');
     }
 }

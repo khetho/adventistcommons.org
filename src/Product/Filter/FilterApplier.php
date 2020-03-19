@@ -10,6 +10,7 @@ class FilterApplier
 {
     private $currentFilterManager;
     private $manager;
+    private $foreignCount = 0;
 
     public function __construct(
         CurrentFilterManager $currentFilterManager,
@@ -30,7 +31,7 @@ class FilterApplier
         $qBuilder = $this->addCriteriaStringWithWildcards($qBuilder, 'name', $filterStatus->getTitle());
         $qBuilder = $this->addCriteriaStringWithWildcards($qBuilder, 'author', $filterStatus->getAuthor());
         $qBuilder = $this->addCriteria($qBuilder, 'type', $filterStatus->getType());
-        $qBuilder = $this->addCriteria($qBuilder, 'serie', $filterStatus->getSeries());
+        $qBuilder = $this->addForeignCriteria($qBuilder, ['projects', 'language'], $filterStatus->getLanguage());
         $qBuilder = $this->addCriteriaIn($qBuilder, 'audiences', $filterStatus->getAudience());
         $qBuilder = $this->addCriteria($qBuilder, 'binding', $filterStatus->getBinding());
         $qBuilder = $this->addSort($qBuilder, $filterStatus->getSort());
@@ -67,6 +68,20 @@ class FilterApplier
         return $this->addCriteria($qBuilder, $property, '%'.$value.'%', 'LIKE');
     }
 
+    private function addForeignCriteria(QueryBuilder $qBuilder, array $path, $value): QueryBuilder
+    {
+        if (!$value) {
+            return $qBuilder;
+        }
+
+        $this->foreignCount++;
+        $alias = sprintf('f%d', $this->foreignCount);
+        $qBuilder->innerJoin(sprintf('p.%s', $path[0]), $alias)
+            ->where(sprintf('%s.%s = :%s', $alias, $path[1], $alias))
+            ->setParameter($alias, $value);
+
+        return $qBuilder;
+    }
 
     private function addSort(QueryBuilder $qBuilder, string $property): QueryBuilder
     {

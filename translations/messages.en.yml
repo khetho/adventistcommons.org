@@ -306,7 +306,7 @@ product:
     type_or_select: Type or select from list …
     title:
       label: Original title    
-    series:
+    language:
       label: Available in
     audience:
       label: Audience

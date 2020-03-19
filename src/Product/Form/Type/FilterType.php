@@ -4,8 +4,10 @@ namespace App\Product\Form\Type;
 
 use App\Entity\Audience;
 use App\Entity\Binding;
+use App\Entity\Language;
 use App\Entity\Series;
 use App\Product\Filter\FilterStatus;
+use App\Repository\LanguageRepository;
 use Knp\DictionaryBundle\Form\Type\DictionaryType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -32,12 +34,15 @@ class FilterType extends AbstractType
                 ]
             )
             ->add(
-                'series',
+                'language',
                 EntityType::class,
                 [
-                    'class' => Series::class,
-                    'label' => 'product.filter.series.label',
+                    'class' => Language::class,
+                    'label' => 'product.filter.language.label',
                     'required' => false,
+                    'query_builder' => function (LanguageRepository $repo) {
+                        return $repo->findUsedInProjectQueryBuilder();
+                    },
                 ]
             )
             ->add(

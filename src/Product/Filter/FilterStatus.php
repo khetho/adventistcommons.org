@@ -4,30 +4,31 @@ namespace App\Product\Filter;
 
 use App\Entity\Audience;
 use App\Entity\Binding;
-use App\Entity\Series;
+use App\Entity\Language;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
 
 class FilterStatus
 {
+    /** @var string */
     private $title;
 
-    private $series;
+    /** @var Language */
+    private $language;
 
+    /** @var Audience */
     private $audience;
 
+    /** @var string */
     private $author;
 
-    /**
-     * @Dictionary(name="product_type")
-     */
+    /** @Dictionary(name="product_type") */
     private $type;
 
+    /** @var Binding */
     private $binding;
 
-    /**
-     * @Dictionary(name="product_sort")
-     */
+    /** @Dictionary(name="product_sort") */
     private $sort = 'name';
 
     public function setTitle(?string $title): self
@@ -42,16 +43,16 @@ class FilterStatus
         return $this->title;
     }
 
-    public function setSeries(?Series $series): self
+    public function setLanguage(?Language $language): self
     {
-        $this->series = $series;
+        $this->language = $language;
 
         return $this;
     }
 
-    public function getSeries(): ?Series
+    public function getLanguage(): ?Language
     {
-        return $this->series;
+        return $this->language;
     }
 
     public function setAudience(?Audience $audience): self
@@ -116,15 +117,16 @@ class FilterStatus
     
     public function attach(EntityManagerInterface $manager): void
     {
+        $manager->clear();
         // Attach entities to doctrine manager so it knows they are data in db
         if ($this->getBinding()) {
-            $manager->merge($this->getBinding());
+            $this->setBinding($manager->getRepository(Binding::class)->find($this->getBinding()->getId()));
         }
-        if ($this->getSeries()) {
-            $manager->merge($this->getSeries());
+        if ($this->getLanguage()) {
+            $this->setLanguage($manager->getRepository(Language::class)->find($this->getLanguage()->getId()));
         }
         if ($this->getAudience()) {
-            $manager->merge($this->getAudience());
+            $this->setAudience($manager->getRepository(Audience::class)->find($this->getAudience()->getId()));
         }
     }
 }
