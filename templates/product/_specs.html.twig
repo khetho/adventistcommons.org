@@ -1,0 +1,84 @@
+{% if product.type %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.type.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.type|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.author %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.author.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.author|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.publisher %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.publisher.label{% endtrans %}</dt>
+		<dd class="col-sm-8">
+			{% if product.publisherWebsite %}
+				<a href="{{ product.publisherWebsite }}" target="_blank">{{ product.publisher|capitalize }}</a>
+			{% else %}
+				{{ product.publisher|capitalize }}
+			{% endif %}
+		</dd>
+	</dl>
+{% endif %}
+{% if product.pageCount %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.page_count.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.pageCount|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.audiences.count %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.audience.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.audiences|join(', ')|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.formatOpen %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.format_open.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.formatOpen|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.formatClosed %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.format_closed.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.formatClosed|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.coverColors %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.color_cover.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.coverColors|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.interiorColors %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.color_interior.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.interiorColors|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.coverPaper %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.paper_cover.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.coverPaper|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.interiorPaper %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.paper_interior.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.interiorPaper|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.binding %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.binding.label{% endtrans %}</dt>
+		<dd class="col-sm-8">{{ product.binding|capitalize }}</dd>
+	</dl>
+{% endif %}
+{% if product.finishing %}
+	<dl class="row">
+		<dt class="col-sm-4">{% trans %}product.field.finishing.label{% endtrans %}Finishing</dt>
+		<dd class="col-sm-8">{{ product.finishing|capitalize }}</dd>
+	</dl>
+{% endif %}

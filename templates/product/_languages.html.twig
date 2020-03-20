@@ -1,0 +1,104 @@
+<div class="content-list-head d-flex">
+	<h3>{% trans %}product.show.languages{% endtrans %}</h3>
+	<div class="float-right d-none d-sm-block">
+		<div class="btn-group" role="group" aria-label="{% trans %}product.show.product_actions{% endtrans %}">
+			{% if product.pdfDigitalFilename or product.pdfOffsetFilename %}
+				<div class="btn-group">
+					{% if is_granted('ROLE_USER') %}
+						<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+							{% trans %}product.show.download{% endtrans %}
+						</button>
+						<div class="dropdown-menu">
+							{% if product.pdfDigitalFilename %}
+								<a class="dropdown-item" href="{{ path('app_product_download_digital_pdf', {'slug': product.slug}) }}">
+									{% trans %}product.show.pdf_digital_printing{% endtrans %}Pdf for digital printing
+								</a>
+							{% endif %}
+							{% if product.pdfOffsetFilename %}
+								<a class="dropdown-item" href="{{ path('app_product_download_offset_pdf', {'slug': product.slug}) }}">
+									{% trans %}product.show.pdf_offset_printing{% endtrans %}
+								</a>
+							{% endif %}
+							{% if is_granted('ROLE_ADMIN') and product.idmlFilename %}
+								<a class="dropdown-item" href="{{ path('app_product_download_idml', {'slug': product.slug}) }}">
+									{% trans %}product.show.source_idml_file{% endtrans %}
+								</a>
+							{% endif %}
+						</div>
+					{% else %}
+						<a class="btn btn-secondary" href="{{ path('app_auth_login', {'redirect': app.request.server.get('REQUEST_URI')}) }}" class="text-secondary">
+							{% trans %}product.show.login_download{% endtrans %}
+						</a>
+					{% endif %}
+
+				</div>
+			{% endif %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-form">{% trans %}product.show.upload_file{% endtrans %}</button>
+			{% endif %}
+			{% if is_granted('ROLE_USER') %}
+				<button class="btn btn-primary" data-toggle="modal" data-target="#add-project-form">{% trans %}product.show.new_translation{% endtrans %}</button>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<div class="content-list-body">
+	<div class="card-list">
+		<div class="card-list-body">
+			{% for project in product.projects %}
+			<div class="card card-task">
+				<div class="progress">
+					<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectRatioCompleted * 100 }}%"></div>
+				</div>
+
+				<div class="card-body">
+					<div class="card-title">
+						<h6 data-filter-by="text">{{ project.language.name }}</h6>
+						<div class="d-flex align-items-center">
+							<span>{{ project.status ? project.status : "" }}</span>
+						</div>
+					</div>
+					<div class="card-meta">
+
+						<div class="btn-group" role="group" aria-label="{% trans %}product.show.project_actions{% endtrans %}">
+							{% if project.attachments|length %}
+							<div class="btn-group">
+								{% if is_granted('ROLE_USER') %}
+									<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+										{% trans %}product.show.download{% endtrans %}
+									</button>
+									<div class="dropdown-menu">
+										{% for attachment in project.attachments %}
+											<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">{{ attachment.fileType|dictionary('file_type')|trans }}</a>
+										{% endfor %}
+									</div>
+								{% else %}
+									<a class="btn btn-secondary" href="{{ path('app_auth_login', {'redirect': app.request.server.get('REQUEST_URI')}) }}" class="text-secondary">
+										{% trans %}product.show.login_download{% endtrans %}
+									</a>
+								{% endif %}
+								{% endif %}
+
+								<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}" class="btn btn-primary">
+									{% if project.status %}
+										{% trans %}product.show.start_translate{% endtrans %}
+									{% else %}
+										{% trans %}product.show.translate{% endtrans %}
+									{% endif %}
+								</a>
+								{% if project.status %}
+									<a class="btn btn-secondary" href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}">
+										{% trans %}product.show.download_idml{% endtrans %}
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				{% else %}
+					<p>{% trans %}product.show.untranslated{% endtrans %}</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>

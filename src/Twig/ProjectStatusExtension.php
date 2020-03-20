@@ -35,11 +35,11 @@ class ProjectStatusExtension extends AbstractExtension
     public function projectRatioCompleted(Project $project, Section $section = null)
     {
         if ($section) {
-            $sectionCount = $this->sectionCount($section);
+            $sectionCount = $this->sentenceCountForSection($section);
             return $sectionCount ? $this->projectApprovedCount($project, $section) / $sectionCount : null;
         }
         
-        $productCount = $this->productCount($project->getProduct());
+        $productCount = $this->sentenceCountForProduct($project->getProduct());
         return $productCount ? $this->projectApprovedCount($project) / $productCount : 0;
     }
 
