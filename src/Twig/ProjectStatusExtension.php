@@ -23,7 +23,9 @@ class ProjectStatusExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('projectRatioCompleted', [$this, 'projectRatioCompleted']),
+            new TwigFilter('projectTranslatedRatio', [$this, 'projectTranslatedRatio']),
+            new TwigFilter('projectApprovedRatio', [$this, 'projectApprovedRatio']),
+            new TwigFilter('projectReviewedRatio', [$this, 'projectReviewedRatio']),
             new TwigFilter('projectTranslatedCount', [$this, 'projectTranslatedCount']),
             new TwigFilter('projectApprovedCount', [$this, 'projectApprovedCount']),
             new TwigFilter('projectReviewedCount', [$this, 'projectReviewedCount']),
@@ -32,15 +34,29 @@ class ProjectStatusExtension extends AbstractExtension
         ];
     }
 
-    public function projectRatioCompleted(Project $project, Section $section = null)
+    private function getTotal(Project $project, Section $section = null)
     {
-        if ($section) {
-            $sectionCount = $this->sentenceCountForSection($section);
-            return $sectionCount ? $this->projectApprovedCount($project, $section) / $sectionCount : null;
-        }
-        
-        $productCount = $this->sentenceCountForProduct($project->getProduct());
-        return $productCount ? $this->projectApprovedCount($project) / $productCount : 0;
+        return $section
+            ? $this->sentenceCountForSection($section)
+            : $this->sentenceCountForProduct($project->getProduct());
+    }
+
+    public function projectTranslatedRatio(Project $project, Section $section = null)
+    {
+        $totalCount = $this->getTotal($project, $section);
+        return $totalCount ? $this->projectTranslatedCount($project, $section) / $totalCount : 0;
+    }
+
+    public function projectApprovedRatio(Project $project, Section $section = null)
+    {
+        $totalCount = $this->getTotal($project, $section);
+        return $totalCount ? $this->projectApprovedCount($project, $section) / $totalCount : 0;
+    }
+
+    public function projectReviewedRatio(Project $project, Section $section = null)
+    {
+        $totalCount = $this->getTotal($project, $section);
+        return $totalCount ? $this->projectReviewedCount($project, $section) / $totalCount : 0;
     }
 
     public function projectTranslatedCount(Project $project, Section $section = null): int

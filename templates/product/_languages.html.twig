@@ -56,7 +56,19 @@
 					<div class="progress">
 						<div class="progress-bar bg-danger"
 							 role="progressbar"
-							 style="width: {{ (project|projectRatioCompleted * 100)|round }}%"
+							 style="width: {{ (project|projectTranslatedRatio * 100)|round }}%"
+						></div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar bg-washed-yellow"
+							 role="progressbar"
+							 style="width: {{ (project|projectApprovedRatio * 100)|round }}%"
+						></div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar bg-info"
+							 role="progressbar"
+							 style="width: {{ (project|projectReviewedRatio * 100)|round }}%"
 						></div>
 					</div>
 					<div class="card-body">
@@ -71,8 +83,8 @@
 								 role="group"
 								 aria-label="{% trans %}product.show.project_actions{% endtrans %}"
 							>
-								{% if project.attachments|length %}
-									<div class="btn-group">
+								<div class="btn-group">
+									{% if project.attachments|length %}
 										{% if is_granted('ROLE_USER') %}
 											<button class="btn btn-secondary dropdown-toggle"
 													type="button"
@@ -95,25 +107,25 @@
 												{% trans %}product.show.login_download{% endtrans %}
 											</a>
 										{% endif %}
+									{% endif %}
 
-										<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
-										   class="btn btn-primary"
-										>
-											{% if project.status %}
-												{% trans %}product.show.start_translate{% endtrans %}
-											{% else %}
-												{% trans %}product.show.translate{% endtrans %}
-											{% endif %}
-										</a>
+									<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+									   class="btn btn-primary"
+									>
 										{% if project.status %}
-											<a class="btn btn-secondary"
-											   href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
-											>
-												{% trans %}product.show.download_idml{% endtrans %}
-											</a>
+											{% trans %}product.show.start_translate{% endtrans %}
+										{% else %}
+											{% trans %}product.show.translate{% endtrans %}
 										{% endif %}
-									</div>
-								{% endif %}
+									</a>
+									{% if project.status and is_granted('ROLE_USER') %}
+										<a class="btn btn-secondary"
+										   href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+										>
+											{% trans %}product.show.download_idml{% endtrans %}
+										</a>
+									{% endif %}
+								</div>
 							</div>
 						</div>
 					</div>

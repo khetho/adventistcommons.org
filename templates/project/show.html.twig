@@ -18,12 +18,12 @@
 					</div>
 					<div>
 						<div class="progress">
-							<div class="progress-bar bg-success" style="width:{{ project|projectRatioCompleted * 100 }}%;"></div>
+							<div class="progress-bar bg-error" style="width:{{ project|projectTranslatedRatio * 100 }}%;"></div>
 						</div>
 						<div class="d-flex justify-content-between text-small">
 							<div class="d-flex align-items-center">
 								<i class="fas fa-tasks"></i>&nbsp;
-								<span>{{ project|projectApprovedCount }} / {{ project.product|sentenceCountForProduct }} ({{ project|projectRatioCompleted * 100 }} %)</span>
+								<span>{{ project|projectApprovedCount }} / {{ project.product|sentenceCountForProduct }} ({{ project|projectTranslatedRatio * 100 }} %)</span>
 							</div>
 							<span>{{ project.status }}</span>
 						</div>
@@ -51,7 +51,13 @@
 									{% for section in project.product.sections %}
 										<div class="card card-task">
 											<div class="progress">
-												<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectRatioCompleted(section) }}%"></div>
+												<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectTranslatedRatio(section) * 100 }}%"></div>
+											</div>
+											<div class="progress">
+												<div class="progress-bar bg-info" role="progressbar" style="width: {{ project|projectApprovedRatio(section) * 100 }}%"></div>
+											</div>
+											<div class="progress">
+												<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectReviewedRatio(section) * 100 }}%"></div>
 											</div>
 											<div class="card-body">
 												<div class="card-title">
