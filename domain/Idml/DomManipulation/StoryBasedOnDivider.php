@@ -4,6 +4,7 @@ namespace AdventistCommons\Idml\DomManipulation;
 use AdventistCommons\Idml\ContentBuilder;
 use AdventistCommons\Idml\Entity\Story;
 use AdventistCommons\Idml\Entity\Section;
+use DOMXPath;
 
 class StoryBasedOnDivider implements StoryDomManipulator
 {
@@ -14,12 +15,14 @@ class StoryBasedOnDivider implements StoryDomManipulator
     const TAG_CONTENT = 'Content';
     
     private $contentBuilder;
+    private $xpathValidator;
     private $root;
     private $sections = [];
     
-    public function __construct(ContentBuilder $contentBuilder)
+    public function __construct(ContentBuilder $contentBuilder, XpathValidator $xpathValidator)
     {
         $this->contentBuilder = $contentBuilder;
+        $this->xpathValidator = $xpathValidator;
     }
     
     public function setRoot(\DOMDocument $root): void
@@ -76,7 +79,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
         $contents = [];
         $this->foreachContentInSection(
             $section,
-            function (Section $section, $iContent, \DOMElement $contentNode) use (&$contents, $section) {
+            function (Section $section, $iContent, \DOMElement $contentNode) use (&$contents) {
                 $contents[] = $this->contentBuilder->build($iContent, $contentNode, $section);
             }
         );
@@ -173,6 +176,7 @@ class StoryBasedOnDivider implements StoryDomManipulator
     private static function extractNameFromParagraph(\DOMElement $paragraph)
     {
         $wholeName = $paragraph->getAttribute(self::ATTR_PARAGRAPH);
+        $matches = [];
         preg_match('#^[a-zA-Z]*/([a-zA-Z ]*) [a-zA-Z1-9]*$#', $wholeName, $matches);
         if (!isset($matches[1]) || !$matches[1]) {
             throw new Exception(sprintf(
@@ -192,5 +196,19 @@ class StoryBasedOnDivider implements StoryDomManipulator
                 self::ATTR_PARAGRAPH_VALUE_DIVIDER
             ) !== false
         );
+    }
+
+    public function validate(): bool
+    {
+        $xpath = new DOMXPath($this->getRoot());
+        $errors = [];
+        $errors = array_merge($errors, $this->xpathValidator->validateSameStyle($xpath));
+        $errors = array_merge($errors, $this->xpathValidator->validateParagraphSeparators($xpath));
+
+        if ($errors) {
+            throw new Exception(implode("\n", $errors));
+        }
+
+        return true;
     }
 }

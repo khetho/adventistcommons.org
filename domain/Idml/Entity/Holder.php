@@ -128,9 +128,19 @@ class Holder
      */
     public function validate(): void
     {
+        $errors = [];
+
         /** @var Story $story */
         foreach ($this->getStories() as $story) {
-            $story->validate();
+            try {
+                $story->validate();
+            } catch (\AdventistCommons\Idml\DomManipulation\Exception $exception) {
+                $errors[] = $exception->getMessage();
+            }
+        }
+
+        if ($errors) {
+            throw new \AdventistCommons\Idml\DomManipulation\Exception(implode("\n", $errors));
         }
     }
 

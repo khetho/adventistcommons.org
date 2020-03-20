@@ -31,7 +31,7 @@ services:
         
     AdventistCommons\:
         resource: '../domain/*'
-        exclude: '../domain/Idml/{Entity,DomManipulation}'
+        exclude: '../domain/Idml/{Entity}'
 
     App\Security\UserPasswordUpdater:
         tags:

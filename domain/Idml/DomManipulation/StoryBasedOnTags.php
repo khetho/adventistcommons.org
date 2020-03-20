@@ -15,14 +15,14 @@ class StoryBasedOnTags implements StoryDomManipulator
     const ATTR_MARKUP_VALUE_EXCLUDED = 'XMLTag/Story';
     
     private $contentBuilder;
-    private $stringFunctions;
+    private $xpathValidator;
     private $root;
     private $sections = [];
     
-    public function __construct(ContentBuilder $contentBuilder, StringFunctions $stringFunctions)
+    public function __construct(ContentBuilder $contentBuilder, XpathValidator $xpathValidator)
     {
         $this->contentBuilder = $contentBuilder;
-        $this->stringFunctions = $stringFunctions;
+        $this->xpathValidator = $xpathValidator;
     }
     
     public function setRoot(\DOMDocument $root): void
@@ -90,32 +90,12 @@ class StoryBasedOnTags implements StoryDomManipulator
     {
         $xpath = new DOMXPath($this->getRoot());
         $errors = [];
-        
-        $appliedStyles = [
-            'Text',
-            '$ID/[No character style]',
-        ];
-        foreach ($appliedStyles as $appliedStyle) {
-            $query = sprintf(
-                '//CharacterStyleRange[@AppliedCharacterStyle="CharacterStyle/%s"]/following-sibling::CharacterStyleRange[@AppliedCharacterStyle="CharacterStyle/%s"]',
-                $appliedStyle,
-                $appliedStyle
-            );
-            /** @var \DOMNodeList $entries */
-            $entries = $xpath->query($query);
-            /** @var \DOMElement $entry */
-            foreach ($entries as $entry) {
-                if (!$entry->textContent) {
-                    continue;
-                }
-                $errors[] = sprintf('Two following paragraphs have the same style : «%s».', $this->stringFunctions->limit($entry->textContent), 40);
-            }
-        }
-        
+        $errors = array_merge($errors, $this->xpathValidator->validateParagraphSeparators($xpath));
+
         if ($errors) {
             throw new Exception(implode("\n", $errors));
         }
-        
+
         return true;
     }
 }
