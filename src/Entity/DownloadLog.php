@@ -33,7 +33,7 @@ class DownloadLog
     /**
      * @var string
      *
-     * @ORM\Column(name="path", type="string", length=0, nullable=false)
+     * @ORM\Column(name="path", type="string", length=100, nullable=false)
      */
     private $path;
 

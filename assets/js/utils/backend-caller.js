@@ -12,14 +12,21 @@ define(
         const getContextVar = function(name){
             return $('body').attr('data-' + name);
         };
-
-        const call = function(routeName, routeParams, action, parent, method, data){
-            // @TODO : add a loader somewhere
+        
+        const callByRouteName = function(routeName, routeParams, action, parent, method, data){
             routeParams = routeParams || {};
             routeParams._locale = getLocale();
+            return call(
+                Router.generate(routeName, routeParams || {}), action, parent, method, data
+            )
+            
+        };
+
+        const call = function(url, action, parent, method, data){
+            // @TODO : add a loader somewhere
             $.ajax({
                 type: method || 'GET',
-                url: Router.generate(routeName, routeParams || {}),
+                url: url,
                 contentType: 'application/json',
                 data: data ? JSON.stringify(data) : null,
                 success: function (backendReturn) {
@@ -44,7 +51,7 @@ define(
 
         return {
             callContentRevisionPut: function (sentenceId, content, successAction) {
-                call(
+                callByRouteName(
                     'app_content_revision_put',
                     {
                         'slug': getContextVar('slug'),
@@ -60,7 +67,7 @@ define(
                 );
             },
             callContentRevisionApprove: function (sentenceId, successAction) {
-                call(
+                callByRouteName(
                     'app_content_revision_approve',
                     {
                         'slug': getContextVar('slug'),
@@ -73,7 +80,7 @@ define(
                 );
             },
             callContentRevisionReview: function (sentenceId, successAction) {
-                call(
+                callByRouteName(
                     'app_content_revision_review',
                     {
                         'slug': getContextVar('slug'),
@@ -86,7 +93,7 @@ define(
                 );
             },
             callContentRevisionHistory: function (sentenceId, parent) {
-                call(
+                callByRouteName(
                     'app_content_revision_history',
                     {
                         'slug': getContextVar('slug'),
@@ -98,7 +105,7 @@ define(
                 );
             },
             callSentenceComments: function (sentenceId, parent) {
-                call(
+                callByRouteName(
                     'app_comment_for_sentence',
                     {
                         'slug': getContextVar('slug'),
@@ -110,7 +117,7 @@ define(
                 );
             },
             callSentenceInfo: function (sentenceId, successAction) {
-                call(
+                callByRouteName(
                     'app_sentence_info',
                     {
                         'slug': getContextVar('slug'),
@@ -119,7 +126,19 @@ define(
                     },
                     successAction
                 )
-            }
+            },
+            callWords: function (successAction) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/config/glossary.json',
+                    contentType: 'application/json',
+                    success: function (backendReturn) {
+                        if (successAction) {
+                            successAction(backendReturn);
+                        }
+                    },
+                })
+            },
         };
     }
 );

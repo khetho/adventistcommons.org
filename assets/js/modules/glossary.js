@@ -2,8 +2,9 @@ define(
     [
         'jquery',
         'mark.js/dist/jquery.mark.js',
-        '../../config/adventist-glossary'
-    ],function($, Mark, AdventistGlossary){
+        '../utils/backend-caller',
+        '../utils/string',
+    ],function($, Mark, BackendCaller, String){
 
         function setup_words(word, resWord, resDef, e, parent)
         {
@@ -33,33 +34,43 @@ define(
             return  word+'_'+Math.random().toString(36).substring(7);
         }
 
+        function customGlossary(container, definitions, prefix) {
+            container.mark(Object.keys(definitions), {
+                "element": "span",
+                "accuracy": "complementary",
+                "className": "adventist_terms",
+                "each": htmlElement => {
+                    $.each(definitions, function (term, def) {
+                        if (htmlElement.textContent === term) {
+                            htmlElement.classList.add(termToClass(term));
+                        }
+                    });
+                },
+            });
+            $.each(definitions, function (term, def) {
+                container
+                    .find('.' + termToClass(term))
+                    .popover({
+                        placement: 'top',
+                        trigger: 'hover',
+                        html: true,
+                        title: prefix + ': ' + term,
+                        content: def,
+                    })
+                    .on('click', function () {
+                        $(this).popover('hide');
+                    });
+            });
+        }
+
+        function termToClass(term) {
+            return 'glossary-term-'+String.slugify(term);
+        }
+
         return {
             adventist: function (container) {
-                container.mark(Object.keys(AdventistGlossary), {
-                    "element": "span",
-                    "accuracy": "complementary",
-                    "className": "adventist_terms",
-                    "each": htmlElement => {
-                        $.each(AdventistGlossary, function (term, def) {
-                            if (htmlElement.textContent === term) {
-                                htmlElement.classList.add(term);
-                            }
-                        });
-                    },
-                });
-                $.each(AdventistGlossary, function (term, def) {
-                    container
-                        .find('.' + term)
-                        .popover({
-                            placement: 'top',
-                            trigger: 'hover',
-                            html: true,
-                            title: 'Glossary term: ' + term,
-                            content: def,
-                        })
-                        .on('click', function () {
-                            $(this).popover('hide');
-                        });
+                BackendCaller.callWords(function (backendResponse) {
+                    customGlossary(container, backendResponse, 'Adventist glossary');
                 });
             },
 
@@ -67,6 +78,7 @@ define(
                 container.on('dblclick', container, function (e) {
                     let range = window.getSelection() || document.getSelection() || document.selection.createRange();
                     let word = $.trim(range.toString().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,""));
+                    console.log(word);
 
                     if(word !== '' && !$(e.target).hasClass('wordapi_popover') ) {
                         var settings = {

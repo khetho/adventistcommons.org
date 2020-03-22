@@ -9,6 +9,7 @@ composer.phar
 /uploads
 google_translate_authentication.json
 /public/bundles
+/public/config
 *.local
 
 /bin/.phpunit/

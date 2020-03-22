@@ -13,6 +13,7 @@ import {
     Contacts,
     Translate,
     LibraryBooks,
+    Message,
 } from '@material-ui/icons';
 import authProvider from './security/authProvider';
 import { apiDocumentationParser, dataProvider } from './security/tokenInHeader';
@@ -43,8 +44,10 @@ export default () => (
         <ResourceGuesser name="languages" icon={Language} />
         <ResourceGuesser name="bindings"  icon={Widgets} />
         <ResourceGuesser name="series"    icon={PermMedia} />
+        <ResourceGuesser name="series"    icon={PermMedia} />
         <ResourceGuesser name="audiences" icon={Contacts} />
         <ResourceGuesser name="projects"  icon={Translate} />
         <ResourceGuesser name="products"  icon={LibraryBooks} />
+        <ResourceGuesser name="definitions"  icon={Message} />
     </HydraAdmin>
 );

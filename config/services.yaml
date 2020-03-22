@@ -41,6 +41,10 @@ services:
         tags:
             - { name: 'doctrine.event_subscriber' }
 
+    App\Definition\EventSubscriber\PublishDefinitions:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
     App\Product\Uploader\CoverUploader:
         arguments: 
             - '%coverTargetDirectory%'        

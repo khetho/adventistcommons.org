@@ -38,6 +38,7 @@ services:
       - ./var/log:/var/www/adventistcommons/var/log
       - ./var/cache:/var/www/adventistcommons/var/cache
       - ./uploads:/var/www/adventistcommons/uploads
+      - ./public/config/:/var/www/adventistcommons/public/config/
     working_dir: /var/www/adventistcommons
     links:
       - ac-db
