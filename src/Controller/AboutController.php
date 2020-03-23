@@ -30,7 +30,7 @@ class AboutController extends AbstractController
                 "url" => "/",
             ],
         ];
-        
+
         return $this->render(
             'home.html.twig',
             ['breadcrumbs' => $breadcrumbs]
