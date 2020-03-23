@@ -56,19 +56,19 @@
 					<div class="progress">
 						<div class="progress-bar bg-danger"
 							 role="progressbar"
-							 style="width: {{ (project|projectTranslatedRatio * 100)|round }}%"
+							 style="width: {{ project|projectTranslatedRatio * 100 }}%"
 						></div>
 					</div>
 					<div class="progress">
 						<div class="progress-bar bg-washed-yellow"
 							 role="progressbar"
-							 style="width: {{ (project|projectApprovedRatio * 100)|round }}%"
+							 style="width: {{ project|projectApprovedRatio * 100 }}%"
 						></div>
 					</div>
 					<div class="progress">
 						<div class="progress-bar bg-info"
 							 role="progressbar"
-							 style="width: {{ (project|projectReviewedRatio * 100)|round }}%"
+							 style="width: {{ project|projectReviewedRatio * 100 }}%"
 						></div>
 					</div>
 					<div class="card-body">

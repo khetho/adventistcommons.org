@@ -17,13 +17,21 @@
 						</ul>
 					</div>
 					<div>
-						<div class="progress">
-							<div class="progress-bar bg-error" style="width:{{ project|projectTranslatedRatio * 100 }}%;"></div>
+						<div class="progress-group" style="position: relative">
+							<div class="progress" style="margin-bottom: 0">
+								<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectTranslatedRatio * 100 }}%" aria-valuenow="{{ project|projectTranslatedCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
+							</div>
+							<div class="progress" style="margin-top: -1rem; background: none;">
+								<div class="progress-bar bg-info" role="progressbar" style="width: {{ project|projectApprovedRatio * 100 }}%" aria-valuenow="{{ project|projectApprovedCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
+							</div>
+							<div class="progress" style="margin-top: -1.75rem; background: none;">
+								<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectReviewedRatio * 100 }}%" aria-valuenow="{{ project|projectReviewedCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
+							</div>
 						</div>
 						<div class="d-flex justify-content-between text-small">
 							<div class="d-flex align-items-center">
 								<i class="fas fa-tasks"></i>&nbsp;
-								<span>{{ project|projectApprovedCount }} / {{ project.product|sentenceCountForProduct }} ({{ project|projectTranslatedRatio * 100 }} %)</span>
+								<span>{{ project|projectTranslatedCount }} / {{ project.product|sentenceCountForProduct }} ({{ (project|projectTranslatedRatio * 100)|round(1) }} %)</span>
 							</div>
 							<span>{{ project.status }}</span>
 						</div>
@@ -66,7 +74,7 @@
 													</a>
 													<div class="d-flex align-items-center">
 														<i class="fas fa-tasks"></i>&nbsp;
-														<span>{{ project|projectApprovedCount(section) }}/{{ section|sentenceCountForSection }}</span>
+														<span>{{ project|projectTranslatedCount(section) }}/{{ section|sentenceCountForSection }}</span>
 													</div>
 												</div>
 												<div class="card-meta">

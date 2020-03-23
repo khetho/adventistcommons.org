@@ -164,13 +164,16 @@ class ContentRevisionRepository extends ServiceEntityRepository
             )
             ->innerJoin('cr.sentence', 's')
             ->innerJoin('s.paragraph', 'p')
-            ->where('p.section = :section')
-            ->andWhere('cr.status IN (:status)')
+            ->where('cr.status IN (:status)')
             ->setParameter('status', $status)
-            ->setParameter('section', $section)
             ->andWhere('cr.project = :project')
             ->setParameter('project', $project)
             ->andWhere('cr2.id IS NULL');
+        if ($section) {
+            $queryBuilder
+                ->andWhere('p.section = :section')
+                ->setParameter('section', $section);
+        }
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
