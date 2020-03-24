@@ -64,6 +64,12 @@ ln ../build admin
 
 ### compile it
 
+Fix path and url
+```
+sed -i 's/localhost:8096/develop.adventistcommons.org/g' ./src/config/apiPoints.js
+```
+
+build
 ```
 cd ../admin
 npm install
@@ -73,7 +79,6 @@ npm run build
 Fix path and url
 ```
 sed -i 's/src="\/static/src="static/g' ./publicroot/admin/index.html 
-sed -i 's/localhost:8096/develop.adventistcommons.org/g' ./src/config/apiPoints.js
 ```
 
 ### JWT
