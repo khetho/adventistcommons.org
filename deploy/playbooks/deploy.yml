@@ -26,16 +26,42 @@
         chdir: "{{package_root}}"
       delegate_to: localhost
 
-    - name: Npm install
+    - name: Npm install app
       shell: npm install
       args:
         chdir: "{{package_root}}"
       delegate_to: localhost
 
-    - name: Npm run build
+    - name: Npm run build app
       shell: npm run build
       args:
         chdir: "{{package_root}}"
+      delegate_to: localhost
+
+    - name: Set the domain name for admin build
+      replace:
+        path: '{{package_root}}/admin/package.json'
+        regexp: '("homepage": ")[^"]+"'
+        replace: '\1{{ admin_host }}"'
+      delegate_to: localhost
+
+    - name: Set the domain name for admin build
+      replace:
+        path: '{{package_root}}/admin/src/config/apiPoints.js'
+        regexp: '(Point = ''http:)[^/]+/'
+        replace: '\1//{{ sf_host }}/'
+      delegate_to: localhost
+
+    - name: Npm install admin
+      shell: npm install
+      args:
+        chdir: "{{package_root}}/admin"
+      delegate_to: localhost
+
+    - name: Npm run build admin
+      shell: npm run build
+      args:
+        chdir: "{{package_root}}/admin"
       delegate_to: localhost
 
 - name: Deploy artifact
