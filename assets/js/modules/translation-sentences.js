@@ -59,6 +59,8 @@ define(
                 }
                 if (next.length) {
                     setCurrentSentenceIfOk(extractSentenceId(next));
+                } else {
+                    TranslationWorkingArea.goNextSectionIfOk();
                 }
             },
 

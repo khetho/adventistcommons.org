@@ -20,28 +20,43 @@ define(
         let current_translation = '';
         let current_sentence_id = null;
 
+        function doActionIfTranslationIsOk(action) {
+            if (translator_dashboard.is(":visible") && current_translation !== translation_area.val()) {
+                const modal = $('#changedTranslationModal');
+                modal.modal();
+                modal.find('[data-action="saveContinue"]').unbind('click').click(function(){
+                    save(function() {
+                        action();
+                        modal.modal('hide');
+                    });
+                });
+                modal.find('[data-action="undoContinue"]').unbind('click').click(function(){
+                    action();
+                    modal.modal('hide');
+                });
+            } else {
+                action();
+            }
+        }
+
         /**
          * Check if current content has change from saved, propose to save if not
          * @param content
          * @param sentence_id
          */
         function setWorkingTranslationIfOk(content, sentence_id) {
-            if (translator_dashboard.is(":visible") && current_translation !== translation_area.val()) {
-                const modal = $('#changedTranslationModal');
-                modal.modal();
-                modal.find('[data-action="saveContinue"]').unbind('click').click(function(){
-                    save(function() {
-                        setWorkingTranslation(content, sentence_id);
-                        modal.modal('hide');
-                    });
-                });
-                modal.find('[data-action="undoContinue"]').unbind('click').click(function(){
-                    setWorkingTranslation(content, sentence_id);
-                    modal.modal('hide');
-                });
-            } else {
+            doActionIfTranslationIsOk(function() {
                 setWorkingTranslation(content, sentence_id);
-            }
+            });
+        }
+
+        /**
+         * Go to next page if the current working translation is ok
+         */
+        function goNextSectionIfOk() {
+            doActionIfTranslationIsOk(function() {
+                document.getElementById("js-link-next").click();
+            });
         }
 
         /**
@@ -113,6 +128,7 @@ define(
                             TranslationSentences.markCurrentAs('translated');
                             current_translation = translation_area.val();
                             translation.html(current_translation);
+                            TranslationSentences.selectNextSentence();
                             if (successAction) {
                                 successAction();
                             }
@@ -124,6 +140,7 @@ define(
                         sentenceId,
                         function() {
                             TranslationSentences.markCurrentAs('approved');
+                            TranslationSentences.selectNextSentence();
                         }
                     );
                     break;
@@ -132,6 +149,7 @@ define(
                         sentenceId,
                         function() {
                             TranslationSentences.markCurrentAs('reviewed');
+                            TranslationSentences.selectNextSentence();
                         }
                     );
                     break;
@@ -196,6 +214,10 @@ define(
                 return setWorkingTranslationIfOk(content, sentence_id);
             },
 
+            goNextSectionIfOk: function() {
+                goNextSectionIfOk();
+            },
+
             init: function () {
                 translator_dashboard = $('.js-translator-dashboard');
                 translation_area = $('.js-translation-area');
@@ -224,9 +246,7 @@ define(
 
                 translation_area.keydown(function(event) {
                     if (event.keyCode === 13 /* ENTER */) {
-                        save(function() {
-                            TranslationSentences.selectNextSentence();
-                        });
+                        save();
                         return false;
                     }
                 });

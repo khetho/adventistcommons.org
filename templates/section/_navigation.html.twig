@@ -35,7 +35,7 @@
         </li>
         {% set urlForNext = pathToNextSection(project, section) %}
         <li class="page-item {% if not urlForNext %}disabled{% endif %}">
-            <a class="page-link" href="{{ urlForNext|default('#') }}">
+            <a class="page-link" id="js-link-next" href="{{ urlForNext|default('#') }}">
                 {% trans %}editor.pagination.next{% endtrans %}
             </a>
         </li>
