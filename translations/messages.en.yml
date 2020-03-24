@@ -320,7 +320,7 @@ product:
     label: Sort by
     name: Name
     author: Author
-    publisher: publisher
+    publisher: Publisher
   delete:
     warning1: You are about to delete a product and all translation project, including all sentences translations.
     warning2: There are currently %translation_count% sentence translations that will be definitively deleted, without any way back.
