@@ -38,18 +38,18 @@
         chdir: "{{package_root}}"
       delegate_to: localhost
 
-    - name: Set the domain name for admin build
+    - name: Set the homepage for admin build
       replace:
         path: '{{package_root}}/admin/package.json'
         regexp: '("homepage": ")[^"]+"'
-        replace: '\1{{ admin_host }}"'
+        replace: '\1http://{{ admin_host }}"'
       delegate_to: localhost
 
-    - name: Set the domain name for admin build
+    - name: Set the backend url for admin build
       replace:
         path: '{{package_root}}/admin/src/config/apiPoints.js'
-        regexp: '(Point = ''http:)[^/]+/'
-        replace: '\1//{{ sf_host }}/'
+        regexp: '(localhost:8096)'
+        replace: '{{ sf_host }}'
       delegate_to: localhost
 
     - name: Npm install admin
