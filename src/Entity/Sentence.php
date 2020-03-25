@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation as Api;
 
 /**
  * Content
@@ -13,6 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SentenceRepository"))
+ * @Api\ApiResource(
+ *     normalizationContext={"groups"={"normalize"}},
+ * )
  */
 class Sentence
 {
@@ -22,6 +27,7 @@ class Sentence
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("normalize")
      */
     private $id;
 
@@ -29,6 +35,7 @@ class Sentence
      * @var string|null
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=true)
+     * @Groups("normalize")
      */
     private $content;
 
@@ -36,6 +43,7 @@ class Sentence
      * @var int|null
      *
      * @ORM\Column(name="`order`", type="integer", nullable=true)
+     * @Groups("normalize")
      */
     private $order;
 

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation as Api;
 
 /**
  * Content
@@ -14,6 +16,9 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  * @ORM\Entity
+ * @Api\ApiResource(
+ *     normalizationContext={"groups"={"normalize"}},
+ * )
  */
 class Paragraph
 {
@@ -23,6 +28,7 @@ class Paragraph
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("normalize")
      */
     private $id;
 
@@ -30,6 +36,7 @@ class Paragraph
      * @var string|null
      *
      * @ORM\Column(name="content_key", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $contentKey;
 
@@ -37,6 +44,7 @@ class Paragraph
      * @var int|null
      *
      * @ORM\Column(name="`order`", type="integer", nullable=true)
+     * @Groups("normalize")
      */
     private $order;
 
@@ -52,6 +60,7 @@ class Paragraph
 
     /**
      * @ORM\OneToMany(targetEntity="Sentence", mappedBy="paragraph")
+     * @Groups("normalize")
      */
     private $sentences;
 

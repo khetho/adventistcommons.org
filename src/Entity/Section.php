@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation as Api;
 
 /**
  * Section
@@ -15,6 +17,9 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SectionRepository"))
+ * @Api\ApiResource(
+ *     normalizationContext={"groups"={"normalize"}},
+ * )
  */
 class Section
 {
@@ -24,6 +29,7 @@ class Section
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("normalize")
      */
     private $id;
 
@@ -31,6 +37,7 @@ class Section
      * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $name;
 
@@ -38,6 +45,7 @@ class Section
      * @var int
      *
      * @ORM\Column(name="`order`", type="integer", nullable=false)
+     * @Groups("normalize")
      */
     private $order = '0';
 
@@ -45,6 +53,7 @@ class Section
      * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=false)
+     * @Groups("normalize")
      */
     private $position = '0';
 
@@ -52,6 +61,7 @@ class Section
      * @var string|null
      *
      * @ORM\Column(name="style", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $style;
 
@@ -59,6 +69,7 @@ class Section
      * @var string|null
      *
      * @ORM\Column(name="node_id", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $nodeId;
 
@@ -66,6 +77,7 @@ class Section
      * @var string|null
      *
      * @ORM\Column(name="xliff_region", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $xliffRegion;
 
@@ -73,6 +85,7 @@ class Section
      * @var string|null
      *
      * @ORM\Column(name="story_key", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $storyKey;
 
@@ -89,6 +102,7 @@ class Section
     /**
      * One product has many projects. This is the inverse side.
      * @ORM\OneToMany(targetEntity="Paragraph", mappedBy="section")
+     * @Groups("normalize")
      */
     private $paragraphs;
 

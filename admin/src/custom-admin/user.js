@@ -64,6 +64,22 @@ export const UsersCreate = props => (
             <AutocompleteArrayInput optionText="name" />
         </ReferenceArrayInput>
         <ReferenceArrayInput
+            source="langsHeCanApprove"
+            reference="languages"
+            label="Languages he can approve"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <AutocompleteArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+            source="langsHeCanReview"
+            reference="languages"
+            label="Languages he can review"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <AutocompleteArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
             source="groups"
             reference="groups"
             label="Groups"
@@ -105,6 +121,22 @@ export const UsersEdit = props => (
             source="languages"
             reference="languages"
             label="Languages"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <AutocompleteArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+            source="langsHeCanApprove"
+            reference="languages"
+            label="Languages he can approve"
+            filterToQuery={searchText => ({ name: searchText })}
+        >
+            <AutocompleteArrayInput optionText="name" />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+            source="langsHeCanReview"
+            reference="languages"
+            label="Languages he can review"
             filterToQuery={searchText => ({ name: searchText })}
         >
             <AutocompleteArrayInput optionText="name" />

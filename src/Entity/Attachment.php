@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation as Api;
 
 /**
  * ProjectAttachment
@@ -15,6 +17,9 @@ use Symfony\Component\HttpFoundation\File\File;
  *     }
  * )
  * @ORM\Entity
+ * @Api\ApiResource(
+ *     normalizationContext={"groups"={"normalize"}},
+ * )
  */
 class Attachment
 {
@@ -24,6 +29,7 @@ class Attachment
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("normalize")
      */
     private $id;
 
@@ -36,6 +42,7 @@ class Attachment
      * @var string|null
      *
      * @ORM\Column(name="file", type="string", length=255, nullable=true)
+     * @Groups("normalize")
      */
     private $filename;
 
@@ -43,6 +50,7 @@ class Attachment
      * @var string|null
      *
      * @ORM\Column(name="file_type", type="string", length=20, nullable=true)
+     * @Groups("normalize")
      */
     private $fileType;
 

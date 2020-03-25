@@ -9,8 +9,8 @@ Just install docker and docker-compose and follow steps :
 - clone the repository somewhere on your computer
 - Set right on var dirs ``chmod 777 ./var -R`` (may not needed)
 - Point your terminal project root and launch project with ``sudo docker-compose up``
-- run migration with command ```docker-compose exec ac-php-fpm bin/console do:mi:mi```
-- run fixtures (base sample data) with command ```docker-compose exec ac-php-fpm bin/console do:fi:lo```
+- run migration with command ```docker-compose exec ac-php-cli bin/console do:mi:mi```
+- run fixtures (base sample data) with command ```docker-compose exec ac-php-cli bin/console do:fi:lo```
 - install frontend deps with command ```docker-compose exec ac-node yarn install```
 - build frontend with command ```docker-compose exec ac-node yarn run dev```
 - In your browser, go to localhost:8096 (the application) and create your account
@@ -123,21 +123,18 @@ If you want to add a change in database follow these steps :
 And from now, never do structural changes directly in database, use migrations !
 
 In addition, you can delete database and recreate it all from beginning, including dev sample data with the command
-```sudo docker-compose exec ac-php-fpm bin/clear-db`` 
+```sudo docker-compose exec ac-php-cli bin/clear-db`` 
 
 ### Testing
 
 PHP part is tested with phpspecs and phpunit.
-* Run phpunit tests with ```sudo docker-compose exec ac-php-fpm bin/phpunit```
-* Run phpspec tests with ```sudo docker-compose exec ac-php-fpm vendor/bin/phpspec run```
+* Run phpunit tests with ```sudo docker-compose exec ac-php-cli bin/phpunit```
+* Run phpspec tests with ```sudo docker-compose exec ac-php-cli vendor/bin/phpspec run```
 
 ### Symfony API backend
 
-We use Apiplatform for the backend
+We use ApiPlatform for the backend
 
-### Angular Frontend
-
-Some content soon here
 
 
 ## Deployment

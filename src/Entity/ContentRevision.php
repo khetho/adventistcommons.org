@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation as Api;
 
 /**
  * ContentRevisions
@@ -18,6 +20,9 @@ use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ContentRevisionRepository"))
+ * @Api\ApiResource(
+ *     normalizationContext={"groups"={"normalize"}},
+ * )
  */
 class ContentRevision
 {
@@ -31,6 +36,7 @@ class ContentRevision
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("normalize")
      */
     private $id;
 
@@ -38,6 +44,7 @@ class ContentRevision
      * @var string|null
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=true)
+     * @Groups("normalize")
      */
     private $content;
 
@@ -50,6 +57,7 @@ class ContentRevision
      * @var \DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
+     * @Groups("normalize")
      */
     private $createdAt;
 
@@ -88,6 +96,7 @@ class ContentRevision
      *
      * @ORM\Column(name="status", type="text", length=3, nullable=false)
      * @Dictionary(name="content_revision_status")
+     * @Groups("normalize")
      */
     private $status;
 
@@ -138,7 +147,7 @@ class ContentRevision
         return $this;
     }
 
-    public function getSentence(): ?Paragraph
+    public function getSentence(): ?Sentence
     {
         return $this->sentence;
     }
