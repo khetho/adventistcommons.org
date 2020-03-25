@@ -39,14 +39,6 @@ export const UsersCreate = props => (
         <InputGuesser source="phone" />
         <InputGuesser source="location" />
         <LongTextInput source="bio" />
-        <ReferenceArrayInput
-            source="skills"
-            reference="skills"
-            label="Skills"
-            filterToQuery={searchText => ({ name: searchText })}
-        >
-            <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
         <ReferenceInput
             source="motherLanguage"
             reference="languages"
@@ -101,14 +93,6 @@ export const UsersEdit = props => (
         <InputGuesser source="phone" />
         <InputGuesser source="location" />
         <LongTextInput source="bio" />
-        <ReferenceArrayInput
-            source="skills"
-            reference="skills"
-            label="Skills"
-            filterToQuery={searchText => ({ name: searchText })}
-        >
-            <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
         <ReferenceInput
             source="motherLanguage"
             reference="languages"
@@ -162,7 +146,6 @@ export const UsersShow = props => (
         <FieldGuesser source="phone" addLabel={true} />
         <FieldGuesser source="location" addLabel={true} />
         <FieldGuesser source="bio" addLabel={true} />
-        <FieldGuesser source="skills" addLabel={true} />
         <FieldGuesser source="motherLanguage" addLabel={true} />
         <FieldGuesser source="languages" addLabel={true} />
         <FieldGuesser source="groups" addLabel={true} />

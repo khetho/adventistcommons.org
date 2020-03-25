@@ -46,13 +46,13 @@ use \Exception;
  *     },
  *     collectionOperations={
  *         "get",
- *         "post"={"security"="is_granted('ROLE_ADMIN')"},
+ *         "post",
  *     },
  *     itemOperations={
  *         "get",
- *         "delete"={"security"="is_granted('ROLE_ADMIN')"},
- *         "put"={"security"="is_granted('ROLE_ADMIN')"},
- *         "patch"={"security"="is_granted('ROLE_ADMIN')"},
+ *         "delete",
+ *         "put",
+ *         "patch",
  *     },
  * )
  * @DoctrineAssert\UniqueEntity(
@@ -298,8 +298,9 @@ class User implements UserInterface
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="id")}
      * )
+     * @var Collection
      */
-    private $skills;
+    private $skillsLinked;
 
     /**
      * @ORM\Column(name="skills", type="phpserialize", nullable=true)
@@ -704,24 +705,43 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getSkills(): array
+    public function getSkillsLinked(): Collection
     {
-        return array_merge($this->skills->toArray(), $this->getSkillsAdded());
+        return $this->skillsLinked;
     }
-    
+
+    public function addSkillLinked(Skill $skill): self
+    {
+        $this->addSkill($skill);
+
+        return $this;
+    }
+
+    public function removeSkillLinked(Skill $skill): self
+    {
+        $this->removeSkill($skill);
+
+        return $this;
+    }
+
     public function getSkillsAdded(): array
     {
         return is_array($this->skillsAdded) ? $this->skillsAdded : [];
     }
 
+    public function getSkills(): array
+    {
+        return array_merge($this->skillsLinked->toArray(), $this->getSkillsAdded());
+    }
+
     public function addSkill($skill): self
     {
+        if (!$skill) {
+            return $this;
+        }
         if ($skill instanceof Skill) {
-            if (!$this->skills->contains($skill)) {
-                $this->skills[] = $skill;
+            if (!$this->skillsLinked->contains($skill)) {
+                $this->skillsLinked[] = $skill;
             }
 
             return $this;
@@ -733,14 +753,14 @@ class User implements UserInterface
             return $this;
         }
 
-        throw new Exception('Skill must be a string or a Skill object');
+        throw new Exception(sprintf('Skill must be a string or a Skill object. %s given.', gettype($skill)));
     }
 
     public function removeSkill($skill): self
     {
         if ($skill instanceof Skill) {
-            if ($this->skills->contains($skill)) {
-                $this->skills->removeElement($skill);
+            if ($this->skillsLinked->contains($skill)) {
+                $this->skillsLinked->removeElement($skill);
             }
 
             return $this;
