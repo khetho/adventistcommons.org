@@ -82,6 +82,30 @@ class ProjectController extends AbstractController
     }
 
     /**
+     * @Route("/{slug}/{languageCode}/unassign", name="app_project_unassign")
+     * @param Request $request
+     * @param $slug
+     * @param $languageCode
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function unassign(Request $request, $slug, $languageCode, DataFinder $dataFinder)
+    {
+        $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
+        $project->setApprover(null);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($project);
+        $manager->flush();
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('app_project_show', ['languageCode' => $languageCode, 'slug' => $slug]);
+    }
+
+    /**
      * @Route("/{slug}/{languageCode}/project.idml", name="app_project_download_idml")
      * @param string $slug
      * @param string $languageCode

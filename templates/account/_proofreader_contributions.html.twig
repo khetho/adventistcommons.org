@@ -1,10 +1,10 @@
-<h3>{% trans %}dashboard.contributions.header{% endtrans %}</h3>
+<h3>{% trans %}dashboard.proofreader.contributions.header{% endtrans %}</h3>
 
 <div style="display: block;">
   <script type="text/javascript">
-    window.contributionsGraphData = {
+    window.proofreaderContributionsGraphData = {
       datasets: [
-        {% for productName, productPerMonth in contributionsPerMonth %}
+        {% for productName, productPerMonth in proofreaderContributionsPerMonth %}
           {
             label: "{{ productName }}",
             data: [
@@ -22,7 +22,7 @@
     ]
   };
   </script>
-  <canvas id="contributionChart" width="400" height="400"></canvas>
+  <canvas id="proofreaderContributionChart" width="400" height="400"></canvas>
 </div>
 
 <table class="table mb-4">
@@ -36,7 +36,7 @@
     </tr>
   </thead>
   <tbody>
-  	{% for contribution in contributions %}
+  	{% for contribution in proofreaderContributions %}
 	    <tr>
 	      <td>{{ contribution.product_name }}</td>
 	      <td>{{ contribution.language_name }}</td>

@@ -3,39 +3,39 @@
 {% block content %}
 	<div class="container">
 		<div class="row justify-content-center mt-5">
-			<div class="col-lg-3 mb-3">
-				<ul class="nav nav-tabs flex-lg-column">
-					<li class="nav-item">
-						<a class="nav-link active" id="projects-tab" data-toggle="tab" href="#projects" role="tab">{% trans %}dashboard.projects.tab{% endtrans %}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="contributions-tab" data-toggle="tab" href="#contributions" role="tab">{% trans %}dashboard.contributions.tab{% endtrans %}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="downloads-tab" data-toggle="tab" href="#downloads" role="tab">{% trans %}dashboard.downloads.tab{% endtrans %}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab">{% trans %}account.edit.profile{% endtrans %}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">{% trans %}account.edit.password{% endtrans %}</a>
-					</li>
-					{% if not is_granted("ROLE_ADMIN") %}
-						<li class="nav-item">
-							<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">{% trans %}account.edit.advanced{% endtrans %}</a>
-						</li>
+			<div class="col-lg-3 col-sm-12">
+				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+					{% if user.langsHeCanApprove %}
+						<a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#proofreader-projects" role="tab">{% trans %}dashboard.proofreader.projects.tab{% endtrans %}</a>
+						<a class="nav-link" id="contributions-tab" data-toggle="tab" href="#proofreader-contributions" role="tab">{% trans %}dashboard.proofreader.contributions.tab{% endtrans %}</a>
 					{% endif %}
-				</ul>
+					<a class="nav-link {% if not user.langsHeCanApprove %}active{% endif %}" id="projects-tab" data-toggle="tab" href="#translator-projects" role="tab">{% trans %}dashboard.translator.projects.tab{% endtrans %}</a>
+					<a class="nav-link" id="contributions-tab" data-toggle="tab" href="#translator-contributions" role="tab">{% trans %}dashboard.translator.contributions.tab{% endtrans %}</a>
+					<a class="nav-link" id="downloads-tab" data-toggle="tab" href="#downloads" role="tab">{% trans %}dashboard.downloads.tab{% endtrans %}</a>
+					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab">{% trans %}account.edit.profile{% endtrans %}</a>
+					<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">{% trans %}account.edit.password{% endtrans %}</a>
+					{% if not is_granted("ROLE_ADMIN") %}
+						<a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab">{% trans %}account.edit.advanced{% endtrans %}</a>
+					{% endif %}
+				</div>
 			</div>
-			<div class="col-xl-8 col-lg-9">
+			<div class="col-lg-9 col-sm-12">
 				<div class="card">
 					<div class="card-body">
 						<div class="tab-content">
-							<div class="tab-pane fade show active" role="tabpanel" id="projects">
-								{% include 'account/_projects.html.twig' %}
-							</div>																
-							<div class="tab-pane fade" role="tabpanel" id="contributions">
-								{% include 'account/_contributions.html.twig' %}
+							{% if user.langsHeCanApprove %}
+								<div class="tab-pane fade show active" role="tabpanel" id="proofreader-projects">
+									{% include 'account/_proofreader_projects.html.twig' %}
+								</div>
+								<div class="tab-pane fade" role="tabpanel" id="proofreader-contributions">
+									{% include 'account/_proofreader_contributions.html.twig' %}
+								</div>
+							{% endif %}
+							<div class="tab-pane fade {% if not user.langsHeCanApprove %}show active{% endif %}" role="tabpanel" id="translator-projects">
+								{% include 'account/_translator_projects.html.twig' %}
+							</div>
+							<div class="tab-pane fade" role="tabpanel" id="translator-contributions">
+								{% include 'account/_translator_contributions.html.twig' %}
 							</div>
 							<div class="tab-pane fade" role="tabpanel" id="downloads">
 								{% include 'account/_downloads.html.twig' %}

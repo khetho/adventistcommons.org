@@ -1,0 +1,61 @@
+<div class="alert alert-primary">
+    <button class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#proofreaderChecklist">
+        {% trans %}workflow.proofreader.checklist.link{% endtrans %}
+    </button>
+    {% include 'account/_proofreader_tooltip_modal.html.twig' %}
+    {% trans %}workflow.proofreader.you_are{% endtrans %}
+    {% for language in app.user.langsHeCanApprove %}
+        <span class="badge badge-pill badge-primary">{{ language.name }}</span>
+    {% endfor %}
+</div>
+
+
+<h3>{% trans %}dashboard.proofreader.projects.header{% endtrans %}</h3>
+
+<table class="table mb-4">
+  <thead>
+    <tr>
+      <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.status{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.actions{% endtrans %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for project in approvedProjects %}
+      <tr>
+        <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
+        <td>{{ project.language.name }}</td>
+        <td>{{ project.status }}</td>
+        <td><a class="btn btn-primary" href="{{ pathToProject(project, 'unassign') }}">{% trans %}dashboard.proofreader.projects.unassign{% endtrans %}</a></td>
+      </ tr>
+    {% else %}
+      <tr>
+        <td colspan="3"><em>{% trans %}dashboard.projects.none_yet{% endtrans %}</em></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>{% trans %}dashboard.proofreader.projects.available_header{% endtrans %}</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">{% trans %}dashboard.projects.title{% endtrans %}</th>
+      <th scope="col">{% trans %}dashboard.projects.language{% endtrans %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for project in unapprovedProjects %}
+      <tr>
+        <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
+        <td>{{ project.language.name }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="3"><em>{% trans %}dashboard.projects.none_yet{% endtrans %}</em></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ path('app_project_list') }}" class="btn btn-primary">{% trans %}dashboard.projects.browse_all{% endtrans %}</a>

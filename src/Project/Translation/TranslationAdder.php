@@ -27,7 +27,7 @@ class TranslationAdder
             return null;
         }
         $revision = new ContentRevision();
-        $revision->setUser($this->user);
+        $revision->setTranslator($this->user);
         $revision->setSentence($sentence);
         $revision->setProject($project);
         $revision->setContent($content);

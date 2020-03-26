@@ -56,23 +56,36 @@ home:
     product_manager: Product Manager
 dashboard:
   projects:
-    tab: Projects
-    header: My projects
     none_yet: No project yet
-    available_header: Available projects
     browse_all: Browse all projects
     title: Title
     language: Language
     status: Status
+    actions: Actions
   contributions:
-    tab: Contributions
-    header: My contributions
     none_yet: No contribution yet
     title: Title
     language: Language
     sentences: Sentences
     date: Date
     percentage: Percentage
+  translator:
+    projects:
+      tab: Translated projects
+      header: My projects
+      available_header: Other current projects
+    contributions:
+      tab: Contributions
+      header: My contributions
+  proofreader:
+    projects:
+      tab: Proofread projects
+      header: Current proofreading by me
+      available_header: Other projects with your languages
+      unassign: Unassign
+    contributions:
+      tab: Proofreadings
+      header: My proofreadings
   downloads:
     tab: Download history
     header: My downloads
@@ -449,3 +462,11 @@ content_revision:
     new: New
     approved: Approved
     reviewed: Reviewed
+workflow:
+  proofreader:
+    you_are: You are proofreader for languages
+    checklist:
+      link: Proofreader checklist
+      title: Proofreader checklist
+      item1: Here is a first item in the proofreader checklist
+      item2: Now, antoher point for the proofreader to be carefull

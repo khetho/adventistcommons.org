@@ -3,11 +3,12 @@
 namespace App\Security;
 
 use App\Entity\Language;
+use App\Entity\Project;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class LanguageVoter extends Voter
+class ProjectVoter extends Voter
 {
     // these strings are just invented: you can use anything
     const APPROVE = 'approve';
@@ -18,7 +19,7 @@ class LanguageVoter extends Voter
         if (!in_array($attribute, [self::APPROVE, self::REVIEW])) {
             return false;
         }
-        if (!$subject instanceof Language) {
+        if (!$subject instanceof Project) {
             return false;
         }
 
@@ -32,26 +33,32 @@ class LanguageVoter extends Voter
             return false;
         }
 
-        /** @var Language $language */
-        $language = $subject;
+        /** @var Project $project */
+        $project = $subject;
 
         switch ($attribute) {
             case self::APPROVE:
-                return $this->canApprove($language, $user);
+                return $this->canApprove($project, $user);
             case self::REVIEW:
-                return $this->canReview($language, $user);
+                return $this->canReview($project, $user);
         }
 
         throw new \LogicException(sprintf('Voter attribute «%s» is not handled for language', $attribute));
     }
 
-    private function canApprove(Language $language, User $user)
+    private function canApprove(Project $project, User $user)
     {
-        return $this->canReview($language, $user) || $user->getLangsHeCanApprove()->contains($language);
+        return (
+            $project->getApprover() === $user
+                ||
+            (!$project->getApprover() && $this->canReview($project, $user))
+                ||
+            (!$project->getApprover() && $user->getLangsHeCanApprove()->contains($project->getLanguage()))
+        );
     }
 
-    private function canReview(Language $language, User $user)
+    private function canReview(Project $project, User $user)
     {
-        return $user->getLangsHeCanReview()->contains($language);
+        return $user->getLangsHeCanReview()->contains($project->getLanguage());
     }
 }

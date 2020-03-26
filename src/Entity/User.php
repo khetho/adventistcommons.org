@@ -381,7 +381,7 @@ class User implements UserInterface
     private $projects;
     
     /**
-     * @ORM\OneToMany(targetEntity="ContentRevision", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="ContentRevision", mappedBy="translator")
      */
     private $contentRevisions;
 

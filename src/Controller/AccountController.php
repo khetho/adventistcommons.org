@@ -87,19 +87,26 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute($redirectRoute ?? 'app_account_myself');
         }
-        $myProjects = $this->getDoctrine()
-            ->getRepository(Project::class)
-            ->findQueryForMember($user)
-            ->setMaxResults(10)
-            ->getResult();
-        $otherProjects = $this->getDoctrine()
-            ->getRepository(Project::class)
-            ->findQueryForUserNotMember($user)
-            ->setMaxResults(10)
-            ->getResult();
-        $contributions = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReport($user);
-        $contribPerMonth = $this->getDoctrine()->getRepository(ContentRevision::class)->getUserReportPerMonth($user);
-        
+
+        // translations data
+        $projectRepo = $this->getDoctrine()->getRepository(Project::class);
+        $contentRepo = $this->getDoctrine()->getRepository(ContentRevision::class);
+
+        $translatedProjects = $projectRepo->findQueryForTranslator($user)->setMaxResults(10)->getResult();
+        $untranslatedProjects = $projectRepo->findQueryForUserNotTranslator($user)->setMaxResults(10)->getResult();
+        $contributions = $contentRepo->getUserReport($user, 'translator');
+        $contribPerMonth = $contentRepo->getUserReportPerMonth($user, 'translator');
+
+        // proofreading data
+        $approvedProjects = $projectRepo->findQueryForApprover($user)->setMaxResults(10)->getResult();
+        $unapprovedProjects = $projectRepo->findQueryForNotApprover($user)->setMaxResults(10)->getResult();
+        $proofrContribs = $contentRepo->getUserReport($user, 'approver');
+        $proofrContribPerMnth = $contentRepo->getUserReportPerMonth($user, 'approver');
+
+        // reviewing data
+        $reviewedProjects = $projectRepo->findQueryForReviewer($user)->setMaxResults(10)->getResult();
+        $unreviewedProjects = $projectRepo->findQueryForNotReviewer($user)->setMaxResults(10)->getResult();
+
         return $this->render(
             'account/edit.html.twig',
             [
@@ -107,10 +114,19 @@ class AccountController extends AbstractController
                 'accountForm' => $accountForm->createView(),
                 'passwordForm' => $passwordForm->createView(),
                 'deleteForm' => $deleteForm->createView(),
-                'myProjects' => $myProjects,
-                'otherProjects' => $otherProjects,
+
+                'translatedProjects' => $translatedProjects,
+                'untranslatedProjects' => $untranslatedProjects,
                 'contributions' => $contributions,
                 'contributionsPerMonth' => $contribPerMonth,
+
+                'approvedProjects' => $approvedProjects,
+                'unapprovedProjects' => $unapprovedProjects,
+                'proofreaderContributions' => $proofrContribs,
+                'proofreaderContributionsPerMonth' => $proofrContribPerMnth,
+
+                'reviewedProjects' => $reviewedProjects,
+                'unreviewedProjects' => $unreviewedProjects,
             ]
         );
     }

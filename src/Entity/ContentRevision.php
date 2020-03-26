@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation as Api;
 
@@ -16,7 +16,7 @@ use ApiPlatform\Core\Annotation as Api;
  *     indexes={
  *         @ORM\Index(name="project_id", columns={"project_id"}),
  *         @ORM\Index(name="sentence_id", columns={"sentence_id"}),
- *         @ORM\Index(name="user_id", columns={"user_id"})
+ *         @ORM\Index(name="translator_id", columns={"translator_id"})
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ContentRevisionRepository"))
@@ -76,10 +76,30 @@ class ContentRevision
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="contentRevisions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="translator_id", referencedColumnName="id")
      * })
      */
-    private $user;
+    private $translator;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="approver_id", referencedColumnName="id")
+     * })
+     */
+    private $approver;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="id")
+     * })
+     */
+    private $reviewer;
 
     /**
      * @var Project
@@ -159,14 +179,38 @@ class ContentRevision
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getTranslator(): ?User
     {
-        return $this->user;
+        return $this->translator;
     }
 
-    public function setUser(?UserInterface $user): self
+    public function setTranslator(UserInterface $translator): self
     {
-        $this->user = $user;
+        $this->translator = $translator;
+
+        return $this;
+    }
+
+    public function getApprover(): ?User
+    {
+        return $this->approver;
+    }
+
+    public function setApprover(UserInterface $approver): self
+    {
+        $this->approver = $approver;
+
+        return $this;
+    }
+
+    public function getReviewer(): ?User
+    {
+        return $this->reviewer;
+    }
+
+    public function setReviewer(UserInterface $reviewer): self
+    {
+        $this->reviewer = $reviewer;
 
         return $this;
     }
@@ -193,13 +237,18 @@ class ContentRevision
         $this->status = $status;
     }
 
-    public function approve()
+    public function approveBy(UserInterface $approver)
     {
+        if (!$this->getProject()->getApprover()) {
+            $this->getProject()->setApprover($approver);
+        }
+        $this->setApprover($approver);
         $this->setStatus(self::STATUS_APPROVED);
     }
 
-    public function review()
+    public function reviewBy(UserInterface $reviewer)
     {
+        $this->setReviewer($reviewer);
         $this->setStatus(self::STATUS_REVIEWED);
     }
 

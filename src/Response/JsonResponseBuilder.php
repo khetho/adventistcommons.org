@@ -43,7 +43,7 @@ class JsonResponseBuilder
                 $code
             );
         } catch (\Exception $e) {
-            return $this->buildErrorResponse($e);
+            return $this->buildErrorResponseFromException($e);
         }
     }
 
@@ -68,18 +68,18 @@ class JsonResponseBuilder
                 $code
             );
         } catch (\Exception $e) {
-            return $this->buildErrorResponse($e);
+            return $this->buildErrorResponseFromException($e);
         }
     }
 
-    private function buildErrorResponse(\Exception $exception): JsonResponse
+    public function buildErrorResponse($message)
     {
         if ($this->kernel->isDebug()) {
             return new JsonResponse(
                 [
                     'status' => 'error',
                     'result' => 'exception',
-                    'html' => $exception->getMessage(),
+                    'html' => $message,
                 ],
                 500
             );
@@ -103,5 +103,10 @@ class JsonResponseBuilder
                 500
             );
         }
+    }
+
+    private function buildErrorResponseFromException(\Exception $exception): JsonResponse
+    {
+        return $this->buildErrorResponse($exception->getMessage());
     }
 }

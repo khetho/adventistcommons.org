@@ -28,25 +28,71 @@ class ProjectRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery();
     }
 
-    public function findQueryForUserNotMember(User $user): Query
+    public function findQueryForUserNotTranslator(User $user): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.contentRevisions', 'cr')
-            ->where('p.language IN (:languages)')
+            ->where('cr.translator = :user')
+            ->setParameter('user', $user)
+            ->andWhere('p.language IN (:languages)')
             ->setParameter('languages', $user->getAllLanguages())
-            ->andWhere('cr.id IS NULL');
+            ->andWhere('cr.id IS NULL'); // TODO fix this : find product that are not translated by that user only
 
         return $queryBuilder->getQuery();
     }
 
-    public function findQueryForMember(User $user): Query
+    public function findQueryForTranslator(User $user): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->where('p.language IN (:languages)')
             ->innerJoin('p.contentRevisions', 'cr')
-            ->where('cr.user = :user')
+            ->where('cr.translator = :user')
             ->setParameter('user', $user)
             ->groupBy('p.id');
+
+        return $queryBuilder->getQuery();
+    }
+
+    public function findQueryForApprover(User $user): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.approver = :user')
+            ->setParameter('user', $user)
+            ->groupBy('p.id');
+
+        return $queryBuilder->getQuery();
+    }
+
+    public function findQueryForNotApprover(User $user): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.language IN (:languages)')
+            ->setParameter('languages', $user->getLangsHeCanApprove())
+            ->andWhere('p.approver <> :user OR p.approver IS NULL')
+            ->setParameter('user', $user);
+
+        return $queryBuilder->getQuery();
+    }
+
+    public function findQueryForReviewer(User $user): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.language IN (:languages)')
+            ->innerJoin('p.contentRevisions', 'cr')
+            ->where('cr.reviewer = :user')
+            ->setParameter('user', $user)
+            ->groupBy('p.id');
+
+        return $queryBuilder->getQuery();
+    }
+
+    public function findQueryForNotReviewer(User $user): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->leftJoin('p.contentRevisions', 'cr')
+            ->where('p.language IN (:languages)')
+            ->setParameter('languages', $user->getLangsHeCanApprove())
+            ->andWhere('cr.id IS NULL'); // TODO fix this : find product that are not validated by that user only
 
         return $queryBuilder->getQuery();
     }

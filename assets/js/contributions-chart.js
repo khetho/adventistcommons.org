@@ -64,3 +64,35 @@ new Chart(ctx, {
         }
     }
 });
+
+const ctx2 = document.getElementById('proofreaderContributionChart');
+new Chart(ctx2, {
+    type: 'line',
+    data: window.proofreaderContributionChart,
+    options: {
+        options: {
+            plugins: {
+                colorschemes: {
+                    scheme: 'office.Paired7'
+                }
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                type: 'time',
+                time: {
+                    unit: 'month',
+                    unitStepSize: 1,
+                    displayFormats: {
+                        'month': 'MMM YY'
+                    }
+                }
+            }]
+        }
+    }
+});

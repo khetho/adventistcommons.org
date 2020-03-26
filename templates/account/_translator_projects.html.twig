@@ -1,4 +1,4 @@
-<h3>{% trans %}dashboard.projects.header{% endtrans %}</h3>
+<h3>{% trans %}dashboard.translator.projects.header{% endtrans %}</h3>
 <table class="table mb-4">
   <thead>
     <tr>
@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for project in myProjects %}
+    {% for project in translatedProjects %}
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>
@@ -22,7 +22,7 @@
   </tbody>
 </table>
 
-<h3>{% trans %}dashboard.projects.available_header{% endtrans %}</h3>
+<h3>{% trans %}dashboard.translator.projects.available_header{% endtrans %}</h3>
 <table class="table">
   <thead>
     <tr>
@@ -31,7 +31,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for project in otherProjects %}
+    {% for project in untranslatedProjects %}
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>

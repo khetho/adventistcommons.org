@@ -22,12 +22,9 @@ class ContentRevisionRepository extends ServiceEntityRepository
         parent::__construct($registry, ContentRevision::class);
     }
 
-    /**
-     * @param User $user
-     * @return mixed
-     */
-    public function getUserReport(User $user)
+    public function getUserReport(User $user, string $role)
     {
+        $this->checkRole($role);
         $queryBuilder = $this->createQueryBuilder('cr')
             ->select(
                 'd.name as product_name,
@@ -43,20 +40,16 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->innerJoin('s.paragraphs', 'p')
             ->innerJoin('p.sentences', 'st2')
             ->innerJoin('j.language', 'l')
-            ->where('cr.user = :user')
+            ->where(sprintf('cr.%s = :user', $role))
             ->groupBy('d.id, l.id')
             ->setParameter('user', $user);
         
         return $queryBuilder->getQuery()->getResult();
     }
 
-    /**
-     * @param User $user
-     * @return array
-     * @throws Exception
-     */
-    public function getUserReportPerMonth(User $user): array
+    public function getUserReportPerMonth(User $user, string $role): array
     {
+        $this->checkRole($role);
         $sixMonthsAgo = new DateTime('first day of this month');
         $sixMonthsAgo->sub(new DateInterval('P6M'));
         $queryBuilder = $this->createQueryBuilder('cr')
@@ -66,7 +59,7 @@ class ContentRevisionRepository extends ServiceEntityRepository
             ->innerJoin('j.product', 'd')
             ->groupBy('month, year, d.id')
             ->orderBy('year, month')
-            ->where('cr.user = :user')
+            ->where(sprintf('cr.%s = :user', $role))
             ->setParameter('user', $user)
             ->andWhere('cr.createdAt > :sixMonthsAgo')
             ->setParameter('sixMonthsAgo', $sixMonthsAgo);
@@ -77,6 +70,13 @@ class ContentRevisionRepository extends ServiceEntityRepository
         }
         
         return $results;
+    }
+
+    private function checkRole(string $role): void
+    {
+        if (!in_array($role, ['translator', 'approver', 'reviewer'])) {
+            throw new \Exception(sprintf('A content is not linked to user with a role named «%s»', $role));
+        }
     }
     
     /**

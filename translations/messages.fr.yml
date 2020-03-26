@@ -56,23 +56,36 @@ home:
     product_manager: Chef de produit
 dashboard:
   projects:
-    tab: Projets
-    header: Mes projets
     none_yet: Aucun projet pour le moment
-    available_header: Projets en cours
     browse_all: Parcourir tous les projets
     title: Titre
     language: Langue
     status: Statut
+    actions: Actions
   contributions:
-    tab: Contributions
-    header: Mes contributions
     none_yet: Aucune pour le moment
     title: Titre
     language: Langue
     sentences: Phrases
     date: Date
     percentage: Pourcentage
+  translator:
+    projects:
+      tab: Projets traduits
+      header: Mes projets
+      available_header: Projets en cours
+    contributions:
+      tab: Traductions
+      header: Mes traductions
+  proofreader:
+    projects:
+      tab: Projets à relire
+      header: Projets en cours de relecture par moi
+      available_header: Autres projets dans vos langues
+      unassign: Quitter
+    contributions:
+      tab: Relectures
+      header: Mes relectures
   downloads:
     tab: Historique de téléchargement
     header: Mes téléchargements
@@ -449,3 +462,11 @@ content_revision:
     new: Nouveau
     approved: Approuvé
     reviewed: Relu
+workflow:
+  proofreader:
+    you_are: Vous êtes relecteur pour les langues
+    checklist:
+      link: Checklist du relecteur
+      title: Checklist du relecteur
+      item1: Point 1
+      item2: Point 2

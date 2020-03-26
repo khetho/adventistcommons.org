@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Project
@@ -74,6 +75,16 @@ class Project
      * )
      */
     private $members;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="approver_id", referencedColumnName="id")
+     * })
+     */
+    private $approver;
 
     /**
      * One product has many projects. This is the inverse side.
@@ -167,5 +178,17 @@ class Project
     public function getAttachments(): Collection
     {
         return $this->attachments;
+    }
+
+    public function getApprover(): ?User
+    {
+        return $this->approver;
+    }
+
+    public function setApprover(?UserInterface $approver): self
+    {
+        $this->approver = $approver;
+
+        return $this;
     }
 }
