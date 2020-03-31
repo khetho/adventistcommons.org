@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Language;
 use App\Entity\Project;
 use App\Project\Form\Type\AddType;
+use App\Repository\LanguageRepository;
 use App\Twig\RoutesExtension;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,8 +55,15 @@ class ProjectsController extends AbstractController
     public function list(Request $request, PaginatorInterface $paginator, DataFinder $dataFinder, $languageCode = null)
     {
         $language = $languageCode ? $dataFinder->retrieveLanguageOr404($languageCode) : null;
-        $usedLanguages = $this->getDoctrine()->getRepository(Language::class)->findUsedInProject();
-        $projectsQuery = $this->getDoctrine()->getRepository(Project::class)->findQueryForLanguage($language);
+        $languageRepo = $this->getDoctrine()->getRepository(Language::class);
+        $usedLanguages = $this->isGranted('ROLE_ADMIN')
+            ? $languageRepo->findUsedInProject()
+            : $languageRepo->findUsedInEnabledProject();
+
+        $projectRepo = $this->getDoctrine()->getRepository(Project::class);
+        $projectsQuery = $this->isGranted('ROLE_ADMIN')
+            ? $projectRepo->findQueryForLanguage($language)
+            : $projectRepo->findQueryEnabledForLanguage($language);
         $pagination = $paginator->paginate(
             $projectsQuery,
             $request->query->getInt('page', 1),

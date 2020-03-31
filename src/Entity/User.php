@@ -916,15 +916,15 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        $groups = ['ROLE_USER'];
+        $roles = ['ROLE_USER'];
         /** @var Group $group */
         foreach ($this->getGroups() as $group) {
             if ($group->getName() == 'admin') {
-                $groups[] = 'ROLE_ADMIN';
+                $roles[] = 'ROLE_ADMIN';
             }
         }
 
-        return $groups;
+        return $roles;
     }
 
     /**

@@ -22,11 +22,31 @@ class LanguageRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findUsedInEnabledProject(): array
+    {
+        return $this
+            ->findUsedInEnabledProjectQueryBuilder()
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findUsedInProjectQueryBuilder(): QueryBuilder
     {
         return $this
             ->createQueryBuilder('l')
-            ->innerJoin('l.projects', 'p')
+            ->innerJoin('l.projects', 'j')
             ->groupBy('l');
+    }
+
+    public function findUsedInEnabledProjectQueryBuilder(): QueryBuilder
+    {
+        return $this
+            ->findUsedInProjectQueryBuilder()
+            ->andWhere('j.enabled = :project_enabled')
+            ->setParameter('project_enabled', true)
+            ->innerJoin('j.product', 'p')
+            ->andWhere('p.enabled = :product_enabled')
+            ->setParameter('product_enabled', true)
+        ;
     }
 }

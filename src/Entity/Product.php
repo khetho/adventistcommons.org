@@ -43,6 +43,10 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class Product
 {
+    const STATUS_DRAFT = 'draft';
+    const STATUS_TRANSLATABLE = 'translatable';
+    const STATUS_OUTDATED = 'outdated';
+
     /**
      * @var int
      *
@@ -79,6 +83,20 @@ class Product
      * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      */
     private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", nullable=false, length=16)
+     */
+    private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable=false)
+     */
+    private $enabled;
 
     /**
      * @var File|null
@@ -272,6 +290,8 @@ class Product
     {
         $this->projects = new ArrayCollection();
         $this->audiences = new ArrayCollection();
+        $this->setStatus(self::STATUS_DRAFT);
+        $this->enable();
     }
 
     public function getId(): ?int
@@ -311,6 +331,18 @@ class Product
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
@@ -613,5 +645,32 @@ class Product
     public function getSections(): Collection
     {
         return $this->sections;
+    }
+
+    public function getEnabledProjects()
+    {
+        $projects = new ArrayCollection();
+        foreach ($this->projects as $project) {
+            if ($project->isEnabled()) {
+                $projects->add($project);
+            }
+        }
+
+        return $projects;
+    }
+
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    public function disable()
+    {
+        $this->enabled = false;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 }

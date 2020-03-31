@@ -6621,6 +6621,10 @@ h3 + .btn-round, h5 + .btn-round {
 .card-project .avatars {
   margin-bottom: 2.25rem; }
 
+.card-disabled {
+  opacity: .7;
+}
+
 .card-team h5 {
   margin-bottom: 0.375rem; }
 

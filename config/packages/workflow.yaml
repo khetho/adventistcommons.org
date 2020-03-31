@@ -1,0 +1,48 @@
+framework:
+  workflows:
+    product:
+      type: 'state_machine'
+      marking_store:
+        type: 'method'
+        property: 'status'
+      supports:
+        - App\Entity\Product
+      initial_marking: !php/const App\Entity\Product::STATUS_DRAFT
+      places:
+        - !php/const App\Entity\Product::STATUS_DRAFT
+        - !php/const App\Entity\Product::STATUS_TRANSLATABLE
+        - !php/const App\Entity\Product::STATUS_OUTDATED
+      transitions:
+        publish:
+          from: !php/const App\Entity\Product::STATUS_DRAFT
+          to: !php/const App\Entity\Product::STATUS_TRANSLATABLE
+        archive:
+          from: [!php/const App\Entity\Product::STATUS_DRAFT, !php/const App\Entity\Product::STATUS_TRANSLATABLE, ]
+          to: !php/const App\Entity\Product::STATUS_OUTDATED
+    project:
+      type: 'state_machine'
+      marking_store:
+        type: 'method'
+        property: 'status'
+      supports:
+        - App\Entity\Project
+      initial_marking: !php/const App\Entity\Project::STATUS_TRANSLATABLE
+      places:
+        - !php/const App\Entity\Project::STATUS_TRANSLATABLE
+        - !php/const App\Entity\Project::STATUS_STARTED
+        - !php/const App\Entity\Project::STATUS_TRANSLATED
+        - !php/const App\Entity\Project::STATUS_APPROVED
+        - !php/const App\Entity\Project::STATUS_REVIEWED
+      transitions:
+        start:
+          from: !php/const App\Entity\Project::STATUS_TRANSLATABLE
+          to: !php/const App\Entity\Project::STATUS_STARTED
+        declare_translated:
+          from: !php/const App\Entity\Project::STATUS_STARTED
+          to: !php/const App\Entity\Project::STATUS_TRANSLATED
+        declare_approved:
+          from: !php/const App\Entity\Project::STATUS_TRANSLATED
+          to: !php/const App\Entity\Project::STATUS_APPROVED
+        declare_reviewed:
+          from: !php/const App\Entity\Project::STATUS_APPROVED
+          to: !php/const App\Entity\Project::STATUS_REVIEWED

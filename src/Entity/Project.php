@@ -28,6 +28,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Project
 {
+    const STATUS_TRANSLATABLE = 'translatable'; // translation can be started
+    const STATUS_STARTED = 'started'; // translation has started
+    const STATUS_TRANSLATED = 'translated'; // all content is translated
+    const STATUS_APPROVED = 'approved'; // all content is approved
+    const STATUS_REVIEWED = 'reviewed'; // all content is reviewed
+
     /**
      * @var int
      *
@@ -38,11 +44,18 @@ class Project
     private $id;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="status", type="boolean", nullable=false)
+     * @ORM\Column(name="status", type="string", nullable=false, length=16)
      */
-    private $status = '0';
+    private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable=false)
+     */
+    private $enabled;
 
     /**
      * @var Product
@@ -101,6 +114,8 @@ class Project
     {
         $this->members = new ArrayCollection();
         $this->attachments = new ArrayCollection();
+        $this->enable();
+        $this->setStatus(self::STATUS_TRANSLATABLE);
     }
 
     public function getId(): ?int
@@ -108,12 +123,12 @@ class Project
         return $this->id;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -190,5 +205,30 @@ class Project
         $this->approver = $approver;
 
         return $this;
+    }
+
+    public function isReviewed()
+    {
+        return $this->getStatus() == self::STATUS_REVIEWED;
+    }
+
+    public function isStarted()
+    {
+        return $this->getStatus() == self::STATUS_STARTED;
+    }
+
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    public function disable()
+    {
+        $this->enabled = false;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 }

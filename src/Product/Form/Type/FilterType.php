@@ -14,9 +14,17 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class FilterType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -41,7 +49,9 @@ class FilterType extends AbstractType
                     'label' => 'product.filter.language.label',
                     'required' => false,
                     'query_builder' => function (LanguageRepository $repo) {
-                        return $repo->findUsedInProjectQueryBuilder();
+                        return $this->security->isGranted('ROLE_ADMIN')
+                            ? $repo->findUsedInProjectQueryBuilder()
+                            : $repo->findUsedInEnabledProjectQueryBuilder();
                     },
                 ]
             )

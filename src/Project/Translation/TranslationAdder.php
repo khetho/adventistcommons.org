@@ -5,6 +5,7 @@ namespace App\Project\Translation;
 use App\Entity\ContentRevision;
 use App\Entity\Project;
 use App\Entity\Sentence;
+use App\Project\StatusChanger;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
 
@@ -12,11 +13,13 @@ class TranslationAdder
 {
     private $registry;
     private $user;
+    private $statusChanger;
 
-    public function __construct(ManagerRegistry $registry, Security $security)
+    public function __construct(ManagerRegistry $registry, Security $security, StatusChanger $statusChanger)
     {
         $this->registry = $registry;
         $this->user = $security->getUser();
+        $this->statusChanger = $statusChanger;
     }
 
     public function addTranslation(Sentence $sentence, Project $project, string $content): ?ContentRevision
@@ -36,6 +39,9 @@ class TranslationAdder
 
         $manager->persist($revision);
         $manager->flush();
+
+        $this->statusChanger->startIfUndone($project);
+        $this->statusChanger->changeToApprovedIfAllContentApproved($project);
 
         return $revision;
     }

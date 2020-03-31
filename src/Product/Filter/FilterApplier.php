@@ -5,19 +5,23 @@ namespace App\Product\Filter;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Security\Core\Security;
 
 class FilterApplier
 {
     private $currentFilterManager;
     private $manager;
+    private $security;
     private $foreignCount = 0;
 
     public function __construct(
         CurrentFilterManager $currentFilterManager,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        Security $security
     ) {
         $this->currentFilterManager = $currentFilterManager;
         $this->manager = $manager;
+        $this->security = $security;
     }
     
     public function getProducts()
@@ -35,6 +39,9 @@ class FilterApplier
         $qBuilder = $this->addCriteriaIn($qBuilder, 'audiences', $filterStatus->getAudience());
         $qBuilder = $this->addCriteria($qBuilder, 'binding', $filterStatus->getBinding());
         $qBuilder = $this->addSort($qBuilder, $filterStatus->getSort());
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $qBuilder = $this->addCriteria($qBuilder, 'enabled', true);
+        }
 
         return $qBuilder->getQuery();
     }

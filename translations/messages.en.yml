@@ -287,6 +287,8 @@ product:
     pdf_digital_printing: Pdf for digital printing
     pdf_offset_printing: Pdf for offset printing
     source_idml_file: Original InDesign file
+    enable: Publish
+    disable: Unpublish
   edit:
     title: "%product_name% product edit"
     general: General
@@ -340,6 +342,10 @@ product:
     warning3: Are you sure about that ?
     submit: Delete
     force: Enforce deletion
+  status:
+    draft: Draft
+    Translatable: Translatable
+    outdated: Outdated
 project:
   field:
     member:
@@ -373,6 +379,12 @@ project:
     invited_contributor: invited
     contributor: Contributor
     members: Members
+  status:
+    translatable: Translatable
+    started: Started
+    translated: Translated
+    approved: Approved
+    reviewed: Reviewed
 attachment:
   field:
     type:

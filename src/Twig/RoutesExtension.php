@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
 use App\Entity\Attachment;
@@ -21,6 +22,7 @@ class RoutesExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
+            new TwigFunction('pathToProduct', [$this, 'pathToProduct']),
             new TwigFunction('pathToProject', [$this, 'pathToProject']),
             new TwigFunction('pathToSection', [$this, 'pathToSection']),
             new TwigFunction('pathToPreviousSection', [$this, 'pathToPreviousSection']),
@@ -29,7 +31,17 @@ class RoutesExtension extends AbstractExtension
             new TwigFunction('pathToAttachment', [$this, 'pathToAttachment']),
         ];
     }
-    
+
+    public function pathToProduct(Product $product, $action = 'show')
+    {
+        return $this->router->generate(
+            sprintf('app_product_%s', $action),
+            [
+                'slug' => $product->getSlug(),
+            ]
+        );
+    }
+
     public function pathToProject(Project $project, $action = 'show')
     {
         return $this->router->generate(

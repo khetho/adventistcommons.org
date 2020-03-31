@@ -11,6 +11,7 @@ use App\Entity\ContentRevision;
 use App\Entity\Sentence;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -18,10 +19,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DataFinder
 {
     private $registry;
+    private $security;
 
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(ManagerRegistry $managerRegistry, Security $security)
     {
         $this->registry = $managerRegistry;
+        $this->security = $security;
     }
 
     public function retrieveProjectOr404($slug, $languageCode): Project
@@ -37,6 +40,9 @@ class DataFinder
         if (!$project) {
             throw new NotFoundHttpException();
         }
+        if (!$project->isEnabled() && !$this->security->isGranted('ROLE_ADMIN')) {
+            throw new NotFoundHttpException();
+        }
 
         return $project;
     }
@@ -48,6 +54,9 @@ class DataFinder
             'slug' => $slug,
         ]);
         if (!$product) {
+            throw new NotFoundHttpException();
+        }
+        if (!$product->isEnabled() && !$this->security->isGranted('ROLE_ADMIN')) {
             throw new NotFoundHttpException();
         }
 
@@ -111,7 +120,7 @@ class DataFinder
         return $attachment;
     }
 
-    public function retrieveSentenceOr404($sentenceId, $project): Sentence
+    public function retrieveSentenceOr404($sentenceId, Project $project): Sentence
     {
         $sentence = $this->registry->getRepository(Sentence::class)->find($sentenceId);
         if (!$sentence || (

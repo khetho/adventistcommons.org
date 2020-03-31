@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\ContentRevision;
+use App\Entity\Product;
+use App\Entity\Project;
 use App\Form\UploaderAggregator;
 use App\Product\DownloadLogger;
 use App\Product\Form\Type\DeleteConfirmType;
@@ -276,5 +278,49 @@ class ProductController extends AbstractController
             'deleteForm'       => $confirmDeleteForm->createView(),
             'translationCount' => $count,
         ]);
+    }
+
+    /**
+     * @Route("/{slug}/disable", name="app_product_disable")
+     * @param string $slug
+     * @param Request $request
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function disable(string $slug, Request $request, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        $product->disable();
+
+        return $this->saveProductAndRedirect($product, $request);
+    }
+
+    /**
+     * @Route("/{slug}/enable", name="app_product_enable")
+     * @param string $slug
+     * @param Request $request
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function enable(string $slug, Request $request, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        $product->enable();
+
+        return $this->saveProductAndRedirect($product, $request);
+    }
+
+    private function saveProductAndRedirect(Product $product, Request $request)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($product);
+        $manager->flush();
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('app_product_show', ['slug' => $product->getSlug()]);
     }
 }

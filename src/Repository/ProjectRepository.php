@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 class ProjectRepository extends ServiceEntityRepository
 {
@@ -17,14 +18,32 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
     
-    public function findQueryForLanguage(?Language $language): Query
+    public function findQueryForLanguage(?Language $language = null): Query
     {
-        $queryBuilder = $this->createQueryBuilder('p');
+        return $this->findQBForLanguage($language)->getQuery();
+    }
+
+    public function findQBForLanguage(?Language $language = null): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('j');
         if ($language) {
-            $queryBuilder->where('p.language = :language')
+            $queryBuilder->andWhere('j.language = :language')
                 ->setParameter('language', $language);
         }
         
+        return $queryBuilder;
+    }
+
+    public function findQueryEnabledForLanguage(?Language $language = null): Query
+    {
+        $queryBuilder = $this->findQBForLanguage($language);
+        $queryBuilder->andWhere('j.enabled = :project_enabled')
+            ->setParameter('project_enabled', true)
+            ->innerJoin('j.product', 'p')
+            ->andWhere('p.enabled = :product_enabled')
+            ->setParameter('product_enabled', true)
+        ;
+
         return $queryBuilder->getQuery();
     }
 

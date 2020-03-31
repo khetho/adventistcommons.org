@@ -26,7 +26,7 @@
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>
-        <td>{{ project.status }}</td>
+        <td>{{ ('project.status.' ~ project.status)|trans }}</td>
         <td><a class="btn btn-primary" href="{{ pathToProject(project, 'unassign') }}">{% trans %}dashboard.proofreader.projects.unassign{% endtrans %}</a></td>
       </ tr>
     {% else %}

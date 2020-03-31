@@ -33,7 +33,7 @@
 								<i class="fas fa-tasks"></i>&nbsp;
 								<span>{{ project|projectTranslatedCount }} / {{ project.product|sentenceCountForProduct }} ({{ (project|projectTranslatedRatio * 100)|round(1) }} %)</span>
 							</div>
-							<span>{{ project.status }}</span>
+							<span>{{ ('project.status.' ~ project.status)|trans }}</span>
 						</div>
 					</div>
 				</div>

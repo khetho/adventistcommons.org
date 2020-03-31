@@ -34,6 +34,7 @@
         "symfony/serializer": "4.3.*",
         "symfony/translation": "4.3.*",
         "symfony/webpack-encore-bundle": "^1.7",
+        "symfony/workflow": "4.3.*",
         "symfony/yaml": "*",
         "twig/extensions": "^1.5",
         "vibby/php-text-diff": "^1.0"

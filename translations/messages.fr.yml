@@ -287,6 +287,8 @@ product:
     pdf_digital_printing: Pdf pour impression numérique
     pdf_offset_printing: Pdf pour impression offset
     source_idml_file: Fichier InDesign Original
+    enable: Publier
+    disable: Dépublier
   edit:
     title: "Éditer le produit %product_name%"
     general: Général
@@ -340,6 +342,10 @@ product:
     warning3: En êtes-vous bien sûr ?
     submit: Suprimer
     force: Forcer la supression
+  status:
+    draft: Brouillon
+    Translatable: À traduire
+    outdated: Archivé
 project:
   field:
     member:
@@ -373,6 +379,12 @@ project:
     invited_contributor: invité
     contributor: Contributeur
     members: Membres
+  status:
+    translatable: À traduire
+    started: Commencé
+    translated: Entierement traduit
+    approved: Approuvé
+    reviewed: Relu
 attachment:
   field:
     type:

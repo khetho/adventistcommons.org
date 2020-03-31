@@ -8,9 +8,11 @@
 					{% if user.langsHeCanApprove %}
 						<a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#proofreader-projects" role="tab">{% trans %}dashboard.proofreader.projects.tab{% endtrans %}</a>
 						<a class="nav-link" id="contributions-tab" data-toggle="tab" href="#proofreader-contributions" role="tab">{% trans %}dashboard.proofreader.contributions.tab{% endtrans %}</a>
+						<hr />
 					{% endif %}
 					<a class="nav-link {% if not user.langsHeCanApprove %}active{% endif %}" id="projects-tab" data-toggle="tab" href="#translator-projects" role="tab">{% trans %}dashboard.translator.projects.tab{% endtrans %}</a>
 					<a class="nav-link" id="contributions-tab" data-toggle="tab" href="#translator-contributions" role="tab">{% trans %}dashboard.translator.contributions.tab{% endtrans %}</a>
+					<hr />
 					<a class="nav-link" id="downloads-tab" data-toggle="tab" href="#downloads" role="tab">{% trans %}dashboard.downloads.tab{% endtrans %}</a>
 					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab">{% trans %}account.edit.profile{% endtrans %}</a>
 					<a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab">{% trans %}account.edit.password{% endtrans %}</a>

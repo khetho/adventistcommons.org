@@ -72,7 +72,7 @@ class JsonResponseBuilder
         }
     }
 
-    public function buildErrorResponse($message)
+    public function buildErrorResponse($message, $code = 500)
     {
         if ($this->kernel->isDebug()) {
             return new JsonResponse(
@@ -81,7 +81,7 @@ class JsonResponseBuilder
                     'result' => 'exception',
                     'html' => $message,
                 ],
-                500
+                $code
             );
         }
         try {
@@ -91,7 +91,7 @@ class JsonResponseBuilder
                     'result' => 'exception',
                     'html' => $this->twig->render('common/_json_error.twig'),
                 ],
-                500
+                $code
             );
         } catch (\Exception $e) {
             return new JsonResponse(
@@ -100,7 +100,7 @@ class JsonResponseBuilder
                     'result' => 'exception',
                     'html' => 'Error',
                 ],
-                500
+                $code
             );
         }
     }

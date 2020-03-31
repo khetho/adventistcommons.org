@@ -40,7 +40,7 @@
 					{% trans %}product.show.upload_file{% endtrans %}
 				</button>
 			{% endif %}
-			{% if is_granted('ROLE_USER') %}
+			{% if is_granted('ROLE_ADMIN') %}
 				<button class="btn btn-primary" data-toggle="modal" data-target="#add-project-form">
 					{% trans %}product.show.new_translation{% endtrans %}
 				</button>
@@ -51,8 +51,13 @@
 <div class="content-list-body">
 	<div class="card-list">
 		<div class="card-list-body">
-			{% for project in product.projects %}
-				<div class="card card-task">
+			{% if is_granted('ROLE_ADMIN') %}
+				{% set projects = product.projects %}
+			{% else %}
+				{% set projects = product.enabledProjects %}
+			{% endif %}
+			{% for project in projects %}
+				<div class="card card-task {% if not project.enabled %}card-disabled{% endif %}">
 					<div class="progress">
 						<div class="progress-bar bg-danger"
 							 role="progressbar"
@@ -73,10 +78,12 @@
 					</div>
 					<div class="card-body">
 						<div class="card-title">
-							<h6 data-filter-by="text">{{ project.language.name }}</h6>
-							<div class="d-flex align-items-center">
-								<span>{{ project.status ? project.status : "" }}</span>
-							</div>
+							<h6 data-filter-by="text">
+								{% if not project.enabled %}
+									<i class="fas fa-eye-slash fa-pull-left fa-2x"></i>
+								{% endif %}
+								{{ project.language.name }}
+							</h6>
 						</div>
 						<div class="card-meta">
 							<div class="btn-group"
@@ -84,6 +91,17 @@
 								 aria-label="{% trans %}product.show.project_actions{% endtrans %}"
 							>
 								<div class="btn-group">
+									{% if is_granted('ROLE_ADMIN') %}
+										{% if project.enabled %}
+											<a href="{{ pathToProject(project, 'disable') }}" class="btn btn-secondary">
+												<i class="fas fa-eye"></i> {% trans %}product.show.disable{% endtrans %}
+											</a>
+										{% else %}
+											<a href="{{ pathToProject(project, 'enable') }}" class="btn btn-secondary">
+												<i class="fas fa-eye"></i> {% trans %}product.show.enable{% endtrans %}
+											</a>
+										{% endif %}
+									{% endif %}
 									{% if project.attachments|length %}
 										{% if is_granted('ROLE_USER') %}
 											<button class="btn btn-secondary dropdown-toggle"
@@ -112,13 +130,13 @@
 									<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
 									   class="btn btn-primary"
 									>
-										{% if project.status %}
+										{% if project.isStarted %}
 											{% trans %}product.show.start_translate{% endtrans %}
 										{% else %}
 											{% trans %}product.show.translate{% endtrans %}
 										{% endif %}
 									</a>
-									{% if project.status and is_granted('ROLE_USER') %}
+									{% if project.isReviewed and is_granted('ROLE_USER') %}
 										<a class="btn btn-secondary"
 										   href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
 										>
