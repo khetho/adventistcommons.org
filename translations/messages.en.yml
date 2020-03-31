@@ -262,10 +262,12 @@ product:
     header: Products
     add: Add Product
     validate_idml: Validate IDML
-    author: Author(s)
+    author: by %author%
     page_count: Pages
     languages: Languages
     none: No product is found
+    untranslated: No translation yet
+    publisher: "Publisher: %publisher%"
   show:
     title: "%product_name% product"
     edit: Edit

@@ -34,24 +34,40 @@
 											<div class="card-body">
 												<div class="card-title">
 													<a href="{{ path('app_product_show', {'slug': product.slug}) }}">
-														<h5 data-filter-by="text">{{ product.name }}</h5>
+														<h5 data-filter-by="text" class="mb-0">{{ product.name }}</h5>
 													</a>
+													{% if product.author %}
+														<p class="text-small mb-1">{% trans with {'%author%': '<em>'~product.author~'</em>'} %}product.list.author{% endtrans %}</p>
+													{% endif %}
 												</div>
 												<div class="card-meta d-flex justify-content-between">
 													<div class="">
-														<span class="text-small">{% trans %}product.list.author{% endtrans %}: {{ product.author }}</span><br>
-														<span class="text-small">{% trans %}product.list.page_count{% endtrans %}: {{ product.pageCount }} </span><br>
-														<span class="text-small">{% trans %}product.list.languages{% endtrans %}:  
+														{% if product.pageCount %}
+															<p class="text-small mb-1">{% trans %}product.list.page_count{% endtrans %}: {{ product.pageCount }} </p>
+														{% endif %}
+														<p class="text-small mb-1">{% trans %}product.list.languages{% endtrans %}:
 															{% for project in product.projects %}
 																{{ project.language.name }},
+															{% else %}
+																<em>{% trans %}product.list.untranslated{% endtrans %}</em>
 															{% endfor %}
-														</span><br>
+														</p>
 													</div>
 													{% if not product.enabled %}
 														<i class="fas fa-eye-slash fa-pull-right fa-2x"></i>
 													{% endif %}
 												</div>
 											</div>
+											{% if product.publisher %}
+												<div class="align-bottom ml-3 badge badge-secondary">
+													{% if product.publisherWebsite %}
+														{% set publisherName = '<a class="text-light" href="' ~ product.publisherWebsite ~ '">' ~ product.publisher ~ '</a>' %}
+													{% else %}
+														{% set publisherName = product.publisher %}
+													{% endif %}
+													{% trans with {'%publisher%': publisherName} %}product.list.publisher{% endtrans %}
+												</div>
+											{% endif %}
 										</div>
 									</div>
 								</div>
