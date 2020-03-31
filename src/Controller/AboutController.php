@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Error\LoaderError;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 class AboutController extends AbstractController
 {
@@ -43,8 +44,10 @@ class AboutController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function page(string $slug, Request $request)
+    public function page(string $slug, Request $request, Breadcrumbs $breadcrumbs)
     {
+        $breadcrumbs->addItem('commons.breadcrumbs.about.parent');
+        $breadcrumbs->addItem(sprintf('commons.breadcrumbs.about.%s', $slug));
         try {
             return $this->render(sprintf('about/%s.%s.html.twig', $slug, $request->getLocale()));
         } catch (LoaderError $e) {

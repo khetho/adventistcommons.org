@@ -9,9 +9,12 @@ use App\Entity\Section;
 use App\Entity\Attachment;
 use App\Entity\ContentRevision;
 use App\Entity\Sentence;
+use App\Twig\RoutesExtension;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -20,11 +23,19 @@ class DataFinder
 {
     private $registry;
     private $security;
+    private $breadcrumbs;
+    private $appRouter;
 
-    public function __construct(ManagerRegistry $managerRegistry, Security $security)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        Security $security,
+        Breadcrumbs $breadcrumbs,
+        RoutesExtension $appRouter
+    ) {
         $this->registry = $managerRegistry;
         $this->security = $security;
+        $this->breadcrumbs = $breadcrumbs;
+        $this->appRouter = $appRouter;
     }
 
     public function retrieveProjectOr404($slug, $languageCode): Project
@@ -43,6 +54,11 @@ class DataFinder
         if (!$project->isEnabled() && !$this->security->isGranted('ROLE_ADMIN')) {
             throw new NotFoundHttpException();
         }
+        $this->breadcrumbs->addItem(
+            'commons.breadcrumbs.project',
+            $this->appRouter->pathToProject($project),
+            ['%language%' => $project->getLanguage()->getName()]
+        );
 
         return $project;
     }
@@ -59,6 +75,15 @@ class DataFinder
         if (!$product->isEnabled() && !$this->security->isGranted('ROLE_ADMIN')) {
             throw new NotFoundHttpException();
         }
+        $this->breadcrumbs->addItem(
+            'commons.breadcrumbs.products',
+            $this->appRouter->pathToProducts()
+        );
+        $this->breadcrumbs->addItem(
+            'commons.breadcrumbs.product',
+            $this->appRouter->pathToProduct($product),
+            ['%product%' => $product->getName()]
+        );
 
         return $product;
     }
@@ -76,16 +101,22 @@ class DataFinder
         return $language;
     }
 
-    public function retrieveSectionOr404($slug, $sectionName): Section
+    public function retrieveSectionOr404($sectionName, Project $project): Section
     {
-        $product = $this->retrieveProductOr404($slug);
         /** @var Section $section */
         $section = $this->registry->getRepository(Section::class)->findOneBy([
-            'product' => $product,
+            'product' => $project->getProduct(),
             'name' => $sectionName,
         ]);
         if (!$section) {
             throw new NotFoundHttpException();
+        }
+        if ($project) {
+            $this->breadcrumbs->addItem(
+                'commons.breadcrumbs.section',
+                $this->appRouter->pathToSection($project, $section),
+                ['%section%' => $section->getName()]
+            );
         }
 
         return $section;

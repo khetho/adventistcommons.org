@@ -18,8 +18,8 @@ class SectionController extends AbstractController
      */
     public function edit($slug, $languageCode, $sectionName, DataFinder $dataFinder)
     {
-        $section = $dataFinder->retrieveSectionOr404($slug, $sectionName);
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
+        $section = $dataFinder->retrieveSectionOr404($sectionName, $project);
         $section = $dataFinder->addLatestTranslations($section, $project);
 
         return $this->render(

@@ -23,7 +23,18 @@ commons:
   form:
     save: Save
     confirm: Are you sure? This cannot be undone!
-  lost_here: Are you lost here? %before_link% get back to home%after_link%  
+  lost_here: Are you lost here? %before_link% get back to home%after_link%
+  breadcrumbs:
+    about:
+      parent: About
+      faq: Faq
+      privacy_policy: Privacy policy
+      terms_of_use: Terms of use
+    products: Products
+    product: «%product%»
+    project: Translate to «%language%»
+    section: Section «%section%»
+    edit: Edit
 home:
   title: Certified Adventist Resources, Culturally Relevant
   jumbo:

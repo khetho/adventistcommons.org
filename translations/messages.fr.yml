@@ -23,7 +23,18 @@ commons:
   form:
     save: Enregistrer
     confirm: Cette action ne pourra pas être annulée. Souhaitez vous confirmer l’action ?
-  lost_here: Vous êtes perdu ? %before_link% retour à l’accueil%after_link%  
+  lost_here: Vous êtes perdu ? %before_link% retour à l’accueil%after_link%
+  breadcrumbs:
+    about:
+      parent: À propos
+      faq: Questions fréquentes
+      privacy_policy: Politique de confidentialité
+      terms_of_use: Termes du service
+    products: Produits
+    product: « %product% »
+    project: Traduction en « %language% »
+    section: Section « %section% »
+    edit: Éditer
 home:
   title: Resources Adventiste Certifiées, Culturelement Pertinentes
   jumbo:

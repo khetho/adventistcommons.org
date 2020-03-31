@@ -27,6 +27,9 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-xl-5 col-lg-6 col-md-7">
+                            {% block breadcrumb %}
+                                {% include 'common/_breadcrumbs.html.twig' %}
+                            {% endblock %}
                             {% include 'common/_messages.html.twig' %}
                             {% block content %}{% endblock %}
                         </div>

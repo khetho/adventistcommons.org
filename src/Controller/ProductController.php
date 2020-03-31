@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -158,11 +159,12 @@ class ProductController extends AbstractController
      * @param Request $request
      * @param UploaderAggregator $uploader
      * @param DataFinder $dataFinder
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @throws Exception
      */
-    public function edit($slug, Request $request, UploaderAggregator $uploader, DataFinder $dataFinder)
+    public function edit($slug, Request $request, UploaderAggregator $uploader, DataFinder $dataFinder, Breadcrumbs $breadcrumbs)
     {
         $product = $dataFinder->retrieveProductOr404($slug);
         $submittedProduct = null;
@@ -209,6 +211,7 @@ class ProductController extends AbstractController
                 'action' => $this->generateUrl('app_product_delete', ['slug' => $product->getSlug()]),
             ]
         );
+        $breadcrumbs->addItem('commons.breadcrumb.edit');
 
         return $this->render('product/edit.html.twig', [
             'product'      => $product,

@@ -32,6 +32,11 @@ class RoutesExtension extends AbstractExtension
         ];
     }
 
+    public function pathToProducts()
+    {
+        return $this->router->generate('app_product_list');
+    }
+
     public function pathToProduct(Product $product, $action = 'show')
     {
         return $this->router->generate(

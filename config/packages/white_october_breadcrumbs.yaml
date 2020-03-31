@@ -1,0 +1,9 @@
+white_october_breadcrumbs:
+    separator:          ''
+    separatorClass:     ''
+    listId:             'wo-breadcrumbs'
+    listClass:          'breadcrumb'
+    itemClass:          'breadcrumb-item'
+    linkRel:            ''
+    locale:             ~ # defaults to null, so the default locale is used
+    translation_domain: ~ # defaults to null, so the default domain is used
