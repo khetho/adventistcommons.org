@@ -56,9 +56,9 @@
 												</div>
 											</div>
 											{% if product.publisher %}
-												<div class="align-bottom ml-3 badge badge-secondary">
+												<div class="align-bottom ml-3 badge badge-light">
 													{% if product.publisherWebsite %}
-														{% set publisherName = '<a class="text-light" href="' ~ product.publisherWebsite ~ '">' ~ product.publisher ~ '</a>' %}
+														{% set publisherName = '<a href="' ~ product.publisherWebsite ~ '">' ~ product.publisher ~ '</a>' %}
 													{% else %}
 														{% set publisherName = product.publisher %}
 													{% endif %}
