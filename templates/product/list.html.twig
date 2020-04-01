@@ -42,9 +42,6 @@
 												</div>
 												<div class="card-meta d-flex justify-content-between">
 													<div class="">
-														{% if product.pageCount %}
-															<p class="text-small mb-1">{% trans %}product.list.page_count{% endtrans %}: {{ product.pageCount }} </p>
-														{% endif %}
 														<p class="text-small mb-1">{% trans %}product.list.languages{% endtrans %}:
 															{% for project in product.projects %}
 																{{ project.language.name }},
