@@ -1,5 +1,5 @@
 commons:
-  footer: 
+  footer:
     desc: An initiative of the Middle East and North Africa Union of Seventh-day Adventists.
     feedback: Feedback
     report: Bug report
@@ -8,7 +8,7 @@ commons:
     dashboard: Dashboard
     logout: Log Out
     login: Login
-    signup: Sign Up    
+    signup: Sign Up
     products: Products
     translations: Translations
     about: About
@@ -19,7 +19,7 @@ commons:
     language: Language
     my_account: My account
   modal:
-    close: close    
+    close: close
   form:
     save: Save
     confirm: Are you sure? This cannot be undone!
@@ -123,16 +123,16 @@ account:
     firstname:
       label: First name
       placeholder: First name
-    lastname: 
+    lastname:
       label: Last name
       placeholder: Last name
-    email: 
+    email:
       label: Email
       placeholder: Email Address
-    location: 
+    location:
       label: Location
       placeholder: Your location
-    bio: 
+    bio:
       label: Bio
       placeholder: Tell us a little about yourself
       help: This will be displayed on your public profile
@@ -154,7 +154,7 @@ account:
       label: Current password
       placeholder: Enter your current password
     new_password:
-      label: New password
+      label: New password
       placeholder: Enter your new password
     confirm_password:
       label: Confirm password
@@ -194,7 +194,7 @@ feedback:
     title: Send feedback
     header: Feedback
     intro: Interested if you have any feedback or encounter any bugs 🐞, please notify us below. Being very specific will help us reproduce the issue and solve the problem.
-    submit: Send feedback    
+    submit: Send feedback
   field:
     name:
       label: Name
@@ -204,7 +204,7 @@ feedback:
       label: Message
 product:
   field:
-    type: 
+    type:
       label: Product type
       values:
         book: Book
@@ -213,10 +213,10 @@ product:
         tract: Tract
     title:
       label: Title
-    author: 
+    author:
       label: Author(s)
-    publisher: 
-      label: Publisher 
+    publisher:
+      label: Publisher
     publisher_website:
       label: Publisher Website
     cover_image:
@@ -224,25 +224,25 @@ product:
       help: "Maximum height / width  : 1000 pixels"
     description:
       label: Description
-    page_count: 
+    page_count:
       label: Page count
-    audience: 
+    audience:
       label: Audience
-    format_open: 
+    format_open:
       label: Format (open)
-    format_closed: 
+    format_closed:
       label: Format (closed)
-    color_cover: 
+    color_cover:
       label: Colors (cover)
-    color_interior: 
+    color_interior:
       label: Colors (interior)
-    paper_cover: 
+    paper_cover:
       label: Paper (cover)
-    paper_interior: 
+    paper_interior:
       label: Paper (interior)
-    binding: 
+    binding:
       label: Binding
-    finishing: 
+    finishing:
       label: Finishing
     series:
       label: Series
@@ -282,7 +282,7 @@ product:
   show:
     title: "%product_name% product"
     edit: Edit
-    type: Type
+    type: Type
     author: Author
     page_count: Pages
     languages: Languages
@@ -320,7 +320,7 @@ product:
   idml_validation:
     header: Idml Validation
     submit: Validate IDML
-  add:  
+  add:
     header: Add Product
     submit: Create product
     general: General
@@ -328,13 +328,13 @@ product:
   cover_photo:
     header: Cover photo
   type:
-    header: Product type    
+    header: Product type
   filter:
     view_all: View All
     search: Search
     type_or_select: Type or select from list …
     title:
-      label: Original title    
+      label: Original title
     language:
       label: Available in
     audience:
@@ -345,7 +345,7 @@ product:
       label: Type
     binding:
       label: Binding
-  sort:      
+  sort:
     label: Sort by
     name: Name
     author: Author
@@ -382,7 +382,7 @@ project:
     warning: You are about to destroy the project of translation and all its content. This action can never be rollback. Are you sure about that ?
     submit: Remove it all
   list:
-    delete: Delete  
+    delete: Delete
     delete_warning: Are you sure? All translated content will be destroyed.
     no_translation: No Ongoing Translations.
     view_all_languages: view all languages
@@ -417,7 +417,7 @@ attachment:
     file:
       label: File
     language:
-      label: Language 
+      label: Language
 messages:
   account:
     completed: Account completed successfully

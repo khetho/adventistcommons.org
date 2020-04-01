@@ -154,7 +154,7 @@ account:
       label: Mot de passe actuel
       placeholder: Entrer votre mot de passe actuel
     new_password:
-      label: Nouveau mot de passe
+      label: Nouveau mot de passe
       placeholder: Entrez votre nouveau mot de passe
     confirm_password:
       label: Confirmez le mot de passe
@@ -282,7 +282,7 @@ product:
   show:
     title: "produit %product_name%"
     edit: Éditer
-    type: Type
+    type: Type
     author: Auteur
     page_count: Pages
     languages: Langues
@@ -311,6 +311,7 @@ product:
     upload: Charger
     delete_warning: "AVERTISSEMENT: cela ne peut pas être annulé. Toutes les traductions et le contenu associé seront perdus à jamais."
     delete: Supprimer le produit
+    remove_content: Supprimer l’idml et tout le contenu associé
   add_file:
     header: Ajouter un fichier joint
     submit: Charger le fichier
@@ -355,9 +356,15 @@ product:
     warning3: En êtes-vous bien sûr ?
     submit: Suprimer
     force: Forcer la supression
+  remove-content:
+    title: Supprimer le contenu lié
+    warning1: Vous allez suprimer toutes les sections, paragraphes, phrases et traductions du produit.
+    warning2: Il y a actuellement %translation_count% traductions de phrases qui seront supprimées, sans aucune possibilité d’annulation.
+    warning3: En êtes-vous bien sûr ?
+    submit: Supprimer tout le contenu du produit
   status:
     draft: Brouillon
-    Translatable: À traduire
+    translatable: À traduire
     outdated: Archivé
 project:
   field:
@@ -398,6 +405,7 @@ project:
     translated: Entierement traduit
     approved: Approuvé
     reviewed: Relu
+    completed: À télécharger
 attachment:
   field:
     type:
