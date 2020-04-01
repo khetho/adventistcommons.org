@@ -8,6 +8,7 @@ use App\Entity\Project;
 use App\Form\UploaderAggregator;
 use App\Product\DownloadLogger;
 use App\Product\Form\Type\DeleteConfirmType;
+use App\Product\Form\Type\RemoveContentType;
 use App\Product\Uploader\IdmlUploader;
 use App\Product\Uploader\PdfOffsetUploader;
 use App\Product\Uploader\PdfDigitalUploader;
@@ -279,6 +280,42 @@ class ProductController extends AbstractController
         return $this->render('product/delete.html.twig', [
             'product'          => $product,
             'deleteForm'       => $confirmDeleteForm->createView(),
+            'translationCount' => $count,
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}/remove-content", name="app_product_remove_content")
+     * @param string $slug
+     * @param Request $request
+     * @param DataFinder $dataFinder
+     * @return Response
+     */
+    public function removeContent(string $slug, Request $request, DataFinder $dataFinder)
+    {
+        $product = $dataFinder->retrieveProductOr404($slug);
+        $removeContentForm = $this->createForm(RemoveContentType::class, $product);
+        $product = $dataFinder->retrieveProductOr404($slug);
+        $manager = $this->getDoctrine()->getManager();
+        $removeContentForm->handleRequest($request);
+        if ($removeContentForm->isSubmitted() && $removeContentForm->isValid()) {
+            foreach ($product->getSections() as $section) {
+                $manager->remove($section);
+            }
+            $product->setIdmlFile(null);
+            $product->setIdmlFilename(null);
+            foreach ($product->getProjects() as $project) {
+                $project->setStatus(Project::STATUS_TRANSLATABLE);
+            }
+            $manager->flush();
+
+            return $this->redirectToRoute('app_product_show', ['slug' => $product->getSlug()]);
+        }
+        $count = $manager->getRepository(ContentRevision::class)->countForProduct($product);
+
+        return $this->render('product/remove_content.html.twig', [
+            'product'          => $product,
+            'removeContentForm'       => $removeContentForm->createView(),
             'translationCount' => $count,
         ]);
     }

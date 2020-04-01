@@ -82,6 +82,10 @@
 										{% trans %}product.edit.delete{% endtrans %}
 									</button>
 								{{ form_end(deleteForm) }}
+								<br/>
+								<a href="{{ pathToProduct(product, 'remove_content') }}" class="btn btn-danger">
+									{% trans %}product.edit.remove_content{% endtrans %}
+								</a>
 							</div>
 						</div>
 					</div>

@@ -1,0 +1,24 @@
+{% extends "template.html.twig" %}
+
+{% block title %}{% trans %}product.remove-content.title{% endtrans %}{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-11">
+				{% include 'product/_header.html.twig' %}
+				{{ form_start(removeContentForm) }}
+				<div class="border-danger m-4">
+					<p class="text-danger">
+						{% trans %}product.remove-content.warning1{% endtrans %}
+						{% trans with {'%translation_count%': '<strong>'~translationCount~'</strong>'} %}product.remove-content.warning2{% endtrans %}
+						{% trans %}product.remove-content.warning3{% endtrans %}
+					</p>
+					{{ form_end(removeContentForm) }}
+					<button type="submit" class="pull-right btn btn-warning">{% trans %}product.remove-content.submit{% endtrans %}</button>
+				</div>
+				{{ form_end(removeContentForm) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -311,6 +311,7 @@ product:
     upload: Upload
     delete_warning: "WARNING: This cannot be undone. All translations and associated content will be lost forever."
     delete: Delete product
+    remove_content: Remove idml and all associated content
   add_file:
     header: Add file attachment
     submit: Upload file
@@ -355,6 +356,12 @@ product:
     warning3: Are you sure about that ?
     submit: Delete
     force: Enforce deletion
+  remove-content:
+    title: Remove linked content
+    warning1: You are about to delete all section, paragraphs, sentences and translations for that product.
+    warning2: There are currently %translation_count% sentence translations that will be definitively deleted, without any way back.
+    warning3: Are you sure about that ?
+    submit: Delete project content
   status:
     draft: Draft
     translatable: Translatable
