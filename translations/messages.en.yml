@@ -357,8 +357,8 @@ product:
     force: Enforce deletion
   status:
     draft: Draft
-    translatable: Available for translation
-    outdated: Outdated
+    translatable: Translatable
+    outdated: Unavailable
 project:
   field:
     member:
@@ -394,10 +394,11 @@ project:
     members: Members
   status:
     translatable: Ready for translation
-    started: In Translation
-    translated: Translated
-    approved: Approved
-    reviewed: Reviewed
+    started: Translation in Progress
+    translated: Proofreading in Progress
+    approved: Review in Progress
+    reviewed: Finalization in Progress
+    completed: Ready for Download
 attachment:
   field:
     type:

@@ -36,12 +36,11 @@ class TranslationAdder
         $revision->setContent($content);
 
         $manager = $this->registry->getManager();
-
         $manager->persist($revision);
-        $manager->flush();
 
         $this->statusChanger->startIfUndone($project);
-        $this->statusChanger->changeToApprovedIfAllContentApproved($project);
+        $this->statusChanger->changeToTranslatedIfAllContentTranslated($project);
+        $manager->flush();
 
         return $revision;
     }

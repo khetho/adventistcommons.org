@@ -33,6 +33,13 @@ class Project
     const STATUS_TRANSLATED = 'translated'; // all content is translated
     const STATUS_APPROVED = 'approved'; // all content is approved
     const STATUS_REVIEWED = 'reviewed'; // all content is reviewed
+    const STATUS_DOWNLOADABLE = 'downloadable'; // the idml as been rearranged in  that language, and a pdf of it uploaded
+
+    const TRANSITION_START = 'start';
+    const TRANSITION_DECLARE_TRANSLATED = 'declare_translated';
+    const TRANSITION_DECLARE_APPROVED = 'declare_approved';
+    const TRANSITION_DECLARE_REVIEWED = 'declare_reviewed';
+    const TRANSITION_UPLOAD_RESULT = 'upload_result';
 
     /**
      * @var int
@@ -215,6 +222,11 @@ class Project
     public function isStarted()
     {
         return $this->getStatus() == self::STATUS_STARTED;
+    }
+
+    public function isDownloadable()
+    {
+        return $this->getStatus() == self::STATUS_DOWNLOADABLE;
     }
 
     public function enable()

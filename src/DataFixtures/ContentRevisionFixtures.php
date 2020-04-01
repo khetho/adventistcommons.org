@@ -39,7 +39,7 @@ class ContentRevisionFixtures extends Fixture implements DependentFixtureInterfa
                                         ProjectFixtures::buildReferenceName($iProduct, $iProject)
                                     )
                                 );
-                                $contentRevision->setUser($this->getReference('user-0001'));
+                                $contentRevision->setTranslator($this->getReference('user-0001'));
                                 $date = new \DateTime();
                                 $date->sub(new \DateInterval(sprintf('P%dD', rand($key*100, ($key*100)+99))));
                                 $contentRevision->setCreatedAt($date);

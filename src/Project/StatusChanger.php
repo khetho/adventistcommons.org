@@ -22,24 +22,29 @@ class StatusChanger
 
     public function changeToTranslatedIfAllContentTranslated(Project $project): void
     {
-        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_TRANSLATED, 'declare_translated');
+        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_TRANSLATED, Project::TRANSITION_DECLARE_TRANSLATED);
     }
 
     public function changeToApprovedIfAllContentApproved(Project $project): void
     {
-        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_APPROVED, 'declare_approved');
+        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_APPROVED, Project::TRANSITION_DECLARE_APPROVED);
+    }
+
+    public function changeToReviewedIfAllContentReviewed(Project $project): void
+    {
+        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_APPROVED, Project::TRANSITION_DECLARE_REVIEWED);
     }
 
     private function changeIfAllContentHasStatus(Project $project, string $contentStatus, string $transition): void
     {
         $workflow = $this->workflowRegistry->get($project);
-        $countTranslated = $this->doctrineRegistry
+        $countAtStatus = $this->doctrineRegistry
             ->getRepository(ContentRevision::class)
             ->getCountForStatus($project, $contentStatus);
-        $countSentences = $this->doctrineRegistry
+        $countTotalSentences = $this->doctrineRegistry
             ->getRepository(Sentence::class)
             ->getCountForProduct($project->getProduct());
-        if ($countTranslated >= $countSentences) {
+        if ($countAtStatus >= $countTotalSentences) {
             $workflow->apply($project, $transition);
         }
     }
@@ -48,7 +53,7 @@ class StatusChanger
     {
         if ($project->getStatus() === Project::STATUS_TRANSLATABLE) {
             $workflow = $this->workflowRegistry->get($project);
-            $workflow->apply($project, 'start');
+            $workflow->apply($project, Project::TRANSITION_START);
         }
     }
 }
