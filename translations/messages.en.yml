@@ -303,6 +303,7 @@ product:
     download: Download
     login_download: Login to download
     start_translate: Start Translating
+    fix_translation: Fix translation
     translate: Translate
     download_idml: Download IDML
     untranslated: This product is not yet available in any languages.

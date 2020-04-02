@@ -102,7 +102,7 @@
 											</a>
 										{% endif %}
 									{% endif %}
-									{% if project.attachments|length %}
+									{% if project.isReviewed or (project.isDownloadable and project.attachments|length) %}
 										{% if is_granted('ROLE_USER') %}
 											<button class="btn btn-secondary dropdown-toggle"
 													type="button"
@@ -111,6 +111,11 @@
 												{% trans %}product.show.download{% endtrans %}
 											</button>
 											<div class="dropdown-menu">
+												<a class="btn btn-secondary"
+												   href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+												>
+													{% trans %}product.show.download_idml{% endtrans %}
+												</a>
 												{% for attachment in project.attachments %}
 													<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">
 														{{ attachment.fileType|dictionary('file_type')|trans }}
@@ -126,21 +131,18 @@
 											</a>
 										{% endif %}
 									{% endif %}
-
-									<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
-									   class="btn btn-primary"
-									>
-										{% if project.isStarted %}
-											{% trans %}product.show.translate{% endtrans %}
-										{% else %}
-											{% trans %}product.show.start_translate{% endtrans %}
-										{% endif %}
-									</a>
-									{% if project.isDownloadable and is_granted('ROLE_USER') %}
-										<a class="btn btn-secondary"
-										   href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+									
+									{% if not project.isReviewed or is_granted('ROLE_ADMIN') %}
+										<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+										   class="btn btn-primary"
 										>
-											{% trans %}product.show.download_idml{% endtrans %}
+											{% if project.isStarted %}
+												{% trans %}product.show.translate{% endtrans %}
+											{% elseif project.isReviewed %}
+												{% trans %}product.show.fix_translation{% endtrans %}
+											{% else %}
+												{% trans %}product.show.start_translate{% endtrans %}
+											{% endif %}
 										</a>
 									{% endif %}
 								</div>

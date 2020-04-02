@@ -238,7 +238,7 @@ class Project
 
     public function isReviewed()
     {
-        return $this->getStatus() == self::STATUS_REVIEWED;
+        return in_array($this->getStatus(), [self::STATUS_REVIEWED, self::STATUS_DOWNLOADABLE]);
     }
 
     public function isStarted()

@@ -303,6 +303,7 @@ product:
     download: Télécharger
     login_download: Connexion pour Téléchargement
     start_translate: Commencer à traduire
+    fix_translation: Corriger la traduction
     translate: Traduire
     download_idml: Télécharger l’IDML
     untranslated: Ce produit n’est pas encore disponible dans une autre langue.
@@ -487,13 +488,13 @@ editor:
   comments:
     title: Commentaires
     button: Commentaires
-    loading: Chargement …
     none-found: Aucun commentaire
+    loading: Chargement …
   revisions:
     title: Historique
     button: Historique
-    loading: Chargement …
     none-found: Aucune version
+    loading: Chargement …
   navigation:
     title: Navigation
 json:

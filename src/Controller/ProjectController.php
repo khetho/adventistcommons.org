@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -171,6 +172,9 @@ class ProjectController extends AbstractController
         DownloadLogger $downloadLogger
     ) {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
+        if (!$project->isReviewed()) {
+            throw new NotFoundHttpException('Project not ready for download');
+        }
         /** @var Holder $holder */
         $holder = $translator->translate($project);
         $downloadLogger->log($project);
