@@ -21,7 +21,15 @@
                     {% for sentenceKey,sentence in paragraph.sentences %}
                         <span class="js-sentence"
                               data-sentence-id="{{ sentence.id }}"
-                              data-sentence-state="{% if sentence.translation and sentence.translation.isProofread %}proofread{% elseif sentence.translation and sentence.translation.isReviewed %}reviewed{% elseif sentence.translation %}translated{%  endif %}"
+                              data-sentence-state="
+                                {%- if sentence.translation and sentence.translation.isReviewed -%}
+                                    reviewed
+                                {%- elseif sentence.translation and sentence.translation.isProofread -%}
+                                    proofread
+                                {%- elseif sentence.translation -%}
+                                    translated
+                                {%-  endif -%}
+                            "
                         >
                             {% if sentence.translation %}
                                 {{ sentence.translation.content }}

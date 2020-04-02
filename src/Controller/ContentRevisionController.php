@@ -112,6 +112,7 @@ class ContentRevisionController extends AbstractController
      * @param $sentenceId
      * @param DataFinder $dataFinder
      * @param JsonResponseBuilder $responseBuilder
+     * @param TranslationReviewer $reviewer
      * @return Response
      */
     public function review(

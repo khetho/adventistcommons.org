@@ -248,6 +248,9 @@ class ContentRevision
 
     public function reviewBy(UserInterface $reviewer)
     {
+        if (!$this->getProject()->getReviewer()) {
+            $this->getProject()->setReviewer($reviewer);
+        }
         $this->setReviewer($reviewer);
         $this->setStatus(self::STATUS_REVIEWED);
     }

@@ -28,7 +28,7 @@ class TranslationReviewer
         if (!$this->security->isGranted(ProjectVoter::PROOFREAD, $contentRevision->getProject())) {
             return false;
         }
-        $contentRevision->proofreadBy($this->security->getUser());
+        $contentRevision->reviewBy($this->security->getUser());
         $this->statusChanger->changeToReviewedIfAllContentReviewed($contentRevision->getProject());
         $this->registry->getManager()->flush();
         
