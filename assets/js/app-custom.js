@@ -171,34 +171,6 @@ define(
 		$(this).next().slideToggle();
 	});
 
-	$( ".approve-paragraph" ).click( function(e) {
-		$parent = $(this).parents( ".editor-item" );
-		$btn = $(this);
-		btn_text = $btn.text();
-		$btn.text( "..." ).prop( "disabled", true );
-		e.preventDefault();
-		var data = {
-			"project_id": $parent.attr( "data-project-id" ),
-			"content_id": $parent.attr( "data-content-id" ),
-		}
-		$.post( "/editor/approve", data, function( response ) {
-			if( response.error ) {
-				handleFormResponse( $parent.find( ".response" ), response.error );
-				return;
-			}
-			$btn.text( btn_text ).addClass( "hidden" );
-			$parent.find( "textarea" ).prop( "disabled", response.lock_editing );
-			$parent.find( ".approval_count" ).text( response.total_approvals );
-			$parent.find( ".locked-status" ).removeClass( "hidden" );
-			$parent.find( ".revision-request" ).remove();
-			$parent.find( ".review-toggle" ).toggleClass( "btn-outline-secondary btn-outline-success" ).text( "Approved" );
-		})
-		.fail(function() {
-			handleFormResponse( $parent.find( ".response" ), "An error has occured" );
-			$btn.text( btn_text ).prop( "disabled", false );
-		});
-	});
-
 	$( ".resolve-error" ).click( function(e) {
 		$parent = $(this).parents( ".editor-item" );
 		$alert = $(this).parents( ".alert" );

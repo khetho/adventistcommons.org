@@ -82,7 +82,7 @@ dashboard:
     percentage: Pourcentage
   translator:
     projects:
-      tab: Projets traduits
+      tab: Projets à traduire
       header: Mes projets
       available_header: Projets en cours
     contributions:
@@ -90,10 +90,19 @@ dashboard:
       header: Mes traductions
   proofreader:
     projects:
-      tab: Projets à relire
+      tab: Projets à approuver
+      header: Projets en cours d’approbation par moi
+      available_header: Autres projets dans vos langues
+      unassign: Désattribuer
+    contributions:
+      tab: Approbations
+      header: Mes approbations
+  reviewer:
+    projects:
+      tab: Projet à relire
       header: Projets en cours de relecture par moi
       available_header: Autres projets dans vos langues
-      unassign: Quitter
+      unassign: Désattribuer
     contributions:
       tab: Relectures
       header: Mes relectures
@@ -394,7 +403,7 @@ project:
   show:
     content: Contenu
     contributors: Contributeurs
-    start_translate: Commencer à traduire
+    start_translate: Traduire
     add_contributor: ajouter
     invited_contributor: invité
     contributor: Contributeur
@@ -403,7 +412,7 @@ project:
     translatable: À traduire
     started: Commencé
     translated: Entierement traduit
-    approved: Approuvé
+    proofread: Approuvé
     reviewed: Relu
     completed: À télécharger
 attachment:
@@ -459,14 +468,14 @@ editor:
       title: Roles
       translate: Traduction
       translate_save: Sauver
-      proofread: Relecture
+      proofread: Approbation
       proofread_save: Approuver
       review: Revue
       review_save: Approuver
     stats:
       title: Statistiques
       translated: Traduit
-      proofread: Relu
+      proofread: Approuvé
       reviewed: Revu
     changed:
       title: Des données peuvent être perdues
@@ -493,13 +502,20 @@ json:
 content_revision:
   status:
     new: Nouveau
-    approved: Approuvé
+    proofread: Approuvé
     reviewed: Relu
 workflow:
   proofreader:
+    you_are: Vous êtes approbateur pour les langues
+    checklist:
+      link: Check-list de l’approbateur
+      title: Check-list de l’approbateur
+      item1: Point 1
+      item2: Point 2
+  reviewer:
     you_are: Vous êtes relecteur pour les langues
     checklist:
-      link: Checklist du relecteur
-      title: Checklist du relecteur
+      link: Check-list du relecteur
+      title: Check-list du relecteur
       item1: Point 1
       item2: Point 2

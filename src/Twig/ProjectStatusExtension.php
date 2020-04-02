@@ -24,10 +24,10 @@ class ProjectStatusExtension extends AbstractExtension
     {
         return [
             new TwigFilter('projectTranslatedRatio', [$this, 'projectTranslatedRatio']),
-            new TwigFilter('projectApprovedRatio', [$this, 'projectApprovedRatio']),
+            new TwigFilter('projectProofreadRatio', [$this, 'projectProofreadRatio']),
             new TwigFilter('projectReviewedRatio', [$this, 'projectReviewedRatio']),
             new TwigFilter('projectTranslatedCount', [$this, 'projectTranslatedCount']),
-            new TwigFilter('projectApprovedCount', [$this, 'projectApprovedCount']),
+            new TwigFilter('projectProofreadCount', [$this, 'projectProofreadCount']),
             new TwigFilter('projectReviewedCount', [$this, 'projectReviewedCount']),
             new TwigFilter('sentenceCountForProduct', [$this, 'sentenceCountForProduct']),
             new TwigFilter('sentenceCountForSection', [$this, 'sentenceCountForSection']),
@@ -47,10 +47,10 @@ class ProjectStatusExtension extends AbstractExtension
         return $totalCount ? $this->projectTranslatedCount($project, $section) / $totalCount : 0;
     }
 
-    public function projectApprovedRatio(Project $project, Section $section = null)
+    public function projectProofreadRatio(Project $project, Section $section = null)
     {
         $totalCount = $this->getTotal($project, $section);
-        return $totalCount ? $this->projectApprovedCount($project, $section) / $totalCount : 0;
+        return $totalCount ? $this->projectProofreadCount($project, $section) / $totalCount : 0;
     }
 
     public function projectReviewedRatio(Project $project, Section $section = null)
@@ -64,9 +64,9 @@ class ProjectStatusExtension extends AbstractExtension
         return $this->manager->getRepository(ContentRevision::class)->getCountForStatus($project, ContentRevision::STATUS_TRANSLATED, $section);
     }
 
-    public function projectApprovedCount(Project $project, Section $section = null): int
+    public function projectProofreadCount(Project $project, Section $section = null): int
     {
-        return $this->manager->getRepository(ContentRevision::class)->getCountForStatus($project, ContentRevision::STATUS_APPROVED, $section);
+        return $this->manager->getRepository(ContentRevision::class)->getCountForStatus($project, ContentRevision::STATUS_PROOFREAD, $section);
     }
 
     public function projectReviewedCount(Project $project, Section $section = null): int

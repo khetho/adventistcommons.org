@@ -72,22 +72,22 @@ class ProjectRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery();
     }
 
-    public function findQueryForApprover(User $user): Query
+    public function findQueryForProofreader(User $user): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
-            ->where('p.approver = :user')
+            ->where('p.proofreader = :user')
             ->setParameter('user', $user)
             ->groupBy('p.id');
 
         return $queryBuilder->getQuery();
     }
 
-    public function findQueryForNotApprover(User $user): Query
+    public function findQueryForNotProofreader(User $user): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->where('p.language IN (:languages)')
-            ->setParameter('languages', $user->getLangsHeCanApprove())
-            ->andWhere('p.approver <> :user OR p.approver IS NULL')
+            ->setParameter('languages', $user->getLangsHeCanProofread())
+            ->andWhere('p.proofreader <> :user OR p.proofreader IS NULL')
             ->setParameter('user', $user);
 
         return $queryBuilder->getQuery();
@@ -110,7 +110,7 @@ class ProjectRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.contentRevisions', 'cr')
             ->where('p.language IN (:languages)')
-            ->setParameter('languages', $user->getLangsHeCanApprove())
+            ->setParameter('languages', $user->getLangsHeCanProofread())
             ->andWhere('cr.id IS NULL'); // TODO fix this : find product that are not validated by that user only
 
         return $queryBuilder->getQuery();

@@ -1,0 +1,18 @@
+{% extends 'bootstrap/_modal.html.twig' %}
+
+{% block id %}reviewerChecklist{% endblock %}
+
+{% block title %}{% trans %}workflow.reviewer.checklist.title{% endtrans %}{% endblock %}
+
+{% block body %}
+    <ul>
+        <li>{% trans %}workflow.reviewer.checklist.item1{% endtrans %}</li>
+        <li>{% trans %}workflow.reviewer.checklist.item2{% endtrans %}</li>
+    </ul>
+{% endblock %}
+
+{% block footer %}
+    <button role="button" class="btn btn-primary" data-dismiss="modal">
+        ok
+    </button>
+{% endblock %}

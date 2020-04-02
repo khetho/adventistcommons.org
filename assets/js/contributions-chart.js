@@ -33,66 +33,56 @@ Chart.defaults.global.colours = [
     }
 ];
 
-const ctx = document.getElementById('contributionChart');
-new Chart(ctx, {
-    type: 'line',
-    data: window.contributionsGraphData,
+const graphOptions = {
     options: {
-    	options: {
-		    plugins: {
-		        colorschemes: {
-		            scheme: 'office.Paired7'
-		        }
-		    }
-		},
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }],
-            xAxes: [{
-		        type: 'time',
-		        time: {
-			        unit: 'month',
-			        unitStepSize: 1,
-			        displayFormats: {
-			           'month': 'MMM YY'
-			        }
-		        }
-		    }]
+        plugins: {
+            colorschemes: {
+                scheme: 'office.Paired7'
+            }
         }
-    }
-});
-
-const ctx2 = document.getElementById('proofreaderContributionChart');
-new Chart(ctx2, {
-    type: 'line',
-    data: window.proofreaderContributionChart,
-    options: {
-        options: {
-            plugins: {
-                colorschemes: {
-                    scheme: 'office.Paired7'
+    },
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }],
+        xAxes: [{
+            type: 'time',
+            time: {
+                unit: 'month',
+                unitStepSize: 1,
+                displayFormats: {
+                    'month': 'MMM YY'
                 }
             }
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }],
-            xAxes: [{
-                type: 'time',
-                time: {
-                    unit: 'month',
-                    unitStepSize: 1,
-                    displayFormats: {
-                        'month': 'MMM YY'
-                    }
-                }
-            }]
-        }
+        }]
     }
-});
+};
+
+new Chart(
+    document.getElementById('contributionChart'),
+    {
+        type: 'line',
+        data: window.contributionsGraphData,
+        options: graphOptions,
+    }
+);
+
+new Chart(
+    document.getElementById('proofreaderContributionChart'),
+    {
+        type: 'line',
+        data: window.proofreaderContributionsGraphData,
+        options: graphOptions,
+    }
+);
+
+new Chart(
+    document.getElementById('reviewerContributionChart'),
+    {
+        type: 'line',
+        data: window.reviewerContributionsGraphData,
+        options: graphOptions,
+    }
+);

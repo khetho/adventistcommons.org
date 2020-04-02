@@ -53,7 +53,7 @@
 								<div class="card card-project">
 
 									<div class="progress">
-										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectApprovedCount * 100 }} %"></div>
+										<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectProofreadCount * 100 }} %"></div>
 									</div>
 
 									<div class="card-body">
@@ -84,7 +84,7 @@
 										<div class="card-meta d-flex justify-content-between">
 											<div class="d-flex align-items-center">
 												<i class="fas fa-tasks"></i>&nbsp;
-												<span class="text-small">{{ project|projectApprovedCount }}/{{ project.product|sentenceCountForProduct }}</span>
+												<span class="text-small">{{ project|projectProofreadCount }}/{{ project.product|sentenceCountForProduct }}</span>
 											</div>
 											<span class="text-small" data-filter-by="text">{{ ('project.status.' ~ project.status)|trans }}</span>
 										</div>

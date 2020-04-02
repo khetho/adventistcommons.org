@@ -139,7 +139,7 @@ define(
                     BackendCaller.callContentRevisionApprove(
                         sentenceId,
                         function() {
-                            TranslationSentences.markCurrentAs('approved');
+                            TranslationSentences.markCurrentAs('proofread');
                             TranslationSentences.selectNextSentence();
                         }
                     );

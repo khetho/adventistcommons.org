@@ -22,7 +22,7 @@
 								<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectTranslatedRatio * 100 }}%" aria-valuenow="{{ project|projectTranslatedCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
 							</div>
 							<div class="progress" style="margin-top: -1rem; background: none;">
-								<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project|projectApprovedRatio * 100 }}%" aria-valuenow="{{ project|projectApprovedCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project|projectProofreadRatio * 100 }}%" aria-valuenow="{{ project|projectProofreadCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
 							</div>
 							<div class="progress" style="margin-top: -1.75rem; background: none;">
 								<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectReviewedRatio * 100 }}%" aria-valuenow="{{ project|projectReviewedCount }}" aria-valuemin="0" aria-valuemax="{{ project.product|sentenceCountForProduct }}"></div>
@@ -62,7 +62,7 @@
 												<div class="progress-bar bg-danger" role="progressbar" style="width: {{ project|projectTranslatedRatio(section) * 100 }}%"></div>
 											</div>
 											<div class="progress">
-												<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project|projectApprovedRatio(section) * 100 }}%"></div>
+												<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project|projectProofreadRatio(section) * 100 }}%"></div>
 											</div>
 											<div class="progress">
 												<div class="progress-bar bg-success" role="progressbar" style="width: {{ project|projectReviewedRatio(section) * 100 }}%"></div>

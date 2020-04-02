@@ -22,6 +22,6 @@ knp_dictionary:
         content_revision_status:
             type: 'key_value'
             content:
-                App\Entity\ContentRevision::STATUS_NEW: "content_revision.status.new"
-                App\Entity\ContentRevision::STATUS_APPROVED: "content_revision.status.approved"
-                App\Entity\ContentRevision::STATUS_REVIEWED: "content_revision.status.reviewed"
+                !php/const App\Entity\ContentRevision::STATUS_TRANSLATED: "content_revision.status.new"
+                !php/const App\Entity\ContentRevision::STATUS_PROOFREAD: "content_revision.status.proofread"
+                !php/const App\Entity\ContentRevision::STATUS_REVIEWED: "content_revision.status.reviewed"

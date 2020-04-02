@@ -96,7 +96,7 @@ class ProjectController extends AbstractController
     public function unassign(Request $request, $slug, $languageCode, DataFinder $dataFinder)
     {
         $project = $dataFinder->retrieveProjectOr404($slug, $languageCode);
-        $project->setApprover(null);
+        $project->setProofreader(null);
 
         return $this->saveProjectAndRedirect($project, $request);
     }

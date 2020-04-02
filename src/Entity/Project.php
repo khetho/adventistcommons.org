@@ -31,13 +31,13 @@ class Project
     const STATUS_TRANSLATABLE = 'translatable'; // translation can be started
     const STATUS_STARTED = 'started'; // translation has started
     const STATUS_TRANSLATED = 'translated'; // all content is translated
-    const STATUS_APPROVED = 'approved'; // all content is approved
+    const STATUS_PROOFREAD = 'proofread'; // all content is proofread
     const STATUS_REVIEWED = 'reviewed'; // all content is reviewed
     const STATUS_DOWNLOADABLE = 'downloadable'; // the idml as been rearranged in  that language, and a pdf of it uploaded
 
     const TRANSITION_START = 'start';
     const TRANSITION_DECLARE_TRANSLATED = 'declare_translated';
-    const TRANSITION_DECLARE_APPROVED = 'declare_approved';
+    const TRANSITION_DECLARE_PROOFREAD = 'declare_proofread';
     const TRANSITION_DECLARE_REVIEWED = 'declare_reviewed';
     const TRANSITION_UPLOAD_RESULT = 'upload_result';
 
@@ -101,10 +101,20 @@ class Project
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="approver_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="proofreader_id", referencedColumnName="id")
      * })
      */
-    private $approver;
+    private $proofreader;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="id")
+     * })
+     */
+    private $reviewer;
 
     /**
      * One product has many projects. This is the inverse side.
@@ -202,14 +212,26 @@ class Project
         return $this->attachments;
     }
 
-    public function getApprover(): ?User
+    public function getProofreader(): ?User
     {
-        return $this->approver;
+        return $this->proofreader;
     }
 
-    public function setApprover(?UserInterface $approver): self
+    public function setProofreader(?UserInterface $proofreader): self
     {
-        $this->approver = $approver;
+        $this->proofreader = $proofreader;
+
+        return $this;
+    }
+
+    public function getReviewer(): ?User
+    {
+        return $this->reviewer;
+    }
+
+    public function setReviewer(?UserInterface $reviewer): self
+    {
+        $this->reviewer = $reviewer;
 
         return $this;
     }

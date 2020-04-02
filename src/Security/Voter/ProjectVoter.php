@@ -10,13 +10,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ProjectVoter extends Voter
 {
-    // these strings are just invented: you can use anything
-    const APPROVE = 'approve';
+    const PROOFREAD = 'proofread';
     const REVIEW = 'review';
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::APPROVE, self::REVIEW])) {
+        if (!in_array($attribute, [self::PROOFREAD, self::REVIEW])) {
             return false;
         }
         if (!$subject instanceof Project) {
@@ -37,8 +36,8 @@ class ProjectVoter extends Voter
         $project = $subject;
 
         switch ($attribute) {
-            case self::APPROVE:
-                return $this->canApprove($project, $user);
+            case self::PROOFREAD:
+                return $this->canProofread($project, $user);
             case self::REVIEW:
                 return $this->canReview($project, $user);
         }
@@ -46,19 +45,23 @@ class ProjectVoter extends Voter
         throw new \LogicException(sprintf('Voter attribute «%s» is not handled for language', $attribute));
     }
 
-    private function canApprove(Project $project, User $user)
+    private function canProofread(Project $project, User $user)
     {
         return (
-            $project->getApprover() === $user
+            $project->getProofreader() === $user
                 ||
-            (!$project->getApprover() && $this->canReview($project, $user))
+            (!$project->getProofreader() && $this->canReview($project, $user))
                 ||
-            (!$project->getApprover() && $user->getLangsHeCanApprove()->contains($project->getLanguage()))
+            (!$project->getProofreader() && $user->getLangsHeCanProofread()->contains($project->getLanguage()))
         );
     }
 
     private function canReview(Project $project, User $user)
     {
-        return $user->getLangsHeCanReview()->contains($project->getLanguage());
+        return (
+            $project->getReviewer() === $user
+            ||
+            (!$project->getReviewer() && $user->getLangsHeCanReview()->contains($project->getLanguage()))
+        );
     }
 }

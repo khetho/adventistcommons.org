@@ -8,7 +8,7 @@ use App\Security\Voter\ProjectVoter;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
 
-class TranslationApprover
+class TranslationProofreader
 {
     private $registry;
     private $security;
@@ -21,13 +21,13 @@ class TranslationApprover
         $this->statusChanger = $statusChanger;
     }
 
-    public function approveTranslation(ContentRevision $contentRevision): bool
+    public function proofreadTranslation(ContentRevision $contentRevision): bool
     {
-        if (!$this->security->isGranted(ProjectVoter::APPROVE, $contentRevision->getProject())) {
+        if (!$this->security->isGranted(ProjectVoter::PROOFREAD, $contentRevision->getProject())) {
             return false;
         }
-        $contentRevision->approveBy($this->security->getUser());
-        $this->statusChanger->changeToApprovedIfAllContentApproved($contentRevision->getProject());
+        $contentRevision->proofreadBy($this->security->getUser());
+        $this->statusChanger->changeToProofreadIfAllContentProofread($contentRevision->getProject());
         $this->registry->getManager()->flush();
 
         return true;

@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\ContentRevision;
-use App\Entity\Project;
+use App\Account\ContributionsInformer;
 use App\Entity\User;
 use App\Form\Type\AccountType;
 use App\Form\Type\CompleteType;
@@ -47,9 +46,10 @@ class AccountController extends AbstractController
     /**
      * @Route("/account", name="app_account_myself")
      * @param Request $request
+     * @param ContributionsInformer $informer
      * @return Response
      */
-    public function myself(Request $request)
+    public function myself(Request $request, ContributionsInformer $informer)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -88,24 +88,7 @@ class AccountController extends AbstractController
             return $this->redirectToRoute($redirectRoute ?? 'app_account_myself');
         }
 
-        // translations data
-        $projectRepo = $this->getDoctrine()->getRepository(Project::class);
-        $contentRepo = $this->getDoctrine()->getRepository(ContentRevision::class);
-
-        $translatedProjects = $projectRepo->findQueryForTranslator($user)->setMaxResults(10)->getResult();
-        $untranslatedProjects = $projectRepo->findQueryForUserNotTranslator($user)->setMaxResults(10)->getResult();
-        $contributions = $contentRepo->getUserReport($user, 'translator');
-        $contribPerMonth = $contentRepo->getUserReportPerMonth($user, 'translator');
-
-        // proofreading data
-        $approvedProjects = $projectRepo->findQueryForApprover($user)->setMaxResults(10)->getResult();
-        $unapprovedProjects = $projectRepo->findQueryForNotApprover($user)->setMaxResults(10)->getResult();
-        $proofrContribs = $contentRepo->getUserReport($user, 'approver');
-        $proofrContribPerMnth = $contentRepo->getUserReportPerMonth($user, 'approver');
-
-        // reviewing data
-        $reviewedProjects = $projectRepo->findQueryForReviewer($user)->setMaxResults(10)->getResult();
-        $unreviewedProjects = $projectRepo->findQueryForNotReviewer($user)->setMaxResults(10)->getResult();
+        $reports = $informer->getInformations($user);
 
         return $this->render(
             'account/edit.html.twig',
@@ -115,18 +98,20 @@ class AccountController extends AbstractController
                 'passwordForm' => $passwordForm->createView(),
                 'deleteForm' => $deleteForm->createView(),
 
-                'translatedProjects' => $translatedProjects,
-                'untranslatedProjects' => $untranslatedProjects,
-                'contributions' => $contributions,
-                'contributionsPerMonth' => $contribPerMonth,
+                'translatedProjects' => $reports['translator']['projects'],
+                'untranslatedProjects' => $reports['translator']['non-projects'],
+                'contributions' => $reports['translator']['contributions'],
+                'contributionsPerMonth' => $reports['translator']['contributions-per-month'],
 
-                'approvedProjects' => $approvedProjects,
-                'unapprovedProjects' => $unapprovedProjects,
-                'proofreaderContributions' => $proofrContribs,
-                'proofreaderContributionsPerMonth' => $proofrContribPerMnth,
+                'proofreaderProjects' => $reports['proofreader']['projects'],
+                'nonProofreaderProjects' => $reports['proofreader']['non-projects'],
+                'proofreaderContributions' => $reports['proofreader']['contributions'],
+                'proofreaderContributionsPerMonth' => $reports['proofreader']['contributions-per-month'],
 
-                'reviewedProjects' => $reviewedProjects,
-                'unreviewedProjects' => $unreviewedProjects,
+                'reviewedProjects' => $reports['reviewer']['projects'],
+                'unreviewedProjects' => $reports['reviewer']['non-projects'],
+                'reviewerContributions' => $reports['reviewer']['contributions'],
+                'reviewerContributionsPerMonth' => $reports['reviewer']['contributions-per-month'],
             ]
         );
     }

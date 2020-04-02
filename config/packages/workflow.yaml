@@ -12,7 +12,7 @@ framework:
         - !php/const App\Entity\Project::STATUS_TRANSLATABLE
         - !php/const App\Entity\Project::STATUS_STARTED
         - !php/const App\Entity\Project::STATUS_TRANSLATED
-        - !php/const App\Entity\Project::STATUS_APPROVED
+        - !php/const App\Entity\Project::STATUS_PROOFREAD
         - !php/const App\Entity\Project::STATUS_REVIEWED
         - !php/const App\Entity\Project::STATUS_DOWNLOADABLE
       transitions:
@@ -22,11 +22,11 @@ framework:
         !php/const App\Entity\Project::TRANSITION_DECLARE_TRANSLATED:
           from: !php/const App\Entity\Project::STATUS_STARTED
           to: !php/const App\Entity\Project::STATUS_TRANSLATED
-        !php/const App\Entity\Project::TRANSITION_DECLARE_APPROVED:
+        !php/const App\Entity\Project::TRANSITION_DECLARE_PROOFREAD:
           from: !php/const App\Entity\Project::STATUS_TRANSLATED
-          to: !php/const App\Entity\Project::STATUS_APPROVED
+          to: !php/const App\Entity\Project::STATUS_PROOFREAD
         !php/const App\Entity\Project::TRANSITION_DECLARE_REVIEWED:
-          from: !php/const App\Entity\Project::STATUS_APPROVED
+          from: !php/const App\Entity\Project::STATUS_PROOFREAD
           to: !php/const App\Entity\Project::STATUS_REVIEWED
         !php/const App\Entity\Project::TRANSITION_UPLOAD_RESULT:
           from: !php/const App\Entity\Project::STATUS_REVIEWED

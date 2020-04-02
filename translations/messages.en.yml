@@ -92,11 +92,20 @@ dashboard:
     projects:
       tab: Proofread projects
       header: Current proofreading by me
-      available_header: Other projects with your languages
+      available_header: Other projects with my languages
       unassign: Unassign
     contributions:
       tab: Proofreadings
       header: My proofreadings
+  reviewer:
+    projects:
+      tab: Reviewed projects
+      header: Currently reviewed by me
+      available_header: Other projects with my languages
+      unassign: Unassign
+    contributions:
+      tab: Reviews
+      header: My reviews
   downloads:
     tab: Download history
     header: My downloads
@@ -394,7 +403,7 @@ project:
   show:
     content: Content
     contributors: Contributors
-    start_translate: Start Translating
+    start_translate: Translate
     add_contributor: add
     invited_contributor: invited
     contributor: Contributor
@@ -403,7 +412,7 @@ project:
     translatable: Ready for translation
     started: Translation in Progress
     translated: Proofreading in Progress
-    approved: Review in Progress
+    proofread: Review in Progress
     reviewed: Finalization in Progress
     completed: Ready for Download
 attachment:
@@ -493,7 +502,7 @@ json:
 content_revision:
   status:
     new: New
-    approved: Approved
+    proofread: Proofread
     reviewed: Reviewed
 workflow:
   proofreader:
@@ -503,3 +512,10 @@ workflow:
       title: Proofreader checklist
       item1: Here is a first item in the proofreader checklist
       item2: Now, antoher point for the proofreader to be carefull
+  reviewer:
+    you_are: You are reviewer for languages
+    checklist:
+      link: Reviewer checklist
+      title: Reviewer checklist
+      item1: Here is a first item in the reviewer checklist
+      item2: Now, antoher point for the reviewer to be carefull

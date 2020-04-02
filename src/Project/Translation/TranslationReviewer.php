@@ -25,10 +25,10 @@ class TranslationReviewer
 
     public function reviewTranslation(ContentRevision $contentRevision): bool
     {
-        if (!$this->security->isGranted(ProjectVoter::APPROVE, $contentRevision->getProject())) {
+        if (!$this->security->isGranted(ProjectVoter::PROOFREAD, $contentRevision->getProject())) {
             return false;
         }
-        $contentRevision->approveBy($this->security->getUser());
+        $contentRevision->proofreadBy($this->security->getUser());
         $this->statusChanger->changeToReviewedIfAllContentReviewed($contentRevision->getProject());
         $this->registry->getManager()->flush();
         

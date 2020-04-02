@@ -413,7 +413,7 @@ body {
   @extend .highlighted-radius;
 }
 
-[data-sentence-state="approved"] {
+[data-sentence-state="proofread"] {
   background-color: lighten($tt-light-orange, 25%);
   border-bottom: 2px solid $tt-light-orange;
 

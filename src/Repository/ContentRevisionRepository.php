@@ -74,7 +74,7 @@ class ContentRevisionRepository extends ServiceEntityRepository
 
     private function checkRole(string $role): void
     {
-        if (!in_array($role, ['translator', 'approver', 'reviewer'])) {
+        if (!in_array($role, ['translator', 'proofreader', 'reviewer'])) {
             throw new \Exception(sprintf('A content is not linked to user with a role named «%s»', $role));
         }
     }
@@ -149,9 +149,9 @@ class ContentRevisionRepository extends ServiceEntityRepository
         $status = [$status];
         if ($status === [ContentRevision::STATUS_TRANSLATED]) {
             $status[] = ContentRevision::STATUS_REVIEWED;
-            $status[] = ContentRevision::STATUS_APPROVED;
+            $status[] = ContentRevision::STATUS_PROOFREAD;
         }
-        if ($status === [ContentRevision::STATUS_APPROVED]) {
+        if ($status === [ContentRevision::STATUS_PROOFREAD]) {
             $status[] = ContentRevision::STATUS_REVIEWED;
         }
         $queryBuilder = $this->createQueryBuilder('cr')

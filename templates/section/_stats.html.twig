@@ -16,7 +16,7 @@
                     {% trans %}editor.working.stats.title{% endtrans %}
                 </div>
                 {% set translatedCount = project|projectTranslatedCount(section) %}
-                {% set approvedCount = project|projectApprovedCount(section) %}
+                {% set proofreadCount = project|projectProofreadCount(section) %}
                 {% set reviewdCount = project|projectReviewedCount(section) %}
                 {% set totalCount = section|sentenceCountForSection %}
                 <div class="stat__item">
@@ -37,13 +37,13 @@
                     <div class="progress">
                         <div class="progress-bar progress-bar_proofreaded"
                              role="progressbar"
-                             style="width: {{ (approvedCount * 100 / totalCount)|round }}%"
-                             aria-valuenow="{{ approvedCount }}"
+                             style="width: {{ (proofreadCount * 100 / totalCount)|round }}%"
+                             aria-valuenow="{{ proofreadCount }}"
                              aria-valuemin="0"
                              aria-valuemax="{{ totalCount }}"
                         ></div>
                     </div>
-                    <span class="stat-value">{{ approvedCount }}/{{ totalCount }}</span>
+                    <span class="stat-value">{{ proofreadCount }}/{{ totalCount }}</span>
                 </div>
                 <div class="stat__item">
                     <span class="stat-label">{% trans %}editor.working.stats.reviewed{% endtrans %}</span>

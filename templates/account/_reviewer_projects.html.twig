@@ -1,16 +1,16 @@
 <div class="alert alert-primary">
-    <button class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#proofreaderChecklist">
-        {% trans %}workflow.proofreader.checklist.link{% endtrans %}
+    <button class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#reviewerChecklist">
+        {% trans %}workflow.reviewer.checklist.link{% endtrans %}
     </button>
-    {% include 'account/_proofreader_tooltip_modal.html.twig' %}
-    {% trans %}workflow.proofreader.you_are{% endtrans %}
+    {% include 'account/_reviewer_tooltip_modal.html.twig' %}
+    {% trans %}workflow.reviewer.you_are{% endtrans %}
     {% for language in app.user.langsHeCanProofread %}
         <span class="badge badge-pill badge-primary">{{ language.name }}</span>
     {% endfor %}
 </div>
 
 
-<h3>{% trans %}dashboard.proofreader.projects.header{% endtrans %}</h3>
+<h3>{% trans %}dashboard.reviewer.projects.header{% endtrans %}</h3>
 
 <table class="table mb-4">
   <thead>
@@ -22,12 +22,12 @@
     </tr>
   </thead>
   <tbody>
-    {% for project in proofreaderProjects %}
+    {% for project in reviewedProjects %}
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>
         <td>{{ ('project.status.' ~ project.status)|trans }}</td>
-        <td><a class="btn btn-primary" href="{{ pathToProject(project, 'unassign') }}">{% trans %}dashboard.proofreader.projects.unassign{% endtrans %}</a></td>
+        <td><a class="btn btn-primary" href="{{ pathToProject(project, 'unassign') }}">{% trans %}dashboard.reviewer.projects.unassign{% endtrans %}</a></td>
       </ tr>
     {% else %}
       <tr>
@@ -37,7 +37,7 @@
   </tbody>
 </table>
 
-<h3>{% trans %}dashboard.proofreader.projects.available_header{% endtrans %}</h3>
+<h3>{% trans %}dashboard.reviewer.projects.available_header{% endtrans %}</h3>
 <table class="table">
   <thead>
     <tr>
@@ -46,7 +46,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for project in nonProofreaderProjects %}
+    {% for project in unreviewedProjects %}
       <tr>
         <td><a href="{{ pathToProject(project) }}">{{ project.product.name }}</a></td>
         <td>{{ project.language.name }}</td>

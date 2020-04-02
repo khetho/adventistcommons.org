@@ -82,7 +82,7 @@ define(
             },
 
             markCurrentAs: function (targetState) {
-                if (!['translated', 'approved', 'reviewed'].includes(targetState)) {
+                if (!['translated', 'proofread', 'reviewed'].includes(targetState)) {
                     ErrorReporter.report('Unknown state : ' + targetState);
                 }
                 this.getCurrentSentence().removeData('sentence-state').attr("data-sentence-state", targetState);

@@ -343,18 +343,18 @@ class User implements UserInterface
     private $languages;
 
     /**
-     * The languages that user is granted to approve
+     * The languages that user is granted to proofread
      * @ORM\ManyToMany(targetEntity="Language")
      * @ORM\JoinTable(
-     *      name="user_languages_approved",
+     *      name="user_languages_proofread",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
      * )
      */
-    private $langsHeCanApprove;
+    private $langsHeCanProofread;
 
     /**
-     * The languages that user is granted to approve
+     * The languages that user is granted to review
      * @ORM\ManyToMany(targetEntity="Language")
      * @ORM\JoinTable(
      *      name="user_languages_reviewable",
@@ -395,7 +395,7 @@ class User implements UserInterface
         $this->groups = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
-        $this->langsHeCanApprove = new ArrayCollection();
+        $this->langsHeCanProofread = new ArrayCollection();
         $this->langsHeCanReview = new ArrayCollection();
         $this->username = $email;
         $this->email = $email;
@@ -825,24 +825,24 @@ class User implements UserInterface
     /**
      * @return Collection|Language[]
      */
-    public function getLangsHeCanApprove(): Collection
+    public function getLangsHeCanProofread(): Collection
     {
-        return $this->langsHeCanApprove;
+        return $this->langsHeCanProofread;
     }
 
-    public function addLanguageHeCanApprove(Language $language): self
+    public function addLanguageHeCanProofread(Language $language): self
     {
-        if (!$this->langsHeCanApprove->contains($language)) {
-            $this->langsHeCanApprove[] = $language;
+        if (!$this->langsHeCanProofread->contains($language)) {
+            $this->langsHeCanProofread[] = $language;
         }
 
         return $this;
     }
 
-    public function removeLanguageHeCanApprove(Language $language): self
+    public function removeLanguageHeCanProofread(Language $language): self
     {
-        if ($this->langsHeCanApprove->contains($language)) {
-            $this->langsHeCanApprove->removeElement($language);
+        if ($this->langsHeCanProofread->contains($language)) {
+            $this->langsHeCanProofread->removeElement($language);
         }
 
         return $this;
@@ -856,19 +856,19 @@ class User implements UserInterface
         return $this->langsHeCanReview;
     }
 
-    public function addLanguageHeCanReview(Language $langsHeCanApprove): self
+    public function addLanguageHeCanReview(Language $langsHeCanReview): self
     {
-        if (!$this->langsHeCanReview->contains($langsHeCanApprove)) {
-            $this->langsHeCanReview[] = $langsHeCanApprove;
+        if (!$this->langsHeCanReview->contains($langsHeCanReview)) {
+            $this->langsHeCanReview[] = $langsHeCanReview;
         }
 
         return $this;
     }
 
-    public function removeLanguageHeCanReview(Language $langsHeCanApprove): self
+    public function removeLanguageHeCanReview(Language $langsHeCanReview): self
     {
-        if ($this->langsHeCanReview->contains($langsHeCanApprove)) {
-            $this->langsHeCanReview->removeElement($langsHeCanApprove);
+        if ($this->langsHeCanReview->contains($langsHeCanReview)) {
+            $this->langsHeCanReview->removeElement($langsHeCanReview);
         }
 
         return $this;

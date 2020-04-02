@@ -27,7 +27,7 @@ use ApiPlatform\Core\Annotation as Api;
 class ContentRevision
 {
     const STATUS_TRANSLATED = '';
-    const STATUS_APPROVED = 'app';
+    const STATUS_PROOFREAD = 'pro';
     const STATUS_REVIEWED = 'rev';
 
     /**
@@ -86,10 +86,10 @@ class ContentRevision
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="approver_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="proofreader_id", referencedColumnName="id")
      * })
      */
-    private $approver;
+    private $proofreader;
 
     /**
      * @var User
@@ -191,14 +191,14 @@ class ContentRevision
         return $this;
     }
 
-    public function getApprover(): ?User
+    public function getProofreader(): ?User
     {
-        return $this->approver;
+        return $this->proofreader;
     }
 
-    public function setApprover(UserInterface $approver): self
+    public function setProofreader(UserInterface $proofreader): self
     {
-        $this->approver = $approver;
+        $this->proofreader = $proofreader;
 
         return $this;
     }
@@ -237,13 +237,13 @@ class ContentRevision
         $this->status = $status;
     }
 
-    public function approveBy(UserInterface $approver)
+    public function proofreadBy(UserInterface $proofreader)
     {
-        if (!$this->getProject()->getApprover()) {
-            $this->getProject()->setApprover($approver);
+        if (!$this->getProject()->getProofreader()) {
+            $this->getProject()->setProofreader($proofreader);
         }
-        $this->setApprover($approver);
-        $this->setStatus(self::STATUS_APPROVED);
+        $this->setProofreader($proofreader);
+        $this->setStatus(self::STATUS_PROOFREAD);
     }
 
     public function reviewBy(UserInterface $reviewer)
@@ -252,9 +252,9 @@ class ContentRevision
         $this->setStatus(self::STATUS_REVIEWED);
     }
 
-    public function isApproved()
+    public function isProofread()
     {
-        return $this->getStatus() === self::STATUS_APPROVED;
+        return $this->getStatus() === self::STATUS_PROOFREAD;
     }
 
     public function isReviewed()

@@ -68,7 +68,7 @@ define(
             },
             callContentRevisionApprove: function (sentenceId, successAction) {
                 callByRouteName(
-                    'app_content_revision_approve',
+                    'app_content_revision_proofread',
                     {
                         'slug': getContextVar('slug'),
                         'languageCode': getContextVar('languageCode'),

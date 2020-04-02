@@ -25,14 +25,14 @@ class StatusChanger
         $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_TRANSLATED, Project::TRANSITION_DECLARE_TRANSLATED);
     }
 
-    public function changeToApprovedIfAllContentApproved(Project $project): void
+    public function changeToProofreadIfAllContentProofread(Project $project): void
     {
-        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_APPROVED, Project::TRANSITION_DECLARE_APPROVED);
+        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_PROOFREAD, Project::TRANSITION_DECLARE_PROOFREAD);
     }
 
     public function changeToReviewedIfAllContentReviewed(Project $project): void
     {
-        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_APPROVED, Project::TRANSITION_DECLARE_REVIEWED);
+        $this->changeIfAllContentHasStatus($project, ContentRevision::STATUS_PROOFREAD, Project::TRANSITION_DECLARE_REVIEWED);
     }
 
     private function changeIfAllContentHasStatus(Project $project, string $contentStatus, string $transition): void

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\ContentRevision\Lister;
 use App\Project\Translation\TranslationAdder;
-use App\Project\Translation\TranslationApprover;
+use App\Project\Translation\TranslationProofreader;
 use App\Project\Translation\TranslationReviewer;
 use App\Response\JsonResponseBuilder;
 use App\Security\Voter\ProjectVoter;
@@ -80,24 +80,25 @@ class ContentRevisionController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/{languageCode}/{sentenceId}/approve", name="app_content_revision_approve", methods={"POST"})
+     * @Route("/{slug}/{languageCode}/{sentenceId}/proofread", name="app_content_revision_proofread", methods={"POST"})
      * @param $slug
      * @param $languageCode
      * @param $sentenceId
      * @param DataFinder $dataFinder
      * @param JsonResponseBuilder $responseBuilder
+     * @param TranslationProofreader $proofreader
      * @return Response
      */
-    public function approve(
+    public function proofread(
         $slug,
         $languageCode,
         $sentenceId,
         DataFinder $dataFinder,
         JsonResponseBuilder $responseBuilder,
-        TranslationApprover $approver
+        TranslationProofreader $proofreader
     ) {
         $contentRevision = $dataFinder->retrieveLatestContentRevisionOr404($slug, $languageCode, $sentenceId);
-        if (!$approver->approveTranslation($contentRevision)) {
+        if (!$proofreader->proofreadTranslation($contentRevision)) {
             return $responseBuilder->buildErrorResponse('You are not allowed');
         }
 
