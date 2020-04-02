@@ -827,7 +827,10 @@ class User implements UserInterface
      */
     public function getLangsHeCanProofread(): Collection
     {
-        return $this->langsHeCanProofread;
+        return new ArrayCollection(array_merge(
+            $this->langsHeCanProofread->toArray(),
+            $this->langsHeCanReview->toArray()
+        ));
     }
 
     public function addLanguageHeCanProofread(Language $language): self

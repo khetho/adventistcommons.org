@@ -131,7 +131,7 @@
 											</a>
 										{% endif %}
 									{% endif %}
-									
+
 									{% if not project.isReviewed or is_granted('ROLE_ADMIN') %}
 										<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
 										   class="btn btn-primary"
