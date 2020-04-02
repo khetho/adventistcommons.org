@@ -212,7 +212,7 @@ class ProductController extends AbstractController
                 'action' => $this->generateUrl('app_product_delete', ['slug' => $product->getSlug()]),
             ]
         );
-        $breadcrumbs->addItem('commons.breadcrumb.edit');
+        $breadcrumbs->addItem('commons.breadcrumbs.edit');
 
         return $this->render('product/edit.html.twig', [
             'product'      => $product,
