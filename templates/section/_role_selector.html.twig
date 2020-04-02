@@ -17,7 +17,7 @@
                 >
                     {% trans %}editor.working.role.proofread{% endtrans %}
                 </button>
-                {% if is_granted('review', project.language) %}
+                {% if is_granted('review', project) %}
                     <button type="button"
                             class="btn btn-outline-secondary js-rev rev"
                             data-role="reviewer"
