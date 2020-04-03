@@ -8,11 +8,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation as Api;
 
 /**
- * ProjectAttachment
+ * ProductAttachment
  *
  * @ORM\Table(
- *     name="product_attachments",
+ *     name="attachment",
  *     indexes={
+ *         @ORM\Index(name="product_id", columns={"product_id"}),
  *         @ORM\Index(name="project_id", columns={"project_id"})
  *     }
  * )
@@ -55,16 +56,21 @@ class Attachment
     private $fileType;
 
     /**
-     * @var Language
+     * @var Product
+     *
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="attachments",cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     * })
      */
-    private $language;
+    private $product;
 
     /**
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="attachments",cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      * })
      */
     private $project;
@@ -110,14 +116,14 @@ class Attachment
         return $this;
     }
 
-    public function getLanguage(): ?Language
+    public function getProduct(): ?Product
     {
-        return $this->language;
+        return $this->product ?? $this->getProject()->getProduct();
     }
 
-    public function setLanguage(?Language $language): self
+    public function setProduct(?Product $product): self
     {
-        $this->language = $language;
+        $this->product = $product;
 
         return $this;
     }

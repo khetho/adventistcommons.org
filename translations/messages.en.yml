@@ -299,8 +299,10 @@ product:
     product_actions: Product actions
     project_actions: Project actions
     upload_file: Upload File
+    upload_file_original: Upload original File
     new_translation: Start New Translation
     download: Download
+    download-original: Download original
     login_download: Login to download
     start_translate: Start Translating
     fix_translation: Fix translation
@@ -434,7 +436,7 @@ messages:
     saved: Account saved successfully
     password_saved: Password changed successfully
     removed: Account removed successfully
-  attachement:
+  attachment:
     added: Attachment successfully added
   auth:
     created: Account created successfully. We sent you a validation email.

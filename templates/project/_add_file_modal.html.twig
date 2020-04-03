@@ -1,9 +1,9 @@
 {% extends 'bootstrap/_modal.html.twig' %}
 
-{% block id %}add-file-form{% endblock %}
+{% block id %}add-file-{{ project.language.code }}-form{% endblock %}
 
 {% block form_start %}
-	{{ form_start(addAttachmentForm) }}
+	{{ form_start(addAttachmentForm, {'action': pathToProject(project, 'attachment_add')}) }}
 {% endblock %}
 
 {% block title %}{% trans %}product.add_file.header{% endtrans %}{% endblock %}

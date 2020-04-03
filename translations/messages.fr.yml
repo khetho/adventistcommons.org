@@ -299,8 +299,10 @@ product:
     product_actions: Actions produit
     project_actions: Actions projet
     upload_file: Charger un fichier
+    upload_file_original: Upload original File
     new_translation: Commencer une nouvelle traduction
     download: Télécharger
+    download-original: Download original
     login_download: Connexion pour Téléchargement
     start_translate: Commencer à traduire
     fix_translation: Corriger la traduction
@@ -434,7 +436,7 @@ messages:
     saved: Compte sauvegardé avec succès
     password_saved: Mot de passe changé avec succès
     removed: Compte supprimé avec succès
-  attachement:
+  attachment:
     added: Fichier joint ajouté avec succès
   auth:
     created: Compte créé avec succès. Nous vous avons adressé un courriel de validation.

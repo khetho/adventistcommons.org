@@ -126,7 +126,8 @@ class DownloadLog
     public function getProduct(): ?Product
     {
         return $this->product
-            ?? $this->getProject()->getProduct()
+            ?? ($this->getProject() ? $this->getProject()->getProduct() : null)
+            ?? ($this->getAttachment() ? $this->getAttachment()->getProduct() : null)
             ?? null;
     }
 

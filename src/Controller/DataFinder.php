@@ -141,10 +141,20 @@ class DataFinder
 
     public function retrieveAttachmentOr404($slug, $languageCode, $id): Attachment
     {
-        $project = $this->retrieveProjectOr404($slug, $languageCode);
+        if ($languageCode) {
+            $project = $this->retrieveProjectOr404($slug, $languageCode);
+            /** @var Attachment $attachment */
+            $attachment = $this->registry->getRepository(Attachment::class)->find($id);
+            if (!$attachment || ($attachment->getProject()->getId() !== $project->getId())) {
+                throw new NotFoundHttpException();
+            }
+
+            return $attachment;
+        }
+        $product = $this->retrieveProductOr404($slug);
         /** @var Attachment $attachment */
         $attachment = $this->registry->getRepository(Attachment::class)->find($id);
-        if (!$attachment || ($attachment->getProject()->getId() !== $project->getId())) {
+        if (!$attachment || ($attachment->getProduct()->getId() !== $product->getId())) {
             throw new NotFoundHttpException();
         }
 

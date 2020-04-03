@@ -986,7 +986,7 @@ class User implements UserInterface
         return $this->contentRevisions;
     }
 
-    public function getDownloads()
+    public function getDownloads(): Collection
     {
         return $this->downloads;
     }

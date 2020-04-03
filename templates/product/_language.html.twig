@@ -1,0 +1,104 @@
+<div class="card card-task {% if not project.enabled %}card-disabled{% endif %}">
+	<div class="progress">
+		<div class="progress-bar bg-danger"
+			 role="progressbar"
+			 style="width: {{ project|projectTranslatedRatio * 100 }}%"
+		></div>
+	</div>
+	<div class="progress">
+		<div class="progress-bar bg-warning"
+			 role="progressbar"
+			 style="width: {{ project|projectProofreadRatio * 100 }}%"
+		></div>
+	</div>
+	<div class="progress">
+		<div class="progress-bar bg-success"
+			 role="progressbar"
+			 style="width: {{ project|projectReviewedRatio * 100 }}%"
+		></div>
+	</div>
+	<div class="card-body">
+		<div class="card-title">
+			<h6 data-filter-by="text">
+				{% if not project.enabled %}
+					<i class="fas fa-eye-slash fa-pull-left fa-2x"></i>
+				{% endif %}
+				{{ project.language.name }}
+			</h6>
+		</div>
+		<div class="card-meta">
+			<div class="btn-group"
+				 role="group"
+				 aria-label="{% trans %}product.show.project_actions{% endtrans %}"
+			>
+				<div class="btn-group">
+					{% if is_granted('ROLE_ADMIN') %}
+						{% if project.enabled %}
+							<a href="{{ pathToProject(project, 'disable') }}" class="btn btn-secondary">
+								<i class="fas fa-eye"></i> {% trans %}product.show.disable{% endtrans %}
+							</a>
+						{% else %}
+							<a href="{{ pathToProject(project, 'enable') }}" class="btn btn-secondary">
+								<i class="fas fa-eye"></i> {% trans %}product.show.enable{% endtrans %}
+							</a>
+						{% endif %}
+					{% endif %}
+					{% if project.isReviewed or is_granted('download', project) %}
+						{% if is_granted('ROLE_USER') %}
+							<button class="btn btn-secondary dropdown-toggle"
+									type="button"
+									data-toggle="dropdown"
+							>
+								{% trans %}product.show.download{% endtrans %}
+							</button>
+							<div class="dropdown-menu">
+								{% if project.isReviewed %}
+									<a class="dropdown-item"
+									   href="{{ path('app_project_download_idml', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+									>
+										{% trans %}product.show.download_idml{% endtrans %}
+									</a>
+								{% endif %}
+								{% for attachment in project.attachments %}
+									<a class="dropdown-item" href="{{ pathToAttachment(attachment) }}">
+										{{ attachment.fileType|dictionary('file_type')|trans }}
+									</a>
+								{% endfor %}
+							</div>
+						{% else %}
+							<a class="btn btn-secondary"
+							   href="{{ path('app_auth_login', {'redirect': app.request.server.get('REQUEST_URI')}) }}"
+							   class="text-secondary"
+							>
+								{% trans %}product.show.login_download{% endtrans %}
+							</a>
+						{% endif %}
+					{% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<button class="btn btn-secondary" data-toggle="modal" data-target="#add-file-{{ project.language.code }}-form">
+							{% trans %}product.show.upload_file{% endtrans %}
+						</button>
+					{% endif %}
+					{% if not project.isReviewed or is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('app_project_show', {'slug': project.product.slug, 'languageCode': project.language.code}) }}"
+						   class="btn btn-primary"
+						>
+							{% if project.isStarted %}
+								{% trans %}product.show.translate{% endtrans %}
+							{% elseif project.isReviewed %}
+								{% trans %}product.show.fix_translation{% endtrans %}
+							{% else %}
+								{% trans %}product.show.start_translate{% endtrans %}
+							{% endif %}
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if is_granted('ROLE_ADMIN') %}
+	{% set addAttachmentForm = addAttachmentFormObject.createView %}
+	{% include 'project/_add_file_modal.html.twig' with {'project': project} %}
+{% endif %}

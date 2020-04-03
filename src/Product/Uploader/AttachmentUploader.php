@@ -20,19 +20,8 @@ class AttachmentUploader implements UploaderInterface
         $this->entityManager = $entityManager;
     }
 
-    public function upload(Attachment $attachment, Product $product): Attachment
+    public function upload(Attachment $attachment): Attachment
     {
-        $project = $this->entityManager->getRepository(Project::class)->findOneBy([
-            'language' => $attachment->getLanguage(),
-            'product' => $product,
-        ]);
-        if (!$project) {
-            $project = new Project();
-            $project->setProduct($product);
-            $project->setLanguage($attachment->getLanguage());
-        }
-        $attachment->setProject($project);
-        
         $file = $attachment->getFile();
         if (!$file) {
             return $attachment;

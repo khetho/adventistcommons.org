@@ -12,7 +12,7 @@
     <tbody>
     {% for download in user.downloads %}
         <tr>
-            <td>{{ download.product.name }}</td>
+            <td>{{ download.product ? download.product.name : 'Unknown' }}</td>
             <td>{{ download.project ? download.project.language.name : 'English' }}</td>
             <td>{{ download.createdAt|date('d/m/Y H:i:s') }}</td>
             <td><a href="{{ download.path }}" class="btn btn-primary btn-sm">{% trans %}dashboard.downloads.download{% endtrans %}</a></td>

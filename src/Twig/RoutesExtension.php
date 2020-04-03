@@ -2,10 +2,10 @@
 
 namespace App\Twig;
 
+use App\Entity\Attachment;
 use App\Entity\Product;
 use App\Entity\Project;
 use App\Entity\Section;
-use App\Entity\Attachment;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -100,13 +100,26 @@ class RoutesExtension extends AbstractExtension
 
     public function pathToAttachment(Attachment $attachment)
     {
-        return $this->router->generate(
-            'app_attachment_download',
-            [
-                'slug' => $attachment->getProject()->getProduct()->getSlug(),
-                'languageCode' => $attachment->getProject()->getLanguage()->getCode(),
-                'id' => $attachment->getId(),
-            ]
-        );
+        $project = $attachment->getProject();
+        if ($project) {
+            return $this->router->generate(
+                'app_project_attachment_download',
+                [
+                    'slug' => $project->getProduct()->getSlug(),
+                    'languageCode' => $project->getLanguage()->getCode(),
+                    'id' => $attachment->getId(),
+                ]
+            );
+        }
+        $product = $attachment->getProduct();
+        if ($product) {
+            return $this->router->generate(
+                'app_product_attachment_download',
+                [
+                    'slug' => $product->getSlug(),
+                    'id' => $attachment->getId(),
+                ]
+            );
+        }
     }
 }

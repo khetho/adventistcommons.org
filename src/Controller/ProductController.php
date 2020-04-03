@@ -57,7 +57,7 @@ class ProductController extends AbstractController
             null,
             [
                 'action' => $this->generateUrl(
-                    'app_attachment_add',
+                    'app_product_attachment_add',
                     ['slug' => $product->getSlug()]
                 ),
             ]
@@ -66,7 +66,7 @@ class ProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'projectAddForm' => $projectAddForm->createView(),
-            'addAttachmentForm' => $addAttachmentForm->createView(),
+            'addAttachmentFormObject' => $addAttachmentForm,
         ]);
     }
 

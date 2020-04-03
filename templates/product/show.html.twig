@@ -33,6 +33,5 @@
 	</div>
 	{% if is_granted('ROLE_ADMIN') %}
 		{% include 'project/add/_add_modal.html.twig' %}
-		{% include 'product/_add_file_modal.html.twig' %}
 	{% endif %}
 {% endblock %}

@@ -2,14 +2,7 @@
 
 namespace App\ContentRevision;
 
-use App\Entity\Attachment;
-use App\Entity\DownloadLog;
-use App\Entity\Product;
-use App\Entity\Project;
 use App\Tool\Differ;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Security;
 
 class Lister
 {

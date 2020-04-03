@@ -7,15 +7,24 @@ use App\Entity\Project;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Security;
 
 class ProjectVoter extends Voter
 {
     const PROOFREAD = 'proofread';
     const REVIEW = 'review';
+    const DOWNLOAD = 'download';
+
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::PROOFREAD, self::REVIEW])) {
+        if (!in_array($attribute, [self::PROOFREAD, self::REVIEW, self::DOWNLOAD])) {
             return false;
         }
         if (!$subject instanceof Project) {
@@ -40,6 +49,8 @@ class ProjectVoter extends Voter
                 return $this->canProofread($project, $user);
             case self::REVIEW:
                 return $this->canReview($project, $user);
+            case self::DOWNLOAD:
+                return $this->canDownload($project);
         }
 
         throw new \LogicException(sprintf('Voter attribute «%s» is not handled for language', $attribute));
@@ -63,5 +74,12 @@ class ProjectVoter extends Voter
             ||
             (!$project->getReviewer() && $user->getLangsHeCanReview()->contains($project->getLanguage()))
         );
+    }
+
+    private function canDownload(Project $project)
+    {
+        $isAdmin = $this->security->isGranted('ROLE_ADMIN');
+
+        return ($project->isDownloadable() || $isAdmin) && count($project->getAttachments());
     }
 }

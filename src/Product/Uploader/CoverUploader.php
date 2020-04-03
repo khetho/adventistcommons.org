@@ -2,7 +2,6 @@
 
 namespace App\Product\Uploader;
 
-use App\Entity\Attachment;
 use App\Entity\Product;
 use App\Form\UploaderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;

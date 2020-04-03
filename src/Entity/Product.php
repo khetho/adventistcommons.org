@@ -275,6 +275,12 @@ class Product
      */
     private $sections;
 
+    /**
+     * One product has many projects. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="product")
+     */
+    private $attachments;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -648,5 +654,10 @@ class Product
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
     }
 }
