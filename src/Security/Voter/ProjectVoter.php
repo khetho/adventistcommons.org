@@ -69,6 +69,10 @@ class ProjectVoter extends Voter
 
     private function canReview(Project $project, User $user)
     {
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
         return (
             $project->getReviewer() === $user
             ||
